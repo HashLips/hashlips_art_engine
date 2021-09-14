@@ -143,17 +143,12 @@ const createDna = (_layers) => {
     layer.elements.forEach((element) => {
       totalWeight += element.weight;
     });
-    console.log("=====total weight======== : ", totalWeight);
-    // number between 1 - totalWeight
+    // number between 0 - totalWeight
     let random = Math.floor(Math.random() * totalWeight);
-    console.log("++++++random start+++++++ : ", random);
     for (var i = 0; i < layer.elements.length; i++) {
       // subtract the current weight from the random weight until we reach a sub zero value.
-      console.log("sub ", layer.elements[i].weight);
       random -= layer.elements[i].weight;
-      console.log("random after sub", random);
       if (random < 0) {
-        console.log("Choose element id", layer.elements[i].id);
         return randNum.push(layer.elements[i].id);
       }
     }

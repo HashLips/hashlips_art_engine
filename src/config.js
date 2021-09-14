@@ -24,7 +24,7 @@ const background = {
 
 const uniqueDnaTorrance = 10000;
 
-const editionSize = 1;
+const editionSize = 3;
 
 module.exports = {
   layersOrder,
