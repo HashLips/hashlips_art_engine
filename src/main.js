@@ -28,19 +28,31 @@ const buildSetup = () => {
   fs.mkdirSync(buildDir);
 };
 
+const getRarityWeight = (_str) => {
+  let nameWithoutExtension = _str.slice(0, -4);
+  var nameWithoutWeight = Number(nameWithoutExtension.split(/[* ]+/).pop());
+  if (isNaN(nameWithoutWeight)) {
+    nameWithoutWeight = 0;
+  }
+  return nameWithoutWeight;
+};
+
 const cleanName = (_str) => {
-  let name = _str.slice(0, -4);
-  return name;
+  let nameWithoutExtension = _str.slice(0, -4);
+  var nameWithoutWeight = nameWithoutExtension.split(/[* ]+/).shift();
+  return nameWithoutWeight;
 };
 
 const getElements = (path) => {
   return fs
     .readdirSync(path)
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
-    .map((i) => {
+    .map((i, index) => {
       return {
+        id: index,
         name: cleanName(i),
         path: `${path}${i}`,
+        weight: getRarityWeight(i),
       };
     });
 };
@@ -127,8 +139,24 @@ const isDnaUnique = (_DnaList = [], _dna = []) => {
 const createDna = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
-    let num = Math.floor(Math.random() * layer.elements.length);
-    randNum.push(num);
+    var totalWeight = 0;
+    layer.elements.forEach((element) => {
+      totalWeight += element.weight;
+    });
+    console.log("=====total weight======== : ", totalWeight);
+    // number between 1 - totalWeight
+    let random = Math.floor(Math.random() * totalWeight);
+    console.log("++++++random start+++++++ : ", random);
+    for (var i = 0; i < layer.elements.length; i++) {
+      // subtract the current weight from the random weight until we reach a sub zero value.
+      console.log("sub ", layer.elements[i].weight);
+      random -= layer.elements[i].weight;
+      console.log("random after sub", random);
+      if (random < 0) {
+        console.log("Choose element id", layer.elements[i].id);
+        return randNum.push(layer.elements[i].id);
+      }
+    }
   });
   return randNum;
 };
