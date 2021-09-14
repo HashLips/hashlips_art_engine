@@ -13,7 +13,7 @@ const {
   background,
   uniqueDnaTorrance,
   editionSize,
-} = require(`${basePath}/src/config.js`);
+} = require(path.join(basePath, "/src/config.js"));
 const console = require("console");
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -28,19 +28,31 @@ const buildSetup = () => {
   fs.mkdirSync(buildDir);
 };
 
+const getRarityWeight = (_str) => {
+  let nameWithoutExtension = _str.slice(0, -4);
+  var nameWithoutWeight = Number(nameWithoutExtension.split(/[* ]+/).pop());
+  if (isNaN(nameWithoutWeight)) {
+    nameWithoutWeight = 0;
+  }
+  return nameWithoutWeight;
+};
+
 const cleanName = (_str) => {
-  let name = _str.slice(0, -4);
-  return name;
+  let nameWithoutExtension = _str.slice(0, -4);
+  var nameWithoutWeight = nameWithoutExtension.split(/[* ]+/).shift();
+  return nameWithoutWeight;
 };
 
 const getElements = (path) => {
   return fs
     .readdirSync(path)
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
-    .map((i) => {
+    .map((i, index) => {
       return {
+        id: index,
         name: cleanName(i),
         path: `${path}${i}`,
+        weight: getRarityWeight(i),
       };
     });
 };
@@ -127,8 +139,19 @@ const isDnaUnique = (_DnaList = [], _dna = []) => {
 const createDna = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
-    let num = Math.floor(Math.random() * layer.elements.length);
-    randNum.push(num);
+    var totalWeight = 0;
+    layer.elements.forEach((element) => {
+      totalWeight += element.weight;
+    });
+    // number between 0 - totalWeight
+    let random = Math.floor(Math.random() * totalWeight);
+    for (var i = 0; i < layer.elements.length; i++) {
+      // subtract the current weight from the random weight until we reach a sub zero value.
+      random -= layer.elements[i].weight;
+      if (random < 0) {
+        return randNum.push(layer.elements[i].id);
+      }
+    }
   });
   return randNum;
 };
