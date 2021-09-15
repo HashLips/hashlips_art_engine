@@ -1,22 +1,26 @@
-# Welcome to HashLips
+# Welcome to HashLips 👄
+
+![](https://github.com/HashLips/hashlips_art_engine/blob/main/logo.png)
 
 All the code in these repos was created and explained by HashLips on the main YouTube channel.
 
 To find out more please visit:
 
-[HashLips YouTube](https://www.youtube.com/channel/UC1LV4_VQGBJHTJjEWUmy8nA)
+[📺 YouTube](https://www.youtube.com/channel/UC1LV4_VQGBJHTJjEWUmy8nA)
 
-[HashLips Telegram](https://t.me/hashlipsnft)
+[💬 Telegram](https://t.me/hashlipsnft)
 
-[HashLips Twitter](https://twitter.com/hashlipsnft)
+[🐦 Twitter](https://twitter.com/hashlipsnft)
 
-[HashLips Website](https://hashlips.online/HashLips)
+[ℹ️ Website](https://hashlips.online/HashLips)
 
-# HashLips Art Engine
+# HashLips Art Engine 🔥
+
+![](https://github.com/HashLips/hashlips_art_engine/blob/main/banner.png)
 
 Create generative art by using the canvas api and node js. Before you use the generation engine, make sure you have node.js and yarn installed.
 
-## Installation
+## Installation 🛠️
 
 If you are cloning the project then run this first, otherwise you can download the source code on the release page and skip this step.
 
@@ -36,7 +40,7 @@ Alternatively you can run this command if you have node installed.
 npm install
 ```
 
-## Usage
+## Usage ℹ️
 
 Create your different layers as folders in the 'layers' directory, and add all the layer assets in these directories. You can name the assets anything as long as it has a rarity weight attached in the file name like so: `example element#70.png`. You can optionally change the delimiter `#` to anything you would like to use in the variable `rarityDelimiter` in the `src/config.js` file.
 
@@ -132,4 +136,4 @@ The program will output all the images in the `build` directory along with the m
 }
 ```
 
-That's it, you're done. Hope you create some awesome artworks with this code.
+That's it, you're done. Hope you create some awesome artworks with this code 👄.

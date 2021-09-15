@@ -217,7 +217,6 @@ const startCreating = async () => {
             )}`
           );
         });
-
         dnaList.push(newDna);
         editionCount++;
       } else {
