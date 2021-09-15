@@ -1,7 +1,7 @@
-const fs = require("fs");
-const path = require("path");
-const { createCanvas, loadImage } = require("canvas");
-const isLocal = typeof process.pkg === "undefined";
+const fs = require('fs');
+const path = require('path');
+const { createCanvas, loadImage } = require('canvas');
+const isLocal = typeof process.pkg === 'undefined';
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const buildDir = `${basePath}/build`;
 const layersDir = `${basePath}/layers`;
@@ -12,11 +12,11 @@ const {
   description,
   background,
   uniqueDnaTorrance,
-  editionSize,
-} = require(path.join(basePath, "/src/config.js"));
-const console = require("console");
+  editionSize
+} = require(path.join(basePath, '/src/config.js'));
+const console = require('console');
 const canvas = createCanvas(format.width, format.height);
-const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext('2d');
 var metadataList = [];
 var attributesList = [];
 var dnaList = [];
@@ -52,7 +52,7 @@ const getElements = (path) => {
         id: index,
         name: cleanName(i),
         path: `${path}${i}`,
-        weight: getRarityWeight(i),
+        weight: getRarityWeight(i)
       };
     });
 };
@@ -61,7 +61,7 @@ const layersSetup = (layersOrder) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
     name: layerObj.name,
-    elements: getElements(`${layersDir}/${layerObj.name}/`),
+    elements: getElements(`${layersDir}/${layerObj.name}/`)
   }));
   return layers;
 };
@@ -69,7 +69,7 @@ const layersSetup = (layersOrder) => {
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
     `${buildDir}/${_editionCount}.png`,
-    canvas.toBuffer("image/png")
+    canvas.toBuffer('image/png')
   );
 };
 
@@ -87,14 +87,13 @@ const drawBackground = () => {
 const addMetadata = (_dna, _edition) => {
   let dateTime = Date.now();
   let tempMetadata = {
-    dna: _dna.join(""),
+    dna: _dna.join(''),
     name: `#${_edition}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
     edition: _edition,
     date: dateTime,
-    attributes: attributesList,
-    compiler: "HashLips Art Engine",
+    attributes: attributesList
   };
   metadataList.push(tempMetadata);
   attributesList = [];
@@ -104,7 +103,7 @@ const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
   attributesList.push({
     trait_type: _element.layer.name,
-    value: selectedElement.name,
+    value: selectedElement.name
   });
 };
 
@@ -125,14 +124,14 @@ const constructLayerToDna = (_dna = [], _layers = []) => {
     let selectedElement = layer.elements[_dna[index]];
     return {
       name: layer.name,
-      selectedElement: selectedElement,
+      selectedElement: selectedElement
     };
   });
   return mappedDnaToLayers;
 };
 
 const isDnaUnique = (_DnaList = [], _dna = []) => {
-  let foundDna = _DnaList.find((i) => i.join("") === _dna.join(""));
+  let foundDna = _DnaList.find((i) => i.join('') === _dna.join(''));
   return foundDna == undefined ? true : false;
 };
 
@@ -198,7 +197,7 @@ const startCreating = async () => {
       dnaList.push(newDna);
       editionCount++;
     } else {
-      console.log("DNA exists!");
+      console.log('DNA exists!');
       failedCount++;
       if (failedCount >= uniqueDnaTorrance) {
         console.log(
