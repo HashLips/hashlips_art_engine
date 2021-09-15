@@ -4,19 +4,7 @@ const baseUri = "https://hashlips/nft";
 
 const layerConfigurations = [
   {
-    layerEditionSize: 10,
-    layersOrder: [
-      { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
-    ],
-  },
-  {
-    layerEditionSize: 30,
+    growEditionSizeTo: 10,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
@@ -29,8 +17,6 @@ const layerConfigurations = [
   },
 ];
 
-const rarityDelimiter = "#";
-
 const format = {
   width: 512,
   height: 512,
@@ -40,6 +26,8 @@ const background = {
   generate: true,
   brightness: "80%",
 };
+
+const rarityDelimiter = "#";
 
 const uniqueDnaTorrance = 10000;
 

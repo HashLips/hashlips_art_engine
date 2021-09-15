@@ -186,7 +186,7 @@ const startCreating = async () => {
   let failedCount = 0;
   layerConfigurations.forEach(async (layerConfig) => {
     const layers = layersSetup(layerConfig.layersOrder);
-    while (editionCount <= layerConfig.layerEditionSize) {
+    while (editionCount <= layerConfig.growEditionSizeTo) {
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
@@ -221,7 +221,7 @@ const startCreating = async () => {
         failedCount++;
         if (failedCount >= uniqueDnaTorrance) {
           console.log(
-            `You need more layers or elements to generate ${layerConfig.layerEditionSize} artworks!`
+            `You need more layers or elements to grow your edition to ${layerConfig.growEditionSizeTo} artworks!`
           );
           process.exit();
         }
