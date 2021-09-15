@@ -4,7 +4,7 @@ const baseUri = "https://hashlips/nft";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 10,
+    growEditionSizeTo: 20,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
