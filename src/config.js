@@ -1,30 +1,27 @@
-const description =
-  "This is the description of your NFT project, remember to replace this";
-const baseUri = "https://hashlips/nft";
+const description = 'DINO DINO DINO';
+const baseUri = 'https://dinodinguos.io/';
 
 const layersOrder = [
-  { name: "Background" },
-  { name: "Eyeball" },
-  { name: "Eye color" },
-  { name: "Iris" },
-  { name: "Shine" },
-  { name: "Bottom lid" },
-  { name: "Top lid" },
+  { name: 'Accessory' },
+  { name: 'Background' },
+  { name: 'Body' },
+  { name: 'Eye' },
+  { name: 'Head' }
 ];
 
 const format = {
   width: 512,
-  height: 512,
+  height: 512
 };
 
 const background = {
   generate: true,
-  brightness: "80%",
+  brightness: '80%'
 };
 
 const uniqueDnaTorrance = 10000;
 
-const editionSize = 3;
+const editionSize = 5;
 
 module.exports = {
   layersOrder,
@@ -33,5 +30,5 @@ module.exports = {
   baseUri,
   description,
   background,
-  uniqueDnaTorrance,
+  uniqueDnaTorrance
 };
