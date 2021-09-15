@@ -18,19 +18,19 @@ Create generative art by using the canvas api and node js. Before you use the ge
 
 ## Installation
 
-If you are cloning the project the run this first, otherwise you can download the source code on the release page and skip this step.
+If you are cloning the project then run this first, otherwise you can download the source code on the release page and skip this step.
 
 ```sh
 git clone https://github.com/HashLips/hashlips_art_engine.git
 ```
 
-Go to the root of you folder and run this command if you have yarn installed.
+Go to the root of your folder and run this command if you have yarn installed.
 
 ```sh
 yarn add all
 ```
 
-Alternativly you can run this command if you have node installed.
+Alternatively you can run this command if you have node installed.
 
 ```sh
 npm install
@@ -61,14 +61,14 @@ const layerConfigurations = [
 
 The `name` of each layer object represents the name of the folder (in `/layers/`) that the images reside in.
 
-Optionally you can now add multiple different `layerConfigurations` to you collection. Each confugiration can be uinque and have different layer order, use the same layers or intruduce new onces. This gives the artist flexibility when it comes to fine tuning their collections to their needs.
+Optionally you can now add multiple different `layerConfigurations` to your collection. Each configuration can be unique and have different layer orders, use the same layers or introduce new ones. This gives the artist flexibility when it comes to fine tuning their collections to their needs.
 
-_Example:_ If you were creating a portrait design, you might have a background, then a head, a mouth, eyes, eyewear, and then headwear and you want to create a new race or just simple re-order the layers or even introduce new layers, so your `layerConfigurations` and `layersOrder` would look something like this:
+_Example:_ If you were creating a portrait design, you might have a background, then a head, a mouth, eyes, eyewear, and then headwear and you want to create a new race or just simple re-order the layers or even introduce new layers, then you're `layerConfigurations` and `layersOrder` would look something like this:
 
-`````js
+```js
 const layerConfigurations = [
   {
-    // Creates upto 50 artworks
+    // Creates up to 50 artworks
     growEditionSizeTo: 50,
     layersOrder: [
       { name: "Background" },
@@ -80,7 +80,7 @@ const layerConfigurations = [
     ],
   },
   {
-    // Creates an aditional 100 artworks
+    // Creates an additional 100 artworks
     growEditionSizeTo: 150,
     layersOrder: [
       { name: "Background" },
@@ -109,13 +109,13 @@ or
 node index.js
 ```
 
-The program will output all the images in the `build` directory along with the metadata files. Each collection will have a `_metadata.json` file that consists of all the metadata in the collection inside the `build` folder. The `build` folder also will contain alll the images as well as single json files that represents each image file. The single json file of a image will look somthing like this:
+The program will output all the images in the `build` directory along with the metadata files. Each collection will have a `_metadata.json` file that consists of all the metadata in the collection inside the `build` folder. The `build` folder also will contain all the images as well as single json files that represent each image file. The single json file of a image will look something like this:
 
-````json
+```json
 {
   "dna": "d956cdf4e460508b5ff90c21974124f68d6edc34",
   "name": "#1",
-  "description": "This is the description of your NFT project, remember to replace this",
+  "description": "This is the description of your NFT project",
   "image": "https://hashlips/nft/1.png",
   "edition": 1,
   "date": 1631690799975,
@@ -132,7 +132,4 @@ The program will output all the images in the `build` directory along with the m
 }
 ```
 
-Thats it, your done. Hope you create some awesome artworks with this code.
-
-
-`````
+That's it, you're done. Hope you create some awesome artworks with this code.
