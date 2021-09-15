@@ -118,7 +118,7 @@ The program will output all the images in the `build` directory along with the m
   "description": "This is the description of your NFT project",
   "image": "https://hashlips/nft/1.png",
   "edition": 1,
-  "date": 1631690799975,
+  "date": 1731990799975,
   "attributes": [
     { "trait_type": "Background", "value": "Black" },
     { "trait_type": "Eyeball", "value": "Red" },

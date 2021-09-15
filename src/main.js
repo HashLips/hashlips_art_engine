@@ -184,9 +184,13 @@ const startCreating = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
   let failedCount = 0;
-  layerConfigurations.forEach(async (layerConfig) => {
-    const layers = layersSetup(layerConfig.layersOrder);
-    while (editionCount <= layerConfig.growEditionSizeTo) {
+  while (layerConfigIndex < layerConfigurations.length) {
+    const layers = layersSetup(
+      layerConfigurations[layerConfigIndex].layersOrder
+    );
+    while (
+      editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
+    ) {
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
@@ -221,13 +225,14 @@ const startCreating = async () => {
         failedCount++;
         if (failedCount >= uniqueDnaTorrance) {
           console.log(
-            `You need more layers or elements to grow your edition to ${layerConfig.growEditionSizeTo} artworks!`
+            `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
           );
           process.exit();
         }
       }
     }
-  });
+    layerConfigIndex++;
+  }
   writeMetaData(JSON.stringify(metadataList));
 };
 
