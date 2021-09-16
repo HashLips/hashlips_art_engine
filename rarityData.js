@@ -84,5 +84,9 @@ for (var layer in rarityData) {
 // print out rarity data
 for (var layer in rarityData) {
 	console.log(`Trait type: ${layer}`)
-	console.log(rarityData[layer])
+	for (var trait in rarityData[layer])
+	{
+		console.log(rarityData[layer][trait])
+	}
+	console.log()
 }
