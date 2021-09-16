@@ -235,4 +235,4 @@ const startCreating = async () => {
   writeMetaData(JSON.stringify(metadataList));
 };
 
-module.exports = { startCreating, buildSetup };
+module.exports = { startCreating, buildSetup, getElements };
