@@ -190,7 +190,28 @@ The program will output all the images in the `build` directory along with the m
 }
 ```
 
-That's it, you're done. Hope you create some awesome artworks with this code 👄.
+That's it, you're done.
 
-### Printing rarity data
-To see the percentages of each attribute across your collection, run `node rarityData.js`
+### Printing rarity data (Experimental feature)
+
+To see the percentages of each attribute across your collection, run:
+
+```sh
+node rarityData.js
+```
+
+The output will look something like this:
+
+```sh
+Trait type: Bottom lid
+{ trait: 'High', chance: '20', occurrence: '40' }
+{ trait: 'Low', chance: '40', occurrence: '60' }
+{ trait: 'Middle', chance: '40', occurrence: '0' }
+
+Trait type: Top lid
+{ trait: 'High', chance: '30', occurrence: '20' }
+{ trait: 'Low', chance: '20', occurrence: '40' }
+{ trait: 'Middle', chance: '50', occurrence: '40' }
+```
+
+Hope you create some awesome artworks with this code 👄
