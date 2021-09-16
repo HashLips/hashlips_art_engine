@@ -33,9 +33,9 @@ layerConfigurations.forEach((config) => {
 		elements.forEach((element) => {
 			// just get name and weight for each element
 			let rarityDataElement = {
-				attribute: element.name,
-				chance: element.weight,
-				occurrence_percent: 0 // initialize at 0
+				trait: element.name,
+				chance: element.weight.toFixed(2),
+				occurrence: 0 // initialize at 0
 			}
 			elementsForLayer.push(rarityDataElement)
 		});
@@ -59,9 +59,9 @@ data.forEach((element) => {
 
 		let rarityDataTraits = rarityData[traitType];
 		rarityDataTraits.forEach((rarityDataTrait) => {
-			if (rarityDataTrait.attribute == value){
+			if (rarityDataTrait.trait == value){
 				// keep track of occurrences
-				rarityDataTrait.occurrence_percent++;
+				rarityDataTrait.occurrence++;
 			}
 		});
 	});
@@ -72,17 +72,17 @@ for (var layer in rarityData) {
 	for (var attribute in rarityData[layer])
 	{
 		// convert to percentage
-		rarityData[layer][attribute].occurrence_percent = 
-			(rarityData[layer][attribute].occurrence_percent / editionSize) * 100;
+		rarityData[layer][attribute].occurrence = 
+			(rarityData[layer][attribute].occurrence / editionSize) * 100;
 
 		// show two decimal places in percent
-		rarityData[layer][attribute].occurrence_percent =
-			rarityData[layer][attribute].occurrence_percent.toFixed(2);
+		rarityData[layer][attribute].occurrence =
+			rarityData[layer][attribute].occurrence.toFixed(2);
 	}
 }
 
 // print out rarity data
 for (var layer in rarityData) {
-	console.log(layer)
+	console.log(`Trait type: ${layer}`)
 	console.log(rarityData[layer])
 }
