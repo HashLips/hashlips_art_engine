@@ -191,3 +191,6 @@ The program will output all the images in the `build` directory along with the m
 ```
 
 That's it, you're done. Hope you create some awesome artworks with this code 👄.
+
+### Printing rarity data
+To see the percentages of each attribute across your collection, run `node rarityData.js`
