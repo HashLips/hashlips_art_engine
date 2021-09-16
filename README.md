@@ -31,7 +31,7 @@ git clone https://github.com/HashLips/hashlips_art_engine.git
 Go to the root of your folder and run this command if you have yarn installed.
 
 ```sh
-yarn add all
+yarn install
 ```
 
 Alternatively you can run this command if you have node installed.
