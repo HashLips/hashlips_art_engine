@@ -101,6 +101,60 @@ const layerConfigurations = [
 
 Then optionally, update your `format` size, ie the outputted image size, and the `growEditionSizeTo` on each `layerConfigurations` object, which is the amount of variation outputted.
 
+If you want to play around with different blending modes, you can add a `blend: MODE.colorBurn` field to the layersOrder object. If you need a layers to have a different opacity then you can add the `opacity: 0.7` field to the layersOrder object as well. Both the `blend: MODE.colorBurn` and `opacity: 0.7` can be addes on the same layer if you want to.
+
+Here is an example on how you can play around with both filter fields:
+
+```js
+const layerConfigurations = [
+  {
+    growEditionSizeTo: 5,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Eyeball" },
+      { name: "Eye color", blend: MODE.colorBurn },
+      { name: "Iris" },
+      { name: "Shine" },
+      { name: "Bottom lid", blend: MODE.overlay, opacity: 0.7 },
+      { name: "Top lid", opacity: 0.7 },
+    ],
+  },
+];
+```
+
+Here is a list of the different blending modes that you can optionally use.
+
+```js
+const MODE = {
+  sourceOver: "source-over",
+  sourceIn: "source-in",
+  sourceOut: "source-out",
+  sourceAtop: "source-out",
+  destinationOver: "destination-over",
+  destinationIn: "destination-in",
+  destinationOut: "destination-out",
+  destinationAtop: "destination-atop",
+  lighter: "lighter",
+  copy: "copy",
+  xor: "xor",
+  multiply: "multiply",
+  screen: "screen",
+  overlay: "overlay",
+  darken: "darken",
+  lighten: "lighten",
+  colorDodge: "color-dodge",
+  colorBurn: "color-burn",
+  hardLight: "hard-light",
+  softLight: "soft-light",
+  difference: "difference",
+  exclusion: "exclusion",
+  hue: "hue",
+  saturation: "saturation",
+  color: "color",
+  luminosity: "luminosity",
+};
+```
+
 When you are all ready, run the following command and your outputted art will be in the `build` directory:
 
 ```sh

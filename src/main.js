@@ -71,6 +71,9 @@ const layersSetup = (layersOrder) => {
     id: index,
     name: layerObj.name,
     elements: getElements(`${layersDir}/${layerObj.name}/`),
+    blendMode:
+      layerObj["blend"] != undefined ? layerObj["blend"] : "source-over",
+    opacity: layerObj["opacity"] != undefined ? layerObj["opacity"] : 1,
   }));
   return layers;
 };
@@ -124,9 +127,11 @@ const loadLayerImg = async (_layer) => {
   });
 };
 
-const drawElement = (_element) => {
-  ctx.drawImage(_element.loadedImage, 0, 0, format.width, format.height);
-  addAttributes(_element);
+const drawElement = (_renderObject) => {
+  ctx.globalAlpha = _renderObject.layer.opacity;
+  ctx.globalCompositeOperation = _renderObject.layer.blendMode;
+  ctx.drawImage(_renderObject.loadedImage, 0, 0, format.width, format.height);
+  addAttributes(_renderObject);
 };
 
 const constructLayerToDna = (_dna = [], _layers = []) => {
@@ -136,6 +141,8 @@ const constructLayerToDna = (_dna = [], _layers = []) => {
     );
     return {
       name: layer.name,
+      blendMode: layer.blendMode,
+      opacity: layer.opacity,
       selectedElement: selectedElement,
     };
   });
@@ -176,7 +183,11 @@ const writeMetaData = (_data) => {
 const saveMetaDataSingleFile = (_editionCount) => {
   fs.writeFileSync(
     `${buildDir}/${_editionCount}.json`,
-    JSON.stringify(metadataList.find((meta) => meta.edition == _editionCount))
+    JSON.stringify(
+      metadataList.find((meta) => meta.edition == _editionCount),
+      null,
+      2
+    )
   );
 };
 
@@ -200,13 +211,13 @@ const startCreating = async () => {
           loadedElements.push(loadLayerImg(layer));
         });
 
-        await Promise.all(loadedElements).then((elementArray) => {
+        await Promise.all(loadedElements).then((renderObjectArray) => {
           ctx.clearRect(0, 0, format.width, format.height);
           if (background.generate) {
             drawBackground();
           }
-          elementArray.forEach((element) => {
-            drawElement(element);
+          renderObjectArray.forEach((renderObject) => {
+            drawElement(renderObject);
           });
           saveImage(editionCount);
           addMetadata(newDna, editionCount);
@@ -232,7 +243,7 @@ const startCreating = async () => {
     }
     layerConfigIndex++;
   }
-  writeMetaData(JSON.stringify(metadataList));
+  writeMetaData(JSON.stringify(metadataList, null, 2));
 };
 
 module.exports = { startCreating, buildSetup };
