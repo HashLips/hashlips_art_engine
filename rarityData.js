@@ -35,7 +35,7 @@ layerConfigurations.forEach((config) => {
 			let rarityDataElement = {
 				attribute: element.name,
 				chance: element.weight,
-				occurence_percent: 0 // initialize at 0
+				occurrence_percent: 0 // initialize at 0
 			}
 			elementsForLayer.push(rarityDataElement)
 		});
@@ -49,7 +49,7 @@ layerConfigurations.forEach((config) => {
 	});
 });
 
-// fill up rarity chart with occurences from metadata
+// fill up rarity chart with occurrences from metadata
 data.forEach((element) => {
 	let attributes = element.attributes;
 
@@ -60,24 +60,24 @@ data.forEach((element) => {
 		let rarityDataTraits = rarityData[traitType];
 		rarityDataTraits.forEach((rarityDataTrait) => {
 			if (rarityDataTrait.attribute == value){
-				// keep track of occurences
-				rarityDataTrait.occurence_percent++;
+				// keep track of occurrences
+				rarityDataTrait.occurrence_percent++;
 			}
 		});
 	});
 });
 
-// convert occurences to percentages
+// convert occurrences to percentages
 for (var layer in rarityData) {
 	for (var attribute in rarityData[layer])
 	{
 		// convert to percentage
-		rarityData[layer][attribute].occurence_percent = 
-			(rarityData[layer][attribute].occurence_percent / editionSize) * 100;
+		rarityData[layer][attribute].occurrence_percent = 
+			(rarityData[layer][attribute].occurrence_percent / editionSize) * 100;
 
 		// show two decimal places in percent
-		rarityData[layer][attribute].occurence_percent =
-			rarityData[layer][attribute].occurence_percent.toFixed(2);
+		rarityData[layer][attribute].occurrence_percent =
+			rarityData[layer][attribute].occurrence_percent.toFixed(2);
 	}
 }
 
