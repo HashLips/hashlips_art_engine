@@ -155,7 +155,7 @@ const MODE = {
 };
 ```
 
-When you are all ready, run the following command and your outputted art will be in the `build` directory:
+When you are all ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
 
 ```sh
 npm run build
@@ -167,7 +167,7 @@ or
 node index.js
 ```
 
-The program will output all the images in the `build` directory along with the metadata files. Each collection will have a `_metadata.json` file that consists of all the metadata in the collection inside the `build` folder. The `build` folder also will contain all the images as well as single json files that represent each image file. The single json file of a image will look something like this:
+The program will output all the images in the `build/images` directory along with the metadata files in the `build/json` directory. Each collection will have a `_metadata.json` file that consists of all the metadata in the collection inside the `build/json` directory. The `build/json` folder also will contain all the single json files that represent each image file. The single json file of a image will look something like this:
 
 ```json
 {
@@ -192,12 +192,20 @@ The program will output all the images in the `build` directory along with the m
 
 That's it, you're done.
 
+### Updating baseUri for IPFS
+
+You might possibly want to update the baseUri after you have ran your collection. To update the baseUri simply run:
+
+```sh
+node utils/updateBaseUri.js
+```
+
 ### Printing rarity data (Experimental feature)
 
 To see the percentages of each attribute across your collection, run:
 
 ```sh
-node rarityData.js
+node utils/rarityData.js
 ```
 
 The output will look something like this:

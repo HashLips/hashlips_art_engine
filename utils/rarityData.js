@@ -6,12 +6,12 @@ const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const layersDir = `${basePath}/layers`;
 
-const { layerConfigurations } = require("./src/config.js");
+const { layerConfigurations } = require("../src/config.js");
 
-const { getElements } = require("./src/main.js");
+const { getElements } = require("../src/main.js");
 
 // read json data
-let rawdata = fs.readFileSync("build/_metadata.json");
+let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
 let data = JSON.parse(rawdata);
 let editionSize = data.length;
 
