@@ -1,7 +1,7 @@
 const { MODE } = require("./blendMode.js");
 const description =
   "This is the description of your NFT project, remember to replace this";
-const baseUri = "https://REPLACE/metadata";
+const baseUri = "ipfs://QmNfPMWLPTEbFpBtPFy4wkYEHRVWcz8dzjziTcPbebzF53";
 
 const layerConfigurations = [
   {
