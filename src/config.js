@@ -1,11 +1,11 @@
 const { MODE } = require("./blendMode.js");
 const description =
   "This is the description of your NFT project, remember to replace this";
-const baseUri = "https://hashlips/nft";
+const baseUri = "https://REPLACE/metadata";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 20,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
