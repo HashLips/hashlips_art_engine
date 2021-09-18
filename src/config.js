@@ -28,6 +28,13 @@ const background = {
   brightness: "80%",
 };
 
+const preview = {
+  thumbPerRow: 5,
+  thumbWidth: 50,
+  imageRatio: format.width / format.height,
+  imageName: "preview.png",
+};
+
 const rarityDelimiter = "#";
 
 const uniqueDnaTorrance = 10000;
@@ -40,4 +47,5 @@ module.exports = {
   uniqueDnaTorrance,
   layerConfigurations,
   rarityDelimiter,
+  preview,
 };
