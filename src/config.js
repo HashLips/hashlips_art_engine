@@ -12,16 +12,16 @@ const layerConfigurations = [
       { name: "Eye color" },
       { name: "Iris" },
       { name: "Shine" },
-      { name: "Bottom lid", variacor: true },
-      { name: "Top lid", variacor: true  },
+      { name: "Bottom lid", colorvariation: true },
+      { name: "Top lid", colorvariation: true  },
     ],
   },
 ];
 
 const randColors = [
-  "vermelho",
-  "verde",
-  "roxo",
+  "red",
+  "green",
+  "purple",
 ];
 
 const format = {

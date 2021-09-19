@@ -74,8 +74,8 @@ const layersSetup = (layersOrder) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
     name: layerObj.name,
-    varicaoCor:
-      layerObj["variacor"] != undefined ? layerObj["variacor"] : false,
+    colorvariation:
+      layerObj["colorvariation"] != undefined ? layerObj["colorvariation"] : false,
     elements: getElements(`${layersDir}/${layerObj.name}/`),
     blendMode:
       layerObj["blend"] != undefined ? layerObj["blend"] : "source-over",
@@ -129,9 +129,9 @@ const addAttributes = (_element) => {
 const loadLayerImg = async (_layer, _color) => {
   return new Promise(async (resolve) => {
     let path = _layer.selectedElement.path;
-    if (_layer.varicaoCor) {
+    if (_layer.colorvariation) {
       path = path.replace(".png", _color.concat(".png"));
-      path = path.replace(_layer.name, _layer.name.concat("-Colorido"));
+      path = path.replace(_layer.name, _layer.name.concat("-color"));
     }
     const image = await loadImage(`${path}`);
     resolve({ layer: _layer, loadedImage: image });
@@ -152,7 +152,7 @@ const constructLayerToDna = (_dna = [], _layers = [], _color) => {
     );
     return {
       name: layer.name,
-      varicaoCor: layer.varicaoCor,
+      colorvariation: layer.colorvariation,
       blendMode: layer.blendMode,
       opacity: layer.opacity,
       selectedElement: selectedElement,
@@ -179,7 +179,7 @@ const createDna = (_layers, _color) => {
       // subtract the current weight from the random weight until we reach a sub zero value.
       random -= layer.elements[i].weight;
       if (random < 0) {
-        if (layer.varicaoCor) {
+        if (layer.colorvariation) {
           return randNum.push(
             `${layer.elements[i].id}:${layer.elements[i].filename}:${_color}`
           );
@@ -237,7 +237,7 @@ const startCreating = async () => {
             drawBackground();
           }
           attributesList.push({
-            trait_type: "Cor da Pele",
+            trait_type: "skin color",
             value: color,
           });
           renderObjectArray.forEach((renderObject) => {
