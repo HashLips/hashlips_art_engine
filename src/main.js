@@ -75,7 +75,9 @@ const layersSetup = (layersOrder) => {
     id: index,
     name: layerObj.name,
     colorvariation:
-      layerObj["colorvariation"] != undefined ? layerObj["colorvariation"] : false,
+      layerObj["colorvariation"] != undefined
+        ? layerObj["colorvariation"]
+        : false,
     elements: getElements(`${layersDir}/${layerObj.name}/`),
     blendMode:
       layerObj["blend"] != undefined ? layerObj["blend"] : "source-over",
@@ -221,7 +223,7 @@ const startCreating = async () => {
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
       // number between 0 - 2
-      let color = randColors[Math.floor(Math.random() * 3)];
+      let color = randColors.colors[Math.floor(Math.random() * 3)];
       let newDna = createDna(layers, color);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
@@ -237,7 +239,7 @@ const startCreating = async () => {
             drawBackground();
           }
           attributesList.push({
-            trait_type: "skin color",
+            trait_type: randColors.name,
             value: color,
           });
           renderObjectArray.forEach((renderObject) => {

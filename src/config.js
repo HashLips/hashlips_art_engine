@@ -13,16 +13,15 @@ const layerConfigurations = [
       { name: "Iris" },
       { name: "Shine" },
       { name: "Bottom lid", colorvariation: true },
-      { name: "Top lid", colorvariation: true  },
+      { name: "Top lid", colorvariation: true },
     ],
   },
 ];
 
-const randColors = [
-  "red",
-  "green",
-  "purple",
-];
+const randColors = {
+  name: "skin color",
+  colors: ["red", "green", "purple"],
+};
 
 const format = {
   width: 512,
