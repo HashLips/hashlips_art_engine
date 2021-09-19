@@ -14,8 +14,10 @@ const {
   uniqueDnaTorrance,
   layerConfigurations,
   rarityDelimiter,
+  randColors,
 } = require(path.join(basePath, "/src/config.js"));
 const console = require("console");
+const { Console } = require("console");
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 var metadataList = [];
@@ -24,7 +26,7 @@ var dnaList = [];
 
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
-    fs.rmdirSync(buildDir, { recursive: true });
+    fs.rmSync(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
   fs.mkdirSync(`${buildDir}/json`);
@@ -72,6 +74,8 @@ const layersSetup = (layersOrder) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
     name: layerObj.name,
+    varicaoCor:
+      layerObj["variacor"] != undefined ? layerObj["variacor"] : false,
     elements: getElements(`${layersDir}/${layerObj.name}/`),
     blendMode:
       layerObj["blend"] != undefined ? layerObj["blend"] : "source-over",
@@ -122,9 +126,14 @@ const addAttributes = (_element) => {
   });
 };
 
-const loadLayerImg = async (_layer) => {
+const loadLayerImg = async (_layer, _color) => {
   return new Promise(async (resolve) => {
-    const image = await loadImage(`${_layer.selectedElement.path}`);
+    let path = _layer.selectedElement.path;
+    if (_layer.varicaoCor) {
+      path = path.replace(".png", _color.concat(".png"));
+      path = path.replace(_layer.name, _layer.name.concat("-Colorido"));
+    }
+    const image = await loadImage(`${path}`);
     resolve({ layer: _layer, loadedImage: image });
   });
 };
@@ -136,13 +145,14 @@ const drawElement = (_renderObject) => {
   addAttributes(_renderObject);
 };
 
-const constructLayerToDna = (_dna = [], _layers = []) => {
+const constructLayerToDna = (_dna = [], _layers = [], _color) => {
   let mappedDnaToLayers = _layers.map((layer, index) => {
     let selectedElement = layer.elements.find(
       (e) => e.id == cleanDna(_dna[index])
     );
     return {
       name: layer.name,
+      varicaoCor: layer.varicaoCor,
       blendMode: layer.blendMode,
       opacity: layer.opacity,
       selectedElement: selectedElement,
@@ -156,7 +166,7 @@ const isDnaUnique = (_DnaList = [], _dna = []) => {
   return foundDna == undefined ? true : false;
 };
 
-const createDna = (_layers) => {
+const createDna = (_layers, _color) => {
   let randNum = [];
   _layers.forEach((layer) => {
     var totalWeight = 0;
@@ -169,9 +179,15 @@ const createDna = (_layers) => {
       // subtract the current weight from the random weight until we reach a sub zero value.
       random -= layer.elements[i].weight;
       if (random < 0) {
-        return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}`
-        );
+        if (layer.varicaoCor) {
+          return randNum.push(
+            `${layer.elements[i].id}:${layer.elements[i].filename}:${_color}`
+          );
+        } else {
+          return randNum.push(
+            `${layer.elements[i].id}:${layer.elements[i].filename}`
+          );
+        }
       }
     }
   });
@@ -204,13 +220,15 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
-      let newDna = createDna(layers);
+      // number between 0 - 2
+      let color = randColors[Math.floor(Math.random() * 3)];
+      let newDna = createDna(layers, color);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
         let loadedElements = [];
 
         results.forEach((layer) => {
-          loadedElements.push(loadLayerImg(layer));
+          loadedElements.push(loadLayerImg(layer, color));
         });
 
         await Promise.all(loadedElements).then((renderObjectArray) => {
@@ -218,6 +236,10 @@ const startCreating = async () => {
           if (background.generate) {
             drawBackground();
           }
+          attributesList.push({
+            trait_type: "Cor da Pele",
+            value: color,
+          });
           renderObjectArray.forEach((renderObject) => {
             drawElement(renderObject);
           });

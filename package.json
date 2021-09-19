@@ -21,6 +21,7 @@
   "author": "Daniel Eugene Botha (HashLips)",
   "license": "MIT",
   "dependencies": {
+    "all": "^0.0.0",
     "canvas": "^2.8.0",
     "sha1": "^1.1.1"
   }
