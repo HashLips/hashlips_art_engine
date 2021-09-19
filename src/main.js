@@ -14,7 +14,7 @@ const {
   uniqueDnaTorrance,
   layerConfigurations,
   rarityDelimiter,
-  randColors,
+  colorVariations,
 } = require(path.join(basePath, "/src/config.js"));
 const console = require("console");
 const { Console } = require("console");
@@ -74,10 +74,7 @@ const layersSetup = (layersOrder) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
     name: layerObj.name,
-    colorvariation:
-      layerObj["colorvariation"] != undefined
-        ? layerObj["colorvariation"]
-        : false,
+    colorvariation: layerObj["colorvariation"],
     elements: getElements(`${layersDir}/${layerObj.name}/`),
     blendMode:
       layerObj["blend"] != undefined ? layerObj["blend"] : "source-over",
@@ -124,15 +121,15 @@ const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
   attributesList.push({
     trait_type: _element.layer.name,
-    value: selectedElement.name,
+    value: selectedElement.name.concat(_element.layer.color),
   });
 };
 
-const loadLayerImg = async (_layer, _color) => {
+const loadLayerImg = async (_layer) => {
   return new Promise(async (resolve) => {
     let path = _layer.selectedElement.path;
-    if (_layer.colorvariation) {
-      path = path.replace(".png", _color.concat(".png"));
+    if (_layer.colorvariation != undefined) {
+      path = path.replace(".png", _layer.color.concat(".png"));
       path = path.replace(_layer.name, _layer.name.concat("-color"));
     }
     const image = await loadImage(`${path}`);
@@ -158,6 +155,10 @@ const constructLayerToDna = (_dna = [], _layers = [], _color) => {
       blendMode: layer.blendMode,
       opacity: layer.opacity,
       selectedElement: selectedElement,
+      color:
+        _dna[index].split("#").pop() != undefined
+          ? _dna[index].split("#").pop()
+          : "",
     };
   });
   return mappedDnaToLayers;
@@ -168,32 +169,26 @@ const isDnaUnique = (_DnaList = [], _dna = []) => {
   return foundDna == undefined ? true : false;
 };
 
-const createDna = (_layers, _color) => {
-  let randNum = [];
-  _layers.forEach((layer) => {
-    var totalWeight = 0;
-    layer.elements.forEach((element) => {
-      totalWeight += element.weight;
-    });
-    // number between 0 - totalWeight
-    let random = Math.floor(Math.random() * totalWeight);
-    for (var i = 0; i < layer.elements.length; i++) {
-      // subtract the current weight from the random weight until we reach a sub zero value.
-      random -= layer.elements[i].weight;
-      if (random < 0) {
-        if (layer.colorvariation) {
-          return randNum.push(
-            `${layer.elements[i].id}:${layer.elements[i].filename}:${_color}`
-          );
-        } else {
-          return randNum.push(
-            `${layer.elements[i].id}:${layer.elements[i].filename}`
-          );
-        }
+const createDna = (_layer, _color) => {
+  var dna;
+  var totalWeight = 0;
+  _layer.elements.forEach((element) => {
+    totalWeight += element.weight;
+  });
+  // number between 0 - totalWeight
+  let random = Math.floor(Math.random() * totalWeight);
+  for (var i = 0; i < _layer.elements.length; i++) {
+    // subtract the current weight from the random weight until we reach a sub zero value.
+    random -= _layer.elements[i].weight;
+    if (random < 0) {
+      if (_layer.colorvariation != undefined) {
+        return `${_layer.elements[i].id}:${_layer.elements[i].filename}# ${_color}`;
+      } else {
+        return `${_layer.elements[i].id}:${_layer.elements[i].filename}#`;
       }
     }
-  });
-  return randNum;
+  }
+  return dna;
 };
 
 const writeMetaData = (_data) => {
@@ -223,14 +218,28 @@ const startCreating = async () => {
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
       // number between 0 - 2
-      let color = randColors.colors[Math.floor(Math.random() * 3)];
-      let newDna = createDna(layers, color);
+      let newDna = [];
+      let color = " ";
+      let setColor = [];
+      colorVariations.forEach((color) => {
+        setColor.push({
+          name: color.name,
+          color: color.colors[Math.floor(Math.random() * 3)],
+        });
+      });
+      layers.forEach((layer) => {
+        var colorVariation = setColor.find((obj) => {
+          return obj.name === layer.colorvariation;
+        });
+        if (colorVariation != undefined) color = colorVariation.color;
+        newDna.push(createDna(layer, color));
+      });
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
         let loadedElements = [];
 
         results.forEach((layer) => {
-          loadedElements.push(loadLayerImg(layer, color));
+          loadedElements.push(loadLayerImg(layer));
         });
 
         await Promise.all(loadedElements).then((renderObjectArray) => {
@@ -238,10 +247,7 @@ const startCreating = async () => {
           if (background.generate) {
             drawBackground();
           }
-          attributesList.push({
-            trait_type: randColors.name,
-            value: color,
-          });
+
           renderObjectArray.forEach((renderObject) => {
             drawElement(renderObject);
           });

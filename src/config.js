@@ -5,23 +5,29 @@ const baseUri = "ipfs://QmNfPMWLPTEbFpBtPFy4wkYEHRVWcz8dzjziTcPbebzF53";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 10,
+    growEditionSizeTo: 20,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
       { name: "Eye color" },
       { name: "Iris" },
       { name: "Shine" },
-      { name: "Bottom lid", colorvariation: true },
-      { name: "Top lid", colorvariation: true },
+      { name: "Bottom lid", colorvariation: "skin" },
+      { name: "Top lid", colorvariation: "skin" },
     ],
   },
 ];
 
-const randColors = {
-  name: "skin color",
-  colors: ["red", "green", "purple"],
-};
+const colorVariations = [
+  {
+    name: "skin",
+    colors: ["red", "green", "purple"],
+  },
+  {
+    name: "hair",
+    colors: ["blue", "pink", "purple"],
+  },
+];
 
 const format = {
   width: 512,
@@ -45,5 +51,5 @@ module.exports = {
   uniqueDnaTorrance,
   layerConfigurations,
   rarityDelimiter,
-  randColors,
+  colorVariations,
 };
