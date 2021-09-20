@@ -194,12 +194,30 @@ The program will output all the images in the `build/images` directory along wit
 
 That's it, you're done.
 
+## Utils
+
 ### Updating baseUri for IPFS
 
 You might possibly want to update the baseUri after you have ran your collection. To update the baseUri simply run:
 
 ```sh
 node utils/updateBaseUri.js
+```
+
+### Generate a preview image
+
+Create a preview image collage of your collection, run:
+
+```sh
+node utils/createPreviewCollage.js
+```
+
+### Re-generate the \_metadata.json file
+
+This util will only working if you have all the individual json files and want to re-generate the \_metadata.json file if you lost it, run:
+
+```sh
+node utils/regenerateMetadata.js
 ```
 
 ### Printing rarity data (Experimental feature)
