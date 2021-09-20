@@ -15,6 +15,7 @@ const {
   layerConfigurations,
   rarityDelimiter,
   colorVariations,
+  nuberOfColors,
 } = require(path.join(basePath, "/src/config.js"));
 const console = require("console");
 const { Console } = require("console");
@@ -121,7 +122,7 @@ const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
   attributesList.push({
     trait_type: _element.layer.name,
-    value: selectedElement.name.concat(_element.layer.color),
+    value: selectedElement.name,
   });
 };
 
@@ -130,7 +131,7 @@ const loadLayerImg = async (_layer) => {
     let path = _layer.selectedElement.path;
     if (_layer.colorvariation != undefined) {
       path = path.replace(".png", _layer.color.concat(".png"));
-      path = path.replace(_layer.name, _layer.name.concat("-color"));
+      path = path.replace(_layer.name, _layer.name.concat("-variant"));
     }
     const image = await loadImage(`${path}`);
     resolve({ layer: _layer, loadedImage: image });
@@ -222,11 +223,17 @@ const startCreating = async () => {
       let color = " ";
       let setColor = [];
       colorVariations.forEach((color) => {
+        let coloraux = color.colors[Math.floor(Math.random() * nuberOfColors)];
         setColor.push({
           name: color.name,
-          color: color.colors[Math.floor(Math.random() * 3)],
+          color: coloraux,
+        });
+        attributesList.push({
+          trait_type: color.name,
+          value: coloraux,
         });
       });
+
       layers.forEach((layer) => {
         var colorVariation = setColor.find((obj) => {
           return obj.name === layer.colorvariation;
