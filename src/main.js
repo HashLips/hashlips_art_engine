@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const sha1 = require("sha1");
+const crypto = require('crypto');
 const { createCanvas, loadImage } = require("canvas");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
@@ -21,6 +22,7 @@ const ctx = canvas.getContext("2d");
 var metadataList = [];
 var attributesList = [];
 var dnaList = [];
+var provenanceHashList = [];
 
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
@@ -98,7 +100,7 @@ const drawBackground = () => {
   ctx.fillRect(0, 0, format.width, format.height);
 };
 
-const addMetadata = (_dna, _edition) => {
+const addMetadata = (_dna, _edition, _imageSha256) => {
   let dateTime = Date.now();
   let tempMetadata = {
     dna: sha1(_dna.join("")),
@@ -109,6 +111,7 @@ const addMetadata = (_dna, _edition) => {
     date: dateTime,
     attributes: attributesList,
     compiler: "HashLips Art Engine",
+    hash: _imageSha256,
   };
   metadataList.push(tempMetadata);
   attributesList = [];
@@ -193,6 +196,26 @@ const saveMetaDataSingleFile = (_editionCount) => {
   );
 };
 
+const generatProvenance = (_provenanceHashList) => {
+  fs.writeFileSync(`${buildDir}/_image_hashes.json`, JSON.stringify(_provenanceHashList));
+  let provenanceHashSeed = '';
+  _provenanceHashList.map(listItem => {
+    provenanceHashSeed = provenanceHashSeed.concat(listItem.hash);
+  });
+  let provenanceHash = generateSha256(provenanceHashSeed);
+  fs.writeFileSync(`${buildDir}/_provenance_hash.json`, JSON.stringify({'provenance_hash': provenanceHash}));
+};
+
+const getBase64 = (_editionCount) => {
+  return fs.readFileSync(`${buildDir}/images/${_editionCount}.png`, {encoding: 'base64'});
+}
+
+const generateSha256 = (_input) => {
+  const hash = crypto.createHash('sha256');
+  const data = hash.update(_input, 'utf-8');
+  return data.digest('hex');
+}
+
 const startCreating = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
@@ -213,6 +236,7 @@ const startCreating = async () => {
           loadedElements.push(loadLayerImg(layer));
         });
 
+        let imageSha256 = '';
         await Promise.all(loadedElements).then((renderObjectArray) => {
           ctx.clearRect(0, 0, format.width, format.height);
           if (background.generate) {
@@ -222,7 +246,9 @@ const startCreating = async () => {
             drawElement(renderObject);
           });
           saveImage(editionCount);
-          addMetadata(newDna, editionCount);
+          let imageBase64 = getBase64(editionCount);
+          imageSha256 = generateSha256(imageBase64);
+          addMetadata(newDna, editionCount, imageSha256);
           saveMetaDataSingleFile(editionCount);
           console.log(
             `Created edition: ${editionCount}, with DNA: ${sha1(
@@ -230,6 +256,7 @@ const startCreating = async () => {
             )}`
           );
         });
+        provenanceHashList.push({'id': editionCount, 'hash': imageSha256});
         dnaList.push(newDna);
         editionCount++;
       } else {
@@ -246,6 +273,7 @@ const startCreating = async () => {
     layerConfigIndex++;
   }
   writeMetaData(JSON.stringify(metadataList, null, 2));
+  generatProvenance(provenanceHashList);
 };
 
 module.exports = { startCreating, buildSetup, getElements };
