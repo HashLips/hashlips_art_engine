@@ -12,20 +12,18 @@ const layerConfigurations = [
       { name: "Eye color" },
       { name: "Iris" },
       { name: "Shine" },
-      { name: "Bottom lid", colorvariation: "skin" },
-      { name: "Top lid", colorvariation: "skin" },
+      { name: "Bottom lid", colorvariation: "hair" },
+      { name: "Top lid", colorvariation: "hair" },
     ],
   },
 ];
 
+const nuberOfColors = 3;
+
 const colorVariations = [
   {
-    name: "skin",
-    colors: ["red", "green", "purple"],
-  },
-  {
     name: "hair",
-    colors: ["blue", "pink", "purple"],
+    colors: ["green", "purple", "red"],
   },
 ];
 
@@ -52,4 +50,5 @@ module.exports = {
   layerConfigurations,
   rarityDelimiter,
   colorVariations,
+  nuberOfColors,
 };
