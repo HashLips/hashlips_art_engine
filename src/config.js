@@ -18,14 +18,6 @@ const layerConfigurations = [
   },
 ];
 
-const layerVariations = [
-  {
-    name: "Skin",
-    variations: ["green", "purple", "red"],
-    Weight: [10,40,50]
-  },
-];
-
 const format = {
   width: 512,
   height: 512,
@@ -47,6 +39,14 @@ const rarityDelimiter = "#";
 
 const uniqueDnaTorrance = 10000;
 
+const layerVariations = [
+  {
+    name: "Skin",
+    variations: ["green", "purple", "red"],
+    Weight: [10,40,50]
+  },
+];
+
 module.exports = {
   format,
   baseUri,
@@ -56,5 +56,4 @@ module.exports = {
   layerConfigurations,
   rarityDelimiter,
   preview,
-  layerVariations,
 };
