@@ -208,7 +208,7 @@ node utils/createPreviewCollage.js
 
 ### Re-generate the \_metadata.json file
 
-This util will only working if you have all the individual json files and want to re-generate the \_metadata.json file if you lost it, run:
+This util will only work if you have all the individual json files and want to re-generate the \_metadata.json file if you lost it, run:
 
 ```sh
 node utils/regenerateMetadata.js
