@@ -20,7 +20,7 @@ To find out more please visit:
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/banner.png)
 
-Create generative art by using the canvas api and node js. Before you use the generation engine, make sure you have node.js and yarn installed.
+Create generative art by using the canvas api and node js. Before you use the generation engine, make sure you have node.js installed.
 
 ## Installation 🛠️
 
@@ -30,13 +30,7 @@ If you are cloning the project then run this first, otherwise you can download t
 git clone https://github.com/HashLips/hashlips_art_engine.git
 ```
 
-Go to the root of your folder and run this command if you have yarn installed.
-
-```sh
-yarn install
-```
-
-Alternatively you can run this command if you have node installed.
+Go to the root of your folder and run this command if you have node installed.
 
 ```sh
 npm install
@@ -214,7 +208,7 @@ node utils/createPreviewCollage.js
 
 ### Re-generate the \_metadata.json file
 
-This util will only working if you have all the individual json files and want to re-generate the \_metadata.json file if you lost it, run:
+This util will only work if you have all the individual json files and want to re-generate the \_metadata.json file if you lost it, run:
 
 ```sh
 node utils/regenerateMetadata.js
