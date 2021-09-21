@@ -12,18 +12,17 @@ const layerConfigurations = [
       { name: "Eye color" },
       { name: "Iris" },
       { name: "Shine" },
-      { name: "Bottom lid", colorvariation: "hair" },
-      { name: "Top lid", colorvariation: "hair" },
+      { name: "Bottom lid", layerVariations: "Skin" },
+      { name: "Top lid", layerVariations: "Skin" },
     ],
   },
 ];
 
-const nuberOfColors = 3;
-
-const colorVariations = [
+const layerVariations = [
   {
-    name: "hair",
-    colors: ["green", "purple", "red"],
+    name: "Skin",
+    variations: ["green", "purple", "red"],
+    Weight: [10,40,50]
   },
 ];
 
@@ -49,6 +48,5 @@ module.exports = {
   uniqueDnaTorrance,
   layerConfigurations,
   rarityDelimiter,
-  colorVariations,
-  nuberOfColors,
+  layerVariations,
 };
