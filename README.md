@@ -14,7 +14,7 @@ To find out more please visit:
 
 [ℹ️ Website](https://hashlips.online/HashLips)
 
-# HashLips Art Engine 🔥
+# HashLips Art Engine (v1.0.4) 🔥
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/banner.png)
 
