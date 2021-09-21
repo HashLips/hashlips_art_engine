@@ -56,4 +56,5 @@ module.exports = {
   layerConfigurations,
   rarityDelimiter,
   preview,
+  layerVariations,
 };
