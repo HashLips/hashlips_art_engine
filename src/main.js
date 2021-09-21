@@ -17,7 +17,6 @@ const {
   layerVariations,
 } = require(path.join(basePath, "/src/config.js"));
 const console = require("console");
-const { Console } = require("console");
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 var metadataList = [];
@@ -130,7 +129,7 @@ const loadLayerImg = async (_layer) => {
     let path = _layer.selectedElement.path;
     if (_layer.layerVariations != undefined) {
       path = path.split("#")[0];
-      path = path.concat(_layer.color.concat(".png"));
+      path = path.concat(_layer.variant.concat(".png"));
       path = path.replace(_layer.name, _layer.name.concat("-variant"));
     }
     const image = await loadImage(`${path}`);
@@ -145,18 +144,18 @@ const drawElement = (_renderObject) => {
   addAttributes(_renderObject);
 };
 
-const constructLayerToDna = (_dna = [], _layers = [], _color) => {
+const constructLayerToDna = (_dna = [], _layers = []) => {
   let mappedDnaToLayers = _layers.map((layer, index) => {
     let selectedElement = layer.elements.find(
       (e) => e.id == cleanDna(_dna[index])
     );
     return {
       name: layer.name,
-      layerVariations: layer.layerVariations,
       blendMode: layer.blendMode,
       opacity: layer.opacity,
       selectedElement: selectedElement,
-      color:
+      layerVariations: layer.layerVariations,
+      variant:
         _dna[index].split("#").pop() != undefined
           ? _dna[index].split("#").pop()
           : "",
@@ -218,7 +217,6 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
-      // number between 0 - 2
       let newDna = [];
       let variant = " ";
       let setVariant = [];
@@ -266,7 +264,6 @@ const startCreating = async () => {
           if (background.generate) {
             drawBackground();
           }
-
           renderObjectArray.forEach((renderObject) => {
             drawElement(renderObject);
           });
