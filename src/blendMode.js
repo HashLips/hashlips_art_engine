@@ -1,3 +1,5 @@
+"use strict";
+
 const MODE = {
   sourceOver: "source-over",
   sourceIn: "source-in",

@@ -1,11 +1,14 @@
+"use strict";
+
+const isLocal = typeof process.pkg === "undefined";
+const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
 const path = require("path");
 const sha1 = require("sha1");
 const { createCanvas, loadImage } = require("canvas");
-const isLocal = typeof process.pkg === "undefined";
-const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
-const buildDir = `${basePath}/build`;
-const layersDir = `${basePath}/layers`;
+const buildDir = path.join(basePath, "/build");
+const layersDir = path.join(basePath, "/layers");
+console.log(path.join(basePath, "/src/config.js"));
 const {
   format,
   baseUri,
@@ -15,7 +18,6 @@ const {
   layerConfigurations,
   rarityDelimiter,
 } = require(path.join(basePath, "/src/config.js"));
-const console = require("console");
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 var metadataList = [];
@@ -27,8 +29,8 @@ const buildSetup = () => {
     fs.rmdirSync(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
-  fs.mkdirSync(`${buildDir}/json`);
-  fs.mkdirSync(`${buildDir}/images`);
+  fs.mkdirSync(path.join(buildDir, "/json"));
+  fs.mkdirSync(path.join(buildDir, "/images"));
 };
 
 const getRarityWeight = (_str) => {

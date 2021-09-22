@@ -1,4 +1,9 @@
-const { MODE } = require("./blendMode.js");
+"use strict";
+
+const isLocal = typeof process.pkg === "undefined";
+const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
+const path = require("path");
+const { MODE } = require(path.join(basePath, "src/blendMode.js"));
 const description =
   "This is the description of your NFT project, remember to replace this";
 const baseUri = "ipfs://QmNfPMWLPTEbFpBtPFy4wkYEHRVWcz8dzjziTcPbebzF53";
