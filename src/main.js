@@ -1,9 +1,9 @@
 "use strict";
 
+const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
-const path = require("path");
 const sha1 = require("sha1");
 const { createCanvas, loadImage } = require("canvas");
 const buildDir = path.join(basePath, "/build");

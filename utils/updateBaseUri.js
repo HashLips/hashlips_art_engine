@@ -1,9 +1,9 @@
 "use strict";
 
+const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
-const path = require("path");
 
 console.log(path.join(basePath, "/src/config.js"));
 const { baseUri } = require(path.join(basePath, "/src/config.js"));
