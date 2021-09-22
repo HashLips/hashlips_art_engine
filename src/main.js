@@ -4,8 +4,11 @@ const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
-const sha1 = require("sha1");
-const { createCanvas, loadImage } = require("canvas");
+const sha1 = require(path.join(basePath, "/node_modules/sha1"));
+const { createCanvas, loadImage } = require(path.join(
+  basePath,
+  "/node_modules/canvas"
+));
 const buildDir = path.join(basePath, "/build");
 const layersDir = path.join(basePath, "/layers");
 console.log(path.join(basePath, "/src/config.js"));
