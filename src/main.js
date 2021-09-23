@@ -20,6 +20,9 @@ const {
   uniqueDnaTorrance,
   layerConfigurations,
   rarityDelimiter,
+  shuffleLayerConfigurations,
+  debugLogs,
+  extraMetadata,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -112,6 +115,7 @@ const addMetadata = (_dna, _edition) => {
     image: `${baseUri}/${_edition}.png`,
     edition: _edition,
     date: dateTime,
+    ...extraMetadata,
     attributes: attributesList,
     compiler: "HashLips Art Engine",
   };
@@ -188,20 +192,50 @@ const writeMetaData = (_data) => {
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
+  let metadata = metadataList.find((meta) => meta.edition == _editionCount);
+  debugLogs
+    ? console.log(
+        `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
+      )
+    : null;
   fs.writeFileSync(
     `${buildDir}/json/${_editionCount}.json`,
-    JSON.stringify(
-      metadataList.find((meta) => meta.edition == _editionCount),
-      null,
-      2
-    )
+    JSON.stringify(metadata, null, 2)
   );
 };
+
+function shuffle(array) {
+  let currentIndex = array.length,
+    randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  return array;
+}
 
 const startCreating = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
   let failedCount = 0;
+  let abstractedIndexes = [];
+  for (
+    let i = 1;
+    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+    i++
+  ) {
+    abstractedIndexes.push(i);
+  }
+  if (shuffleLayerConfigurations) {
+    abstractedIndexes = shuffle(abstractedIndexes);
+  }
+  debugLogs
+    ? console.log("Editions left to create: ", abstractedIndexes)
+    : null;
   while (layerConfigIndex < layerConfigurations.length) {
     const layers = layersSetup(
       layerConfigurations[layerConfigIndex].layersOrder
@@ -219,6 +253,7 @@ const startCreating = async () => {
         });
 
         await Promise.all(loadedElements).then((renderObjectArray) => {
+          debugLogs ? console.log("Clearing casvas") : null;
           ctx.clearRect(0, 0, format.width, format.height);
           if (background.generate) {
             drawBackground();
@@ -226,17 +261,21 @@ const startCreating = async () => {
           renderObjectArray.forEach((renderObject) => {
             drawElement(renderObject);
           });
-          saveImage(editionCount);
-          addMetadata(newDna, editionCount);
-          saveMetaDataSingleFile(editionCount);
+          debugLogs
+            ? console.log("Editions left to create: ", abstractedIndexes)
+            : null;
+          saveImage(abstractedIndexes[0]);
+          addMetadata(newDna, abstractedIndexes[0]);
+          saveMetaDataSingleFile(abstractedIndexes[0]);
           console.log(
-            `Created edition: ${editionCount}, with DNA: ${sha1(
+            `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
               newDna.join("")
             )}`
           );
         });
         dnaList.push(newDna);
         editionCount++;
+        abstractedIndexes.shift();
       } else {
         console.log("DNA exists!");
         failedCount++;

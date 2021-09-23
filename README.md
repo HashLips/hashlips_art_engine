@@ -101,7 +101,11 @@ const layerConfigurations = [
 ];
 ```
 
-Then optionally, update your `format` size, ie the outputted image size, and the `growEditionSizeTo` on each `layerConfigurations` object, which is the amount of variation outputted.
+Update your `format` size, ie the outputted image size, and the `growEditionSizeTo` on each `layerConfigurations` object, which is the amount of variation outputted.
+
+You can mix up the `layerConfigurations` order on how the images are saved by setting the variable `shuffleLayerConfigurations` in the `config.js` file to true. It is false by default and will save all images in numerical order.
+
+If you want to have logs to debug and see what is happening when you generate images you can set the variable `debugLogs` in the `config.js` file to true. It is false by default, so you will only see general logs.
 
 If you want to play around with different blending modes, you can add a `blend: MODE.colorBurn` field to the layersOrder object. If you need a layers to have a different opacity then you can add the `opacity: 0.7` field to the layersOrder object as well. Both the `blend: MODE.colorBurn` and `opacity: 0.7` can be addes on the same layer if you want to.
 
@@ -157,7 +161,7 @@ const MODE = {
 };
 ```
 
-When you are all ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
+When you are ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
 
 ```sh
 npm run build
@@ -190,6 +194,20 @@ The program will output all the images in the `build/images` directory along wit
   ],
   "compiler": "HashLips Art Engine"
 }
+```
+
+You can also add extra metadata to each metadata file by adding your extra items, (key: value) pairs to the `extraMetadata` object variable in the `config.js` file.
+
+```js
+const extraMetadata = {
+  creator: "Daniel Eugene Botha",
+};
+```
+
+If you don't need extra metadata, simply leave the object empty. It is empty by default.
+
+```js
+const extraMetadata = {};
 ```
 
 That's it, you're done.
@@ -232,14 +250,14 @@ The output will look something like this:
 
 ```sh
 Trait type: Bottom lid
-{ trait: 'High', chance: '20', occurrence: '40' }
-{ trait: 'Low', chance: '40', occurrence: '60' }
-{ trait: 'Middle', chance: '40', occurrence: '0' }
+{ trait: 'High', chance: '20', occurrence: '15% out of 100%' }
+{ trait: 'Low', chance: '40', occurrence: '40% out of 100%' }
+{ trait: 'Middle', chance: '40', occurrence: '45% out of 100%' }
 
-Trait type: Top lid
-{ trait: 'High', chance: '30', occurrence: '20' }
-{ trait: 'Low', chance: '20', occurrence: '40' }
-{ trait: 'Middle', chance: '50', occurrence: '40' }
+Trait type: Iris
+{ trait: 'Large', chance: '20', occurrence: '15% out of 100%' }
+{ trait: 'Medium', chance: '20', occurrence: '15% out of 100%' }
+{ trait: 'Small', chance: '60', occurrence: '70% out of 100%' }
 ```
 
 Hope you create some awesome artworks with this code 👄

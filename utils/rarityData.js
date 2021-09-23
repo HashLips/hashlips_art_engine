@@ -71,7 +71,7 @@ for (var layer in rarityData) {
 
     // show two decimal places in percent
     rarityData[layer][attribute].occurrence =
-      rarityData[layer][attribute].occurrence.toFixed(0);
+      rarityData[layer][attribute].occurrence.toFixed(0) + "% out of 100%";
   }
 }
 
