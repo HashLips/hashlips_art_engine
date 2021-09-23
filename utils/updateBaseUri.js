@@ -1,11 +1,12 @@
 "use strict";
 
-const fs = require("fs");
 const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
+const fs = require("fs");
 
-const { baseUri } = require("../src/config.js");
+console.log(path.join(basePath, "/src/config.js"));
+const { baseUri } = require(path.join(basePath, "/src/config.js"));
 
 // read json data
 let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
