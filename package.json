@@ -6,13 +6,10 @@
   "bin": "index.js",
   "pkg": {
     "assets": [
-      "layers/**/*"
-    ],
-    "scripts": [
-      "src/main.js",
-      "src/config.js"
-    ],
-    "outputPath": "dist"
+      "layers/**/*",
+      "node_modules/**/*",
+      "src/**/*"
+    ]
   },
   "scripts": {
     "build": "node index.js",

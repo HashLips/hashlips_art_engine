@@ -1,12 +1,13 @@
 "use strict";
 
-const fs = require("fs");
 const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
+const fs = require("fs");
 const layersDir = `${basePath}/layers`;
 
-const { layerConfigurations } = require("../src/config.js");
+console.log(path.join(basePath, "/src/config.js"));
+const { layerConfigurations } = require(path.join(basePath, "/src/config.js"));
 
 const { getElements } = require("../src/main.js");
 
@@ -70,7 +71,7 @@ for (var layer in rarityData) {
 
     // show two decimal places in percent
     rarityData[layer][attribute].occurrence =
-      rarityData[layer][attribute].occurrence.toFixed(0);
+      rarityData[layer][attribute].occurrence.toFixed(0) + "% out of 100%";
   }
 }
 

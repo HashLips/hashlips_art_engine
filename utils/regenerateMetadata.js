@@ -1,9 +1,16 @@
 "use strict";
 
+<<<<<<< HEAD
 const fs = require("fs");
 const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
+=======
+const isLocal = typeof process.pkg === "undefined";
+const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
+const fs = require("fs");
+const path = require("path");
+>>>>>>> d5dea1fec0da623006d1e674b5728e9435d96319
 const jsonDir = `${basePath}/build/json`;
 const metadataFilePath = `${basePath}/build/json/_metadata.json`;
 
