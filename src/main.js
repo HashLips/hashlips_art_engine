@@ -1,12 +1,18 @@
-const fs = require("fs");
+"use strict";
+
 const path = require("path");
-const sha1 = require("sha1");
-const crypto = require('crypto');
-const { createCanvas, loadImage } = require("canvas");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
-const buildDir = `${basePath}/build`;
-const layersDir = `${basePath}/layers`;
+const fs = require("fs");
+const sha1 = require(path.join(basePath, "/node_modules/sha1"));
+const crypto = require('crypto');
+const { createCanvas, loadImage } = require(path.join(
+  basePath,
+  "/node_modules/canvas"
+));
+const buildDir = path.join(basePath, "/build");
+const layersDir = path.join(basePath, "/layers");
+console.log(path.join(basePath, "/src/config.js"));
 const {
   format,
   baseUri,
@@ -15,8 +21,10 @@ const {
   uniqueDnaTorrance,
   layerConfigurations,
   rarityDelimiter,
+  shuffleLayerConfigurations,
+  debugLogs,
+  extraMetadata,
 } = require(path.join(basePath, "/src/config.js"));
-const console = require("console");
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 var metadataList = [];
@@ -29,8 +37,8 @@ const buildSetup = () => {
     fs.rmdirSync(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
-  fs.mkdirSync(`${buildDir}/json`);
-  fs.mkdirSync(`${buildDir}/images`);
+  fs.mkdirSync(path.join(buildDir, "/json"));
+  fs.mkdirSync(path.join(buildDir, "/images"));
 };
 
 const getRarityWeight = (_str) => {
@@ -109,6 +117,7 @@ const addMetadata = (_dna, _edition, _imageSha256) => {
     image: `${baseUri}/${_edition}.png`,
     edition: _edition,
     date: dateTime,
+    ...extraMetadata,
     attributes: attributesList,
     compiler: "HashLips Art Engine",
     hash: _imageSha256,
@@ -186,13 +195,15 @@ const writeMetaData = (_data) => {
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
+  let metadata = metadataList.find((meta) => meta.edition == _editionCount);
+  debugLogs
+    ? console.log(
+        `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
+      )
+    : null;
   fs.writeFileSync(
     `${buildDir}/json/${_editionCount}.json`,
-    JSON.stringify(
-      metadataList.find((meta) => meta.edition == _editionCount),
-      null,
-      2
-    )
+    JSON.stringify(metadata, null, 2)
   );
 };
 
@@ -216,10 +227,38 @@ const generateSha256 = (_input) => {
   return data.digest('hex');
 }
 
+function shuffle(array) {
+  let currentIndex = array.length,
+    randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  return array;
+}
+
 const startCreating = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
   let failedCount = 0;
+  let abstractedIndexes = [];
+  for (
+    let i = 1;
+    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+    i++
+  ) {
+    abstractedIndexes.push(i);
+  }
+  if (shuffleLayerConfigurations) {
+    abstractedIndexes = shuffle(abstractedIndexes);
+  }
+  debugLogs
+    ? console.log("Editions left to create: ", abstractedIndexes)
+    : null;
   while (layerConfigIndex < layerConfigurations.length) {
     const layers = layersSetup(
       layerConfigurations[layerConfigIndex].layersOrder
@@ -238,6 +277,7 @@ const startCreating = async () => {
 
         let imageSha256 = '';
         await Promise.all(loadedElements).then((renderObjectArray) => {
+          debugLogs ? console.log("Clearing casvas") : null;
           ctx.clearRect(0, 0, format.width, format.height);
           if (background.generate) {
             drawBackground();
@@ -245,13 +285,16 @@ const startCreating = async () => {
           renderObjectArray.forEach((renderObject) => {
             drawElement(renderObject);
           });
-          saveImage(editionCount);
-          let imageBase64 = getBase64(editionCount);
+          debugLogs
+            ? console.log("Editions left to create: ", abstractedIndexes)
+            : null;
+          saveImage(abstractedIndexes[0]);
+          let imageBase64 = getBase64(abstractedIndexes[0]);
           imageSha256 = generateSha256(imageBase64);
-          addMetadata(newDna, editionCount, imageSha256);
-          saveMetaDataSingleFile(editionCount);
+          addMetadata(newDna, abstractedIndexes[0]);
+          saveMetaDataSingleFile(abstractedIndexes[0]);
           console.log(
-            `Created edition: ${editionCount}, with DNA: ${sha1(
+            `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
               newDna.join("")
             )}`
           );
@@ -259,6 +302,7 @@ const startCreating = async () => {
         provenanceHashList.push({'id': editionCount, 'hash': imageSha256});
         dnaList.push(newDna);
         editionCount++;
+        abstractedIndexes.shift();
       } else {
         console.log("DNA exists!");
         failedCount++;
