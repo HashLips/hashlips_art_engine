@@ -16,7 +16,6 @@ const {
   format,
   baseUri,
   addStats, // Eyy importing our addStats
-  addEdition, // Eyy importing our Edition
   description,
   background,
   uniqueDnaTorrance,
