@@ -23,6 +23,30 @@ const layerConfigurations = [
   },
 ];
 
+// Array of pairs of {layer, name} objects. These pairs will not be generated together.
+// [name] is the string before the rarity delimiter
+const notPaired = [
+  [
+    {
+      layer: "Eye color",
+      name: 'Red'
+    },
+    {
+      layer: "Iris",
+      name: 'Small'
+    },
+  ],
+  [
+    {
+      layer: 'Background',
+      name: 'Black'
+    },
+    {
+      layer: 'Eye color',
+      name: 'Yellow'
+    }
+  ]
+];
 const shuffleLayerConfigurations = false;
 
 const debugLogs = false;
@@ -62,4 +86,5 @@ module.exports = {
   shuffleLayerConfigurations,
   debugLogs,
   extraMetadata,
+  notPaired
 };

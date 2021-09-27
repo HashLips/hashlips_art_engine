@@ -23,6 +23,7 @@ const {
   shuffleLayerConfigurations,
   debugLogs,
   extraMetadata,
+  notPaired,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -218,6 +219,44 @@ function shuffle(array) {
   return array;
 }
 
+const toString = ({ layer, name }) => {
+  return `${layer}:${name}`;
+};
+
+const notPairedSetup = (notPaired) => {
+  const mapping = {};
+  const upsert = (mapping, key, value) => {
+    if (!mapping[key]) {
+      mapping[key] = new Set();
+    }
+    mapping[key].add(value);
+  };
+  for (const [first, second] of notPaired) {
+    upsert(mapping, toString(first), toString(second));
+    upsert(mapping, toString(second), toString(first));
+  }
+  return mapping;
+};
+
+function checkForNotPaired(dna, layers, notPairedMapping) {
+  const getLayerString = (index) => {
+    const layer = layers[index].name;
+    const name = dna[index].split(":")[1].split("#").shift();
+    return toString({ layer, name });
+  };
+  for (let i = 0; i < dna.length - 1; i++) {
+    for (let j = i + 1; j < dna.length; j++) {
+      if (
+        notPairedMapping[getLayerString(i)] &&
+        notPairedMapping[getLayerString(i)].has(getLayerString(j))
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
 const startCreating = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
@@ -240,11 +279,17 @@ const startCreating = async () => {
     const layers = layersSetup(
       layerConfigurations[layerConfigIndex].layersOrder
     );
+    const notPairedSet = notPairedSetup(notPaired);
+    console.log(notPairedSet)
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
       let newDna = createDna(layers);
-      if (isDnaUnique(dnaList, newDna)) {
+      console.log(newDna);
+      if (
+        isDnaUnique(dnaList, newDna) &&
+        checkForNotPaired(newDna, layers, notPairedSet)
+      ) {
         let results = constructLayerToDna(newDna, layers);
         let loadedElements = [];
 
@@ -277,7 +322,7 @@ const startCreating = async () => {
         editionCount++;
         abstractedIndexes.shift();
       } else {
-        console.log("DNA exists!");
+        console.log("DNA exists/!");
         failedCount++;
         if (failedCount >= uniqueDnaTorrance) {
           console.log(
