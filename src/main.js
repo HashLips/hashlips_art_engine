@@ -16,6 +16,7 @@ const {
   format,
   baseUri,
   addStats, // Eyy importing our addStats
+  addEdition, // Eyy importing our Edition
   description,
   background,
   uniqueDnaTorrance,
@@ -122,13 +123,6 @@ const addMetadata = (_dna, _edition) => {
   };
   metadataList.push(tempMetadata);
   attributesList = [];
-};
-
-const addEdition = (_edition) => {
-// Trust me this will be so sick
-    display_type: "number", 
-    trait_type: "Generation", 
-    value: _edition
 };
 
 const addAttributes = (_element) => {
