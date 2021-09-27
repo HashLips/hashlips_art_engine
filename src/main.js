@@ -117,21 +117,21 @@ const addMetadata = (_dna, _edition) => {
     name: `#${_edition}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
+    edition: {
+      display_type: "number", 
+      trait_type: "Generation", 
+      value: _edition
+   },
     // I removed edition, I have a plan for this. This will be sick
     // I removed the date because we have a birthday on our stats YAY! 
     ...extraMetadata,
     attributes: attributesList,
     compiler: "HashLips Art Engine",
   };
-  let edition = {
-    display_type: "number", 
-    trait_type: "Generation", 
-    value: _edition
-};
   metadataList.push(tempMetadata);
-  attributesList.push(edition);
   attributesList = [];
 };
+
 
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
@@ -202,7 +202,7 @@ const writeMetaData = (_data) => {
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
-  let metadata = metadataList.find((meta) => meta.edition == _editionCount);
+  let metadata = metadataList.find((meta) => meta.edition.value == _editionCount);
   debugLogs
     ? console.log(
         `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
@@ -213,6 +213,7 @@ const saveMetaDataSingleFile = (_editionCount) => {
     JSON.stringify(metadata, null, 2)
   );
 };
+
 
 function shuffle(array) {
   let currentIndex = array.length,
