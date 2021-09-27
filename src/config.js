@@ -58,11 +58,6 @@ const addStats = (_edition) => [
   {
     "value": "Happy"
   }
-{
-    display_type: "number", 
-    trait_type: "Generation", 
-    value: _edition
-}
 ];
 
 const shuffleLayerConfigurations = false;
@@ -96,7 +91,6 @@ module.exports = {
   format,
   baseUri,
   addStats, // Eyy exporting the addStats
-  addEdition, // Eyy exporting the addEdition
   description,
   background,
   uniqueDnaTorrance,
