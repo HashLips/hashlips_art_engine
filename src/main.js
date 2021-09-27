@@ -126,8 +126,8 @@ const addMetadata = (_dna, _edition) => {
 
 const addEdition = {
 // Trust me this will be so sick
-    display_type": "number", 
-    trait_type": "Generation", 
+    display_type: "number", 
+    trait_type: "Generation", 
     value: _edition
 };
 
