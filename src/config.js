@@ -59,6 +59,10 @@ const addStats = [
     "value": "Happy"
   }
 ];
+addStats.forEach((stats) => {
+        attributesList.push(stats);
+      });
+
 
 const shuffleLayerConfigurations = false;
 
