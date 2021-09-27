@@ -60,6 +60,13 @@ const addStats = [
   }
 ];
 
+const addEdition = (_edition) => {
+// Trust me this will be so sick
+    display_type: "number", 
+    trait_type: "Generation", 
+    value: _edition
+};
+
 const shuffleLayerConfigurations = false;
 
 const debugLogs = false;
@@ -91,6 +98,7 @@ module.exports = {
   format,
   baseUri,
   addStats, // Eyy exporting the addStats
+  addEdition, // Eyy exporting the addEdition
   description,
   background,
   uniqueDnaTorrance,
