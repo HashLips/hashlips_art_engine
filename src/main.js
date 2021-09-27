@@ -109,6 +109,7 @@ const drawBackground = () => {
 };
 
 const addMetadata = (_dna, _edition) => {
+  attributesList.push(addEdition);
   let dateTime = Date.now();
   let tempMetadata = {
     dna: sha1(_dna.join("")),
@@ -248,8 +249,6 @@ const startCreating = async () => {
       addStats.forEach((addStats) => {
         attributesList.push(addStats);
       }); // I asked help from Orion he said I should put it here
-      addStats.forEach((addEdition) => {
-        attributesList.push(addEdition); // Lets put into the attributeList
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
