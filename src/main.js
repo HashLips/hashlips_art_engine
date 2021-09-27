@@ -108,7 +108,6 @@ const drawBackground = () => {
 };
 
 const addMetadata = (_dna, _edition) => {
-  attributesList.push(addEdition);
   let dateTime = Date.now();
   let tempMetadata = {
     dna: sha1(_dna.join("")),
