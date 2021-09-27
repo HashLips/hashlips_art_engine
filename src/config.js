@@ -60,12 +60,14 @@ const addStats = [
   }
 ];
 
-const addEdition = (_edition) => {
+const addEdition = (_edition) => [
 // Trust me this will be so sick
+{
     display_type: "number", 
     trait_type: "Generation", 
     value: _edition
 };
+];
 
 const shuffleLayerConfigurations = false;
 
