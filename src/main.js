@@ -15,7 +15,7 @@ console.log(path.join(basePath, "/src/config.js"));
 const {
   format,
   baseUri,
-  stats, // Eyy importing our addStats
+  addStats, // Eyy importing our addStats
   description,
   background,
   uniqueDnaTorrance,
