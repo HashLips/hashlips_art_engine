@@ -15,6 +15,7 @@ console.log(path.join(basePath, "/src/config.js"));
 const {
   format,
   baseUri,
+  addStats, // Eyy importing our addStats
   description,
   background,
   uniqueDnaTorrance,
@@ -113,14 +114,21 @@ const addMetadata = (_dna, _edition) => {
     name: `#${_edition}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
-    edition: _edition,
-    date: dateTime,
+    // I removed edition, I have a plan for this. This will be sick
+    // I removed the date because we have a birthday on our stats YAY! 
     ...extraMetadata,
     attributes: attributesList,
     compiler: "HashLips Art Engine",
   };
   metadataList.push(tempMetadata);
   attributesList = [];
+};
+
+const addEdition = {
+// Trust me this will be so sick
+    display_type": "number", 
+    trait_type": "Generation", 
+    value: _edition
 };
 
 const addAttributes = (_element) => {
@@ -243,6 +251,10 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
+      addStats.forEach((stats) => {
+        attributesList.push(stats);
+      }); // I asked help from Orion he said I should put it here
+      attributesList.push(addEdition); // Lets put into the attributeList
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
