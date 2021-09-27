@@ -28,7 +28,7 @@ const layerConfigurations = [
 ];
 
 // This is where the awesomeness begins bwahahhahaha
-const addStats = [
+const addStats = (_edition) => [
 {
       "trait_type": "Level", // This is the Level of your nft
       "value": Math.floor(Math.random() * range) // This generates a random number based on your specific range
@@ -58,15 +58,11 @@ const addStats = [
   {
     "value": "Happy"
   }
-];
-
-const addEdition = (_edition) => [
-// Trust me this will be so sick
 {
     display_type: "number", 
     trait_type: "Generation", 
     value: _edition
-};
+}
 ];
 
 const shuffleLayerConfigurations = false;
