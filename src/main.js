@@ -122,7 +122,13 @@ const addMetadata = (_dna, _edition) => {
     attributes: attributesList,
     compiler: "HashLips Art Engine",
   };
+  let edition = {
+    display_type: "number", 
+    trait_type: "Generation", 
+    value: _edition
+};
   metadataList.push(tempMetadata);
+  attributesList.push(edition);
   attributesList = [];
 };
 
