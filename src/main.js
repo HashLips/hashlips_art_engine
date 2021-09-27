@@ -124,7 +124,7 @@ const addMetadata = (_dna, _edition) => {
   attributesList = [];
 };
 
-const addEdition = {
+const addEdition = (_edition) => {
 // Trust me this will be so sick
     display_type: "number", 
     trait_type: "Generation", 
