@@ -28,7 +28,7 @@ const layerConfigurations = [
 ];
 
 // This is where the awesomeness begins bwahahhahaha
-const stats = [
+const addStats = [
 {
       "trait_type": "Level", // This is the Level of your nft
       "value": Math.floor(Math.random() * range) // This generates a random number based on your specific range
@@ -90,7 +90,7 @@ const preview = {
 module.exports = {
   format,
   baseUri,
-  stats, // Eyy exporting the addStats
+  addStats, // Eyy exporting the addStats
   description,
   background,
   uniqueDnaTorrance,
