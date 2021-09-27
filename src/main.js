@@ -15,7 +15,7 @@ console.log(path.join(basePath, "/src/config.js"));
 const {
   format,
   baseUri,
-  addStats, // Eyy importing our addStats
+  stats, // Eyy importing our addStats
   description,
   background,
   uniqueDnaTorrance,
@@ -251,8 +251,8 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
-      addStats.forEach((addStats) => {
-        attributesList.push(addStats);
+      addStats.forEach((stats) => {
+        attributesList.push(stats);
       }); // I asked help from Orion he said I should put it here
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
