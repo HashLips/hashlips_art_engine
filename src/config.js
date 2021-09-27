@@ -7,6 +7,8 @@ const { MODE } = require(path.join(basePath, "src/blendMode.js"));
 const description =
   "This is the description of your NFT project, remember to replace this";
 const baseUri = "ipfs://NewUriToReplace";
+// I will import attributesList
+const { attributesList } = require(path.join(basePath, "/src/main.js"));
 // Input the range of your random number to be the value of the trait
 let range = 101;
 // This is just the date for the birthday YAY!! 
