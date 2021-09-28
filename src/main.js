@@ -16,6 +16,7 @@ const {
   format,
   baseUri,
   description,
+  addStats, // Imported the module
   background,
   uniqueDnaTorrance,
   layerConfigurations,
@@ -29,10 +30,6 @@ const ctx = canvas.getContext("2d");
 var metadataList = [];
 var attributesList = [];
 var dnaList = [];
-// Input the range of your random number to be the value of the trait
-let range = 101;
-// This is just the date for the birthday YAY!! 
-let dateTime = Date.now();
 
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
@@ -117,17 +114,19 @@ const addMetadata = (_dna, _edition) => {
     name: `#${_edition}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
-    edition: {
-      display_type: "number", 
-      trait_type: "Generation", 
-      value: _edition
-   },
-    // I removed edition, I have a plan for this. This will be sick
+    id: _edition, // I changed it to id cuz i got errors if i remove this
     // I removed the date because we have a birthday on our stats YAY! 
     ...extraMetadata,
     attributes: attributesList,
     compiler: "HashLips Art Engine",
   };
+  // This section will appear on attributes 
+  let edition = {
+      display_type: "number", 
+      trait_type: "Generation", 
+      value: _edition
+   };
+  attributesList.push(edition);
   metadataList.push(tempMetadata);
   attributesList = [];
 };
@@ -201,7 +200,7 @@ const writeMetaData = (_data) => {
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
-  let metadata = metadataList.find((meta) => meta.edition.value == _editionCount);
+  let metadata = metadataList.find((meta) => meta.id == _editionCount); // I replaced it to id from edition
   debugLogs
     ? console.log(
         `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
@@ -252,39 +251,7 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
-      // This is where the awesomeness begins bwahahhahaha
-const addStats = [
-{
-      "trait_type": "Level", // This is the Level of your nft
-      "value": Math.floor(Math.random() * range) // This generates a random number based on your specific range
-    }, 
-    {
-      "trait_type": "Stamina", // You can add stats like Stamina, Dexterity, Luck, etc.
-      "value": Math.floor(Math.random() * range) // This generates a random number based on your specific range
-    }, 
-    {
-// OpenSea currently supports three different options, number, boost_percentage (shows percentage), and boost_number (similar to boost_percentage but doesn't show a percent sign). If you pass in a value that's a number and you don't set a display_type, the trait will appear in the Rankings section
-      "display_type": "boost_number", // According to the Metadata standard this is a field indicating how you would like it to be displayed
-      "trait_type": "Damage", // This will show like "Damage +<random number>"
-      "value": Math.floor(Math.random() * range) // This generates a random number based on your specific range
-    }, 
-    {
-      "display_type": "boost_percentage", 
-      "trait_type": "Stamina Increase", 
-      "value": Math.floor(Math.random() * range)
-    }, 
-// OpenSea also supports a date display_type. Traits of this type will appear in the right column near "Rankings" and "Stats." Pass in a unix timestamp as the value.
-        {
-      "display_type": "date", 
-      "trait_type": "birthday", 
-      "value": dateTime
-    },
-// If you don't want to have a trait_type for a particular trait, you can include just a value in the trait and it will be set as a generic property.
-  {
-    "value": "Happy"
-  }
-];
-addStats.forEach((stats) => {
+        addStats.forEach((stats) => {
         attributesList.push(stats);
       });
       let newDna = createDna(layers);
