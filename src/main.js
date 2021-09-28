@@ -132,7 +132,6 @@ const addMetadata = (_dna, _edition) => {
   attributesList = [];
 };
 
-
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
   attributesList.push({
@@ -213,7 +212,6 @@ const saveMetaDataSingleFile = (_editionCount) => {
     JSON.stringify(metadata, null, 2)
   );
 };
-
 
 function shuffle(array) {
   let currentIndex = array.length,
