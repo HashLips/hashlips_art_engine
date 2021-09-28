@@ -23,7 +23,7 @@ const metadata = jsonFiles
     const rawdata = fs.readFileSync(`${jsonDir}/${file}`);
     return JSON.parse(rawdata);
   })
-  .sort((a, b) => parseInt(a.edition) - parseInt(b.edition));
+  .sort((a, b) => parseInt(a.edition) - parseInt(b.id));
 
 console.log(
   `Extracted and sorted metadata files. Writing to file: ${metadataFilePath}`
