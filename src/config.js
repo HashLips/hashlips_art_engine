@@ -37,30 +37,41 @@ const addStats = [
     {
       "trait_type": "Stamina", // You can add stats like Stamina, Dexterity, Luck, etc.
       "value": Math.floor(Math.random() * range) // This generates a random number based on your specific range
-    }, 
+    }
+];
+
+const addBoosts = [
     {
 // OpenSea currently supports three different options, number, boost_percentage (shows percentage), and boost_number (similar to boost_percentage but doesn't show a percent sign). If you pass in a value that's a number and you don't set a display_type, the trait will appear in the Rankings section
       "display_type": "boost_number", // According to the Metadata standard this is a field indicating how you would like it to be displayed
       "trait_type": "Damage", // This will show like "Damage +<random number>"
       "value": Math.floor(Math.random() * range) // This generates a random number based on your specific range
-    }, 
+    }
+];
+
+const addPercentage = [
     {
       "display_type": "boost_percentage", 
       "trait_type": "Stamina Increase", 
       "value": Math.floor(Math.random() * range)
-    }, 
+    }
+];
+
+const addBirthday = [
 // OpenSea also supports a date display_type. Traits of this type will appear in the right column near "Rankings" and "Stats." Pass in a unix timestamp as the value.
         {
       "display_type": "date", 
       "trait_type": "birthday", 
       "value": dateTime
-    },
+    }
+];
+
+const addProperty = [
 // If you don't want to have a trait_type for a particular trait, you can include just a value in the trait and it will be set as a generic property.
   {
     "value": "Happy"
   }
 ];
-
 
 const shuffleLayerConfigurations = false;
 
@@ -94,6 +105,10 @@ module.exports = {
   baseUri,
   description,
   addStats, // Export the module
+  addBoosts, // Export the module
+  addPercentage, // Export the module
+  addBirthday, // Export the module
+  addProperty, // Export the module
   background,
   uniqueDnaTorrance,
   layerConfigurations,
