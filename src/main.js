@@ -16,7 +16,11 @@ const {
   format,
   baseUri,
   description,
-  addStats, // Imported the module
+  addStats, // Export the module
+  addBoosts, // Export the module
+  addPercentage, // Export the module
+  addBirthday, // Export the module
+  addProperty, // Export the module
   background,
   uniqueDnaTorrance,
   layerConfigurations,
@@ -253,6 +257,18 @@ const startCreating = async () => {
     ) {
         addStats.forEach((stats) => {
         attributesList.push(stats);
+      });
+        addBoosts.forEach((boost) => {
+        attributesList.push(boost);
+      });
+        addPercentage.forEach((percentage) => {
+        attributesList.push(percentage);
+      });
+        addBirthday.forEach((birth) => {
+        attributesList.push(birth);
+      });
+        addProperty.forEach((prop) => {
+        attributesList.push(prop);
       });
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
