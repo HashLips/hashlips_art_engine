@@ -16,11 +16,11 @@ const {
   format,
   baseUri,
   description,
-  addStats, // Export the module
-  addBoosts, // Export the module
-  addPercentage, // Export the module
-  addBirthday, // Export the module
-  addProperty, // Export the module
+  addStats, // Import the module
+  addBoosts, // Import the module
+  addPercentage, // Import the module
+  addBirthday, // Import the module
+  addProperty, // Import the module
   background,
   uniqueDnaTorrance,
   layerConfigurations,
