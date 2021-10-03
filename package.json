@@ -15,7 +15,7 @@
     "build": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "update-baseUri": "node utils/updateBaseUri.js",
-    "update-description": "node utils/updateBaseUri.js",
+    "update-description": "node utils/updateDescription.js",
     "preview": "node utils/createPreviewCollage.js",
     "metadata": "node utils/regenerateMetadata.js",
     "generate": "node index.js",
