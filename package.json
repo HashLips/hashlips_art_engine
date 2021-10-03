@@ -13,7 +13,13 @@
   },
   "scripts": {
     "build": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update-baseUri": "node utils/updateBaseUri.js",
+    "update-description": "node utils/updateBaseUri.js",
+    "preview": "node utils/createPreviewCollage.js",
+    "metadata": "node utils/regenerateMetadata.js",
+    "generate": "node index.js",
+    "rarity": "node utils/rarityData.js"
   },
   "author": "Daniel Eugene Botha (HashLips)",
   "license": "MIT",
