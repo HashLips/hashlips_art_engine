@@ -15,6 +15,7 @@ console.log(path.join(basePath, "/src/config.js"));
 const {
   format,
   baseUri,
+  baseMetadataName,
   description,
   background,
   uniqueDnaTorrance,
@@ -36,7 +37,7 @@ const buildSetup = () => {
     fs.rmdirSync(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
-  fs.mkdirSync(path.join(buildDir, "/json"));
+  fs.mkdirSync(path.join(buildDir, "/metadata"));
   fs.mkdirSync(path.join(buildDir, "/images"));
 };
 
@@ -110,15 +111,12 @@ const drawBackground = () => {
 const addMetadata = (_dna, _edition) => {
   let dateTime = Date.now();
   let tempMetadata = {
-    dna: sha1(_dna.join("")),
-    name: `#${_edition}`,
+    name: `${baseMetadataName} #${_edition}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
     edition: _edition,
-    date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
-    compiler: "HashLips Art Engine",
   };
   metadataList.push(tempMetadata);
   attributesList = [];
@@ -189,7 +187,7 @@ const createDna = (_layers) => {
 };
 
 const writeMetaData = (_data) => {
-  fs.writeFileSync(`${buildDir}/json/_metadata.json`, _data);
+  fs.writeFileSync(`${buildDir}/metadata/_metadata.json`, _data);
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
@@ -200,7 +198,7 @@ const saveMetaDataSingleFile = (_editionCount) => {
       )
     : null;
   fs.writeFileSync(
-    `${buildDir}/json/${_editionCount}.json`,
+    `${buildDir}/metadata/${_editionCount}.json`,
     JSON.stringify(metadata, null, 2)
   );
 };
@@ -280,7 +278,7 @@ const startCreating = async () => {
       layerConfigurations[layerConfigIndex].layersOrder
     );
     const notPairedSet = notPairedSetup(notPaired);
-    console.log(notPairedSet)
+    console.log(notPaired)
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
@@ -322,7 +320,7 @@ const startCreating = async () => {
         editionCount++;
         abstractedIndexes.shift();
       } else {
-        console.log("DNA exists/!");
+        console.log("DNA exists/layers cannot be paired!");
         failedCount++;
         if (failedCount >= uniqueDnaTorrance) {
           console.log(

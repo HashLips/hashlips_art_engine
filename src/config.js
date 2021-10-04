@@ -4,13 +4,13 @@ const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const { MODE } = require(path.join(basePath, "src/blendMode.js"));
-const description =
-  "This is the description of your NFT project, remember to replace this";
+const description = "100 super rare eyes watching the sell out";
 const baseUri = "ipfs://NewUriToReplace";
+const baseMetadataName = "SSS Rare Eyes";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 10,
+    growEditionSizeTo: 100,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
@@ -77,6 +77,7 @@ const preview = {
 module.exports = {
   format,
   baseUri,
+  baseMetadataName,
   description,
   background,
   uniqueDnaTorrance,
@@ -86,5 +87,5 @@ module.exports = {
   shuffleLayerConfigurations,
   debugLogs,
   extraMetadata,
-  notPaired
+  notPaired,
 };
