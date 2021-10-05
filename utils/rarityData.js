@@ -16,7 +16,7 @@ let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
 let data = JSON.parse(rawdata);
 let editionSize = data.length;
 
-let rarityData = [];
+let rarityData = {};
 
 // intialize layers to chart
 layerConfigurations.forEach((config) => {
@@ -24,7 +24,7 @@ layerConfigurations.forEach((config) => {
 
   layers.forEach((layer) => {
     // get elements for each layer
-    let elementsForLayer = [];
+    let elementsForLayer = {};
     let elements = getElements(`${layersDir}/${layer.name}/`);
     elements.forEach((element) => {
       // just get name and weight for each element
@@ -33,11 +33,11 @@ layerConfigurations.forEach((config) => {
         chance: element.weight.toFixed(0),
         occurrence: 0, // initialize at 0
       };
-      elementsForLayer.push(rarityDataElement);
+      elementsForLayer[element.name] = rarityDataElement;
     });
 
     // don't include duplicate layers
-    if (!rarityData.includes(layer.name)) {
+    if (!rarityData[layer.name]) {
       // add elements for each layer to chart
       rarityData[layer.name] = elementsForLayer;
     }
@@ -53,12 +53,7 @@ data.forEach((element) => {
     let value = attribute.value;
 
     let rarityDataTraits = rarityData[traitType];
-    rarityDataTraits.forEach((rarityDataTrait) => {
-      if (rarityDataTrait.trait == value) {
-        // keep track of occurrences
-        rarityDataTrait.occurrence++;
-      }
-    });
+    rarityDataTraits[value].occurrence++;
   });
 });
 
@@ -75,11 +70,14 @@ for (var layer in rarityData) {
   }
 }
 
+// map of layer -> (map of attribute -> raritydata)
+fs.writeFileSync("build/rarityData.json", JSON.stringify(rarityData));
+
 // print out rarity data
-for (var layer in rarityData) {
-  console.log(`Trait type: ${layer}`);
-  for (var trait in rarityData[layer]) {
-    console.log(rarityData[layer][trait]);
-  }
-  console.log();
-}
+// for (var layer in rarityData) {
+//   console.log(`Trait type: ${layer}`);
+//   for (var trait in rarityData[layer]) {
+//     console.log(rarityData[layer][trait]);
+//   }
+//   console.log();
+// }
