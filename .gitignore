@@ -140,3 +140,7 @@ dist
 # OSX
 
 .DS_Store
+
+# PROJECT OUTPUT
+layers/
+nft_parts/
