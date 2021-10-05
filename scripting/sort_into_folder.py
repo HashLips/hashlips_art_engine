@@ -3,7 +3,7 @@ import shutil
 import re
 
 # Set source folder
-srcpath = "shogun_images"
+srcpath = "nft_parts"
 srcfiles = os.listdir(srcpath)
 srcfiles = sorted(srcfiles)
 

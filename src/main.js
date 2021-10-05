@@ -37,7 +37,7 @@ const buildSetup = () => {
     fs.rmdirSync(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
-  fs.mkdirSync(path.join(buildDir, "/metadata"));
+  fs.mkdirSync(path.join(buildDir, "/json"));
   fs.mkdirSync(path.join(buildDir, "/images"));
 };
 
@@ -187,7 +187,7 @@ const createDna = (_layers) => {
 };
 
 const writeMetaData = (_data) => {
-  fs.writeFileSync(`${buildDir}/metadata/_metadata.json`, _data);
+  fs.writeFileSync(`${buildDir}/json/_metadata.json`, _data);
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
@@ -198,7 +198,7 @@ const saveMetaDataSingleFile = (_editionCount) => {
       )
     : null;
   fs.writeFileSync(
-    `${buildDir}/metadata/${_editionCount}.json`,
+    `${buildDir}/json/${_editionCount}.json`,
     JSON.stringify(metadata, null, 2)
   );
 };
@@ -278,12 +278,13 @@ const startCreating = async () => {
       layerConfigurations[layerConfigIndex].layersOrder
     );
     const notPairedSet = notPairedSetup(notPaired);
-    console.log(notPaired)
+    console.log("notPaird", notPaired)
+    console.log("notPairedSet", notPairedSet)
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
       let newDna = createDna(layers);
-      console.log(newDna);
+      console.log("newDna", newDna);
       if (
         isDnaUnique(dnaList, newDna) &&
         checkForNotPaired(newDna, layers, notPairedSet)

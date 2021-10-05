@@ -10,15 +10,19 @@ const baseMetadataName = "SSS Rare Eyes";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 100,
+    growEditionSizeTo: 2,
     layersOrder: [
-      { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "bg" },
+      { name: "graphic" },
+      { name: "hair" },
+      { name: "weapon" },
+      { name: "base" },
+      { name: "skirt" },
+      { name: "arms" },
+      { name: "mask" },
+      { name: "hat" },
+      { name: "accessory" },
+      { name: "clan" },
     ],
   },
 ];
@@ -26,34 +30,34 @@ const layerConfigurations = [
 // Array of pairs of {layer, name} objects. These pairs will not be generated together.
 // [name] is the string before the rarity delimiter
 const notPaired = [
-  [
-    {
-      layer: "Eye color",
-      name: 'Red'
-    },
-    {
-      layer: "Iris",
-      name: 'Small'
-    },
-  ],
-  [
-    {
-      layer: 'Background',
-      name: 'Black'
-    },
-    {
-      layer: 'Eye color',
-      name: 'Yellow'
-    }
-  ]
+  // [
+  //   {
+  //     layer: "Eye color",
+  //     name: 'Red'
+  //   },
+  //   {
+  //     layer: "Iris",
+  //     name: 'Small'
+  //   },
+  // ],
+  // [
+  //   {
+  //     layer: 'Background',
+  //     name: 'Black'
+  //   },
+  //   {
+  //     layer: 'Eye color',
+  //     name: 'Yellow'
+  //   }
+  // ]
 ];
 const shuffleLayerConfigurations = false;
 
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 2769,
+  height: 3000,
 };
 
 const background = {
