@@ -84,6 +84,7 @@ const layersSetup = (layersOrder) => {
     blendMode:
       layerObj["blend"] != undefined ? layerObj["blend"] : "source-over",
     opacity: layerObj["opacity"] != undefined ? layerObj["opacity"] : 1,
+    ...(layerObj.display_type !== undefined && {display_type: layerObj.display_type})
   }));
   return layers;
 };
@@ -115,8 +116,7 @@ const addMetadata = (_dna, _edition) => {
     image: `${baseUri}/${_edition}.png`,
     edition: _edition,
     date: dateTime,
-    ...extraMetadata,
-    attributes: attributesList,
+    attributes: [...attributesList, ...extraMetadata(),],
     compiler: "HashLips Art Engine",
   };
   metadataList.push(tempMetadata);
@@ -125,10 +125,12 @@ const addMetadata = (_dna, _edition) => {
 
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
-  attributesList.push({
+  const layerAttributes = {
     trait_type: _element.layer.name,
     value: selectedElement.name,
-  });
+    ...(_element.layer.display_type !== undefined && {display_type: _element.layer.display_type})
+  }
+  attributesList.push(layerAttributes);
 };
 
 const loadLayerImg = async (_layer) => {
@@ -155,6 +157,7 @@ const constructLayerToDna = (_dna = [], _layers = []) => {
       blendMode: layer.blendMode,
       opacity: layer.opacity,
       selectedElement: selectedElement,
+      ...(layer.display_type !== undefined && {display_type: layer.display_type})
     };
   });
   return mappedDnaToLayers;

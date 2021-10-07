@@ -17,7 +17,7 @@ const layerConfigurations = [
       { name: "Eye color" },
       { name: "Iris" },
       { name: "Shine" },
-      { name: "Bottom lid" },
+      { name: "Bottom lid", display_type: 'boost_number' },
       { name: "Top lid" },
     ],
   },
@@ -37,7 +37,24 @@ const background = {
   brightness: "80%",
 };
 
-const extraMetadata = {};
+
+const extraMetadata = () => ([
+  {
+    display_type: "boost_number",
+    trait_type: "Aqua Power",
+    value: Math.random() * 100,
+  },
+  {
+    display_type: "boost_number",
+    trait_type: "Health",
+    value: Math.random() * 100,
+  },
+  {
+    display_type: "boost_number",
+    trait_type: "Mana",
+    value: Math.floor(Math.random() * 100),
+  },
+]);
 
 const rarityDelimiter = "#";
 
