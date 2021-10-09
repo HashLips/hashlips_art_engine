@@ -10,15 +10,13 @@ const baseUri = "ipfs://QmZLTevyYJ9SjAFcaqaSzKsdJGkUHudna6SdW6fhy1QvcW";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 10,
+    growEditionSizeTo: 50,
     layersOrder: [
-      { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "Sky" },
+      { name: "Clouds" },
+      { name: "Sun" },
+      { name: "Ground" },
+      { name: "Objects" }
     ],
   },
   {
@@ -39,12 +37,12 @@ const shuffleLayerConfigurations = true;
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 1000,
+  height: 320,
 };
 
 const background = {
-  generate: true,
+  generate: false,
   brightness: "80%",
 };
 
