@@ -1,3 +1,52 @@
+# Yeehan Instructions
+
+
+1. Clone the project
+
+```sh
+git clone https://github.com/stephng3/hashlips_art_engine
+```
+
+2. Installation - go to the root of your folder and run this command if you have yarn installed.
+
+```sh
+yarn install
+```
+
+3. Input files (sent in telegram)
+    * Add ```nft_parts``` into ``input/`` folder
+    * Add ```rarity_preset.csv``` (Can take dl from google sheets) into ``input/`` folder
+
+4. Edit ```generation_script.sh``` to include the desired config:
+![img_1.png](imgs/img_1.png)
+    * `EDITION` is the number of copies of generated NFTs
+    * `WIDTH` and `HEIGHT` are the resolutions (2769 and 3000) are the dimensions of the actual generation.
+
+6. In the root folder, run the following command.
+```sh
+source ./generation_script.sh
+```
+    * Grabs the assets from ```nft_parts``` into ```layers/```
+    * Verifies the count
+    * Some logs you might see:
+![img.png](imgs/img.png)
+
+5. Next, run this. It will begin generating the images
+```sh
+npm run build
+```
+
+6. Next, run this. It will preprend the 'NFT_SCORE' to the image name
+```sh
+source ./rarity_script.sh
+```
+
+
+
+
+
+
+
 # Welcome to HashLips 👄
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/logo.png)
