@@ -11,7 +11,7 @@ console.log(path.join(basePath, "/src/config.js"));
 const { preview } = require(path.join(basePath, "/src/config.js"));
 
 // read json data
-const rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
+const rawdata = fs.readFileSync(`${basePath}/build/json/0metadata.json`);
 const metadataList = JSON.parse(rawdata);
 
 const saveProjectPreviewImage = async (_data) => {

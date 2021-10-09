@@ -5,7 +5,10 @@ const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
 const path = require("path");
 const jsonDir = `${basePath}/build/json`;
-const metadataFilePath = `${basePath}/build/json/_metadata.json`;
+const metadataFilePath = `${basePath}/build/json/0metadata.json`;
+// read rarity_score_mapping json file
+var rarity_score_mapping = require(`${basePath}/build/rarity_score_mapping.json`)
+
 
 const getIndividualJsonFiles = () => {
   return fs
@@ -17,11 +20,22 @@ const getIndividualJsonFiles = () => {
 const jsonFiles = getIndividualJsonFiles();
 console.log(`Found ${jsonFiles.length} json files in "${jsonDir}" to process`);
 
+
 // Iterate, open and put in metadata list
 const metadata = jsonFiles
   .map((file) => {
     const rawdata = fs.readFileSync(`${jsonDir}/${file}`);
-    return JSON.parse(rawdata);
+    var parsedJson = JSON.parse(rawdata);
+
+    var NFT_SCORE = 0;
+
+    for (let attr in parsedJson["attributes"]) {
+        // parsedJson["attributes"][attr]['value'] ---> trait name of each trait in json
+        var trait_name = parsedJson["attributes"][attr]['value']
+        NFT_SCORE += parseInt(rarity_score_mapping[trait_name])
+    }
+    parsedJson['NFT_SCORE'] = NFT_SCORE
+    return parsedJson;
   })
   .sort((a, b) => parseInt(a.edition) - parseInt(b.edition));
 

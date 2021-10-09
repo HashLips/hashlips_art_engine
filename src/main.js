@@ -256,6 +256,9 @@ function checkForNotPaired(dna, layers, notPairedMapping) {
 }
 
 const startCreating = async () => {
+  // record start time
+  var startTime = new Date();
+
   let layerConfigIndex = 0;
   let editionCount = 1;
   let failedCount = 0;
@@ -334,6 +337,26 @@ const startCreating = async () => {
     layerConfigIndex++;
   }
   writeMetaData(JSON.stringify(metadataList, null, 2));
+
+// later record end time
+  var endTime = new Date();
+
+// time difference in ms
+  var timeDiff = endTime - startTime;
+
+// strip the ms
+  timeDiff /= 1000;
+
+// get seconds (Original had 'round' which incorrectly counts 0:28, 0:29, 1:30 ... 1:59, 1:0)
+  var seconds = Math.round(timeDiff % 60);
+
+// remove seconds from the date
+  timeDiff = Math.floor(timeDiff / 60);
+
+// get minutes
+  var minutes = Math.round(timeDiff % 60);
+
+  console.log(`Time elapse: ${minutes} minutes`)
 };
 
 module.exports = { startCreating, buildSetup, getElements };

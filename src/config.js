@@ -10,7 +10,7 @@ const baseMetadataName = "SSS Rare Eyes";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 2,
+    growEditionSizeTo: process.env.EDITION,
     layersOrder: [
       { name: "bg" },
       { name: "graphic" },
@@ -56,12 +56,12 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-  width: 2769,
-  height: 3000,
+  width: parseInt(process.env.WIDTH),
+  height: parseInt(process.env.HEIGHT),
 };
 
 const background = {
-  generate: true,
+  generate: false,
   brightness: "80%",
 };
 

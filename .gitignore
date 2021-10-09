@@ -144,3 +144,8 @@ dist
 # PROJECT OUTPUT
 layers/
 nft_parts/
+output/rarity_data.csv
+
+# PROJECT INPUT
+input/rarity_presets.csv
+input/name_mapping.csv
