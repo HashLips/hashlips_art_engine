@@ -30,6 +30,27 @@ var metadataList = [];
 var attributesList = [];
 var dnaList = [];
 
+//KJ attrs
+const name = "Sigh Ducks ";
+const gen = "Gen 0 ";
+const seller_fee_basis_points = 700;
+var collection = {name: "Sigh Ducks Gen 0",
+family: "Sigh Ducks"};
+var properties = {files: [{uri: "image.png", type: "image/png"}], 
+category: "image",
+creators: [
+  {
+    address: "ASszz4eQRNfw2euu2bG7C93hoENvG1AiSapvpPenn9Ax",
+    share: 50
+  },
+  {
+    address: "ChStNqrcv4ho2K6cRUwoVV79UDVUSpqefLPKNKokFdvr",
+    share: 50
+  }
+]};
+
+
+
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
     fs.rmdirSync(buildDir, { recursive: true });
@@ -110,14 +131,15 @@ const addMetadata = (_dna, _edition) => {
   let dateTime = Date.now();
   let tempMetadata = {
     dna: sha1(_dna.join("")),
-    name: `#${_edition}`,
+    name: name + gen + `#${_edition}`,
     description: description,
-    image: `${baseUri}/${_edition}.png`,
+    seller_fee_basis_points: seller_fee_basis_points,
+    image: `image.png`,
     edition: _edition,
-    date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
-    compiler: "HashLips Art Engine",
+    collection: collection,
+    properties: properties
   };
   metadataList.push(tempMetadata);
   attributesList = [];
