@@ -116,8 +116,9 @@ const addMetadata = (_dna, _edition) => {
     edition: _edition,
     date: dateTime,
     ...extraMetadata,
-    attributes: attributesList,
-    compiler: "HashLips Art Engine",
+    attributes: attributesList
+    // ,
+    // compiler: "HashLips Art Engine",
   };
   metadataList.push(tempMetadata);
   attributesList = [];

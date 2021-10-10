@@ -5,12 +5,12 @@ const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const { MODE } = require(path.join(basePath, "src/blendMode.js"));
 const description =
-  "This is the description of your NFT project, remember to replace this";
-const baseUri = "ipfs://NewUriToReplace";
+  "This is a TEST collection. Fun FUN FUNNNNNN!!!";
+const baseUri = "ipfs://QmXcW9V4LZfpdmX63z1WnRk9yNzAUeYeKhAXnDE6q8xmHd";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 50,
+    growEditionSizeTo: 25,
     layersOrder: [
       { name: "Sky" },
       { name: "Clouds" },
