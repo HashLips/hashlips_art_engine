@@ -33,6 +33,7 @@ var dnaList = [];
 //KJ attrs
 const name = "Sigh Ducks ";
 const gen = "Gen 0 ";
+const symbol = ""; //Required field for metaplex
 const seller_fee_basis_points = 700;
 var collection = {name: "Sigh Ducks Gen 0",
 family: "Sigh Ducks"};
@@ -136,6 +137,7 @@ const addMetadata = (_dna, _edition) => {
     seller_fee_basis_points: seller_fee_basis_points,
     image: `image.png`,
     edition: _edition,
+    symbol: symbol,
     ...extraMetadata,
     attributes: attributesList,
     collection: collection,
