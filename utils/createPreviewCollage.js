@@ -23,7 +23,7 @@ const saveProjectPreviewImage = async (_data) => {
   const previewCanvasWidth = thumbWidth * thumbPerRow;
   const previewCanvasRows = Math.floor(previewMaxHeight / thumbHeight);
   var totalImages = _data.length;
-  var previewCanvasHeight = thumbHeight * Math.trunc(totalImages / thumbPerRow);
+  var previewCanvasHeight = thumbHeight * Math.ceil(totalImages / thumbPerRow);
   // Adjust canvas height if previewMaxHeight is set in config
   if (previewMaxHeight != 0) {
     previewCanvasHeight = thumbHeight * previewCanvasRows;
