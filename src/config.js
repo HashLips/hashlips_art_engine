@@ -48,6 +48,7 @@ const preview = {
   thumbWidth: 50,
   imageRatio: format.width / format.height,
   imageName: "preview.png",
+  previewMaxHeight: 0,  // Preview image height in pixels. Set to 0 to include all images
 };
 
 module.exports = {
