@@ -16,16 +16,22 @@ const metadataList = JSON.parse(rawdata);
 
 const saveProjectPreviewImage = async (_data) => {
   // Extract from preview config
-  const { thumbWidth, thumbPerRow, imageRatio, imageName } = preview;
+  const { thumbWidth, thumbPerRow, imageRatio, imageName, previewMaxHeight } = preview;
   // Calculate height on the fly
-  const thumbHeight = thumbWidth * imageRatio;
+  const thumbHeight = thumbWidth / imageRatio;
   // Prepare canvas
   const previewCanvasWidth = thumbWidth * thumbPerRow;
-  const previewCanvasHeight =
-    thumbHeight * Math.trunc(_data.length / thumbPerRow);
+  const previewCanvasRows = Math.floor(previewMaxHeight / thumbHeight);
+  var totalImages = _data.length;
+  var previewCanvasHeight = thumbHeight * Math.trunc(totalImages / thumbPerRow);
+  // Adjust canvas height if previewMaxHeight is set in config
+  if (previewMaxHeight != 0) {
+    previewCanvasHeight = thumbHeight * previewCanvasRows;
+    totalImages = thumbPerRow * previewCanvasRows;
+  }
   // Shout from the mountain tops
   console.log(
-    `Preparing a ${previewCanvasWidth}x${previewCanvasHeight} project preview with ${_data.length} thumbnails.`
+    `Preparing a ${previewCanvasWidth}x${previewCanvasHeight} project preview with ${totalImages} thumbnails.`
   );
 
   // Initiate the canvas now that we have calculated everything
@@ -35,7 +41,7 @@ const saveProjectPreviewImage = async (_data) => {
 
   // Iterate all NFTs and insert thumbnail into preview image
   // Don't want to rely on "edition" for assuming index
-  for (let index = 0; index < _data.length; index++) {
+  for (let index = 0; index < totalImages; index++) {
     const nft = _data[index];
     await loadImage(`${buildDir}/images/${nft.edition}.png`).then((image) => {
       previewCtx.drawImage(
