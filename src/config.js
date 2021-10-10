@@ -14,7 +14,6 @@ const layerConfigurations = [
     layersOrder: [
       { name: "Background" },
       { name: "Border" },
-      { name: "Head" },
       { name: "Marks" },
       { name: "Mouth" },
       { name: "Nose" },
@@ -29,8 +28,8 @@ const shuffleLayerConfigurations = true;
 const debugLogs = false;
 
 const format = {
-  width: 48,
-  height: 48,
+  width: 100,
+  height: 100,
 };
 
 const background = {
