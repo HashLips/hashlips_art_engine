@@ -1,5 +1,5 @@
 # Nested Layer Support and Trait Type definition modification/branch
-This branch of the Haslips generator builds on the example (v.1.0.6) and allows you to *nest* subfolders within your top layer folders, and, optionally gives you a configuration option to overwrite the `trait_type` that is written to the metadata from those layers.
+This branch of the Hashlips generator builds on the example (v.1.0.6) and allows you to *nest* sub-folders within your top layer folders, and, optionally gives you a configuration option to overwrite the `trait_type` that is written to the metadata from those layers.
 
 ## Example
 The following example (included in this repository) uses multiple `layer_configurations` in `config.js` to generate male and female characters, as follows.
@@ -24,11 +24,11 @@ const layerConfigurations = [
 ];
 ```
 
-The Hair layers, exist as their own layers in the `layers` directory and use the `triat` key/property to overwrite the output metadata to always look like, the following, regardless of layer folder it is using–so both Male and Female art have a `Hair` trait.
+The Hair layers, exist as their own layers in the `layers` directory and use the `trait` key/property to overwrite the output metadata to always look like, the following, regardless of layer folder it is using–so both Male and Female art have a `Hair` trait.
 ```
     {
         "trait_type": "Hair",
-        "value": "buzz"
+        "value": "Rainbow Ombre"
       }
 ```
 
