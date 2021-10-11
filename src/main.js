@@ -109,6 +109,16 @@ const drawBackground = () => {
 
 const addMetadata = (_dna, _edition) => {
   let dateTime = Date.now();
+  const combinedAttrs = [...attributesList, ...extraMetadata()]
+  const cleanedAttrs = combinedAttrs.reduce((acc, current) => {
+    const x = acc.find(item => item.trait_type === current.trait_type);
+    if (!x) {
+      return acc.concat([current]);
+    } else {
+      return acc;
+    }
+  }, []);
+
   let tempMetadata = {
     dna: sha1(_dna.join("")),
     name: `#${_edition}`,
@@ -116,7 +126,7 @@ const addMetadata = (_dna, _edition) => {
     image: `${baseUri}/${_edition}.png`,
     edition: _edition,
     date: dateTime,
-    attributes: [...attributesList, ...extraMetadata(),],
+    attributes: cleanedAttrs,
     compiler: "HashLips Art Engine",
   };
   metadataList.push(tempMetadata);

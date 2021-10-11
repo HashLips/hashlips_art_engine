@@ -1,3 +1,37 @@
+# Metadata Modification - Display Types and Overwrites
+If you need to add randomized values for traits and different display types supported by OpenSea, this branch re-purposes the `extraMetadata` configuration for that purpose. 
+
+in config.js
+```
+const extraMetadata = () => ([
+  {
+    // Optionally, if you need to overwrite one of your layers attributes.
+    // You can include the same name as the layer, here, and it will overwrite
+    //
+    "trait_type": "Bottom lid",
+    value:` Bottom lid # ${Math.random() * 100}`,
+    },
+  {
+    display_type: "boost_number",
+    trait_type: "Aqua Power",
+    value: Math.random() * 100,
+  },
+  {
+    display_type: "boost_number",
+    trait_type: "Mana",
+    value: Math.floor(Math.random() * 100),
+  },
+]);
+```
+
+You are free to define _extra_ traits that you want each generated image to include in it's metadata, e.g., **health**. 
+
+*Be sure to pass in a randomization function here, otherwise every json file will result in the same value passed here.*
+
+## Optional
+This also supports overwriting a trait normally assigned by the layer Name/folder and file name. If you'd like to overwrite it with some other value, adding the _same_ trait in `extraMetadata` will overwrite the default trait/value in the generated metadata. 
+
+
 # Welcome to HashLips 👄
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/logo.png)
