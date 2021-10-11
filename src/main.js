@@ -39,52 +39,103 @@ const buildSetup = () => {
   fs.mkdirSync(path.join(buildDir, "/images"));
 };
 
-const getRarityWeight = (_str) => {
-  let nameWithoutExtension = _str.slice(0, -4);
-  var nameWithoutWeight = Number(
-    nameWithoutExtension.split(rarityDelimiter).pop()
-  );
-  if (isNaN(nameWithoutWeight)) {
-    nameWithoutWeight = 0;
+const getRarityWeight = (_path) => {
+  // check if there is an extension, if not, consider it a directory
+  const exp = /#(\d*)/;
+  const weight = exp.exec(_path);
+  const weightNumber = weight ? Number(weight[1]) : null;
+  if (!weightNumber || isNaN(weightNumber)) {
+    return "required";
   }
-  return nameWithoutWeight;
+  return weightNumber;
 };
 
 const cleanDna = (_str) => {
-  var dna = Number(_str.split(":").shift());
+  var dna = _str.split(":").shift();
   return dna;
 };
 
 const cleanName = (_str) => {
-  let nameWithoutExtension = _str.slice(0, -4);
+  const hasExtension = _str.endsWith(".png");
+  let nameWithoutExtension = hasExtension ? _str.slice(0, -4) : _str;
   var nameWithoutWeight = nameWithoutExtension.split(rarityDelimiter).shift();
   return nameWithoutWeight;
 };
 
-const getElements = (path) => {
+const getElements = (path, layer) => {
   return fs
     .readdirSync(path)
-    .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
+    .filter((item) => {
+      console.log("Filtering items agains a regex", item);
+      return !/(^|\/)\.[^\/\.]/g.test(item);
+    })
     .map((i, index) => {
-      return {
+      const sublayer = !i.endsWith(".png");
+      const weight = getRarityWeight(i);
+
+
+      const element = {
+        sublayer,
+        weight,
         id: index,
         name: cleanName(i),
         filename: i,
         path: `${path}${i}`,
-        weight: getRarityWeight(i),
       };
+      if (sublayer) {
+        element.path = `${path}${i}`;
+        const subPath = `${path}${i}/`;
+        element.elements = getElements(subPath, layer);
+      }
+
+      // Set trait type on layers for metadata
+      const lineage = path.split("/");
+      let typeAncestor;
+
+      if (weight !== "required") {
+        typeAncestor = element.sublayer ? 3 : 2;
+      }
+      if (weight === "required") {
+        typeAncestor = element.sublayer ? 1 : 3;
+        // we need to check if the parent is required, or if it's a prop-folder
+        if (lineage[lineage.length - typeAncestor].includes(rarityDelimiter)) {
+          typeAncestor -= 1;
+        }
+      }
+      // TODO: if config states trait override, then use that
+      
+      element.trait = layer.trait  !== undefined ? layer.trait : lineage[lineage.length - typeAncestor];
+      element.traitValue = getTraitValueFromPath(element, lineage);
+
+
+      return element;
     });
 };
 
+const getTraitValueFromPath = (element, lineage) => {
+  // If the element is a required png. then, the trait property = the parent path
+  // if the element is a non-required png. black%50.png, then element.name is the value and the parent Dir is the prop
+  if (element.weight !== "required") {
+    return element.name;
+  } else if (element.weight === "required") {
+    // if the element is a png that is required, get the traitValue from the parent Dir
+    return element.sublayer
+      ? true
+      : cleanName(lineage[lineage.length - 2]);
+  }
+};
+
+
 const layersSetup = (layersOrder) => {
-  const layers = layersOrder.map((layerObj, index) => ({
-    id: index,
-    name: layerObj.name,
-    elements: getElements(`${layersDir}/${layerObj.name}/`),
-    blendMode:
-      layerObj["blend"] != undefined ? layerObj["blend"] : "source-over",
-    opacity: layerObj["opacity"] != undefined ? layerObj["opacity"] : 1,
-  }));
+  const layers = layersOrder.map((layerObj, index) => {
+
+    return {
+      id: index,
+      name: layerObj.name,
+      elements: getElements(`${layersDir}/${layerObj.name}/`, layerObj), // array of all images in
+
+    };
+  });
   return layers;
 };
 
@@ -124,16 +175,20 @@ const addMetadata = (_dna, _edition) => {
 };
 
 const addAttributes = (_element) => {
-  let selectedElement = _element.layer.selectedElement;
-  attributesList.push({
-    trait_type: _element.layer.name,
-    value: selectedElement.name,
-  });
+  let selectedElement = _element.layer;
+  const attribute = {
+    trait_type: _element.layer.trait,
+    value: selectedElement.traitValue,
+  };
+  if (attributesList.some((attr) => attr.trait_type === attribute.trait_type))
+    return;
+  attributesList.push(attribute);
 };
 
 const loadLayerImg = async (_layer) => {
   return new Promise(async (resolve) => {
-    const image = await loadImage(`${_layer.selectedElement.path}`);
+    // selected elements is an array.
+    const image = await loadImage(`${_layer.path}`);
     resolve({ layer: _layer, loadedImage: image });
   });
 };
@@ -147,14 +202,34 @@ const drawElement = (_renderObject) => {
 
 const constructLayerToDna = (_dna = [], _layers = []) => {
   let mappedDnaToLayers = _layers.map((layer, index) => {
-    let selectedElement = layer.elements.find(
-      (e) => e.id == cleanDna(_dna[index])
-    );
+    let selectedElements = [];
+    const layerImages = _dna.filter((element) => element.startsWith(layer.id));
+    layerImages.forEach((img) => {
+      const indexAddress = cleanDna(img);
+
+      //
+
+      const indices = indexAddress.toString().split(".");
+      // const firstAddress = indices.shift();
+      const lastAddress = indices.pop(); // 1
+      // recursively go through each index to get the nested item
+      let parentElement = indices.reduce((r, nestedIndex) => {
+        if (!r[nestedIndex]) {
+          throw new Error("wtf");
+        }
+        return r[nestedIndex].elements;
+      }, _layers); //returns string, need to return
+
+      selectedElements.push(parentElement[lastAddress]);
+    });
+    // If there is more than one item whose root address indicies match the layer ID,
+    // continue to loop through them an return an array of selectedElements
+
     return {
       name: layer.name,
       blendMode: layer.blendMode,
       opacity: layer.opacity,
-      selectedElement: selectedElement,
+      selectedElements: selectedElements,
     };
   });
   return mappedDnaToLayers;
@@ -165,26 +240,80 @@ const isDnaUnique = (_DnaList = [], _dna = []) => {
   return foundDna == undefined ? true : false;
 };
 
-const createDna = (_layers) => {
-  let randNum = [];
-  _layers.forEach((layer) => {
-    var totalWeight = 0;
-    layer.elements.forEach((element) => {
+// expecting to return an array of strings for each _layer_ that is picked,
+// should be a flattened list of all things that are picked randomly AND reqiured
+function pickRandomElement(layer, dnaSequence, parentId) {
+  let totalWeight = 0;
+  layer.elements.forEach((element) => {
+    // If there is no weight, it's required, always include it
+    // If directory has %, that is % chance to enter the dir
+    if (element.weight == "required" && !element.sublayer) {
+      let dnaString = `${parentId}.${element.id}:${element.filename}`;
+      dnaSequence.unshift(dnaString);
+      return;
+    }
+    if (element.weight == "required" && element.sublayer) {
+      const next = pickRandomElement(
+        element,
+        dnaSequence,
+        `${parentId}.${element.id}`,
+        true
+      );
+    }
+    if (element.weight !== "required") {
       totalWeight += element.weight;
-    });
-    // number between 0 - totalWeight
-    let random = Math.floor(Math.random() * totalWeight);
-    for (var i = 0; i < layer.elements.length; i++) {
-      // subtract the current weight from the random weight until we reach a sub zero value.
-      random -= layer.elements[i].weight;
-      if (random < 0) {
-        return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}`
-        );
-      }
     }
   });
-  return randNum;
+  // number between 0 - totalWeight
+  const currentLayer = layer.elements.filter((l) => l.weight !== "required");
+  let random = Math.floor(Math.random() * totalWeight);
+
+  for (var i = 0; i < currentLayer.length; i++) {
+    // subtract the current weight from the random weight until we reach a sub zero value.
+    random -= currentLayer[i].weight;
+    if (random < 0) {
+      // if there's a sublayer, we need to concat the sublayers parent ID to the DNA srting
+      // and recursively pick nested required and random elements
+      if (currentLayer[i].sublayer) {
+        return dnaSequence.concat(
+          pickRandomElement(
+            currentLayer[i],
+            dnaSequence,
+            `${parentId}.${currentLayer[i].id}`
+          )
+        );
+      }
+
+      let dnaString = `${parentId}.${currentLayer[i].id}:${currentLayer[i].filename}`;
+      return dnaSequence.push(dnaString);
+    }
+  }
+}
+
+/**
+ * given the nesting structure is complicated and messy, the most reliable way to sort
+ * is based on the number of nested indecies.
+ * This sorts layers stacking the most deeply nested grandchildren above their
+ * immediate ancestors
+ * @param {[String]} layers array of dna string sequences
+ */
+const sortLayers = (layers) => {
+  return layers.sort((a, b) => {
+    const addressA = a.split(":")[0];
+    const addressB = b.split(":")[0];
+    return addressA.length - addressB.length;
+  });
+};
+
+const createDna = (_layers) => {
+  let dnaSequence = [];
+  _layers.forEach((layer) => {
+    const layerSequence = [];
+    pickRandomElement(layer, layerSequence, layer.id);
+    const sortedLayers = sortLayers(layerSequence);
+    dnaSequence = [...dnaSequence, [sortedLayers]];
+  });
+  return dnaSequence.flat(2);
 };
 
 const writeMetaData = (_data) => {
@@ -246,11 +375,16 @@ const startCreating = async () => {
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
+        console.log("DNA:", newDna);
         let loadedElements = [];
-
-        results.forEach((layer) => {
+        // reduce the stacked and nested layer into a single array
+        const allImages = results.reduce((images, layer) => {
+          return [...images, ...layer.selectedElements];
+        }, []);
+        allImages.forEach((layer) => {
           loadedElements.push(loadLayerImg(layer));
         });
+
 
         await Promise.all(loadedElements).then((renderObjectArray) => {
           debugLogs ? console.log("Clearing canvas") : null;

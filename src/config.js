@@ -10,15 +10,18 @@ const baseUri = "ipfs://NewUriToReplace";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 10,
+    growEditionSizeTo: 2,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Female Hair", trait: 'Hair' },
+    ],
+  },
+  {
+    growEditionSizeTo: 5,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "Male Hair", trait: 'Hair' },
     ],
   },
 ];
