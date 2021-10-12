@@ -73,7 +73,6 @@ const getElements = (path, layer) => {
       const sublayer = !i.endsWith(".png");
       const weight = getRarityWeight(i);
 
-
       const element = {
         sublayer,
         weight,
@@ -102,11 +101,11 @@ const getElements = (path, layer) => {
           typeAncestor -= 1;
         }
       }
-      // TODO: if config states trait override, then use that
-      
-      element.trait = layer.trait  !== undefined ? layer.trait : lineage[lineage.length - typeAncestor];
+      element.trait =
+        layer.trait !== undefined
+          ? layer.trait
+          : lineage[lineage.length - typeAncestor];
       element.traitValue = getTraitValueFromPath(element, lineage);
-
 
       return element;
     });
@@ -119,21 +118,16 @@ const getTraitValueFromPath = (element, lineage) => {
     return element.name;
   } else if (element.weight === "required") {
     // if the element is a png that is required, get the traitValue from the parent Dir
-    return element.sublayer
-      ? true
-      : cleanName(lineage[lineage.length - 2]);
+    return element.sublayer ? true : cleanName(lineage[lineage.length - 2]);
   }
 };
 
-
 const layersSetup = (layersOrder) => {
   const layers = layersOrder.map((layerObj, index) => {
-
     return {
       id: index,
       name: layerObj.name,
       elements: getElements(`${layersDir}/${layerObj.name}/`, layerObj), // array of all images in
-
     };
   });
   return layers;
@@ -157,11 +151,12 @@ const drawBackground = () => {
   ctx.fillRect(0, 0, format.width, format.height);
 };
 
-const addMetadata = (_dna, _edition) => {
+const addMetadata = (_dna, _edition, _prefixData) => {
   let dateTime = Date.now();
+  const { _prefix, _offset } = _prefixData;
   let tempMetadata = {
     dna: sha1(_dna.join("")),
-    name: `#${_edition}`,
+    name: `${_prefix ? _prefix + " " : ""}#${_edition - _offset}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
     edition: _edition,
@@ -385,7 +380,6 @@ const startCreating = async () => {
           loadedElements.push(loadLayerImg(layer));
         });
 
-
         await Promise.all(loadedElements).then((renderObjectArray) => {
           debugLogs ? console.log("Clearing canvas") : null;
           ctx.clearRect(0, 0, format.width, format.height);
@@ -399,7 +393,27 @@ const startCreating = async () => {
             ? console.log("Editions left to create: ", abstractedIndexes)
             : null;
           saveImage(abstractedIndexes[0]);
-          addMetadata(newDna, abstractedIndexes[0]);
+
+          // Metadata options
+          // if there's a prefix for the current configIndex, then
+          // start count back at 1 for the name, only.
+          const _prefix = layerConfigurations[layerConfigIndex].namePrefix
+            ? layerConfigurations[layerConfigIndex].namePrefix
+            : null;
+          // if resetNameIndex is turned on, calculate the offset and send it
+          // with the prefix
+          let _offset = 0;
+          if (layerConfigurations[layerConfigIndex].resetNameIndex) {
+            _offset = layerConfigurations.reduce((acc, layer, index) => {
+              if (index < layerConfigIndex) {
+                acc += layer.growEditionSizeTo;
+                return acc;
+              }
+              return acc;
+            }, 0);
+          }
+          addMetadata(newDna, abstractedIndexes[0], { _prefix, _offset });
+
           saveMetaDataSingleFile(abstractedIndexes[0]);
           console.log(
             `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(

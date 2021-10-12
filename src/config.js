@@ -10,18 +10,22 @@ const baseUri = "ipfs://NewUriToReplace";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 2,
-    layersOrder: [
-      { name: "Background" },
-      { name: "Female Hair", trait: 'Hair' },
-    ],
-  },
-  {
     growEditionSizeTo: 5,
+    namePrefix: "Monkey",
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
-      { name: "Male Hair", trait: 'Hair' },
+      { name: "Female Hair", trait: "Hair" },
+    ],
+  },
+  {
+    growEditionSizeTo: 10,
+    namePrefix: "Lion",
+    resetNameIndex: true, // this will start the Lion count at #1 instead of #6
+    layersOrder: [
+      { name: "Background" },
+      { name: "Eyeball" },
+      { name: "Male Hair", trait: "Hair" },
     ],
   },
 ];
