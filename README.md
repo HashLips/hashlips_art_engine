@@ -7,6 +7,20 @@
       - [Required files](#required-files)
   - [Metadata Name + Number](#name---number-prefix-and-reset-for-configuration-sets)
   - [Flagging Incompatible layers](#flagging-incompatible-layers)
+  - [Output Files as JPEG](#outputting-jpegs)
+
+🙇🙇🙇
+
+You can find me on twitter or Discord,
+
+- Twitter: https://twitter.com/nftchef
+- Discord genkihagata#3074
+- Support my Current project: https://twitter.com/0n10nDivision
+
+❤️ no need to send anything, however, many of you asked for my wallet address 🙇:
+`0xeB23ecf1fa9911fca08ecAbe83d426b6bd525bB0`
+
+🙇🙇🙇
 
 # Nested Layer Support and Trait Type definition modification/branch
 
@@ -111,13 +125,23 @@ const incompatible = {
 
 ⚠️ NOTE: This relies on the layer order to set incompatible DNA sets. For example the key should be the image/layer that comes first (from top to bottom) in the layerConfiguration. in other words, IF the item (KEY) is chosen, then, the generator will know not to pick any of the items in the `[Array]` that it lists.
 
+## Outputting Jpegs
+
+If you're working with higher res, it's recommended for your storage-costs-sake to output the image to jpeg, to enable this, set `outputJPEG` in `config.js` to `true`.
+
+```js
+const outputJPEG = true; // if false, the generator outputs png's
+```
+
+⚠️ NOTE: If you're running an M1 Mac, you may run into issues with canvas outputting jpegs and may require additional libraries (e.g. Cairo) to solve and may not work at this time.
+
 <br/>
 <hr/>
 <br/>
+<br/>
+<br/>
 
 # This is a fork of the HashLips Art Engine 🔥
-
-![](https://github.com/HashLips/hashlips_art_engine/blob/main/banner.png)
 
 Create generative art by using the canvas api and node js. Before you use the generation engine, make sure you have node.js installed.
 

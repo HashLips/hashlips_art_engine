@@ -7,6 +7,7 @@ const { MODE } = require(path.join(basePath, "src/blendMode.js"));
 const description =
   "This is the description of your NFT project, remember to replace this";
 const baseUri = "ipfs://NewUriToReplace";
+const outputJPEG = false; // if false, the generator outputs png's
 
 const layerConfigurations = [
   {
@@ -83,4 +84,5 @@ module.exports = {
   debugLogs,
   extraMetadata,
   incompatible,
+  outputJPEG,
 };

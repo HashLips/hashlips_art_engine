@@ -24,6 +24,7 @@ const {
   debugLogs,
   extraMetadata,
   incompatible,
+  outputJPEG,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -136,8 +137,8 @@ const layersSetup = (layersOrder) => {
 
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}.png`,
-    canvas.toBuffer("image/png")
+    `${buildDir}/images/${_editionCount}${outputJPEG ? ".jpg" : ".png"}`,
+    canvas.toBuffer(`${outputJPEG ? "image/jpeg" : "image/png"}`)
   );
 };
 
