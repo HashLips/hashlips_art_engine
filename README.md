@@ -103,7 +103,7 @@ To set incompatible items, in the `incompatible` object, use the layer/images `c
 ```js
 const incompatible = {
   Red: ["Dark Long"],
-  "Name with spaces": : ["buzz","rare-Pink-Pompadour" ]
+  "Name with spaces": ["buzz","rare-Pink-Pompadour" ]
   // directory incompatible with directory example
   White: ["rare-Pink-Pompadour"],
 };
