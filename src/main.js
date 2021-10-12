@@ -23,6 +23,7 @@ const {
   shuffleLayerConfigurations,
   debugLogs,
   extraMetadata,
+  incompatible,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -237,9 +238,24 @@ const isDnaUnique = (_DnaList = [], _dna = []) => {
 
 // expecting to return an array of strings for each _layer_ that is picked,
 // should be a flattened list of all things that are picked randomly AND reqiured
-function pickRandomElement(layer, dnaSequence, parentId) {
+/**
+ *
+ * @param {Object} layer The main layer, defined in config.layerConfigurations
+ * @param {Array} dnaSequence Strings of layer to object mappings to nesting structure
+ * @param {Number*} parentId nested parentID, used during recursive calls for sublayers
+ * @param {Array*} incompatibleDNA Used to store incompatible layer names while building DNA
+ *  from the top down
+ * @returns Array DNA sequence
+ */
+function pickRandomElement(layer, dnaSequence, parentId, incompatibleDNA) {
   let totalWeight = 0;
-  layer.elements.forEach((element) => {
+  const compatibleLayers = layer.elements.filter(
+    (layer) => !incompatibleDNA.includes(layer.name)
+  );
+  if (compatibleLayers.length === 0) {
+    return dnaSequence;
+  }
+  compatibleLayers.forEach((element) => {
     // If there is no weight, it's required, always include it
     // If directory has %, that is % chance to enter the dir
     if (element.weight == "required" && !element.sublayer) {
@@ -252,34 +268,51 @@ function pickRandomElement(layer, dnaSequence, parentId) {
         element,
         dnaSequence,
         `${parentId}.${element.id}`,
-        true
+        incompatibleDNA
       );
     }
     if (element.weight !== "required") {
       totalWeight += element.weight;
     }
   });
+  // if the entire directory should be ignored…
+
   // number between 0 - totalWeight
-  const currentLayer = layer.elements.filter((l) => l.weight !== "required");
+  const currentLayers = compatibleLayers.filter((l) => l.weight !== "required");
+
   let random = Math.floor(Math.random() * totalWeight);
 
-  for (var i = 0; i < currentLayer.length; i++) {
+  for (var i = 0; i < currentLayers.length; i++) {
     // subtract the current weight from the random weight until we reach a sub zero value.
-    random -= currentLayer[i].weight;
+    // Check if the picked image is in the incompatible list
+    random -= currentLayers[i].weight;
+
+    // e.g., directory, or, all files within a directory
     if (random < 0) {
+      // Check for incompatible layer configurations and only add incompatibilities IF
+      // chosing _this_ layer.
+      if (incompatible[currentLayers[i].name]) {
+        debugLogs
+          ? console.log(
+              `Adding the following to incompatible list`,
+              ...incompatible[currentLayers[i].name]
+            )
+          : null;
+        incompatibleDNA.push(...incompatible[currentLayers[i].name]);
+      }
       // if there's a sublayer, we need to concat the sublayers parent ID to the DNA srting
       // and recursively pick nested required and random elements
-      if (currentLayer[i].sublayer) {
+      if (currentLayers[i].sublayer) {
         return dnaSequence.concat(
           pickRandomElement(
-            currentLayer[i],
+            currentLayers[i],
             dnaSequence,
-            `${parentId}.${currentLayer[i].id}`
+            `${parentId}.${currentLayers[i].id}`,
+            incompatibleDNA
           )
         );
       }
-
-      let dnaString = `${parentId}.${currentLayer[i].id}:${currentLayer[i].filename}`;
+      let dnaString = `${parentId}.${currentLayers[i].id}:${currentLayers[i].filename}`;
       return dnaSequence.push(dnaString);
     }
   }
@@ -302,9 +335,10 @@ const sortLayers = (layers) => {
 
 const createDna = (_layers) => {
   let dnaSequence = [];
+  let incompatibleDNA = [];
   _layers.forEach((layer) => {
     const layerSequence = [];
-    pickRandomElement(layer, layerSequence, layer.id);
+    pickRandomElement(layer, layerSequence, layer.id, incompatibleDNA);
     const sortedLayers = sortLayers(layerSequence);
     dnaSequence = [...dnaSequence, [sortedLayers]];
   });

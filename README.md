@@ -1,3 +1,13 @@
+## Additional Features in this fork
+
+- [Nested Layer Support and Trait Type definition modification/branch](#nested-layer-support-and-trait-type-definition-modification-branch)
+  - [Example](#example)
+  - [Nesting structure](#nesting-structure)
+    - [Advanced options](#advanced-options)
+      - [Required files](#required-files)
+  - [Metadata Name + Number](#name---number-prefix-and-reset-for-configuration-sets)
+  - [Flagging Incompatible layers](#flagging-incompatible-layers)
+
 # Nested Layer Support and Trait Type definition modification/branch
 
 This branch of the Hashlips generator builds on the example (v.1.0.6) and allows you to _nest_ sub-folders within your top layer folders, and, optionally gives you a configuration option to overwrite the `trait_type` that is written to the metadata from those layers.
@@ -6,13 +16,13 @@ This branch of the Hashlips generator builds on the example (v.1.0.6) and allows
 
 The following example (included in this repository) uses multiple `layer_configurations` in `config.js` to generate male and female characters, as follows.
 
-```
+```js
 const layerConfigurations = [
   {
     growEditionSizeTo: 2,
     layersOrder: [
       { name: "Background" },
-      { name: "Female Hair", trait: 'Hair' },
+      { name: "Female Hair", trait: "Hair" },
     ],
   },
   {
@@ -20,7 +30,7 @@ const layerConfigurations = [
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
-      { name: "Male Hair", trait: 'Hair' },
+      { name: "Male Hair", trait: "Hair" },
     ],
   },
 ];
@@ -28,7 +38,7 @@ const layerConfigurations = [
 
 The Hair layers, exist as their own layers in the `layers` directory and use the `trait` key/property to overwrite the output metadata to always look like, the following, regardless of layer folder it is using–so both Male and Female art have a `Hair` trait.
 
-```
+```js
     {
         "trait_type": "Hair",
         "value": "Rainbow Ombre"
@@ -45,15 +55,15 @@ For the example above, `Female Hair` can be read as:
 
 > Female Hair layer is required from config -> Randomly select either `common` or `rare` with a respective chance of `70% / 30%`. If Common is chosen, randomly pick between Dark Long (20% chance) or Dark Short (20%)
 
-### Advanced options
+## Advanced options
 
-## Required files
+### Required files
 
 Additionally, `png` files that ommit a rarity weight **will be included** always and are considered "required".
 
 This means, that if you need multiple images to construct a single "trait", e.g., lines layer and fill layer, you could do the following:
 
-```
+```js
 HAIR
 |-- Special Hair#10
 |----- 1-line-layer.png
@@ -62,7 +72,7 @@ HAIR
 
 Where the containing folder will define the traits _rarity_ and in the event that it is selected as part of the randomization, BOTH nested images will be included in the final result, in alphabetical oder–hence the 1, 2, numbering.
 
-## Name + Number prefix and reset for configuration sets
+# Name + Number prefix and reset for configuration sets
 
 If you are using the generator with multiple `layerConfiguration` objects to generate different species/genders/types, it is possible to add a name prefix and a reset counter for the name, so the token names start at `1` for each type.
 
@@ -82,25 +92,30 @@ for example, if you are creating multiple animals, and each animal should start 
 
 You may choose to omit the `resetNameIndex` or set it to false if you would instead like each layer set to use the token (\_edition) number in the name–it does this by default.
 
-# Welcome to HashLips 👄
+## Flagging Incompatible layers
 
-![](https://github.com/HashLips/hashlips_art_engine/blob/main/logo.png)
+Often it is useful to flag certain images that _should never be used with_ another image, for this, you can use the incompatible configuration in `config.js`
 
-All the code in these repos was created and explained by HashLips on the main YouTube channel.
+To set incompatible items, in the `incompatible` object, use the layer/images `cleanName` (the name without rarity weight, or .png extension) as a key, and create an array of incompatible layer names (again, clean names). Layers that have space or hyphens in their names should be wrapped in quotes
 
-To find out more please visit:
+⚠️ NOTE: Names are expected to be unique. if you have multiple files with the same name, you may accidentally exclude those images.
 
-[📺 YouTube](https://www.youtube.com/channel/UC1LV4_VQGBJHTJjEWUmy8nA)
+```js
+const incompatible = {
+  Red: ["Dark Long"],
+  "Name with spaces": : ["buzz","rare-Pink-Pompadour" ]
+  // directory incompatible with directory example
+  White: ["rare-Pink-Pompadour"],
+};
+```
 
-[👄 Discord](https://discord.com/invite/qh6MWhMJDN)
+⚠️ NOTE: This relies on the layer order to set incompatible DNA sets. For example the key should be the image/layer that comes first (from top to bottom) in the layerConfiguration. in other words, IF the item (KEY) is chosen, then, the generator will know not to pick any of the items in the `[Array]` that it lists.
 
-[💬 Telegram](https://t.me/hashlipsnft)
+<br/>
+<hr/>
+<br/>
 
-[🐦 Twitter](https://twitter.com/hashlipsnft)
-
-[ℹ️ Website](https://hashlips.online/HashLips)
-
-# HashLips Art Engine 🔥
+# This is a fork of the HashLips Art Engine 🔥
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/banner.png)
 
