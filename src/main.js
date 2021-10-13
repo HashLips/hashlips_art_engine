@@ -104,10 +104,12 @@ const getElements = (path, layer) => {
       if (lineage[lineage.length - typeAncestor].includes(rarityDelimiter)) {
         typeAncestor += 1;
       }
+
       element.trait =
         layer.trait !== undefined
           ? layer.trait
           : lineage[lineage.length - typeAncestor];
+
       element.traitValue = getTraitValueFromPath(element, lineage);
 
       return element;

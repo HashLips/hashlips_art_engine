@@ -15,7 +15,7 @@ const layerConfigurations = [
     namePrefix: "Monkey",
     layersOrder: [
       { name: "Background" },
-      { name: "Eyeball" },
+      { name: "Hats" },
       { name: "Female Hair", trait: "Hair" },
     ],
   },
@@ -25,8 +25,8 @@ const layerConfigurations = [
     resetNameIndex: true, // this will start the Lion count at #1 instead of #6
     layersOrder: [
       { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Male Hair", trait: "Hair" },
+      { name: "Hats" },
+      { name: "Male Hair" },
     ],
   },
 ];

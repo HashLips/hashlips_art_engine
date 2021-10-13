@@ -14,7 +14,14 @@ const {
 } = require(path.join(basePath, "/src/config.js"));
 
 const { getElements } = require("../src/main.js");
-
+class Rarity {
+  constructor(traitObj, editionSize) {
+    this.trait = traitObj.trait;
+    this.chance = traitObj.chance;
+    this.occurrence = traitObj.occurrence;
+    this.percentage = `${(this.occurrence / editionSize) * 100} of 100%`;
+  }
+}
 // read json data
 let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
 let data = JSON.parse(rawdata);
@@ -41,7 +48,12 @@ layerConfigurations.forEach((config) => {
           (name) => !name.split("/").reverse()[0].includes(rarityDelimiter)
         )
         // lastly, if the original layer name was removed during split, put it back
-        .map((pathname) => (pathname === "" ? layer.name : pathname)),
+        .map((pathname) => {
+          return {
+            name: pathname === "" ? layer.name : pathname,
+            ...(layer.trait !== undefined && { trait: layer.trait }),
+          };
+        }),
       // phew…we made it, fam
     ];
   }, []);
@@ -50,7 +62,7 @@ layerConfigurations.forEach((config) => {
   allLayers.forEach((layer) => {
     // get elements for each layer
     let elementsForLayer = [];
-    let elements = getElements(`${layersDir}/${layer}/`, layer);
+    let elements = getElements(`${layersDir}/${layer.name}/`, layer);
     // flatten all sublayer elements
     const allElements = flattenLayers(elements, "elements");
     allElements
@@ -65,11 +77,19 @@ layerConfigurations.forEach((config) => {
         elementsForLayer.push(rarityDataElement);
       });
 
-    const cleanLayerName = layer.split("/").reverse()[0];
+    // ...(element.trait !== undefined && {
+    //   rootTrait: layer.name,
+    // }),
+    const cleanLayerName = layer.name.split("/").reverse()[0];
+    const baseTrait = layer.trait ? layer.trait : cleanLayerName;
     // don't include duplicate layers
-    if (!rarityData.includes(cleanLayerName)) {
+    if (!rarityData.includes(baseTrait)) {
       // add elements for each layer to chart
-      rarityData[cleanLayerName] = elementsForLayer;
+      rarityData[baseTrait] = {
+        baseTrait,
+        name: layer.name,
+        elements: elementsForLayer,
+      };
     }
   });
 });
@@ -90,10 +110,12 @@ data.forEach((element) => {
     .filter((attr) => !filterKeys.includes(attr.trait_type))
     .forEach((attribute) => {
       let traitType = attribute.trait_type;
+      // Check if the trait has been overwritten
+
       let value = attribute.value;
 
       let rarityDataTraits = rarityData[traitType];
-      rarityDataTraits.forEach((rarityDataTrait) => {
+      rarityDataTraits.elements.forEach((rarityDataTrait) => {
         if (rarityDataTrait.trait == value) {
           // keep track of occurrences
           rarityDataTrait.occurrence++;
@@ -102,26 +124,18 @@ data.forEach((element) => {
     });
 });
 
-// convert occurrences to percentages
-for (var layer in rarityData) {
-  for (var attribute in rarityData[layer]) {
-    // convert to percentage
-    rarityData[layer][attribute].occurrence =
-      (rarityData[layer][attribute].occurrence / editionSize) * 100;
-
-    // show two decimal places in percent
-    rarityData[layer][attribute].occurrence =
-      rarityData[layer][attribute].occurrence.toFixed(0) + "% out of 100%";
-  }
-}
-
 // print out rarity data
 for (var layer in rarityData) {
   console.log(`Trait type: ${layer}`);
-  for (var trait in rarityData[layer]) {
-    console.log(rarityData[layer][trait]);
+  const output = {};
+  for (var trait in rarityData[layer].elements) {
+    //   console.table(rarityData[layer].elements[trait]);
+    output[rarityData[layer].elements[trait].trait] = new Rarity(
+      rarityData[layer].elements[trait],
+      editionSize
+    );
   }
-  console.log();
+  console.table(output, ["chance", "occurrence", "percentage"]);
 }
 
 /**

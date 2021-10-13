@@ -174,6 +174,7 @@ This also supports overwriting a trait normally assigned by the layer Name/folde
 
 # incompatibilities
 
+⚠️ Layer names are for example purposes only, the generator will generate proper, example metadata, _but the images generated will be ugly_
 ⚠️ `extraMetadata` has been repurposed for adding _additional_ attributes. If you need to have extra data aded to the top portion of the metadata, please reach out.
 
 <hr/>
