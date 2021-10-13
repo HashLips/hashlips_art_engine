@@ -99,10 +99,10 @@ const getElements = (path, layer) => {
       }
       if (weight === "required") {
         typeAncestor = element.sublayer ? 1 : 3;
-        // we need to check if the parent is required, or if it's a prop-folder
-        if (lineage[lineage.length - typeAncestor].includes(rarityDelimiter)) {
-          typeAncestor -= 1;
-        }
+      }
+      // we need to check if the parent is required, or if it's a prop-folder
+      if (lineage[lineage.length - typeAncestor].includes(rarityDelimiter)) {
+        typeAncestor += 1;
       }
       element.trait =
         layer.trait !== undefined

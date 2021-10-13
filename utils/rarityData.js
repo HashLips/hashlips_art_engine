@@ -7,7 +7,11 @@ const fs = require("fs");
 const layersDir = `${basePath}/layers`;
 
 console.log(path.join(basePath, "/src/config.js"));
-const { layerConfigurations } = require(path.join(basePath, "/src/config.js"));
+const {
+  layerConfigurations,
+  extraMetadata,
+  rarityDelimiter,
+} = require(path.join(basePath, "/src/config.js"));
 
 const { getElements } = require("../src/main.js");
 
@@ -22,44 +26,81 @@ let rarityData = [];
 layerConfigurations.forEach((config) => {
   let layers = config.layersOrder;
 
-  layers.forEach((layer) => {
+  // Get nested required subfolders and flatten them into layers
+  const allLayers = layers.reduce((acc, layer) => {
+    return [
+      ...acc,
+      ...getDirectoriesRecursive(`${basePath}/layers/${layer.name}`)
+        // get the last name in the long string path by splitting, then reversing
+        .map(
+          (pathname) =>
+            `${layer.name}${pathname.split(`${layer.name}`).reverse()[0]}`
+        )
+        // Then, filter out the folders with a weight, those are 'values' not trait_types
+        .filter(
+          (name) => !name.split("/").reverse()[0].includes(rarityDelimiter)
+        )
+        // lastly, if the original layer name was removed during split, put it back
+        .map((pathname) => (pathname === "" ? layer.name : pathname)),
+      // phew…we made it, fam
+    ];
+  }, []);
+  // .map((path) => path.split(`"/"`).reverse()[0])
+
+  allLayers.forEach((layer) => {
     // get elements for each layer
     let elementsForLayer = [];
-    let elements = getElements(`${layersDir}/${layer.name}/`);
-    elements.forEach((element) => {
-      // just get name and weight for each element
-      let rarityDataElement = {
-        trait: element.name,
-        chance: element.weight.toFixed(0),
-        occurrence: 0, // initialize at 0
-      };
-      elementsForLayer.push(rarityDataElement);
-    });
+    let elements = getElements(`${layersDir}/${layer}/`, layer);
+    // flatten all sublayer elements
+    const allElements = flattenLayers(elements, "elements");
+    allElements
+      // .filter((element) => !element.sublayer)
+      .forEach((element) => {
+        // just get name and weight for each element
+        let rarityDataElement = {
+          trait: element.name,
+          chance:
+            element.weight === "required" ? 100 : element.weight.toFixed(0),
+          occurrence: 0, // initialize at 0
+        };
+        elementsForLayer.push(rarityDataElement);
+      });
 
+    const cleanLayerName = layer.split("/").reverse()[0];
     // don't include duplicate layers
-    if (!rarityData.includes(layer.name)) {
+    if (!rarityData.includes(cleanLayerName)) {
       // add elements for each layer to chart
-      rarityData[layer.name] = elementsForLayer;
+      rarityData[cleanLayerName] = elementsForLayer;
     }
   });
 });
+
+/**
+ * Create an array of skippable keys to skip:
+ * - any trait added in extraMetadata
+ * - any traits that are overwritten in config.layerCOnfigurations
+ */
+const extra = extraMetadata().map((attr) => attr.trait_type);
+const filterKeys = [...extra];
 
 // fill up rarity chart with occurrences from metadata
 data.forEach((element) => {
   let attributes = element.attributes;
 
-  attributes.forEach((attribute) => {
-    let traitType = attribute.trait_type;
-    let value = attribute.value;
+  attributes
+    .filter((attr) => !filterKeys.includes(attr.trait_type))
+    .forEach((attribute) => {
+      let traitType = attribute.trait_type;
+      let value = attribute.value;
 
-    let rarityDataTraits = rarityData[traitType];
-    rarityDataTraits.forEach((rarityDataTrait) => {
-      if (rarityDataTrait.trait == value) {
-        // keep track of occurrences
-        rarityDataTrait.occurrence++;
-      }
+      let rarityDataTraits = rarityData[traitType];
+      rarityDataTraits.forEach((rarityDataTrait) => {
+        if (rarityDataTrait.trait == value) {
+          // keep track of occurrences
+          rarityDataTrait.occurrence++;
+        }
+      });
     });
-  });
 });
 
 // convert occurrences to percentages
@@ -83,3 +124,42 @@ for (var layer in rarityData) {
   }
   console.log();
 }
+
+/**
+ * Deep flatten util function for flattening all nested sublayer png's
+ * @param {Array} data array of layer objects
+ * @returns
+ */
+function flattenLayers(data, flatkey) {
+  return data.reduce(function (result, next) {
+    result.push(next);
+    if (next[flatkey]) {
+      result = result.concat(flattenLayers(next[flatkey]));
+      next[flatkey] = [];
+    }
+    return result;
+  }, []);
+}
+
+function flatten(lists) {
+  return lists.reduce((a, b) => a.concat(b), []);
+}
+
+function getDirectories(srcpath) {
+  return fs
+    .readdirSync(srcpath)
+    .map((file) => path.join(srcpath, file))
+    .filter((path) => fs.statSync(path).isDirectory());
+}
+
+function getDirectoriesRecursive(srcpath) {
+  return [
+    srcpath,
+    ...flatten(getDirectories(srcpath).map(getDirectoriesRecursive)),
+  ];
+}
+// const getDirectories = (source) =>
+//   fs
+//     .readdirSync(source, { withFileTypes: true })
+//     .filter((dirent) => dirent.isDirectory())
+//     .map((dirent) => dirent.name);

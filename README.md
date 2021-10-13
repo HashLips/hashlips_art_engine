@@ -1,3 +1,5 @@
+This repository is a fork from the original Hashlips generator and makes a couple of **fundamental changes** to how layers are expected to be named and organized. Please read this README's Nesting Structure section and the related Advanced options for a better understanding of how things should be named and organized.
+
 # Additional Features in this fork
 
 - [Nested Layer Support and Trait Type definition modification/branch](#nested-layer-support-and-trait-type-definition-modification-branch)
@@ -171,8 +173,6 @@ _Be sure to pass in a randomization function here, otherwise every json file wil
 This also supports overwriting a trait normally assigned by the layer Name/folder and file name. If you'd like to overwrite it with some other value, adding the _same_ trait in `extraMetadata` will overwrite the default trait/value in the generated metadata.
 
 # incompatibilities
-
-⚠️ `rarityData.js` is unsupported. This fork rewrites a lot of the logic for selecting elements to support subfolders, because of that, the rarityData tool still needs to be rewritten to output proper data
 
 ⚠️ `extraMetadata` has been repurposed for adding _additional_ attributes. If you need to have extra data aded to the top portion of the metadata, please reach out.
 
