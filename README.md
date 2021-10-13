@@ -9,10 +9,9 @@
 - [Flagging Incompatible layers](#flagging-incompatible-layers)
 - [Output Files as JPEG](#outputting-jpegs)
 - [ Metadata Display Types and Overrides](#metadata-display-types-and-overrides)
+- [Incompatibilities with original Hashlips](#incompatibilities)
 
-🙇🙇🙇
-
-You can find me on twitter or Discord,
+## 🙇🙇🙇 You can find me on twitter or Discord,
 
 - Twitter: https://twitter.com/nftchef
 - Discord genkihagata#3074
@@ -171,6 +170,13 @@ _Be sure to pass in a randomization function here, otherwise every json file wil
 
 This also supports overwriting a trait normally assigned by the layer Name/folder and file name. If you'd like to overwrite it with some other value, adding the _same_ trait in `extraMetadata` will overwrite the default trait/value in the generated metadata.
 
+# incompatibilities
+
+⚠️ `rarityData.js` is unsupported. This fork rewrites a lot of the logic for selecting elements to support subfolders, because of that, the rarityData tool still needs to be rewritten to output proper data
+
+⚠️ `extraMetadata` has been repurposed for adding _additional_ attributes. If you need to have extra data aded to the top portion of the metadata, please reach out.
+
+<hr/>
 <br/>
 <hr/>
 <br/>
