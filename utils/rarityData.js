@@ -54,13 +54,12 @@ layerConfigurations.forEach((config) => {
     // flatten all sublayer elements
     const allElements = flattenLayers(elements, "elements");
     allElements
-      // .filter((element) => !element.sublayer)
+      .filter((element) => element.weight !== "required")
       .forEach((element) => {
         // just get name and weight for each element
         let rarityDataElement = {
           trait: element.name,
-          chance:
-            element.weight === "required" ? 100 : element.weight.toFixed(0),
+          chance: element.weight.toFixed(0),
           occurrence: 0, // initialize at 0
         };
         elementsForLayer.push(rarityDataElement);
@@ -158,8 +157,3 @@ function getDirectoriesRecursive(srcpath) {
     ...flatten(getDirectories(srcpath).map(getDirectoriesRecursive)),
   ];
 }
-// const getDirectories = (source) =>
-//   fs
-//     .readdirSync(source, { withFileTypes: true })
-//     .filter((dirent) => dirent.isDirectory())
-//     .map((dirent) => dirent.name);
