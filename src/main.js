@@ -58,7 +58,8 @@ const cleanDna = (_str) => {
 };
 
 const cleanName = (_str) => {
-  const hasExtension = _str.endsWith(".png");
+  const extension = /\.[0-9a-zA-Z]+$/;
+  const hasExtension = extension.test(_str);
   let nameWithoutExtension = hasExtension ? _str.slice(0, -4) : _str;
   var nameWithoutWeight = nameWithoutExtension.split(rarityDelimiter).shift();
   return nameWithoutWeight;
@@ -68,11 +69,11 @@ const getElements = (path, layer) => {
   return fs
     .readdirSync(path)
     .filter((item) => {
-      console.log("Filtering items agains a regex", item);
       return !/(^|\/)\.[^\/\.]/g.test(item);
     })
     .map((i, index) => {
-      const sublayer = !i.endsWith(".png");
+      const extension = /\.[0-9a-zA-Z]+$/;
+      const sublayer = !extension.test(i);
       const weight = getRarityWeight(i);
 
       const element = {
@@ -129,9 +130,13 @@ const layersSetup = (layersOrder) => {
     return {
       id: index,
       name: layerObj.name,
-      elements: getElements(`${layersDir}/${layerObj.name}/`, layerObj), // array of all images in
+      elements: getElements(`${layersDir}/${layerObj.name}/`, layerObj),
+      ...(layerObj.display_type !== undefined && {
+        display_type: layerObj.display_type,
+      }),
     };
   });
+
   return layers;
 };
 
@@ -156,15 +161,25 @@ const drawBackground = () => {
 const addMetadata = (_dna, _edition, _prefixData) => {
   let dateTime = Date.now();
   const { _prefix, _offset } = _prefixData;
+
+  const combinedAttrs = [...attributesList, ...extraMetadata()];
+  const cleanedAttrs = combinedAttrs.reduce((acc, current) => {
+    const x = acc.find((item) => item.trait_type === current.trait_type);
+    if (!x) {
+      return acc.concat([current]);
+    } else {
+      return acc;
+    }
+  }, []);
+
   let tempMetadata = {
     dna: sha1(_dna.join("")),
     name: `${_prefix ? _prefix + " " : ""}#${_edition - _offset}`,
     description: description,
-    image: `${baseUri}/${_edition}.png`,
+    image: `${baseUri}/${_edition}${outputJPEG ? ".jpg" : ".png"}`,
     edition: _edition,
     date: dateTime,
-    ...extraMetadata,
-    attributes: attributesList,
+    attributes: cleanedAttrs,
     compiler: "HashLips Art Engine",
   };
   metadataList.push(tempMetadata);
@@ -173,13 +188,20 @@ const addMetadata = (_dna, _edition, _prefixData) => {
 
 const addAttributes = (_element) => {
   let selectedElement = _element.layer;
-  const attribute = {
+  const layerAttributes = {
     trait_type: _element.layer.trait,
     value: selectedElement.traitValue,
+    ...(_element.layer.display_type !== undefined && {
+      display_type: _element.layer.display_type,
+    }),
   };
-  if (attributesList.some((attr) => attr.trait_type === attribute.trait_type))
+  if (
+    attributesList.some(
+      (attr) => attr.trait_type === layerAttributes.trait_type
+    )
+  )
     return;
-  attributesList.push(attribute);
+  attributesList.push(layerAttributes);
 };
 
 const loadLayerImg = async (_layer) => {
@@ -227,6 +249,9 @@ const constructLayerToDna = (_dna = [], _layers = []) => {
       blendMode: layer.blendMode,
       opacity: layer.opacity,
       selectedElements: selectedElements,
+      ...(layer.display_type !== undefined && {
+        display_type: layer.display_type,
+      }),
     };
   });
   return mappedDnaToLayers;
@@ -254,6 +279,12 @@ function pickRandomElement(layer, dnaSequence, parentId, incompatibleDNA) {
     (layer) => !incompatibleDNA.includes(layer.name)
   );
   if (compatibleLayers.length === 0) {
+    debugLogs
+      ? console.log(
+          "No compatible layers in the directory, skipping",
+          layer.name
+        )
+      : null;
     return dnaSequence;
   }
   compatibleLayers.forEach((element) => {
@@ -393,7 +424,7 @@ const startCreating = async () => {
     abstractedIndexes = shuffle(abstractedIndexes);
   }
   debugLogs
-    ? console.log("Editions left to create: ", abstractedIndexes)
+    ? :("Editions left to create: ", abstractedIndexes)
     : null;
   while (layerConfigIndex < layerConfigurations.length) {
     const layers = layersSetup(
@@ -405,7 +436,9 @@ const startCreating = async () => {
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
-        console.log("DNA:", newDna);
+
+        debugLogs ? console.log("Created DNA:", newDna) : null;
+
         let loadedElements = [];
         // reduce the stacked and nested layer into a single array
         const allImages = results.reduce((images, layer) => {

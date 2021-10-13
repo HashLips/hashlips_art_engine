@@ -1,13 +1,14 @@
-## Additional Features in this fork
+# Additional Features in this fork
 
 - [Nested Layer Support and Trait Type definition modification/branch](#nested-layer-support-and-trait-type-definition-modification-branch)
   - [Example](#example)
   - [Nesting structure](#nesting-structure)
     - [Advanced options](#advanced-options)
       - [Required files](#required-files)
-  - [Metadata Name + Number](#name---number-prefix-and-reset-for-configuration-sets)
-  - [Flagging Incompatible layers](#flagging-incompatible-layers)
-  - [Output Files as JPEG](#outputting-jpegs)
+- [Metadata Name + Number](#name---number-prefix-and-reset-for-configuration-sets)
+- [Flagging Incompatible layers](#flagging-incompatible-layers)
+- [Output Files as JPEG](#outputting-jpegs)
+- [ Metadata Display Types and Overrides](#metadata-display-types-and-overrides)
 
 🙇🙇🙇
 
@@ -106,7 +107,7 @@ for example, if you are creating multiple animals, and each animal should start 
 
 You may choose to omit the `resetNameIndex` or set it to false if you would instead like each layer set to use the token (\_edition) number in the name–it does this by default.
 
-## Flagging Incompatible layers
+# Flagging Incompatible layers
 
 Often it is useful to flag certain images that _should never be used with_ another image, for this, you can use the incompatible configuration in `config.js`
 
@@ -125,7 +126,7 @@ const incompatible = {
 
 ⚠️ NOTE: This relies on the layer order to set incompatible DNA sets. For example the key should be the image/layer that comes first (from top to bottom) in the layerConfiguration. in other words, IF the item (KEY) is chosen, then, the generator will know not to pick any of the items in the `[Array]` that it lists.
 
-## Outputting Jpegs
+# Outputting Jpegs
 
 If you're working with higher res, it's recommended for your storage-costs-sake to output the image to jpeg, to enable this, set `outputJPEG` in `config.js` to `true`.
 
@@ -134,6 +135,41 @@ const outputJPEG = true; // if false, the generator outputs png's
 ```
 
 ⚠️ NOTE: If you're running an M1 Mac, you may run into issues with canvas outputting jpegs and may require additional libraries (e.g. Cairo) to solve and may not work at this time.
+
+## Metadata Display Types and Overrides
+
+If you need to add randomized values for traits and different display types supported by OpenSea, this branch re-purposes the `extraMetadata` configuration for that purpose.
+
+in config.js
+
+```js
+const extraMetadata = () => ([
+  {
+    // Optionally, if you need to overwrite one of your layers attributes.
+    // You can include the same name as the layer, here, and it will overwrite
+    //
+    "trait_type": "Bottom lid",
+    value:` Bottom lid # ${Math.random() * 100}`,
+    },
+  {
+    display_type: "boost_number",
+    trait_type: "Aqua Power",
+    value: Math.random() * 100,
+  },
+  {
+    display_type: "boost_number",
+    trait_type: "Mana",
+    value: Math.floor(Math.random() * 100),
+  },
+```
+
+You are free to define _extra_ traits that you want each generated image to include in it's metadata, e.g., **health**.
+
+_Be sure to pass in a randomization function here, otherwise every json file will result in the same value passed here._
+
+## Optional
+
+This also supports overwriting a trait normally assigned by the layer Name/folder and file name. If you'd like to overwrite it with some other value, adding the _same_ trait in `extraMetadata` will overwrite the default trait/value in the generated metadata.
 
 <br/>
 <hr/>
