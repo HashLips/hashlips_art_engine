@@ -1,0 +1,19 @@
+Index: src/config.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use strict\";\n\nconst path = require(\"path\");\nconst isLocal = typeof process.pkg === \"undefined\";\nconst basePath = isLocal ? process.cwd() : path.dirname(process.execPath);\nconst { MODE } = require(path.join(basePath, \"src/blendMode.js\"));\nconst description =\n  \"This is the description of your NFT project, remember to replace this\";\nconst baseUri = \"ipfs://QmZLTevyYJ9SjAFcaqaSzKsdJGkUHudna6SdW6fhy1QvcW\";\n\nconst layerConfigurations = [\n  {\n    growEditionSizeTo: 10,\n    layersOrder: [\n      { name: \"Background\" },\n      { name: \"Eyeball\" },\n      { name: \"Eye color\" },\n      { name: \"Iris\" },\n      { name: \"Shine\" },\n      { name: \"Bottom lid\" },\n      { name: \"Top lid\" },\n    ],\n  },\n  {\n    growEditionSizeTo: 20,\n    layersOrder: [\n      { name: \"Background\" },\n      { name: \"Eyeball\" },\n      { name: \"Eye color\" },\n      { name: \"Shine\" },\n      { name: \"Bottom lid\" },\n      { name: \"Top lid\" },\n    ],\n  },\n];\n\nconst shuffleLayerConfigurations = true;\n\nconst debugLogs = false;\n\nconst format = {\n  width: 512,\n  height: 512,\n};\n\nconst background = {\n  generate: true,\n  brightness: \"80%\",\n};\n\nconst extraMetadata = {};\n\nconst rarityDelimiter = \"#\";\n\nconst uniqueDnaTorrance = 10000;\n\nconst preview = {\n  thumbPerRow: 5,\n  thumbWidth: 50,\n  imageRatio: format.width / format.height,\n  imageName: \"preview.png\",\n};\n\nmodule.exports = {\n  format,\n  baseUri,\n  description,\n  background,\n  uniqueDnaTorrance,\n  layerConfigurations,\n  rarityDelimiter,\n  preview,\n  shuffleLayerConfigurations,\n  debugLogs,\n  extraMetadata,\n};\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/config.js b/src/config.js
+--- a/src/config.js	(revision d6c0d826da97de6235ad8104270f06a5914b08b7)
++++ b/src/config.js	(date 1633780225697)
+@@ -22,7 +22,7 @@
+     ],
+   },
+   {
+-    growEditionSizeTo: 20,
++    growEditionSizeTo: 12,
+     layersOrder: [
+       { name: "Background" },
+       { name: "Eyeball" },
