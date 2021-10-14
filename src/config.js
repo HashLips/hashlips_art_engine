@@ -5,20 +5,27 @@ const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const { MODE } = require(path.join(basePath, "src/blendMode.js"));
 const description =
-  "This is the description of your NFT project, remember to replace this";
-const baseUri = "ipfs://QmZLTevyYJ9SjAFcaqaSzKsdJGkUHudna6SdW6fhy1QvcW";
+  "This is an extension to the frenz of Toadz - Toadz World consists of landscape images that each represent a unique (un)natural habitat for a Toad to !vibe in.";
+const baseUri = "ipfs://REPLACE";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 20,
+    growEditionSizeTo: 100,
     layersOrder: [
-      { name: "Background" },
-      { name: "Border" },
-      { name: "Mark" },
-      { name: "Mouth" },
-      { name: "Nose" },
-      { name: "Eyes" },
-      { name: "Blood" }
+      { name: "Atmosphere" },
+      { name: "Sky" },
+      { name: "Celestial" },
+      { name: "Topology" },
+      { name: "Water" },
+      { name: "Residential" },
+      { name: "Surface" },
+      { name: "Landscape" },
+      { name: "Trees" },
+      { name: "FlyingObject" },
+      { name: "Homes" },
+      { name: "Monuments" },
+      { name: "Crypto" },
+      { name: "Vehicles" },
     ]
   }
 ];
@@ -28,8 +35,8 @@ const shuffleLayerConfigurations = true;
 const debugLogs = false;
 
 const format = {
-  width: 200,
-  height: 200,
+  width: 900,
+  height: 432,
 };
 
 const background = {
