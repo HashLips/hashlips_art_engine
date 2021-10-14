@@ -10,22 +10,21 @@ const baseUri = "ipfs://REPLACE";
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 100,
+    growEditionSizeTo: 70,
     layersOrder: [
       { name: "Atmosphere" },
       { name: "Sky" },
       { name: "Celestial" },
       { name: "Topology" },
       { name: "Water" },
-      { name: "Residential" },
       { name: "Surface" },
-      { name: "Landscape" },
+      // { name: "Landscape" },
+      { name: "Homes_New" },
+      // { name: "Residential" },
+      // { name: "Monuments" },
       { name: "Trees" },
-      { name: "FlyingObject" },
-      { name: "Homes" },
-      { name: "Monuments" },
-      { name: "Crypto" },
-      { name: "Vehicles" },
+      // { name: "FlyingObject" },
+      // { name: "FlyingObject" },
     ]
   }
 ];
