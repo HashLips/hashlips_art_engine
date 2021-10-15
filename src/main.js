@@ -11,7 +11,6 @@ const { createCanvas, loadImage } = require(path.join(
 ));
 const buildDir = path.join(basePath, "/build");
 const layersDir = path.join(basePath, "/layers");
-console.log(path.join(basePath, "/src/config.js"));
 const {
   format,
   baseUri,
@@ -23,6 +22,7 @@ const {
   shuffleLayerConfigurations,
   debugLogs,
   extraMetadata,
+  text,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -111,7 +111,7 @@ const genColor = () => {
 };
 
 const drawBackground = () => {
-  ctx.fillStyle = genColor();
+  ctx.fillStyle = background.static ? background.default : genColor();
   ctx.fillRect(0, 0, format.width, format.height);
 };
 
@@ -147,10 +147,32 @@ const loadLayerImg = async (_layer) => {
   });
 };
 
-const drawElement = (_renderObject) => {
+const addText = (_sig, x, y, size) => {
+  ctx.fillStyle = text.color;
+  ctx.font = `${text.weight} ${size}pt ${text.family}`;
+  ctx.textBaseline = text.baseline;
+  ctx.textAlign = text.align;
+  ctx.fillText(_sig, x, y);
+};
+
+const drawElement = (_renderObject, _index, _layersLen) => {
   ctx.globalAlpha = _renderObject.layer.opacity;
   ctx.globalCompositeOperation = _renderObject.layer.blend;
-  ctx.drawImage(_renderObject.loadedImage, 0, 0, format.width, format.height);
+  text.only
+    ? addText(
+        `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
+        text.xGap,
+        text.yGap * (_index + 1),
+        text.size
+      )
+    : ctx.drawImage(
+        _renderObject.loadedImage,
+        0,
+        0,
+        format.width,
+        format.height
+      );
+
   addAttributes(_renderObject);
 };
 
@@ -266,8 +288,12 @@ const startCreating = async () => {
           if (background.generate) {
             drawBackground();
           }
-          renderObjectArray.forEach((renderObject) => {
-            drawElement(renderObject);
+          renderObjectArray.forEach((renderObject, index) => {
+            drawElement(
+              renderObject,
+              index,
+              layerConfigurations[layerConfigIndex].layersOrder.length
+            );
           });
           debugLogs
             ? console.log("Editions left to create: ", abstractedIndexes)
