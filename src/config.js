@@ -33,7 +33,7 @@ const format = {
 };
 
 const text = {
-  only: true,
+  only: false,
   color: "#ffffff",
   size: 20,
   xGap: 40,
@@ -52,7 +52,7 @@ const pixelFormat = {
 const background = {
   generate: true,
   brightness: "80%",
-  static: true,
+  static: false,
   default: "#000000",
 };
 
