@@ -6,7 +6,6 @@ const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
 const layersDir = `${basePath}/layers`;
 
-console.log(path.join(basePath, "/src/config.js"));
 const { layerConfigurations } = require(path.join(basePath, "/src/config.js"));
 
 const { getElements } = require("../src/main.js");
@@ -35,11 +34,14 @@ layerConfigurations.forEach((config) => {
       };
       elementsForLayer.push(rarityDataElement);
     });
-
+    let layerName =
+      layer.options?.["displayName"] != undefined
+        ? layer.options?.["displayName"]
+        : layer.name;
     // don't include duplicate layers
     if (!rarityData.includes(layer.name)) {
       // add elements for each layer to chart
-      rarityData[layer.name] = elementsForLayer;
+      rarityData[layerName] = elementsForLayer;
     }
   });
 });
@@ -47,7 +49,6 @@ layerConfigurations.forEach((config) => {
 // fill up rarity chart with occurrences from metadata
 data.forEach((element) => {
   let attributes = element.attributes;
-
   attributes.forEach((attribute) => {
     let traitType = attribute.trait_type;
     let value = attribute.value;
