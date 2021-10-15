@@ -22,7 +22,7 @@ const saveProjectPreviewImage = async (_data) => {
   // Prepare canvas
   const previewCanvasWidth = thumbWidth * thumbPerRow;
   const previewCanvasHeight =
-    thumbHeight * Math.trunc(_data.length / thumbPerRow);
+    thumbHeight * Math.ceil(_data.length / thumbPerRow);
   // Shout from the mountain tops
   console.log(
     `Preparing a ${previewCanvasWidth}x${previewCanvasHeight} project preview with ${_data.length} thumbnails.`
