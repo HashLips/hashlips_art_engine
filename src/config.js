@@ -19,12 +19,12 @@ const layerConfigurations = [
       { name: "Water" },
       { name: "Surface" },
       // { name: "Landscape" },
-      { name: "Homes_New" },
+      // { name: "Homes_New" },
       // { name: "Residential" },
       // { name: "Monuments" },
-      { name: "Trees" },
+      // { name: "Trees" },
       // { name: "FlyingObject" },
-      // { name: "FlyingObject" },
+      { name: "Crypto" },
     ]
   }
 ];
