@@ -28,7 +28,8 @@ const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 var metadataList = [];
 var attributesList = [];
-var dnaList = [];
+var dnaList = new Set();
+const DNA_DELIMITER = '-';
 
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
@@ -109,7 +110,7 @@ const drawBackground = () => {
 const addMetadata = (_dna, _edition) => {
   let dateTime = Date.now();
   let tempMetadata = {
-    dna: sha1(_dna.join("")),
+    dna: sha1(_dna),
     name: `#${_edition}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
@@ -145,10 +146,10 @@ const drawElement = (_renderObject) => {
   addAttributes(_renderObject);
 };
 
-const constructLayerToDna = (_dna = [], _layers = []) => {
+const constructLayerToDna = (_dna = '', _layers = []) => {
   let mappedDnaToLayers = _layers.map((layer, index) => {
     let selectedElement = layer.elements.find(
-      (e) => e.id == cleanDna(_dna[index])
+      (e) => e.id == cleanDna(_dna.split(DNA_DELIMITER)[index])
     );
     return {
       name: layer.name,
@@ -160,9 +161,8 @@ const constructLayerToDna = (_dna = [], _layers = []) => {
   return mappedDnaToLayers;
 };
 
-const isDnaUnique = (_DnaList = [], _dna = []) => {
-  let foundDna = _DnaList.find((i) => i.join("") === _dna.join(""));
-  return foundDna == undefined ? true : false;
+const isDnaUnique = (_DnaList = new Set(), _dna = '') => {
+  return !_DnaList.has(_dna);
 };
 
 const createDna = (_layers) => {
@@ -184,7 +184,7 @@ const createDna = (_layers) => {
       }
     }
   });
-  return randNum;
+  return randNum.join(DNA_DELIMITER);
 };
 
 const writeMetaData = (_data) => {
@@ -269,11 +269,11 @@ const startCreating = async () => {
           saveMetaDataSingleFile(abstractedIndexes[0]);
           console.log(
             `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
-              newDna.join("")
+              newDna
             )}`
           );
         });
-        dnaList.push(newDna);
+        dnaList.add(newDna);
         editionCount++;
         abstractedIndexes.shift();
       } else {
