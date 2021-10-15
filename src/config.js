@@ -3,7 +3,7 @@
 const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
-const { MODE } = require(path.join(basePath, "src/blendMode.js"));
+const { MODE } = require("../constants/blend_mode.js");
 const description =
   "This is the description of your NFT project, remember to replace this";
 const baseUri = "ipfs://NewUriToReplace";
@@ -12,9 +12,22 @@ const layerConfigurations = [
   {
     growEditionSizeTo: 10,
     layersOrder: [
-      { name: "Background" },
+      {
+        name: "Background",
+        options: {
+          blend: MODE.destinationIn,
+          opcacity: 0.4,
+          displayName: "BackGround Extra",
+        },
+      },
       { name: "Eyeball" },
-      { name: "Eye color" },
+      {
+        name: "Eye color",
+        options: {
+          blend: MODE.colorBurn,
+          displayName: "Awesome Color",
+        },
+      },
       { name: "Iris" },
       { name: "Shine" },
       { name: "Bottom lid" },
@@ -30,6 +43,10 @@ const debugLogs = false;
 const format = {
   width: 512,
   height: 512,
+};
+
+const pixelFormat = {
+  ratio: 2 / 128,
 };
 
 const background = {
@@ -62,4 +79,5 @@ module.exports = {
   shuffleLayerConfigurations,
   debugLogs,
   extraMetadata,
+  pixelFormat,
 };
