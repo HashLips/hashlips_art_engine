@@ -10,7 +10,7 @@ const baseUri = "ipfs://NewUriToReplace";
 
 const metaplexCollectionName = "PROJECT_NAME";
 const metaplexCollectionFamily = "PROJECT_FAMILY"; // Many projects can belong to one family
-const metaplexRoyaltyFee = 690;
+const metaplexRoyaltyFee = 200; // This is 2% royalty fee
 const metaplexCreators = [
   {
     address: "WALLET_ADDRESS", // Wallet address for royalties
