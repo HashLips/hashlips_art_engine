@@ -8,6 +8,16 @@ const description =
   "This is the description of your NFT project, remember to replace this";
 const baseUri = "ipfs://NewUriToReplace";
 
+const metaplexCollectionName = "PROJECT_NAME";
+const metaplexCollectionFamily = "PROJECT_FAMILY"; // Many projects can belong to one family
+const metaplexRoyaltyFee = 690;
+const metaplexCreators = [
+  {
+    address: "WALLET_ADDRESS", // Wallet address for royalties
+    share: 100 // Amount of shares for this wallet, can be more than one, all have to add up to 100 together
+  },
+];
+
 const layerConfigurations = [
   {
     growEditionSizeTo: 5,
@@ -72,7 +82,11 @@ const preview = {
 module.exports = {
   format,
   baseUri,
+  metaplexCollectionName,
+  metaplexCollectionFamily,
   description,
+  metaplexRoyaltyFee,
+  metaplexCreators,
   background,
   uniqueDnaTorrance,
   layerConfigurations,
