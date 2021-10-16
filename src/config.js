@@ -65,7 +65,7 @@ const uniqueDnaTorrance = 10000;
 const preview = {
   thumbPerRow: 5,
   thumbWidth: 50,
-  imageRatio: format.width / format.height,
+  imageRatio: format.height / format.width,
   imageName: "preview.png",
 };
 
