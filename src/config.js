@@ -13,23 +13,41 @@ const layerConfigurations = [
     growEditionSizeTo: 5,
     layersOrder: [
       { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "Base" },
+      { name: "Eyes", 
+        options: {
+          displayName: "Awesome Eye Color",
+      }},
+      { name: "Clothes" },
+      { name: "Mouth" },
+      { name: "Chains" },
+      { name: "Nose" },
+      { name: "Hats" },
+    ],
+  },
+  {
+    growEditionSizeTo: 10,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Base" },
+      { name: "Eyes" },
+      { name: "Nips" },
+      { name: "BDSM" },
+      { name: "Mouth" },
+      { name: "Chains" },
+      { name: "Nose" },
+      { name: "Hats" },
     ],
   },
 ];
 
-const shuffleLayerConfigurations = false;
+const shuffleLayerConfigurations = true;
 
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 1640,
+  height: 2360,
 };
 
 const text = {
