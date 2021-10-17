@@ -15,6 +15,12 @@ const {
   format,
   baseUri,
   description,
+  addStats, // Import the module
+  addBoosts, // Import the module
+  addPercentage, // Import the module
+  addProperty, // Import the module
+  extraAttributes, // Import the module
+  nftName, // Import the module
   background,
   uniqueDnaTorrance,
   layerConfigurations,
@@ -115,19 +121,54 @@ const drawBackground = () => {
   ctx.fillRect(0, 0, format.width, format.height);
 };
 
+const createStats = () => {
+  addStats.forEach((stats) => {
+        attributesList.push(stats);
+      });
+};
+
+const createBoosts = () => {
+  addBoosts.forEach((boost) => {
+        attributesList.push(boost);
+      });
+};
+
+const createPercentage = () => {
+  addPercentage.forEach((percentage) => {
+        attributesList.push(percentage);
+      });
+};
+
+const createProperty = () => {
+  addProperty.forEach((prop) => {
+        attributesList.push(prop);
+      });
+};
+
 const addMetadata = (_dna, _edition) => {
   let dateTime = Date.now();
   let tempMetadata = {
     dna: sha1(_dna),
-    name: `#${_edition}`,
+    name: `${nftName}#${_edition}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
-    edition: _edition,
-    date: dateTime,
+    id: _edition, // I changed it to id cuz i got errors if i remove this
     ...extraMetadata,
     attributes: attributesList,
     compiler: "HashLips Art Engine",
   };
+  // This section will appear on attributes 
+  let edition = {
+      display_type: "number", 
+      trait_type: "Generation", 
+      value: _edition
+   };
+   let birthday = {
+      display_type: "date", 
+      trait_type: "Birthday", 
+      value: dateTime
+   };
+  attributesList.push(edition, birthday);
   metadataList.push(tempMetadata);
   attributesList = [];
 };
@@ -222,7 +263,7 @@ const writeMetaData = (_data) => {
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
-  let metadata = metadataList.find((meta) => meta.edition == _editionCount);
+  let metadata = metadataList.find((meta) => meta.id == _editionCount);
   debugLogs
     ? console.log(
         `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
@@ -273,6 +314,18 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
+      if (extraAttributes.stats) {
+        createStats();
+      }
+      if (extraAttributes.boosts) {
+        createBoosts();
+      }
+      if (extraAttributes.percenatge) {
+        createPercentage();
+      }
+      if (extraAttributes.percentage) {
+        createProperty();
+      }
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
