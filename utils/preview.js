@@ -37,7 +37,7 @@ const saveProjectPreviewImage = async (_data) => {
   // Don't want to rely on "edition" for assuming index
   for (let index = 0; index < _data.length; index++) {
     const nft = _data[index];
-    await loadImage(`${buildDir}/images/${nft.edition}.png`).then((image) => {
+    await loadImage(`${buildDir}/images/${nft.id}.png`).then((image) => {
       previewCtx.drawImage(
         image,
         thumbWidth * (index % thumbPerRow),
