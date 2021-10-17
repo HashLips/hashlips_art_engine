@@ -14,9 +14,9 @@ let data = JSON.parse(rawdata);
 
 data.forEach((item) => {
   item.description = description;
-  item.image = `${baseUri}/${item.edition}.png`;
+  item.image = `${baseUri}/${item.id}.png`;
   fs.writeFileSync(
-    `${basePath}/build/json/${item.edition}.json`,
+    `${basePath}/build/json/${item.id}.json`,
     JSON.stringify(item, null, 2)
   );
 });
