@@ -14,6 +14,7 @@ This repository is a fork from the original Hashlips generator and makes a coupl
 - [ Metadata Display Types and Overrides](#metadata-display-types-and-overrides)
 - [Incompatibilities with original Hashlips](#incompatibilities)
 - [Provenance Hash Generation](#provenance-hash-generation)
+- [UTIL: Remove traits from Metadata](#Remove-Trait-Util)
 
 ## 🙇🙇🙇 You can find me on twitter or Discord,
 
@@ -221,6 +222,31 @@ run the following util
 
 ⚠️ Layer names are for example purposes only, the generator will generate proper, example metadata, _but the images generated will be ugly_
 ⚠️ `extraMetadata` has been repurposed for adding _additional_ attributes. If you need to have extra data aded to the top portion of the metadata, please reach out.
+
+# Remove Trait Util
+
+If you need to remove a trait from the generated `attributes` for ALL the generated metadata .json files, you can use the `removeTrait` util command.
+
+```
+node utils/removeTrait.js "Trait Name"
+```
+
+If you would like to print additional logging, use the `-d` flag
+
+```
+node utils/removeTrait.js "Background" -d
+```
+
+### Example:
+
+For example, if you are using a `Backgrounds` layer and would prefer to remove that as a trait from the generated json,
+First, generate the images and json as usual, then, running the remove trait util
+
+```
+node utils/removeTrait.js "Background"
+```
+
+Will remove the background trait from all metadata files.
 
 <hr/>
 <br/>

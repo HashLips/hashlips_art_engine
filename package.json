@@ -20,6 +20,7 @@
   "dependencies": {
     "canvas": "^2.8.0",
     "chalk": "^4.1.2",
+    "commander": "^8.2.0",
     "keccak256": "^1.0.3"
   }
 }
