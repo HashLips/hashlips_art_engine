@@ -27,6 +27,7 @@ const {
   extraMetadata,
   incompatible,
   outputJPEG,
+  emptyLayerName,
   hashImages,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
@@ -290,6 +291,7 @@ const isDnaUnique = (_DnaList = [], _dna = []) => {
  */
 function pickRandomElement(layer, dnaSequence, parentId, incompatibleDNA) {
   let totalWeight = 0;
+
   const compatibleLayers = layer.elements.filter(
     (layer) => !incompatibleDNA.includes(layer.name)
   );
@@ -358,6 +360,11 @@ function pickRandomElement(layer, dnaSequence, parentId, incompatibleDNA) {
             incompatibleDNA
           )
         );
+      }
+
+      // none/empty layer handler
+      if (currentLayers[i].name === emptyLayerName) {
+        return dnaSequence;
       }
       let dnaString = `${parentId}.${currentLayers[i].id}:${currentLayers[i].filename}`;
       return dnaSequence.push(dnaString);

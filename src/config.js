@@ -11,7 +11,11 @@ const layersDir = path.join(basePath, "/layers");
 const description =
   "This is the description of your NFT project, remember to replace this";
 const baseUri = "ipfs://NewUriToReplace";
+
 const outputJPEG = false; // if false, the generator outputs png's
+
+// if you use an empty/transparent file, set the name here.
+const emptyLayerName = "NONE";
 
 //IF you need a provenance hash, turn this on
 const hashImages = true;
@@ -117,5 +121,6 @@ module.exports = {
   extraMetadata,
   incompatible,
   outputJPEG,
+  emptyLayerName,
   hashImages,
 };

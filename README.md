@@ -8,6 +8,7 @@ This repository is a fork from the original Hashlips generator and makes a coupl
     - [Advanced options](#advanced-options)
       - [Required files](#required-files)
 - [Metadata Name + Number](#name---number-prefix-and-reset-for-configuration-sets)
+- [Chance of "NONE" or skipping a trait](#Chance-of-"NONE"-or-skipping-a-trait)
 - [Flagging Incompatible layers](#flagging-incompatible-layers)
 - [Output Files as JPEG](#outputting-jpegs)
 - [ Metadata Display Types and Overrides](#metadata-display-types-and-overrides)
@@ -108,6 +109,27 @@ for example, if you are creating multiple animals, and each animal should start 
 ```
 
 You may choose to omit the `resetNameIndex` or set it to false if you would instead like each layer set to use the token (\_edition) number in the name–it does this by default.
+
+# Chance of "NONE" or skipping a trait
+
+If you would like any given layer or sublayer to have a chance at _rolling_ `NONE`, you can do this by adding a blank PNG to the folder, and giving it the name of `NONE` + the weight you would like to use for it's chance of being chosen–identical to any other layer.
+
+```
+NONE#20.png
+```
+
+By using this feature, the trait **will not be included in the metadata**. For example, rather than having `trait_type: 'Hat', value: 'NONE"` in the metadata, it will be skipped.
+
+## You can change the name
+
+If you need to change the name from "NONE" to something else, you can change the following in config.js
+
+```js
+// if you use an empty/transparent file, set the name here.
+const emptyLayerName = "NONE";
+```
+
+⚠️ NOTE: if you _would_ like the trait to appear as "NONE", change the empty layer name to something you are _not_ using. e.g., 'unused'.
 
 # Flagging Incompatible layers
 
