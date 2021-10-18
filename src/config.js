@@ -70,28 +70,28 @@ const background = {
 };
 
 const extraMetadata = () => [
-  {
-    // Optionally, if you need to overwrite one of your layers attributes.
-    // You can include the same name as the layer, here, and it will overwrite
-    //
-    trait_type: "Bottom lid",
-    value: ` Bottom lid # ${Math.random() * 100}`,
-  },
-  {
-    display_type: "boost_number",
-    trait_type: "Aqua Power",
-    value: Math.random() * 100,
-  },
-  {
-    display_type: "boost_number",
-    trait_type: "Health",
-    value: Math.random() * 100,
-  },
-  {
-    display_type: "boost_number",
-    trait_type: "Mana",
-    value: Math.floor(Math.random() * 100),
-  },
+  // Optionally, if you need to overwrite one of your layers attributes.
+  // You can include the same name as the layer, here, and it will overwrite
+  //
+  // {
+  // trait_type: "Bottom lid",
+  //   value: ` Bottom lid # ${Math.random() * 100}`,
+  // },
+  // {
+  //   display_type: "boost_number",
+  //   trait_type: "Aqua Power",
+  //   value: Math.random() * 100,
+  // },
+  // {
+  //   display_type: "boost_number",
+  //   trait_type: "Health",
+  //   value: Math.random() * 100,
+  // },
+  // {
+  //   display_type: "boost_number",
+  //   trait_type: "Mana",
+  //   value: Math.floor(Math.random() * 100),
+  // },
 ];
 
 const rarityDelimiter = "#";

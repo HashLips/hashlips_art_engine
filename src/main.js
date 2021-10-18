@@ -89,9 +89,14 @@ const getElements = (path, layer) => {
       const sublayer = !extension.test(i);
       const weight = getRarityWeight(i);
 
+      const blendMode = layer.blend != undefined ? layer.blend : "source-over";
+      const opacity = layer.opacity != undefined ? layer.opacity : 1;
+
       const element = {
         sublayer,
         weight,
+        blendMode,
+        opacity,
         id: index,
         name: cleanName(i),
         filename: i,
@@ -145,6 +150,9 @@ const layersSetup = (layersOrder) => {
     return {
       id: index,
       name: layerObj.name,
+      blendMode:
+        layerObj["blend"] != undefined ? layerObj["blend"] : "source-over",
+      opacity: layerObj["opacity"] != undefined ? layerObj["opacity"] : 1,
       elements: getElements(`${layersDir}/${layerObj.name}/`, layerObj),
       ...(layerObj.display_type !== undefined && {
         display_type: layerObj.display_type,
