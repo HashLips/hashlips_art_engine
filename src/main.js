@@ -4,15 +4,17 @@ const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
-const sha1 = require(path.join(basePath, "/node_modules/sha1"));
+const keccak256 = require("keccak256");
+
 const { createCanvas, loadImage } = require(path.join(
   basePath,
   "/node_modules/canvas"
 ));
-const buildDir = path.join(basePath, "/build");
-const layersDir = path.join(basePath, "/layers");
+
 console.log(path.join(basePath, "/src/config.js"));
 const {
+  buildDir,
+  layersDir,
   format,
   baseUri,
   description,
@@ -25,6 +27,7 @@ const {
   extraMetadata,
   incompatible,
   outputJPEG,
+  hashImages,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -63,6 +66,15 @@ const cleanName = (_str) => {
   let nameWithoutExtension = hasExtension ? _str.slice(0, -4) : _str;
   var nameWithoutWeight = nameWithoutExtension.split(rarityDelimiter).shift();
   return nameWithoutWeight;
+};
+
+/**
+ * Given some input, creates a sha256 hash.
+ * @param {Object} input
+ */
+const hash = (input) => {
+  const hashable = typeof input === Buffer ? input : JSON.stringify(input);
+  return keccak256(hashable).toString("hex");
 };
 
 const getElements = (path, layer) => {
@@ -162,7 +174,7 @@ const drawBackground = () => {
 
 const addMetadata = (_dna, _edition, _prefixData) => {
   let dateTime = Date.now();
-  const { _prefix, _offset } = _prefixData;
+  const { _prefix, _offset, _imageHash } = _prefixData;
 
   const combinedAttrs = [...attributesList, ...extraMetadata()];
   const cleanedAttrs = combinedAttrs.reduce((acc, current) => {
@@ -175,10 +187,11 @@ const addMetadata = (_dna, _edition, _prefixData) => {
   }, []);
 
   let tempMetadata = {
-    dna: sha1(_dna.join("")),
+    dna: hash(_dna),
     name: `${_prefix ? _prefix + " " : ""}#${_edition - _offset}`,
     description: description,
     image: `${baseUri}/${_edition}${outputJPEG ? ".jpg" : ".png"}`,
+    ...(hashImages === true && { imageHash: _imageHash }),
     edition: _edition,
     date: dateTime,
     attributes: cleanedAttrs,
@@ -465,6 +478,12 @@ const startCreating = async () => {
           saveImage(abstractedIndexes[0]);
 
           // Metadata options
+          const savedFile = fs.readFileSync(
+            `${buildDir}/images/${abstractedIndexes[0]}${
+              outputJPEG ? ".jpg" : ".png"
+            }`
+          );
+          const _imageHash = hash(savedFile);
           // if there's a prefix for the current configIndex, then
           // start count back at 1 for the name, only.
           const _prefix = layerConfigurations[layerConfigIndex].namePrefix
@@ -482,12 +501,16 @@ const startCreating = async () => {
               return acc;
             }, 0);
           }
-          addMetadata(newDna, abstractedIndexes[0], { _prefix, _offset });
+          addMetadata(newDna, abstractedIndexes[0], {
+            _prefix,
+            _offset,
+            _imageHash,
+          });
 
           saveMetaDataSingleFile(abstractedIndexes[0]);
           console.log(
-            `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
-              newDna.join("")
+            `Created edition: ${abstractedIndexes[0]}, with DNA: ${hash(
+              newDna
             )}`
           );
         });

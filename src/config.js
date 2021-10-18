@@ -4,10 +4,17 @@ const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const { MODE } = require(path.join(basePath, "src/blendMode.js"));
+
+const buildDir = path.join(basePath, "/build");
+const layersDir = path.join(basePath, "/layers");
+
 const description =
   "This is the description of your NFT project, remember to replace this";
 const baseUri = "ipfs://NewUriToReplace";
 const outputJPEG = false; // if false, the generator outputs png's
+
+//IF you need a provenance hash, turn this on
+const hashImages = true;
 
 const layerConfigurations = [
   {
@@ -95,6 +102,8 @@ const preview = {
 };
 
 module.exports = {
+  buildDir,
+  layersDir,
   format,
   baseUri,
   description,
@@ -108,4 +117,5 @@ module.exports = {
   extraMetadata,
   incompatible,
   outputJPEG,
+  hashImages,
 };

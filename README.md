@@ -12,6 +12,7 @@ This repository is a fork from the original Hashlips generator and makes a coupl
 - [Output Files as JPEG](#outputting-jpegs)
 - [ Metadata Display Types and Overrides](#metadata-display-types-and-overrides)
 - [Incompatibilities with original Hashlips](#incompatibilities)
+- [Provenance Hash Generation](#provenance-hash-generation)
 
 ## 🙇🙇🙇 You can find me on twitter or Discord,
 
@@ -171,6 +172,28 @@ _Be sure to pass in a randomization function here, otherwise every json file wil
 ## Optional
 
 This also supports overwriting a trait normally assigned by the layer Name/folder and file name. If you'd like to overwrite it with some other value, adding the _same_ trait in `extraMetadata` will overwrite the default trait/value in the generated metadata.
+
+# Provenance Hash Generation
+
+If you need to generate a provenance hash (and, yes, you should, [read about it here](https://medium.com/coinmonks/the-elegance-of-the-nft-provenance-hash-solution-823b39f99473) ), make sure the following in config.js is set to `true`
+
+```js
+//IF you need a provenance hash, turn this on
+const hashImages = true;
+```
+
+Then…
+After generating images and data, each metadata file will include an `imageHash` property, which is a Keccak256 hash of the output image.
+
+## To generate the **Provenance Hash**
+
+run the following util
+
+```
+  node utils/provenance.js
+```
+
+\*Note, if you regenerate the images, **You will also need to regenerate this hash**. Save the hash and add it to your contract.
 
 # incompatibilities
 
