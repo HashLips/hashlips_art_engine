@@ -3,6 +3,7 @@
 const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
+const { NETWORK } = require(path.join(basePath, "constants/network.js"));
 const fs = require("fs");
 const sha1 = require(path.join(basePath, "/node_modules/sha1"));
 const { createCanvas, loadImage } = require(path.join(
@@ -23,6 +24,9 @@ const {
   debugLogs,
   extraMetadata,
   text,
+  namePrefix,
+  network,
+  solanaMetadata,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -118,16 +122,42 @@ const drawBackground = () => {
 const addMetadata = (_dna, _edition) => {
   let dateTime = Date.now();
   let tempMetadata = {
-    dna: sha1(_dna),
-    name: `#${_edition}`,
+    name: `${namePrefix} #${_edition}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
+    dna: sha1(_dna),
     edition: _edition,
     date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
     compiler: "HashLips Art Engine",
   };
+  if (network == NETWORK.sol) {
+    tempMetadata = {
+      //Added metadata for solana
+      name: tempMetadata.name,
+      symbol: solanaMetadata.symbol,
+      description: tempMetadata.description,
+      //Added metadata for solana
+      seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
+      image: `image.png`,
+      //Added metadata for solana
+      external_url: solanaMetadata.external_url,
+      edition: _edition,
+      ...extraMetadata,
+      attributes: tempMetadata.attributes,
+      properties: {
+        files: [
+          {
+            uri: "image.png",
+            type: "image/png",
+          },
+        ],
+        category: "image",
+        creators: solanaMetadata.creators,
+      },
+    };
+  }
   metadataList.push(tempMetadata);
   attributesList = [];
 };
@@ -254,7 +284,7 @@ const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
   for (
-    let i = 1;
+    let i = network == NETWORK.sol ? 0 : 1;
     i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
     i++
   ) {
