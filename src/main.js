@@ -24,6 +24,7 @@ const {
   rarityDelimiter,
   shuffleLayerConfigurations,
   debugLogs,
+  extraAttributes,
   extraMetadata,
   incompatible,
   outputJPEG,
@@ -185,7 +186,7 @@ const addMetadata = (_dna, _edition, _prefixData) => {
   let dateTime = Date.now();
   const { _prefix, _offset, _imageHash } = _prefixData;
 
-  const combinedAttrs = [...attributesList, ...extraMetadata()];
+  const combinedAttrs = [...attributesList, ...extraAttributes()];
   const cleanedAttrs = combinedAttrs.reduce((acc, current) => {
     const x = acc.find((item) => item.trait_type === current.trait_type);
     if (!x) {
@@ -203,8 +204,9 @@ const addMetadata = (_dna, _edition, _prefixData) => {
     ...(hashImages === true && { imageHash: _imageHash }),
     edition: _edition,
     date: dateTime,
+    ...extraMetadata,
     attributes: cleanedAttrs,
-    compiler: "HashLips Art Engine",
+    compiler: "HashLips Art Engine - NFTChef fork",
   };
   metadataList.push(tempMetadata);
   attributesList = [];

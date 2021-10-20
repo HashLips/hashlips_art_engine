@@ -69,7 +69,9 @@ const background = {
   brightness: "80%",
 };
 
-const extraMetadata = () => [
+const extraMetadata = {};
+
+const extraAttributes = () => [
   // Optionally, if you need to overwrite one of your layers attributes.
   // You can include the same name as the layer, here, and it will overwrite
   //
@@ -118,6 +120,7 @@ module.exports = {
   preview,
   shuffleLayerConfigurations,
   debugLogs,
+  extraAttributes,
   extraMetadata,
   incompatible,
   outputJPEG,
