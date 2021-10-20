@@ -126,7 +126,7 @@ const layerConfigurations = [
         name: "Eye color",
         options: {
           blend: MODE.destinationIn,
-          opcacity: 0.2,
+          opacity: 0.2,
           displayName: "Awesome Eye Color",
         },
       },
