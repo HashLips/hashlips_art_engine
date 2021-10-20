@@ -4,15 +4,46 @@ const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const { MODE } = require(path.join(basePath, "constants/blend_mode.js"));
-const description =
-  "This is the description of your NFT project, remember to replace this";
-const baseUri = "ipfs://NewUriToReplace";
-const nftName = ""; // This is optional, if you want a name in your NFT ex. NFT - #1. The input should be like "NFT - "
+const { NETWORK } = require(path.join(basePath, "constants/network.js"));
 // Input the range of your random number to be the value of the trait
 let range = 5;
 // This generates a random number based on your specific range
 let random = Math.floor(Math.random() * range); 
 
+// Select your network
+const network = NETWORK.ethl;
+
+// Global Configuration appear on both Ethereum and Solana
+const description =
+  "This is the description of your NFT project, remember to replace this";
+const baseUri = "ipfs://NewUriToReplace";
+const nftName = ""; // This is optional, if you want a name in your NFT ex. NFT - #1. The input should be like "NFT - "
+
+// Solana Configuration
+  const solBase = {
+    symbol: "NOC",
+    seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
+    external_url: "https://www.youtube.com/c/hashlipsnft",
+    collection: {
+       name: "<name>",
+     family: "<family>" 
+    },
+  };
+  const solProperties = {
+    files: [
+      {
+        uri: "https://www.arweave.net/abcd5678?ext=png",
+        type: "image/png"
+      }
+    ],
+    category: "image",
+    creators: [
+      {
+        address: "<owner_address>",
+        share: 100
+      }
+    ]
+  };
 
 const layerConfigurations = [
   {
@@ -29,7 +60,7 @@ const layerConfigurations = [
   },
 ];
 
-// This is where the awesomeness begins bwahahhahaha
+// Rich Metadata standard for Ethereum
 const addStats = [
     {
       "trait_type": "Level", // This is the Level of your nft
@@ -67,6 +98,7 @@ const addProperty = [
   }
 ];
 
+// Just enable his this if you want rich metadata standard on Ethereum
 const extraAttributes ={
   stats:false,
   boosts:false,
@@ -131,6 +163,9 @@ module.exports = {
   addProperty, // Export the module
   extraAttributes, //Export the module
   nftName, // Export the module
+  network, // Export the module
+  solBase, // Export the module
+  solProperties, // Export the module
   uniqueDnaTorrance,
   layerConfigurations,
   rarityDelimiter,

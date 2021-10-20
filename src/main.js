@@ -3,6 +3,7 @@
 const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
+const { NETWORK } = require(path.join(basePath, "constants/network.js"));
 const fs = require("fs");
 const sha1 = require(path.join(basePath, "/node_modules/sha1"));
 const { createCanvas, loadImage } = require(path.join(
@@ -21,6 +22,9 @@ const {
   addProperty, // Import the module
   extraAttributes, // Import the module
   nftName, // Import the module
+  network, // Import the module
+  solBase, // Import the module
+  solProperties, // Import the module
   background,
   uniqueDnaTorrance,
   layerConfigurations,
@@ -163,11 +167,29 @@ const addMetadata = (_dna, _edition) => {
       trait_type: "Generation", 
       value: _edition
    };
-   let birthday = {
+  let birthday = {
       display_type: "date", 
       trait_type: "Birthday", 
       value: dateTime
    };
+  if (network == NETWORK.sol) {
+    tempMetadata = {
+      //Added metadata for solana
+      name: tempMetadata.name,
+      symbol: solBase.symbol,
+      description: tempMetadata.description,
+      //Added metadata for solana
+      seller_fee_basis_points: solBase.seller_fee_basis_points,
+      image: tempMetadata.image,
+      //Added metadata for solana
+      external_url: solBase.external_url,
+      id: _edition, 
+      ...extraMetadata,
+      attributes: tempMetadata.attributes,
+      collection: solBase.collection,
+      properties: solProperties
+    };
+  }
   attributesList.push(edition, birthday);
   metadataList.push(tempMetadata);
   attributesList = [];
@@ -295,7 +317,7 @@ const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
   for (
-    let i = 1;
+    let i = network == NETWORK.sol ? 0 : 1;
     i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
     i++
   ) {
