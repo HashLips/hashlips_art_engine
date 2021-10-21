@@ -9,11 +9,12 @@ const layersDir = `${basePath}/layers`;
 console.log(path.join(basePath, "/src/config.js"));
 const {
   layerConfigurations,
-  extraMetadata,
+  extraAttributes,
   rarityDelimiter,
 } = require(path.join(basePath, "/src/config.js"));
 
 const { getElements } = require("../src/main.js");
+
 class Rarity {
   constructor(traitObj, editionSize) {
     this.trait = traitObj.trait;
@@ -99,7 +100,7 @@ layerConfigurations.forEach((config) => {
  * - any trait added in extraMetadata
  * - any traits that are overwritten in config.layerCOnfigurations
  */
-const extra = extraMetadata().map((attr) => attr.trait_type);
+const extra = extraAttributes().map((attr) => attr.trait_type);
 const filterKeys = [...extra];
 
 // fill up rarity chart with occurrences from metadata
