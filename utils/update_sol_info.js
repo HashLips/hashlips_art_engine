@@ -15,9 +15,9 @@ let data = JSON.parse(rawdata);
 data.forEach((item) => {
   item.name = `${nftName}#${item.id}`;
   item.description = description;
-  item.image = `${baseUri}/${item.id}.png`;
   item.external_url = solBase.external_url;
   item.symbol = solBase.symbol;
+  item.image = `${baseUri}/${item.id}.png`;
   fs.writeFileSync(
     `${basePath}/build/json/${item.id}.json`,
     JSON.stringify(item, null, 2)
