@@ -32,5 +32,5 @@ fs.writeFileSync(
 console.log(`Updated baseUri for images to ===> ${baseUri}`);
 console.log(`Updated description for images to ===> ${description}`);
 console.log(`Updated name for images to ===> ${nftName}`);
-console.log(`Updated symbol for images to ===> ${symbol}`);
-console.log(`Updated external_url for images to ===> ${external_url}`);
+console.log(`Updated symbol for images to ===> ${solBase.symbol}`);
+console.log(`Updated external_url for images to ===> ${solBase.external_url}`);
