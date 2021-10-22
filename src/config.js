@@ -11,7 +11,7 @@ let range = 5;
 let random = Math.floor(Math.random() * range); 
 
 // Select your network
-const network = NETWORK.sol;
+const network = NETWORK.eth;
 
 // Global Configuration appear on both Ethereum and Solana
 const description =
