@@ -5,6 +5,7 @@ const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
 const keccak256 = require("keccak256");
+const chalk = require("chalk");
 
 const { createCanvas, loadImage } = require(path.join(
   basePath,
@@ -27,6 +28,7 @@ const {
   extraAttributes,
   extraMetadata,
   incompatible,
+  forcedCombinations,
   outputJPEG,
   emptyLayerName,
   hashImages,
@@ -296,11 +298,29 @@ const isDnaUnique = (_DnaList = [], _dna = []) => {
  * @param {Array} dnaSequence Strings of layer to object mappings to nesting structure
  * @param {Number*} parentId nested parentID, used during recursive calls for sublayers
  * @param {Array*} incompatibleDNA Used to store incompatible layer names while building DNA
+ * @param {Array*} forcedDNA Used to store forced layer selection combinations names while building DNA
  *  from the top down
  * @returns Array DNA sequence
  */
-function pickRandomElement(layer, dnaSequence, parentId, incompatibleDNA) {
+function pickRandomElement(
+  layer,
+  dnaSequence,
+  parentId,
+  incompatibleDNA,
+  forcedDNA
+) {
   let totalWeight = 0;
+  // Does this layer include a forcedDNA item? ya? just return it.
+  const forcedPick = layer.elements.find((element) =>
+    forcedDNA.includes(element.name)
+  );
+  if (forcedPick) {
+    debugLogs
+      ? console.log(chalk.yellowBright(`Force picking ${forcedPick.name}/n`))
+      : null;
+    let dnaString = `${parentId}.${forcedPick.id}:${forcedPick.filename}`;
+    return dnaSequence.push(dnaString);
+  }
 
   const compatibleLayers = layer.elements.filter(
     (layer) => !incompatibleDNA.includes(layer.name)
@@ -327,7 +347,8 @@ function pickRandomElement(layer, dnaSequence, parentId, incompatibleDNA) {
         element,
         dnaSequence,
         `${parentId}.${element.id}`,
-        incompatibleDNA
+        incompatibleDNA,
+        forcedDNA
       );
     }
     if (element.weight !== "required") {
@@ -359,6 +380,18 @@ function pickRandomElement(layer, dnaSequence, parentId, incompatibleDNA) {
           : null;
         incompatibleDNA.push(...incompatible[currentLayers[i].name]);
       }
+      // Similar to incompaticle, check for forced combos
+      if (forcedCombinations[currentLayers[i].name]) {
+        debugLogs
+          ? console.log(
+              chalk.bgYellowBright.black(
+                `\nSetting up the folling forced combinations for ${currentLayers[i].name}: `,
+                ...forcedCombinations[currentLayers[i].name]
+              )
+            )
+          : null;
+        forcedDNA.push(...forcedCombinations[currentLayers[i].name]);
+      }
       // if there's a sublayer, we need to concat the sublayers parent ID to the DNA srting
       // and recursively pick nested required and random elements
       if (currentLayers[i].sublayer) {
@@ -367,7 +400,8 @@ function pickRandomElement(layer, dnaSequence, parentId, incompatibleDNA) {
             currentLayers[i],
             dnaSequence,
             `${parentId}.${currentLayers[i].id}`,
-            incompatibleDNA
+            incompatibleDNA,
+            forcedDNA
           )
         );
       }
@@ -400,9 +434,16 @@ const sortLayers = (layers) => {
 const createDna = (_layers) => {
   let dnaSequence = [];
   let incompatibleDNA = [];
+  let forcedDNA = [];
   _layers.forEach((layer) => {
     const layerSequence = [];
-    pickRandomElement(layer, layerSequence, layer.id, incompatibleDNA);
+    pickRandomElement(
+      layer,
+      layerSequence,
+      layer.id,
+      incompatibleDNA,
+      forcedDNA
+    );
     const sortedLayers = sortLayers(layerSequence);
     dnaSequence = [...dnaSequence, [sortedLayers]];
   });

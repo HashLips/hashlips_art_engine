@@ -22,24 +22,28 @@ const hashImages = true;
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
-    namePrefix: "Monkey",
+    growEditionSizeTo: 11,
+    // namePrefix: "Monkey", Use to add a name to Metadata `name:`
     layersOrder: [
-      { name: "Background" },
-      { name: "Hats" },
-      { name: "Female Hair", trait: "Hair" },
+      { name: "Back Accessory" },
+      { name: "Head" },
+      { name: "Clothes" },
+      { name: "Eyes" },
+      { name: "Hair" },
+      { name: "Head Accessory" },
+      { name: "Shirt Accessories" },
     ],
   },
-  {
-    growEditionSizeTo: 10,
-    namePrefix: "Lion",
-    resetNameIndex: true, // this will start the Lion count at #1 instead of #6
-    layersOrder: [
-      { name: "Background" },
-      { name: "Hats" },
-      { name: "Male Hair" },
-    ],
-  },
+  // {
+  //   growEditionSizeTo: 10,
+  //   namePrefix: "Lion",
+  //   resetNameIndex: true, // this will start the Lion count at #1 instead of #6
+  //   layersOrder: [
+  //     { name: "Background" },
+  //     { name: "Hats" },
+  //     { name: "Male Hair" },
+  //   ],
+  // },
 ];
 
 /**
@@ -50,9 +54,22 @@ const layerConfigurations = [
  * accidentally set incompatibilities for the _wrong_ item.
  */
 const incompatible = {
-  Red: ["Dark Long"],
-  // directory incompatible with directory example
-  White: ["rare-Pink-Pompadour"],
+  //   Red: ["Dark Long"],
+  //   // directory incompatible with directory example
+  //   White: ["rare-Pink-Pompadour"],
+};
+
+/**
+ * Require combinations of files when constructing DNA, this bypasses the
+ * randomization and weights.
+ *
+ * The layer order matters here, the key (left side) is an item within
+ * the layer that comes first in the stack.
+ * the items in the array are "required" items that should be pulled from folders
+ * further in the stack
+ */
+const forcedCombinations = {
+  floral: ["MetallicShades", "Golden Sakura"],
 };
 
 const shuffleLayerConfigurations = false;
@@ -123,6 +140,7 @@ module.exports = {
   extraAttributes,
   extraMetadata,
   incompatible,
+  forcedCombinations,
   outputJPEG,
   emptyLayerName,
   hashImages,

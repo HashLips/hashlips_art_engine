@@ -10,12 +10,13 @@ This repository is a fork from the original Hashlips generator and makes a coupl
 - [Metadata Name + Number](#name---number-prefix-and-reset-for-configuration-sets)
 - [Chance of "NONE" or skipping a trait](#Chance-of-"NONE"-or-skipping-a-trait)
 - [Flagging Incompatible layers](#flagging-incompatible-layers)
+- [🧪 BETA: Forced Combinations](#beta:-forced-combinations)
 - [Output Files as JPEG](#outputting-jpegs)
 - [ Metadata Display Types and Overrides](#metadata-display-types-and-overrides)
-- [Incompatibilities with original Hashlips](#incompatibilities)
 - [Provenance Hash Generation](#provenance-hash-generation)
 - [UTIL: Remove traits from Metadata](#Remove-Trait-Util)
 - [Breaking Changes](#breaking-changes)
+- [Incompatibilities with original Hashlips](#incompatibilities)
 
 ## 🙇🙇🙇 You can find me on twitter or Discord,
 
@@ -151,6 +152,32 @@ const incompatible = {
 ```
 
 ⚠️ NOTE: This relies on the layer order to set incompatible DNA sets. For example the key should be the image/layer that comes first (from top to bottom) in the layerConfiguration. in other words, IF the item (KEY) is chosen, then, the generator will know not to pick any of the items in the `[Array]` that it lists.
+
+# BETA: Forced Combinations
+
+![10](https://user-images.githubusercontent.com/91582112/138395427-c8642f74-58d1-408b-94d1-7a97dda58d1a.jpg)
+
+When you need to force/require two images to work together that are in different root-layer-folders (the layer config), you can use the `forcedCombinations` object in `config.js`.
+
+```js
+const forcedCombinations = {
+  floral: ["MetallicShades", "Golden Sakura"],
+};
+```
+
+Using the _clean Name_ (file name without weight and .png extension), specify the key (if names have spaces, use quotes `"file name" :`)
+
+Then, create an array of names that should be required.
+
+Note: the layer order matters here. The key (name on the left) should be a file withing a layer that comes first in the `layersOrder` configuration, then, files that are required (in the array), should be files in layers _afterward_.
+
+### Debugging:
+
+set `debugLogging = true` in config to check whether files are being `set` and `picked` for the forced combinations. You should see output that looks like the following if it is wokring:
+
+![image](https://user-images.githubusercontent.com/91582112/138395944-31032584-f1e5-4b7e-b8c6-c6ad49f0d2ba.png)
+
+If not, double check your file names, layer ordering, and quotation marks.
 
 # Outputting Jpegs
 
