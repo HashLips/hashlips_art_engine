@@ -27,6 +27,7 @@ const {
   namePrefix,
   network,
   solanaMetadata,
+  gif,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -34,6 +35,12 @@ var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
 const DNA_DELIMITER = "-";
+const HashlipsGiffer = require(path.join(
+  basePath,
+  "/modules/HashlipsGiffer.js"
+));
+
+let hashlipsGiffer = null;
 
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
@@ -42,6 +49,9 @@ const buildSetup = () => {
   fs.mkdirSync(buildDir);
   fs.mkdirSync(path.join(buildDir, "/json"));
   fs.mkdirSync(path.join(buildDir, "/images"));
+  if (gif.export) {
+    fs.mkdirSync(path.join(buildDir, "/gifs"));
+  }
 };
 
 const getRarityWeight = (_str) => {
@@ -315,6 +325,17 @@ const startCreating = async () => {
         await Promise.all(loadedElements).then((renderObjectArray) => {
           debugLogs ? console.log("Clearing canvas") : null;
           ctx.clearRect(0, 0, format.width, format.height);
+          if (gif.export) {
+            hashlipsGiffer = new HashlipsGiffer(
+              canvas,
+              ctx,
+              `${buildDir}/gifs/${abstractedIndexes[0]}.gif`,
+              gif.repeat,
+              gif.quality,
+              gif.delay
+            );
+            hashlipsGiffer.start();
+          }
           if (background.generate) {
             drawBackground();
           }
@@ -324,7 +345,13 @@ const startCreating = async () => {
               index,
               layerConfigurations[layerConfigIndex].layersOrder.length
             );
+            if (gif.export) {
+              hashlipsGiffer.add();
+            }
           });
+          if (gif.export) {
+            hashlipsGiffer.stop();
+          }
           debugLogs
             ? console.log("Editions left to create: ", abstractedIndexes)
             : null;
