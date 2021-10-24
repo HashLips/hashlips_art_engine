@@ -260,6 +260,21 @@ const pixelFormat = {
 };
 ```
 
+### Generate pixelated images from collection
+
+In order to export gifs based on the layers created, you just need to set the export on the `gif` object in the `src/config.js` file to `true`. You can also play around with the `repeat`, `quality` and the `delay` of the exported gif.
+
+Setting the `repeat: -1` will produce a one time render and `repeat: 0` will loop forever.
+
+```js
+const gif = {
+  export: true,
+  repeat: 0,
+  quality: 100,
+  delay: 500,
+};
+```
+
 ### Printing rarity data (Experimental feature)
 
 To see the percentages of each attribute across your collection, run:

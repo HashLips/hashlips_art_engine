@@ -14,7 +14,7 @@ const description = "Remember to replace this description";
 const baseUri = "ipfs://NewUriToReplace";
 
 const solanaMetadata = {
-  symbol: "NOC",
+  symbol: "YC",
   seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
   external_url: "https://www.youtube.com/c/hashlipsnft",
   creators: [
@@ -48,6 +48,13 @@ const debugLogs = false;
 const format = {
   width: 512,
   height: 512,
+};
+
+const gif = {
+  export: false,
+  repeat: 0,
+  quality: 100,
+  delay: 500,
 };
 
 const text = {
@@ -104,4 +111,5 @@ module.exports = {
   namePrefix,
   network,
   solanaMetadata,
+  gif,
 };
