@@ -9,8 +9,8 @@ const { NETWORK } = require(path.join(basePath, "constants/network.js"));
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
+const namePrefix = "DUDES and DUDETTES";
+const description = "DUDES and DUDETTES nft collection";
 const baseUri = "ipfs://NewUriToReplace";
 
 const solanaMetadata = {
@@ -29,15 +29,7 @@ const solanaMetadata = {
 const layerConfigurations = [
   {
     growEditionSizeTo: 5,
-    layersOrder: [
-      { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
-    ],
+    layersOrder: [{ name: "Background" }, { name: "Bodies" }, { name: "Faces" }, { name: "Hair" }],
   },
 ];
 
@@ -46,8 +38,8 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 1920,
+  height: 1920,
 };
 
 const gif = {
