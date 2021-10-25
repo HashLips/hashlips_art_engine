@@ -94,6 +94,15 @@ const preview = {
   imageName: "preview.png",
 };
 
+const preview_gif = {
+  numberOfImages: 5,
+  order: 'ASC', // ASC, DESC, MIXED
+  repeat: 0,
+  quality: 100,
+  delay: 500,
+  imageName: "preview.gif",
+};
+
 module.exports = {
   format,
   baseUri,
@@ -112,4 +121,5 @@ module.exports = {
   network,
   solanaMetadata,
   gif,
+  preview_gif,
 };
