@@ -30,7 +30,11 @@ const layerConfigurations = [
   {
     growEditionSizeTo: 5,
     layersOrder: [
-      { name: "Background" },
+      { name: "Background", 
+        options: {
+          bypassDNA: true
+        } 
+      },
       { name: "Eyeball" },
       { name: "Eye color" },
       { name: "Iris" },
