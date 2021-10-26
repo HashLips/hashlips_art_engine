@@ -74,6 +74,16 @@ const forcedCombinations = {
 
 const shuffleLayerConfigurations = false;
 
+/**
+ * In the event that a filename cannot be the trait value name, for example when
+ * multiple items should have the same value, specify
+ * clean-filename: trait-value override pairs. Wrap filenames with spaces in quotes.
+ */
+const traitValueOverrides = {
+  Helmet: "Space Helmet",
+  "gold chain": "GOLDEN NECKLACE",
+};
+
 const debugLogs = true;
 
 const format = {
@@ -141,6 +151,7 @@ module.exports = {
   extraMetadata,
   incompatible,
   forcedCombinations,
+  traitValueOverrides,
   outputJPEG,
   emptyLayerName,
   hashImages,

@@ -2,17 +2,26 @@ This repository is a fork from the original Hashlips generator and makes a coupl
 
 # Additional Features in this fork
 
+## Nested Structures
+
 - [Nested Layer Support and Trait Type definition modification/branch](#nested-layer-support-and-trait-type-definition-modification-branch)
   - [Example](#example)
   - [Nesting structure](#nesting-structure)
     - [Advanced options](#advanced-options)
       - [Required files](#required-files)
 - [Metadata Name + Number](#name---number-prefix-and-reset-for-configuration-sets)
+
+## Options and conditional output
+
 - [Chance of "NONE" or skipping a trait](#Chance-of-"NONE"-or-skipping-a-trait)
 - [Flagging Incompatible layers](#flagging-incompatible-layers)
-- [🧪 BETA: Forced Combinations](#beta:-forced-combinations)
+- [Forced Combinations](#forced-combinations)
 - [Output Files as JPEG](#outputting-jpegs)
-- [ Metadata Display Types and Overrides](#metadata-display-types-and-overrides)
+- [ Attribute Display Types and Overrides](#attribute-display-types-and-overrides)
+- [ Trait Value Overrides](#trait-value-overrides)
+
+## Utils
+
 - [Provenance Hash Generation](#provenance-hash-generation)
 - [UTIL: Remove traits from Metadata](#Remove-Trait-Util)
 - [Breaking Changes](#breaking-changes)
@@ -153,7 +162,7 @@ const incompatible = {
 
 ⚠️ NOTE: This relies on the layer order to set incompatible DNA sets. For example the key should be the image/layer that comes first (from top to bottom) in the layerConfiguration. in other words, IF the item (KEY) is chosen, then, the generator will know not to pick any of the items in the `[Array]` that it lists.
 
-# BETA: Forced Combinations
+# Forced Combinations
 
 ![10](https://user-images.githubusercontent.com/91582112/138395427-c8642f74-58d1-408b-94d1-7a97dda58d1a.jpg)
 
@@ -223,6 +232,27 @@ _Be sure to pass in a randomization function here, otherwise every json file wil
 ## Optional
 
 This also supports overwriting a trait normally assigned by the layer Name/folder and file name. If you'd like to overwrite it with some other value, adding the _same_ trait in `extraMetadata` will overwrite the default trait/value in the generated metadata.
+
+# Trait Value Overrides
+
+🧪 BETA FEATURE
+
+When you need to override the `trait_value` generated in the metadata.
+
+By default trait values come from the file name _or_ subfolder that is _chosen_ (the last one in a nested structure with a weight delimiter).
+Because many options require the filenames to be unique, there may be a situation where you need to overwrite the default value. To do this, set the overrides in `config.js`
+
+```js
+/**
+ * In the event that a filename cannot be the trait value name, for example when
+ * multiple items should have the same value, specify
+ * clean-filename: trait-value override pairs. Wrap filenames with spaces in quotes.
+ */
+const traitValueOverrides = {
+  Helmet: "Space Helmet",
+  "gold chain": "GOLDEN NECKLACE",
+};
+```
 
 # Provenance Hash Generation
 

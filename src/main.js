@@ -29,6 +29,7 @@ const {
   extraMetadata,
   incompatible,
   forcedCombinations,
+  traitValueOverrides,
   outputJPEG,
   emptyLayerName,
   hashImages,
@@ -131,7 +132,9 @@ const getElements = (path, layer) => {
           ? layer.trait
           : lineage[lineage.length - typeAncestor];
 
-      element.traitValue = getTraitValueFromPath(element, lineage);
+      const rawTrait = getTraitValueFromPath(element, lineage);
+      const trait = processTraitOverrides(rawTrait);
+      element.traitValue = trait;
 
       return element;
     });
@@ -146,6 +149,15 @@ const getTraitValueFromPath = (element, lineage) => {
     // if the element is a png that is required, get the traitValue from the parent Dir
     return element.sublayer ? true : cleanName(lineage[lineage.length - 2]);
   }
+};
+
+/**
+ * Checks the override object for trait overrides
+ * @param {String} trait The default trait value from the path-name
+ * @returns String trait of either overridden value of raw default.
+ */
+const processTraitOverrides = (trait) => {
+  return traitValueOverrides[trait] ? traitValueOverrides[trait] : trait;
 };
 
 const layersSetup = (layersOrder) => {
