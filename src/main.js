@@ -322,6 +322,16 @@ function pickRandomElement(
     return dnaSequence.push(dnaString);
   }
 
+  if (incompatibleDNA.includes(layer.name) && layer.sublayer) {
+    debugLogs
+      ? console.log(
+          `Skipping incompatible sublayer directory, ${layer.name}`,
+          layer.name
+        )
+      : null;
+    return dnaSequence;
+  }
+
   const compatibleLayers = layer.elements.filter(
     (layer) => !incompatibleDNA.includes(layer.name)
   );
@@ -452,6 +462,10 @@ const createDna = (_layers) => {
 
 const writeMetaData = (_data) => {
   fs.writeFileSync(`${buildDir}/json/_metadata.json`, _data);
+};
+
+const writeDnaLog = (_data) => {
+  fs.writeFileSync(`${buildDir}/_dna.json`, _data);
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
@@ -589,6 +603,7 @@ const startCreating = async () => {
     layerConfigIndex++;
   }
   writeMetaData(JSON.stringify(metadataList, null, 2));
+  writeDnaLog(JSON.stringify(dnaList, null, 2));
 };
 
-module.exports = { startCreating, buildSetup, getElements };
+module.exports = { startCreating, buildSetup, getElements, layersSetup };
