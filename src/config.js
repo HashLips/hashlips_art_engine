@@ -30,11 +30,7 @@ const layerConfigurations = [
   {
     growEditionSizeTo: 5,
     layersOrder: [
-      { name: "Background", 
-        options: {
-          bypassDNA: true
-        } 
-      },
+      { name: "Background" },
       { name: "Eyeball" },
       { name: "Eye color" },
       { name: "Iris" },
@@ -100,7 +96,7 @@ const preview = {
 
 const preview_gif = {
   numberOfImages: 5,
-  order: 'ASC', // ASC, DESC, MIXED
+  order: "ASC", // ASC, DESC, MIXED
   repeat: 0,
   quality: 100,
   delay: 500,
