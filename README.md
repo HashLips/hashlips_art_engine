@@ -111,6 +111,8 @@ If you want to play around with different blending modes, you can add a `blend: 
 
 If you need a layers to have a different opacity then you can add the `opacity: 0.7` field to the layersOrder `options` object as well.
 
+If you want to have a layer _ignored_ in the DNA uniqueness check, you can set `bypassDNA: true` in the `options` object. This has the effect of making sure the rest of the traits are unique while not considering the `Background` Layers as traits, for example. The layers _are_ included in the final image.
+
 To use a different metadata attribute name you can add the `displayName: "Awesome Eye Color"` to the `options` object. All options are optional and can be addes on the same layer if you want to.
 
 Here is an example on how you can play around with both filter fields:
@@ -120,7 +122,11 @@ const layerConfigurations = [
   {
     growEditionSizeTo: 5,
     layersOrder: [
-      { name: "Background" },
+      { name: "Background" , {
+        options: {
+          bypassDNA: false;
+        }
+      }},
       { name: "Eyeball" },
       {
         name: "Eye color",

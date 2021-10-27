@@ -96,7 +96,7 @@ const preview = {
 
 const preview_gif = {
   numberOfImages: 5,
-  order: 'ASC', // ASC, DESC, MIXED
+  order: "ASC", // ASC, DESC, MIXED
   repeat: 0,
   quality: 100,
   delay: 500,
