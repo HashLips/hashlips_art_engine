@@ -41,7 +41,6 @@ const shuffleLayerConfigurations = false;
 
 const deterministicallyRandom = false;
 const seed = "Input Seed Here";
-const salt = "Add some salt to your seed";
 
 const debugLogs = false;
 
@@ -116,7 +115,6 @@ module.exports = {
   shuffleLayerConfigurations,
   deterministicallyRandom,
   seed,
-  salt,
   debugLogs,
   extraMetadata,
   pixelFormat,
