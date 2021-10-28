@@ -327,7 +327,7 @@ function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
   while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
+    randomIndex = Math.floor(psuedoRandom(currentIndex) * currentIndex);
     currentIndex--;
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
