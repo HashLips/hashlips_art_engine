@@ -24,7 +24,7 @@ This repository is a fork from the original Hashlips generator and makes a coupl
 
 - [Provenance Hash Generation](#provenance-hash-generation)
 - [UTIL: Remove traits from Metadata](#Remove-Trait-Util)
-- [Breaking Changes](#breaking-changes)
+- [Randomly Insert Rare items - Replace Util](#Randomly-Insert-Rare-items---Replace-Util)
 - [Incompatibilities with original Hashlips](#incompatibilities)
 
 ## 🙇🙇🙇 You can find me on twitter or Discord,
@@ -274,12 +274,9 @@ run the following util
   node utils/provenance.js
 ```
 
-\*Note, if you regenerate the images, **You will also need to regenerate this hash**. Save the hash and add it to your contract.
+**The Provenance information is saved** to the build directory in `_prevenance.json`. This file contains the final hash as well as the (long) concatednated hash string.
 
-# incompatibilities
-
-⚠️ Layer names are for example purposes only, the generator will generate proper, example metadata, _but the images generated will be ugly_
-⚠️ `extraMetadata` has been repurposed for adding _additional_ attributes. If you need to have extra data aded to the top portion of the metadata, please reach out.
+\*Note, if you regenerate the images, **You will also need to regenerate this hash**.
 
 # Remove Trait Util
 
@@ -295,13 +292,99 @@ If you would like to print additional logging, use the `-d` flag
 node utils/removeTrait.js "Background" -d
 ```
 
+# Randomly Insert Rare items - Replace Util
+
+If you would like to manually add 'hand drawn' or unique versions into the pool of generated items, this utility takes a source folder (of your new artwork) and inserts it into the `build` directory, assigning them to random id's.
+
+## Requirements
+
+- create a source directory with an images and json folder (any name, you will specify later)
+- Name images sequentially from 1.png/jpeg (order does not matter) and place in the images folder.
+- Put matching, sequential json files in the json folder
+
+example:
+
+```
+├── ultraRares
+│   ├── images
+│   │   ├── 1.png
+│   │   └── 2.png
+│   └── json
+│       ├── 1.json
+│       └── 2.json
+```
+
+**You must have matching json files for each of your images.**
+
+## Setting up the JSON.
+
+Because this script randomizes which tokens to replace/place, _it is important_ to update the metadata properly with the resulting tokenId #.
+
+**_Everywhere_ you need the edition number in the metadata should use the `##` identifier.**
+
+```json
+  "edition": "##",
+```
+
+**Don't forget the image URI!**
+
+```json
+  "name": "## super rare sunburn ",
+  "image": "ipfs://NewUriToReplace/##.png",
+  "edition": "##",
+```
+
+## Running
+
+Run the script with the following command, passing in the source directory name, (relateive to the current working dir)
+
+```sh
+node utils/replace.js [Source Directory]
+```
+
+example
+
+```sh
+node utils/replace.js ./ultraRares
+```
+
+## Flags
+
+### `--help`
+
+Outputs command help.
+
+### `--Debug`
+
+`-d` outputs additional logging information
+
+### `--identifier` <identifier>
+
+`-i` Change the default object identifier/location for the edition/id number. defaults to "edition". This is used when the metadata object does not have "edition" in the top level, but may have it nested in "properties", for example, in which case you can use the following to locate the proper item in \_metadata.json
+
+```
+node utils/replace.js ./ultraRares -i properties.edition
+```
+
+⚠️ This step should be done BEFORE generating a provenance hash. Each new, replaced image generates a new hash and is inserted into the metadata used for generating the provenance hash.
+
+⚠️ This util requires the `build` directory to be complete (after generation)
+
+<hr />
+
+# incompatibilities
+
+⚠️ This was forked originally from hashlips 1.0.6 and may have different syntax/options. Be sure to read this readme for how to use each feature in _this_ branch.
+
 ### Example:
 
 For example, if you are using a `Backgrounds` layer and would prefer to remove that as a trait from the generated json,
 First, generate the images and json as usual, then, running the remove trait util
 
 ```
+
 node utils/removeTrait.js "Background"
+
 ```
 
 Will remove the background trait from all metadata files.
@@ -321,3 +404,7 @@ Will remove the background trait from all metadata files.
 
 This is fork/combination of the original hashlips generator, for basic configuration
 Check the [Basic Configuration readme](BASIC-README.md)
+
+```
+
+```
