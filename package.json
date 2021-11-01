@@ -4,6 +4,9 @@
   "description": "NFTChef Fork - HashLips Art Engine is a tool used to create multiple different instances of artworks based on provided layers.",
   "main": "index.js",
   "bin": "index.js",
+  "engines": {
+    "node": ">=14"
+  },
   "pkg": {
     "assets": [
       "layers/**/*",
@@ -13,6 +16,7 @@
   },
   "scripts": {
     "build": "node index.js",
+    "generate:solana": "node index.js && node utils/metaplex.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Daniel Eugene Botha (HashLips), NFTChef",
@@ -21,6 +25,7 @@
     "canvas": "^2.8.0",
     "chalk": "^4.1.2",
     "commander": "^8.2.0",
+    "eslint-plugin-node": "^11.1.0",
     "keccak256": "^1.0.3"
   }
 }

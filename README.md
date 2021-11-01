@@ -20,14 +20,27 @@ This repository is a fork from the original Hashlips generator and makes a coupl
 - [ Attribute Display Types and Overrides](#attribute-display-types-and-overrides)
 - [ Trait Value Overrides](#trait-value-overrides)
 
+## Other Blockchains
+
+- [Solana](#solana-metadata)
+
 ## Utils
 
 - [Provenance Hash Generation](#provenance-hash-generation)
 - [UTIL: Remove traits from Metadata](#Remove-Trait-Util)
 - [Randomly Insert Rare items - Replace Util](#Randomly-Insert-Rare-items---Replace-Util)
+
+### Notes
+
 - [Incompatibilities with original Hashlips](#incompatibilities)
 
-## 🙇🙇🙇 You can find me on twitter or Discord,
+<br/>
+<br/>
+<br/>
+
+# 🙇🙇🙇
+
+## You can find me on twitter or Discord,
 
 - Twitter: https://twitter.com/nftchef
 - Discord genkihagata#3074
@@ -36,7 +49,9 @@ This repository is a fork from the original Hashlips generator and makes a coupl
 ❤️ no need to send anything, however, many of you asked for my wallet address 🙇:
 `0xeB23ecf1fa9911fca08ecAbe83d426b6bd525bB0`
 
-🙇🙇🙇
+<hr/>
+<br/>
+<br/>
 
 # Nested Layer Support and Trait Type definition modification/branch
 
@@ -371,6 +386,39 @@ node utils/replace.js ./ultraRares -i properties.edition
 ⚠️ This util requires the `build` directory to be complete (after generation)
 
 <hr />
+
+# Solana Metadata
+
+🧪 BETA FEATURE
+
+If you are building for Solana, all the image generation options in config are available and are the same.
+
+## To setup your Solana specific metadata
+
+Configure the `solona_config.js` file located in `src/Solana/`.
+Here, enter in all the necessary information for your collection.
+
+You can run the generator AND output Solana data by running the following command from your terminal
+
+```
+yarn generate:solana
+```
+
+If you are using npm,
+
+```
+npm run generate:solana
+```
+
+**After running, your Solana ready files will be in `build/solana`**
+<br/>
+<br/>
+
+If you need to convert existing images/json to solana metadata standards, you can run the util by itself with,
+
+```
+node utils/metaplex.js
+```
 
 # incompatibilities
 
