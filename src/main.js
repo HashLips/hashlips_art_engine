@@ -342,7 +342,7 @@ const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
 
-  let helperVariable = 1;
+  let helperVariable = network == NETWORK.sol ? 0 : 1;
   layerConfigurations.map((layerConfiguration) => {
     for (let j = 0; j < layerConfiguration.growEditionSizeTo; j++) {
       abstractedIndexes.push(helperVariable);
