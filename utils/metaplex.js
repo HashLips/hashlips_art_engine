@@ -15,7 +15,7 @@ const {
   external_url,
   royaltyFee,
   creators,
-} = require(path.join(basePath, "/src/Solana/solana_config.js"));
+} = require(path.join(basePath, "/Solana/solana_config.js"));
 const imagesDir = `${basePath}/build/images`;
 const jsonDir = `${basePath}/build/json`;
 

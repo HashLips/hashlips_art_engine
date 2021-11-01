@@ -23,6 +23,7 @@ This repository is a fork from the original Hashlips generator and makes a coupl
 ## Other Blockchains
 
 - [Solana](#solana-metadata)
+- [Cardano](#cardano-metadata)
 
 ## Utils
 
@@ -395,7 +396,7 @@ If you are building for Solana, all the image generation options in config are a
 
 ## To setup your Solana specific metadata
 
-Configure the `solona_config.js` file located in `src/Solana/`.
+Configure the `solona_config.js` file located in the `Solana/` folder.
 Here, enter in all the necessary information for your collection.
 
 You can run the generator AND output Solana data by running the following command from your terminal
@@ -418,6 +419,35 @@ If you need to convert existing images/json to solana metadata standards, you ca
 
 ```
 node utils/metaplex.js
+```
+
+# Cardano Metadata
+
+🧪 BETA FEATURE: Work in progress
+⚠️ Check the output metadata for cardano standards accuracy
+
+If you are generating for Cardano, you can generate and output cardano formatted data at the same time, or run the util script separately after generation (or to an existing collection with proper data)
+
+First, edit the `cardano_config.js` file in the `Cardano/` folder with your information.
+
+Then, to generate images _and_ cardano data at once, run:
+
+```
+yarn generate:cardano
+```
+
+or if you're using npm
+
+```
+npm run generate:cardano
+```
+
+## running the standalone cardano util
+
+If you have an existing set of generated images and data, **and** you have a configured `Cardano/cardano_config.js` file, you can run the cardano conversion script with:
+
+```
+node utils/cardano.js
 ```
 
 # incompatibilities
