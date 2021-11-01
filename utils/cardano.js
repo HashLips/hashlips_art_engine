@@ -48,7 +48,6 @@ console.log(
 jsonFiles.forEach((file) => {
   let nameWithoutExtension = file.slice(0, -4);
   let editionCountFromFileName = Number(nameWithoutExtension);
-  let newEditionCount = editionCountFromFileName - 1;
 
   const rawData = fs.readFileSync(`${jsonDir}/${file}`);
   const jsonData = JSON.parse(rawData);
@@ -77,7 +76,11 @@ jsonFiles.forEach((file) => {
     },
   };
   fs.writeFileSync(
-    path.join(`${metadataConfigPath}`, "json", `${newEditionCount}.json`),
+    path.join(
+      `${metadataConfigPath}`,
+      "json",
+      `${editionCountFromFileName}.json`
+    ),
     JSON.stringify(tempMetadata, null, 2)
   );
 });
