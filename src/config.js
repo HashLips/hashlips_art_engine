@@ -48,6 +48,7 @@ const debugLogs = false;
 const format = {
   width: 512,
   height: 512,
+  smoothing: false
 };
 
 const gif = {
