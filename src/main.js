@@ -66,7 +66,7 @@ const getRarityWeight = (_str) => {
 };
 
 const cleanDna = (_str) => {
-  const withoutOptions = removeQueryStrings(_str)
+  const withoutOptions = removeQueryStrings(_str);
   var dna = Number(withoutOptions.split(":").shift());
   return dna;
 };
@@ -111,7 +111,7 @@ const layersSetup = (layersOrder) => {
     bypassDNA:
       layerObj.options?.["bypassDNA"] !== undefined
         ? layerObj.options?.["bypassDNA"]
-        : false
+        : false,
   }));
   return layers;
 };
@@ -245,23 +245,23 @@ const constructLayerToDna = (_dna = "", _layers = []) => {
  * @returns new DNA string with any items that should be filtered, removed.
  */
 const filterDNAOptions = (_dna) => {
-  const dnaItems = _dna.split(DNA_DELIMITER)
-  const filteredDNA = dnaItems.filter(element => {
+  const dnaItems = _dna.split(DNA_DELIMITER);
+  const filteredDNA = dnaItems.filter((element) => {
     const query = /(\?.*$)/;
     const querystring = query.exec(element);
     if (!querystring) {
-      return true
+      return true;
     }
     const options = querystring[1].split("&").reduce((r, setting) => {
       const keyPairs = setting.split("=");
       return { ...r, [keyPairs[0]]: keyPairs[1] };
     }, []);
 
-    return options.bypassDNA
-  })
+    return options.bypassDNA;
+  });
 
-  return filteredDNA.join(DNA_DELIMITER)
-}
+  return filteredDNA.join(DNA_DELIMITER);
+};
 
 /**
  * Cleaning function for DNA strings. When DNA strings include an option, it
@@ -273,8 +273,8 @@ const filterDNAOptions = (_dna) => {
  */
 const removeQueryStrings = (_dna) => {
   const query = /(\?.*$)/;
-  return _dna.replace(query, '')
-}
+  return _dna.replace(query, "");
+};
 
 const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
   const _filteredDNA = filterDNAOptions(_dna);
@@ -295,7 +295,9 @@ const createDna = (_layers) => {
       random -= layer.elements[i].weight;
       if (random < 0) {
         return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}${layer.bypassDNA? '?bypassDNA=true' : ''}`
+          `${layer.elements[i].id}:${layer.elements[i].filename}${
+            layer.bypassDNA ? "?bypassDNA=true" : ""
+          }`
         );
       }
     }
@@ -339,13 +341,15 @@ const startCreating = async () => {
   let editionCount = 1;
   let failedCount = 0;
   let abstractedIndexes = [];
-  for (
-    let i = network == NETWORK.sol ? 0 : 1;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
-    i++
-  ) {
-    abstractedIndexes.push(i);
-  }
+
+  let helperVariable = 1;
+  layerConfigurations.map((layerConfiguration) => {
+    for (let j = 0; j < layerConfiguration.growEditionSizeTo; j++) {
+      abstractedIndexes.push(helperVariable);
+      helperVariable++;
+    }
+  });
+
   if (shuffleLayerConfigurations) {
     abstractedIndexes = shuffle(abstractedIndexes);
   }
@@ -356,8 +360,10 @@ const startCreating = async () => {
     const layers = layersSetup(
       layerConfigurations[layerConfigIndex].layersOrder
     );
-    while (
-      editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
+    for (
+      let k = 0;
+      k < layerConfigurations[layerConfigIndex].growEditionSizeTo;
+      k++
     ) {
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
