@@ -7,8 +7,6 @@ const { NETWORK } = require(path.join(basePath, "constants/network.js"));
 const fs = require("fs");
 const sha1 = require(path.join(basePath, "/node_modules/sha1"));
 const buildDir = path.join(basePath, "/build");
-const layersDir = path.join(basePath, "/layers");
-const { ImageEngine } = require(path.join(basePath, "/src/pngengine.js"));
 const {
   format,
   baseUri,
@@ -25,8 +23,16 @@ const {
   network,
   solanaMetadata,
   gif,
-  IMG_FORMAT,PNG_FORMAT,SVG_FORMAT
+  IMG_FORMAT
 } = require(path.join(basePath, "/src/config.js"));
+
+//Image format support - supported values "png", "svg"
+const PNG_FORMAT = "png";
+const SVG_FORMAT = "svg";
+
+const layersDir = (IMG_FORMAT == PNG_FORMAT ) ? path.join(basePath, "/layers") : path.join(basePath, "/layers_svg");
+const { ImageEngine } = (IMG_FORMAT == PNG_FORMAT ) ?  require(path.join(basePath, "/src/pngengine.js")) : require(path.join(basePath, "/src/svgengine.js"));
+
 
 //IMG_FORMAT Specific constants
 const Image_uri =  (IMG_FORMAT == PNG_FORMAT ) ? "image.png" : "image.svg";

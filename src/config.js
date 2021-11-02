@@ -8,13 +8,8 @@ const { NETWORK } = require(path.join(basePath, "constants/network.js"));
 
 const network = NETWORK.eth;
 
-
-//Image format support - supported values "png", "svg"
-const PNG_FORMAT = "png";
-const SVG_FORMAT = "svg";
-
-//Image format - select the input format for the layers
-const IMG_FORMAT = PNG_FORMAT; 
+//Image format - select the input format for the layers,  supported values "png", "svg"
+const IMG_FORMAT = "svg"; 
 
 // General metadata for Ethereum
 const namePrefix = "Your Collection";
@@ -36,7 +31,7 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 50,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
