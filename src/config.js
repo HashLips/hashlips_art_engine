@@ -8,6 +8,9 @@ const { NETWORK } = require(path.join(basePath, "constants/network.js"));
 
 const network = NETWORK.eth;
 
+//Image format - select the input format for the layers,  supported values "png", "svg"
+const IMG_FORMAT = "png"; 
+
 // General metadata for Ethereum
 const namePrefix = "Your Collection";
 const description = "Remember to replace this description";
@@ -122,4 +125,5 @@ module.exports = {
   solanaMetadata,
   gif,
   preview_gif,
+  IMG_FORMAT,
 };

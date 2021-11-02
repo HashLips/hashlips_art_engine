@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="512" height="512" viewBox="0 0 512 512" xml:space="preserve">
+<desc>Created with Fabric.js 3.6.3</desc>
+<defs>
+</defs>
+<g transform="matrix(4.36 0 0 4.36 248.95 251.95)"  >
+<radialGradient id="SVGID_3693" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -40 -40)"  cx="40" cy="40" r="40" fx="40" fy="40">
+<stop offset="12.683%" style="stop-color:rgba(48, 96, 201, 1);"/>
+<stop offset="100%" style="stop-color:rgba(145, 91, 161, 1);"/>
+<stop offset="100%" style="stop-color:rgba(185, 111, 203, 1);"/>
+<stop offset="100%" style="stop-color:rgba(149, 54, 177, 1);"/>
+<stop offset="100%" style="stop-color:rgba(27, 34, 215, 1);"/>
+</radialGradient>
+<circle style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: url(#SVGID_3693); fill-rule: nonzero; opacity: 1;"  cx="0" cy="0" r="40" />
+</g>
+</svg>
