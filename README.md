@@ -9,6 +9,7 @@ This repository is a fork from the original Hashlips generator and makes a coupl
   - [Nesting structure](#nesting-structure)
     - [Advanced options](#advanced-options)
       - [Required files](#required-files)
+      - [Syblayer options](#sublayer-options)
 - [Metadata Name + Number](#name---number-prefix-and-reset-for-configuration-sets)
 
 ## Options and conditional output
@@ -117,6 +118,25 @@ HAIR
 ```
 
 Where the containing folder will define the traits _rarity_ and in the event that it is selected as part of the randomization, BOTH nested images will be included in the final result, in alphabetical oder–hence the 1, 2, numbering.
+
+### Sublayer Options
+
+🧪 BETA FEATURE
+By default, nested folders will inherit `blend` and `opacity` settings from the root-level layer defined in `layersOrder`. When you need to overwrite that on a sublayer-basis (by name of the nested folder, not by filename), you can specify a sublayerOptions object.
+
+```js
+layersOrder: [
+      { name: "Clothes" },
+      {
+        name: "Bases",
+        blend: "destination-over", // optional
+        sublayerOptions: { Hands: { blend: "source-over" } },
+      },
+      { name: "Holdableitems" },
+    ],
+```
+
+**In the example above**: The intended stacking order is `Base > Clothes > Hand > holdableItem`, because `Hands` are a nested subfolder of `Bases`, this can be tricky. By defining `blend: destination-over` for the Base, and then `source-over` for the Hands, the stacking order can be controlled to draw the Base _under_ the clothes and _then_ the Hand above the clothes.
 
 # Name + Number prefix and reset for configuration sets
 
