@@ -82,6 +82,29 @@ const hash = (input) => {
   return keccak256(hashable).toString("hex");
 };
 
+/**
+ * Get't the layer options from the parent, or grandparent layer if
+ * defined, otherwise, sets default options.
+ *
+ * @param {Object} layer the parent layer object
+ * @param {String} sublayer Clean name of the current layer
+ * @returns {blendMode, opaticty} options object
+ */
+const getElementOptions = (layer, sublayer) => {
+  let blendMode = "source-over";
+  let opacity = 1;
+  if (layer.sublayerOptions?.[sublayer]) {
+    const options = layer.sublayerOptions[sublayer];
+    options.blend !== undefined ? (blendMode = options.blend) : null;
+    options.opacity !== undefined ? (opacity = options.blend) : null;
+  } else {
+    // inherit parent blend mode
+    blendMode = layer.blend != undefined ? layer.blend : "source-over";
+    opacity = layer.opacity != undefined ? layer.opacity : 1;
+  }
+  return { blendMode, opacity };
+};
+
 const getElements = (path, layer) => {
   return fs
     .readdirSync(path)
@@ -89,12 +112,12 @@ const getElements = (path, layer) => {
       return !/(^|\/)\.[^\/\.]/g.test(item);
     })
     .map((i, index) => {
+      const name = cleanName(i);
       const extension = /\.[0-9a-zA-Z]+$/;
       const sublayer = !extension.test(i);
       const weight = getRarityWeight(i);
 
-      const blendMode = layer.blend != undefined ? layer.blend : "source-over";
-      const opacity = layer.opacity != undefined ? layer.opacity : 1;
+      const { blendMode, opacity } = getElementOptions(layer, name);
 
       const element = {
         sublayer,
@@ -102,14 +125,15 @@ const getElements = (path, layer) => {
         blendMode,
         opacity,
         id: index,
-        name: cleanName(i),
+        name,
         filename: i,
         path: `${path}${i}`,
       };
       if (sublayer) {
         element.path = `${path}${i}`;
         const subPath = `${path}${i}/`;
-        element.elements = getElements(subPath, layer);
+        const sublayer = { ...layer, blend: blendMode, opacity };
+        element.elements = getElements(subPath, sublayer);
       }
 
       // Set trait type on layers for metadata
@@ -550,12 +574,14 @@ const startCreating = async () => {
         await Promise.all(loadedElements).then((renderObjectArray) => {
           debugLogs ? console.log("Clearing canvas") : null;
           ctx.clearRect(0, 0, format.width, format.height);
-          if (background.generate) {
-            drawBackground();
-          }
           renderObjectArray.forEach((renderObject) => {
             drawElement(renderObject);
           });
+          // Draw the background last, always under
+          if (background.generate) {
+            ctx.globalCompositeOperation = "destination-over";
+            drawBackground();
+          }
           debugLogs
             ? console.log("Editions left to create: ", abstractedIndexes)
             : null;
