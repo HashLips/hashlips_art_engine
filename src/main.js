@@ -5,9 +5,6 @@ const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const { NETWORK } = require(path.join(basePath, "constants/network.js"));
 const fs = require("fs");
-const { loadImage } = require(path.join(
-  basePath, "/node_modules/canvas"
-));
 const sha1 = require(path.join(basePath, "/node_modules/sha1"));
 const buildDir = path.join(basePath, "/build");
 const layersDir = path.join(basePath, "/layers");
@@ -28,7 +25,13 @@ const {
   network,
   solanaMetadata,
   gif,
+  IMG_FORMAT,PNG_FORMAT,SVG_FORMAT
 } = require(path.join(basePath, "/src/config.js"));
+
+//IMG_FORMAT Specific constants
+const Image_uri =  (IMG_FORMAT == PNG_FORMAT ) ? "image.png" : "image.svg";
+const Image_type= (IMG_FORMAT == PNG_FORMAT ) ? "image.png" : "image/svg";
+const Image_extension = (IMG_FORMAT == PNG_FORMAT ) ? "png" : "svg";
 
 var metadataList = [];
 var attributesList = [];
@@ -117,7 +120,7 @@ const layersSetup = (layersOrder) => {
 
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}.png`,
+    `${buildDir}/images/${_editionCount}.${Image_extension}`,
     ImageEngine.getImageBuffer()
   );
 };
@@ -127,7 +130,7 @@ const addMetadata = (_dna, _edition) => {
   let tempMetadata = {
     name: `${namePrefix} #${_edition}`,
     description: description,
-    image: `${baseUri}/${_edition}.png`,
+    image: `${baseUri}/${_edition}.${Image_extension}`,
     dna: sha1(_dna),
     edition: _edition,
     date: dateTime,
@@ -143,7 +146,7 @@ const addMetadata = (_dna, _edition) => {
       description: tempMetadata.description,
       //Added metadata for solana
       seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
-      image: `image.png`,
+      image: Image_uri,
       //Added metadata for solana
       external_url: solanaMetadata.external_url,
       edition: _edition,
@@ -152,8 +155,8 @@ const addMetadata = (_dna, _edition) => {
       properties: {
         files: [
           {
-            uri: "image.png",
-            type: "image/png",
+            uri: Image_uri,
+            type: Image_type,
           },
         ],
         category: "image",
@@ -175,7 +178,7 @@ const addAttributes = (_element) => {
 
 const loadLayerImg = async (_layer) => {
   return new Promise(async (resolve) => {
-    const image = await loadImage(`${_layer.selectedElement.path}`);
+    const image = await ImageEngine.loadImage(_layer);
     resolve({ layer: _layer, loadedImage: image });
   });
 };

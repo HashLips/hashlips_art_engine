@@ -8,6 +8,14 @@ const { NETWORK } = require(path.join(basePath, "constants/network.js"));
 
 const network = NETWORK.eth;
 
+
+//Image format support - supported values "png", "svg"
+const PNG_FORMAT = "png";
+const SVG_FORMAT = "svg";
+
+//Image format - select the input format for the layers
+const IMG_FORMAT = PNG_FORMAT; 
+
 // General metadata for Ethereum
 const namePrefix = "Your Collection";
 const description = "Remember to replace this description";

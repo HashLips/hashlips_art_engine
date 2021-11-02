@@ -62,6 +62,10 @@ const ImageEngine = {
 
     clearRect : () => {
         ctx.clearRect(0, 0, format.width, format.height);
+    },
+
+    loadImage : async (_layer) => {        
+        return await loadImage(`${_layer.selectedElement.path}`);
     }
 
 };
