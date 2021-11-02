@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="512" height="512" viewBox="0 0 512 512" xml:space="preserve">
+<desc>Created with Fabric.js 3.6.3</desc>
+<defs>
+</defs>
+<g transform="matrix(4.36 0 0 4.36 248.95 251.95)"  >
+<linearGradient id="SVGID_3115" gradientUnits="userSpaceOnUse" gradientTransform="matrix(1 0 0 1 -40 -40)"  x1="0" y1="40" x2="80" y2="40">
+<stop offset="1.463%" style="stop-color:rgba(210, 236, 235, 1);"/>
+<stop offset="100%" style="stop-color:rgba(13, 79, 84, 1);"/>
+<stop offset="100%" style="stop-color:rgba(111, 203, 190, 1);"/>
+<stop offset="100%" style="stop-color:rgba(85, 191, 217, 1);"/>
+<stop offset="100%" style="stop-color:rgba(82, 192, 219, 1);"/>
+</linearGradient>
+<circle style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: url(#SVGID_3115); fill-rule: nonzero; opacity: 1;"  cx="0" cy="0" r="40" />
+</g>
+</svg>
