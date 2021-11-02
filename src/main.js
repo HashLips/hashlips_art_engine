@@ -30,7 +30,7 @@ const {
 const PNG_FORMAT = "png";
 const SVG_FORMAT = "svg";
 
-const layersDir = (IMG_FORMAT == PNG_FORMAT ) ? path.join(basePath, "/layers") : path.join(basePath, "/layers_svg");
+const layersDir = (IMG_FORMAT == PNG_FORMAT ) ? path.join(basePath, "/layers") : path.join(basePath, "/layer_svgs");
 const { ImageEngine } = (IMG_FORMAT == PNG_FORMAT ) ?  require(path.join(basePath, "/src/pngengine.js")) : require(path.join(basePath, "/src/svgengine.js"));
 
 
