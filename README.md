@@ -9,8 +9,8 @@ This repository is a fork from the original Hashlips generator and makes a coupl
   - [Nesting structure](#nesting-structure)
     - [Advanced options](#advanced-options)
       - [Required files](#required-files)
-      - [Syblayer options](#sublayer-options)
-- [Metadata Name + Number](#name---number-prefix-and-reset-for-configuration-sets)
+      - [Sublayer options](#sublayer-options)
+- [Metadata Name + Number](#metadata-name-and-number)
 
 ## Options and conditional output
 
@@ -138,7 +138,9 @@ layersOrder: [
 
 **In the example above**: The intended stacking order is `Base > Clothes > Hand > holdableItem`, because `Hands` are a nested subfolder of `Bases`, this can be tricky. By defining `blend: destination-over` for the Base, and then `source-over` for the Hands, the stacking order can be controlled to draw the Base _under_ the clothes and _then_ the Hand above the clothes.
 
-# Name + Number prefix and reset for configuration sets
+# Metadata Name and Number
+
+Name + Number prefix and reset for configuration sets
 
 If you are using the generator with multiple `layerConfiguration` objects to generate different species/genders/types, it is possible to add a name prefix and a reset counter for the name, so the token names start at `1` for each type.
 
