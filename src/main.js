@@ -417,6 +417,7 @@ const startCreating = async () => {
         console.log("DNA exists!");
         failedCount++;
         if (failedCount >= uniqueDnaTorrance) {
+          writeMetaData(JSON.stringify(metadataList, null, 2));
           console.log(
             `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
           );
