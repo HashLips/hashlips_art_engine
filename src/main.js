@@ -5,13 +5,13 @@ const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const { NETWORK } = require(path.join(basePath, "constants/network.js"));
 const fs = require("fs");
-const sha1 = require(path.join(basePath, "/node_modules/sha1"));
-const { createCanvas, loadImage } = require(path.join(
-  basePath,
-  "/node_modules/canvas"
+const { loadImage } = require(path.join(
+  basePath, "/node_modules/canvas"
 ));
+const sha1 = require(path.join(basePath, "/node_modules/sha1"));
 const buildDir = path.join(basePath, "/build");
 const layersDir = path.join(basePath, "/layers");
+const { ImageEngine } = require(path.join(basePath, "/src/pngengine.js"));
 const {
   format,
   baseUri,
@@ -29,8 +29,7 @@ const {
   solanaMetadata,
   gif,
 } = require(path.join(basePath, "/src/config.js"));
-const canvas = createCanvas(format.width, format.height);
-const ctx = canvas.getContext("2d");
+
 var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
@@ -119,19 +118,8 @@ const layersSetup = (layersOrder) => {
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
     `${buildDir}/images/${_editionCount}.png`,
-    canvas.toBuffer("image/png")
+    ImageEngine.getImageBuffer()
   );
-};
-
-const genColor = () => {
-  let hue = Math.floor(Math.random() * 360);
-  let pastel = `hsl(${hue}, 100%, ${background.brightness})`;
-  return pastel;
-};
-
-const drawBackground = () => {
-  ctx.fillStyle = background.static ? background.default : genColor();
-  ctx.fillRect(0, 0, format.width, format.height);
 };
 
 const addMetadata = (_dna, _edition) => {
@@ -192,32 +180,8 @@ const loadLayerImg = async (_layer) => {
   });
 };
 
-const addText = (_sig, x, y, size) => {
-  ctx.fillStyle = text.color;
-  ctx.font = `${text.weight} ${size}pt ${text.family}`;
-  ctx.textBaseline = text.baseline;
-  ctx.textAlign = text.align;
-  ctx.fillText(_sig, x, y);
-};
-
 const drawElement = (_renderObject, _index, _layersLen) => {
-  ctx.globalAlpha = _renderObject.layer.opacity;
-  ctx.globalCompositeOperation = _renderObject.layer.blend;
-  text.only
-    ? addText(
-        `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
-        text.xGap,
-        text.yGap * (_index + 1),
-        text.size
-      )
-    : ctx.drawImage(
-        _renderObject.loadedImage,
-        0,
-        0,
-        format.width,
-        format.height
-      );
-
+  ImageEngine.drawElement(_renderObject, _index, _layersLen);
   addAttributes(_renderObject);
 };
 
@@ -370,7 +334,7 @@ const startCreating = async () => {
 
         await Promise.all(loadedElements).then((renderObjectArray) => {
           debugLogs ? console.log("Clearing canvas") : null;
-          ctx.clearRect(0, 0, format.width, format.height);
+          ImageEngine.clearRect();
           if (gif.export) {
             hashlipsGiffer = new HashlipsGiffer(
               canvas,
@@ -383,7 +347,7 @@ const startCreating = async () => {
             hashlipsGiffer.start();
           }
           if (background.generate) {
-            drawBackground();
+            ImageEngine.drawBackground();
           }
           renderObjectArray.forEach((renderObject, index) => {
             drawElement(
