@@ -39,6 +39,8 @@ const Image_uri =  (IMG_FORMAT == PNG_FORMAT ) ? "image.png" : "image.svg";
 const Image_type= (IMG_FORMAT == PNG_FORMAT ) ? "image.png" : "image/svg";
 const Image_extension = (IMG_FORMAT == PNG_FORMAT ) ? "png" : "svg";
 
+console.log("Using Image format: " + IMG_FORMAT);
+
 var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();

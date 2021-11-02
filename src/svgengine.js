@@ -28,9 +28,7 @@ const ImageEngine = {
         // remove svg headers
         var soup = new JSSoup(svg_layer, false);
 
-        var svg_data = soup.find('svg');
-        
-        console.log("the images data: ",_renderObject.layer);
+        var svg_data = soup.find('svg');        
         
        svg_buffer +=svg_data;           
     },
