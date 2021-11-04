@@ -95,23 +95,35 @@ const getElements = (path) => {
 const layersSetup = (layersOrder) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
-    elements: getElements(`${layersDir}/${layerObj.name}/`),
+   elements: getElements(`${layersDir}/${layerObj.name}/`),
+
+    // the below line doesnt work for v1.0.9 and above, revert to Hashlips code
+    //elements: getElements(${layersDir}/${layerObj.name}/),
+
+    //existing code throws a main.js line 99 error of unexpected token '.' at layerObj.options?.["displayName"] != undefined
+    //change to below. errorneous code commented out. 
+    
     name:
-      layerObj.options?.["displayName"] != undefined
-        ? layerObj.options?.["displayName"]
-        : layerObj.name,
+      //layerObj.options?.["displayName"] != undefined ? 
+      //layerObj.options?.["displayName"]: layerObj.name,
+      layerObj.options? (layerObj.options["displayName"] != undefined ? 
+      layerObj.options["displayName"]: layerObj.name) : layerObj.name,
     blend:
-      layerObj.options?.["blend"] != undefined
-        ? layerObj.options?.["blend"]
-        : "source-over",
+      //layerObj.options?.["blend"] != undefined?
+      //layerObj.options?.["blend"]: "source-over",
+      layerObj.options? (layerObj.options["blend"] != undefined ? 
+      layerObj.options["blend"]: "source-over") : "source-over",
+
     opacity:
-      layerObj.options?.["opacity"] != undefined
-        ? layerObj.options?.["opacity"]
-        : 1,
+      //layerObj.options?.["opacity"] != undefined?
+      //layerObj.options?.["opacity"] : 1,
+      layerObj.options? (layerObj.options["opacity"] != undefined ? 
+      layerObj.options["opacity"]: 1) :1,
     bypassDNA:
-      layerObj.options?.["bypassDNA"] !== undefined
-        ? layerObj.options?.["bypassDNA"]
-        : false
+      //layerObj.options?.["bypassDNA"] !== undefined? 
+      //layerObj.options?.["bypassDNA"]: false
+      layerObj.options? (layerObj.options["bypassDNA"] != undefined ? 
+      layerObj.options["bypassDNA"]: false) :false,
   }));
   return layers;
 };
