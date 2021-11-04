@@ -33,7 +33,22 @@ let rarityData = [];
 // intialize layers to chart
 layerConfigurations.forEach((config) => {
   let layers = config.layersOrder;
-
+  // handle pre-defined layer set attributes
+  if (config.attributes) {
+    config.attributes.forEach((attr) => {
+      rarityData[attr.trait_type] = {
+        name: attr.trait_type,
+        baseTrait: attr.trait_type,
+        elements: [
+          {
+            trait: attr.value,
+            chance: 1 / layerConfigurations.length,
+            occurrence: 0,
+          },
+        ],
+      };
+    });
+  }
   // Get nested required subfolders and flatten them into layers
   const allLayers = layers.reduce((acc, layer) => {
     return [

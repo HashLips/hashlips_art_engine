@@ -122,6 +122,24 @@ Where the containing folder will define the traits _rarity_ and in the event tha
 ### Sublayer Options
 
 🧪 BETA FEATURE
+
+#### Rename Sublayer traits
+
+In the case that your folder names need to include number or anything else that you do not want in the final metadata, you can clean up the `trait_type` by passing in the `trait` option to the sublayerOptions object where the nested folder lives. For example, if we are using a subfolder named `1-SubAccessory` and want to rename it to `Backpack Accessory`, pass the following configuration
+
+```js
+    layersOrder: [
+      {
+        name: "Back Accessory",
+        sublayerOptions: {
+          "1-SubAccessory": { trait: "Backpack Accessory" },
+        },
+      },
+      { name: "Head" },
+```
+
+#### Blend and Opacity
+
 By default, nested folders will inherit `blend` and `opacity` settings from the root-level layer defined in `layersOrder`. When you need to overwrite that on a sublayer-basis (by name of the nested folder, not by filename), you can specify a sublayerOptions object.
 
 ```js
@@ -134,6 +152,27 @@ layersOrder: [
       },
       { name: "Holdableitems" },
     ],
+```
+
+#### Common Errors
+
+When combining multiple sublayer options, remember that each Sublayer is an object that accepts key:value pairs for each valid option above.
+
+For example, a single layer may have multiple sublayer options in the following format.
+
+```js
+sublayerOptions: {
+  Hands: {
+    trait: 'New trait name',
+    blend: 'source-over',
+    opacity: 0.9,
+  },
+  Face: {
+    trait: 'the face',
+    blend: 'source-over',
+    opacity: 0.9,
+  }
+}
 ```
 
 **In the example above**: The intended stacking order is `Base > Clothes > Hand > holdableItem`, because `Hands` are a nested subfolder of `Bases`, this can be tricky. By defining `blend: destination-over` for the Base, and then `source-over` for the Hands, the stacking order can be controlled to draw the Base _under_ the clothes and _then_ the Hand above the clothes.

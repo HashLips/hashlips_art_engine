@@ -151,10 +151,13 @@ const getElements = (path, layer) => {
         typeAncestor += 1;
       }
 
-      element.trait =
-        layer.trait !== undefined
-          ? layer.trait
-          : lineage[lineage.length - typeAncestor];
+      const parentName = lineage[lineage.length - typeAncestor];
+
+      element.trait = layer.sublayerOptions?.[parentName]
+        ? layer.sublayerOptions[parentName].trait
+        : layer.trait !== undefined
+        ? layer.trait
+        : parentName;
 
       const rawTrait = getTraitValueFromPath(element, lineage);
       const trait = processTraitOverrides(rawTrait);
