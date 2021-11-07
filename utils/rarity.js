@@ -1,12 +1,8 @@
-"use strict";
-
-const path = require("path");
-const isLocal = typeof process.pkg === "undefined";
-const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
+const basePath = process.cwd();
 const fs = require("fs");
 const layersDir = `${basePath}/layers`;
 
-const { layerConfigurations } = require(path.join(basePath, "/src/config.js"));
+const { layerConfigurations } = require(`${basePath}/src/config.js`);
 
 const { getElements } = require("../src/main.js");
 

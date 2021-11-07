@@ -1,5 +1,3 @@
-"use strict";
-
 const NETWORK = {
   eth: "eth",
   sol: "sol",
