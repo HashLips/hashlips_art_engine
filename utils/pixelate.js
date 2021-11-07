@@ -1,11 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const { createCanvas, loadImage } = require("canvas");
-const isLocal = typeof process.pkg === "undefined";
-const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
+const basePath = process.cwd();
 const buildDir = `${basePath}/build/pixel_images`;
 const inputDir = `${basePath}/build/images`;
-const { format, pixelFormat } = require(path.join(basePath, "/src/config.js"));
+const { format, pixelFormat } = require(`${basePath}/src/config.js`);
 const console = require("console");
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
