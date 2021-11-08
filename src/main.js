@@ -289,7 +289,9 @@ const drawElement = (_renderObject) => {
 const constructLayerToDna = (_dna = [], _layers = []) => {
   let mappedDnaToLayers = _layers.map((layer, index) => {
     let selectedElements = [];
-    const layerImages = _dna.filter((element) => element.startsWith(layer.id));
+    const layerImages = _dna.filter(
+      (element) => element.split(".")[0] == layer.id
+    );
     layerImages.forEach((img) => {
       const indexAddress = cleanDna(img);
 
