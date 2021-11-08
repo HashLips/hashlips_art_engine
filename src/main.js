@@ -29,8 +29,11 @@ ctx.imageSmoothingEnabled = format.smoothing;
 var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
-const DNA_DELIMITER = "-";
-const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
+const DNA_DELIMITER = "|";
+const HashlipsGiffer = require(path.join(
+  basePath,
+  "/modules/HashlipsGiffer.js"
+));
 
 let hashlipsGiffer = null;
 

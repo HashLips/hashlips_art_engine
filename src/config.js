@@ -24,15 +24,20 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 3000,
     layersOrder: [
       { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "Body Colors" },
+      { name: "Outline" },
+      { name: "Body Skin" },
+      { name: "Clothing" },
+      { name: "Weapon" },
+      { name: "Adornment" },
+      { name: "Mouth" },
+      { name: "Eyes" },
+      { name: "Mask" },
+      { name: "Mouth Accessory" },
+      { name: "Above Head" },
     ],
   },
 ];
@@ -42,9 +47,8 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
-  smoothing: false,
+  width: 618,
+  height: 1000,
 };
 
 const gif = {
