@@ -84,8 +84,13 @@ const replace = (image, randomID, sourcePath, options) => {
     newMetadata.imageHash = imageHash;
 
     // replace all ## with proper edition number
+    const symbol = options.replacementSymbol
+      ? new RegExp(options.replacementSymbol, "gm")
+      : /##/gm;
+
+    options.debug ? console.log({ symbol }) : null;
     const updatedMetadata = JSON.stringify(newMetadata, null, 2).replace(
-      /##/gm,
+      symbol,
       randomID
     );
 
@@ -118,7 +123,6 @@ const replace = (image, randomID, sourcePath, options) => {
     const updatedGlobalMetadata = globalMetadata;
     // set the new data in the _metadata.json
     updatedGlobalMetadata[updateIndex] = JSON.parse(updatedMetadata);
-    console.log({ updatedGlobalMetadata });
     // everything looks good to write files.
     // overwrite the build json file
     fs.writeFileSync(
@@ -146,6 +150,10 @@ program
   .argument("<source>")
   .option("-d, --debug", "display additional logging")
   .option("-s, --sneak", "output the random ID's that are being replaced")
+  .option(
+    "-r, --replacementSymbol <symbol>",
+    "The character used as a placeholder for edition numbers"
+  )
   .option(
     "-i, --identifier <identifier>",
     'Change the default object identifier/location for the edition/id number. defaults to "edition"'

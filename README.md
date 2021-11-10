@@ -411,6 +411,8 @@ Because this script randomizes which tokens to replace/place, _it is important_ 
   "edition": "##",
 ```
 
+_if you need `#num` with the `#` in the name for example, use a different symbol other than `##`. see the --replacementSymbol flag below_
+
 ## Running
 
 Run the script with the following command, passing in the source directory name, (relateive to the current working dir)
@@ -434,6 +436,16 @@ Outputs command help.
 ### `--Debug`
 
 `-d` outputs additional logging information
+
+### `--replacementSymbol`
+
+If you need the output data to have `#12` for example, with the leading #, the default `##` in the metadata is a problem. use this flag in combination with a different symbol in the metadata json files to replace the passed in symbol with the appropriate edition number
+
+```
+node index.js ./ultraRares -r '@@'
+```
+
+This will replace all instances of `@@` with the item number
 
 ### `--identifier` <identifier>
 
