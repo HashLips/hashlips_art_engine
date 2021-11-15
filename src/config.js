@@ -24,8 +24,8 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
-    layersOrder: [
+    growEditionSizeTo: 5,// the number of NFTs to be created - Uche added this comment
+    layersOrder: [                   // name the layers according in order of how they come in the design you want. ie you don't want to put background as last because it will cover all designs and you'd only see background color (because other layers will be behind the background lol)
       { name: "Background" },
       { name: "Eyeball" },
       { name: "Eye color" },
@@ -71,7 +71,7 @@ const pixelFormat = {
   ratio: 2 / 128,
 };
 
-const background = {
+const background = {         // background here auto generates background color if the background layer isn't added or omitted - Uche
   generate: true,
   brightness: "80%",
   static: false,
@@ -82,7 +82,7 @@ const extraMetadata = {};
 
 const rarityDelimiter = "#";
 
-const uniqueDnaTorrance = 10000;
+const uniqueDnaTorrance = 10000;     // this is the tolerance to the permutation which would take place. IF the number of layers are few, it will try 10000 times before advising to create/add new layers - Uche added this comment
 
 const preview = {
   thumbPerRow: 5,
