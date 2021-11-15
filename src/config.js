@@ -84,7 +84,7 @@ const rarityDelimiter = "#";
 
 const uniqueDnaTorrance = 10000;     // this is the tolerance to the permutation which would take place. IF the number of layers are few, it will try 10000 times before advising to create/add new layers - Uche added this comment
 
-const preview = {
+const preview = { //
   thumbPerRow: 5,
   thumbWidth: 50,
   imageRatio: format.height / format.width,
