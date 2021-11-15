@@ -24,7 +24,7 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,// the number of NFTs to be created - Uche added this comment
+    growEditionSizeTo: 10,              // the number of NFTs to be created - Uche added this comment
     layersOrder: [                   // name the layers according in order of how they come in the design you want. ie you don't want to put background as last because it will cover all designs and you'd only see background color (because other layers will be behind the background lol)
       { name: "Background" },
       { name: "Eyeball" },
