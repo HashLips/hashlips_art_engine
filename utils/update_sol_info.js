@@ -6,7 +6,7 @@ const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
 
 console.log(path.join(basePath, "/src/config.js"));
-const { baseUri, description, nftName, solBase} = require(path.join(basePath, "/src/config.js"));
+const { baseUri, description, nftName, solBase, solProperties} = require(path.join(basePath, "/src/config.js"));
 
 // read json data
 let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
@@ -18,6 +18,7 @@ data.forEach((item) => {
   item.external_url = solBase.external_url;
   item.symbol = solBase.symbol;
   item.image = `${baseUri}/${item.id}.png`;
+  item.properties = solProperties; 
   fs.writeFileSync(
     `${basePath}/build/json/${item.id}.json`,
     JSON.stringify(item, null, 2)
