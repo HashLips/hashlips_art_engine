@@ -199,6 +199,10 @@ const layersSetup = (layersOrder) => {
       ...(layerObj.display_type !== undefined && {
         display_type: layerObj.display_type,
       }),
+      bypassDNA:
+        layerObj.options?.["bypassDNA"] !== undefined
+          ? layerObj.options?.["bypassDNA"]
+          : false,
     };
   });
 
@@ -326,6 +330,45 @@ const constructLayerToDna = (_dna = [], _layers = []) => {
   return mappedDnaToLayers;
 };
 
+/**
+ * In some cases a DNA string may contain optional query parameters for options
+ * such as bypassing the DNA isUnique check, this function filters out those
+ * items without modifying the stored DNA.
+ *
+ * @param {String} _dna New DNA string
+ * @returns new DNA string with any items that should be filtered, removed.
+ */
+const filterDNAOptions = (_dna) => {
+  const filteredDNA = _dna.filter((element) => {
+    const query = /(\?.*$)/;
+    const querystring = query.exec(element);
+    if (!querystring) {
+      return true;
+    }
+    const options = querystring[1].split("&").reduce((r, setting) => {
+      const keyPairs = setting.split("=");
+      return { ...r, [keyPairs[0]]: keyPairs[1] };
+    }, []);
+
+    return options.bypassDNA;
+  });
+
+  return filteredDNA;
+};
+
+/**
+ * Cleaning function for DNA strings. When DNA strings include an option, it
+ * is added to the filename with a ?setting=value query string. It needs to be
+ * removed to properly access the file name before Drawing.
+ *
+ * @param {String} _dna The entire newDNA string
+ * @returns Cleaned DNA string without querystring parameters.
+ */
+const removeQueryStrings = (_dna) => {
+  const query = /(\?.*$)/;
+  return _dna.replace(query, "");
+};
+
 const isDnaUnique = (_DnaList = [], _dna = []) => {
   let foundDna = _DnaList.find((i) => i.join("") === _dna.join(""));
   return foundDna == undefined ? true : false;
@@ -348,7 +391,8 @@ function pickRandomElement(
   dnaSequence,
   parentId,
   incompatibleDNA,
-  forcedDNA
+  forcedDNA,
+  bypassDNA
 ) {
   let totalWeight = 0;
   // Does this layer include a forcedDNA item? ya? just return it.
@@ -359,7 +403,7 @@ function pickRandomElement(
     debugLogs
       ? console.log(chalk.yellowBright(`Force picking ${forcedPick.name}/n`))
       : null;
-    let dnaString = `${parentId}.${forcedPick.id}:${forcedPick.filename}`;
+    let dnaString = `${parentId}.${forcedPick.id}:${forcedPick.filename}${bypassDNA}`;
     return dnaSequence.push(dnaString);
   }
 
@@ -389,7 +433,7 @@ function pickRandomElement(
     // If there is no weight, it's required, always include it
     // If directory has %, that is % chance to enter the dir
     if (element.weight == "required" && !element.sublayer) {
-      let dnaString = `${parentId}.${element.id}:${element.filename}`;
+      let dnaString = `${parentId}.${element.id}:${element.filename}${bypassDNA}`;
       dnaSequence.unshift(dnaString);
       return;
     }
@@ -399,7 +443,8 @@ function pickRandomElement(
         dnaSequence,
         `${parentId}.${element.id}`,
         incompatibleDNA,
-        forcedDNA
+        forcedDNA,
+        bypassDNA
       );
     }
     if (element.weight !== "required") {
@@ -452,7 +497,8 @@ function pickRandomElement(
             dnaSequence,
             `${parentId}.${currentLayers[i].id}`,
             incompatibleDNA,
-            forcedDNA
+            forcedDNA,
+            bypassDNA
           )
         );
       }
@@ -461,7 +507,7 @@ function pickRandomElement(
       if (currentLayers[i].name === emptyLayerName) {
         return dnaSequence;
       }
-      let dnaString = `${parentId}.${currentLayers[i].id}:${currentLayers[i].filename}`;
+      let dnaString = `${parentId}.${currentLayers[i].id}:${currentLayers[i].filename}${bypassDNA}`;
       return dnaSequence.push(dnaString);
     }
   }
@@ -493,7 +539,8 @@ const createDna = (_layers) => {
       layerSequence,
       layer.id,
       incompatibleDNA,
-      forcedDNA
+      forcedDNA,
+      layer.bypassDNA ? "?bypassDNA=true" : ""
     );
     const sortedLayers = sortLayers(layerSequence);
     dnaSequence = [...dnaSequence, [sortedLayers]];
@@ -629,7 +676,7 @@ const startCreating = async () => {
             )}`
           );
         });
-        dnaList.push(newDna);
+        dnaList.push(filterDNAOptions(newDna));
         editionCount++;
         abstractedIndexes.shift();
       } else {

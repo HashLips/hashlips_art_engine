@@ -25,7 +25,12 @@ const layerConfigurations = [
     growEditionSizeTo: 11,
     // namePrefix: "Monkey", Use to add a name to Metadata `name:`
     layersOrder: [
-      { name: "Back Accessory" },
+      {
+        name: "Back Accessory",
+        options: {
+          bypassDNA: true,
+        },
+      },
       { name: "Head" },
       { name: "Clothes" },
       { name: "Eyes" },

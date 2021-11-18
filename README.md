@@ -119,6 +119,22 @@ HAIR
 
 Where the containing folder will define the traits _rarity_ and in the event that it is selected as part of the randomization, BOTH nested images will be included in the final result, in alphabetical oder–hence the 1, 2, numbering.
 
+### Options
+
+#### Exclude a layer from DNA
+
+If you want to have a layer _ignored_ in the DNA uniqueness check, you can set `bypassDNA: true` in the `options` object. This has the effect of making sure the rest of the traits are unique while not considering the `Background` Layers as traits, for example. The layers _are_ included in the final image.
+
+```js
+layersOrder: [
+      { name: "Background" },
+      { name: "Background" ,
+        options: {
+          bypassDNA: false;
+        }
+      },
+```
+
 ### Sublayer Options
 
 🧪 BETA FEATURE
