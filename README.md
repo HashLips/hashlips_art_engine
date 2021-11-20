@@ -266,7 +266,7 @@ const pixelFormat = {
 };
 ```
 
-### Generate pixelated images from collection
+### Generate GIF images from collection
 
 In order to export gifs based on the layers created, you just need to set the export on the `gif` object in the `src/config.js` file to `true`. You can also play around with the `repeat`, `quality` and the `delay` of the exported gif.
 
@@ -292,15 +292,22 @@ npm run rarity
 The output will look something like this:
 
 ```sh
-Trait type: Bottom lid
-{ trait: 'High', chance: '20', occurrence: '15% out of 100%' }
-{ trait: 'Low', chance: '40', occurrence: '40% out of 100%' }
-{ trait: 'Middle', chance: '40', occurrence: '45% out of 100%' }
-
-Trait type: Iris
-{ trait: 'Large', chance: '20', occurrence: '15% out of 100%' }
-{ trait: 'Medium', chance: '20', occurrence: '15% out of 100%' }
-{ trait: 'Small', chance: '60', occurrence: '70% out of 100%' }
+Trait type: Top lid
+{
+  trait: 'High',
+  chance: '30',
+  occurrence: '3 in 20 editions (15.00 %)'
+}
+{
+  trait: 'Low',
+  chance: '20',
+  occurrence: '3 in 20 editions (15.00 %)'
+}
+{
+  trait: 'Middle',
+  chance: '50',
+  occurrence: '14 in 20 editions (70.00 %)'
+}
 ```
 
 Hope you create some awesome artworks with this code 👄

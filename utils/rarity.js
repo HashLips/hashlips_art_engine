@@ -25,7 +25,7 @@ layerConfigurations.forEach((config) => {
       // just get name and weight for each element
       let rarityDataElement = {
         trait: element.name,
-        chance: element.weight.toFixed(0),
+        weight: element.weight.toFixed(0),
         occurrence: 0, // initialize at 0
       };
       elementsForLayer.push(rarityDataElement);
@@ -59,16 +59,16 @@ data.forEach((element) => {
   });
 });
 
-// convert occurrences to percentages
+// convert occurrences to occurence string
 for (var layer in rarityData) {
   for (var attribute in rarityData[layer]) {
-    // convert to percentage
-    rarityData[layer][attribute].occurrence =
-      (rarityData[layer][attribute].occurrence / editionSize) * 100;
+    // get chance
+    let chance =
+      ((rarityData[layer][attribute].occurrence / editionSize) * 100).toFixed(2);
 
     // show two decimal places in percent
     rarityData[layer][attribute].occurrence =
-      rarityData[layer][attribute].occurrence.toFixed(0) + "% out of 100%";
+      `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
   }
 }
 
