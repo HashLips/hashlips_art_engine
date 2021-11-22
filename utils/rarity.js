@@ -76,13 +76,13 @@ for (var layer in rarityData) {
     
   }
     if (editionsWithoutLayer > 0){
-    // get chance
+    
     let trait = 'no'+layer;
 
     let chance =
       ((editionsWithoutLayer / editionSize) * 100).toFixed(2);
 
-    // show two decimal places in percent
+    // add occurence to layer rarity
     let occStr =
       `${editionsWithoutLayer} in ${editionSize} editions (${chance} %)`;
       rarityData[layer].push({trait: trait, weight: 'n/a', occurrence:occStr})
