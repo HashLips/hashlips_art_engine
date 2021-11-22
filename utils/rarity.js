@@ -99,8 +99,12 @@ for (var layer in rarityData) {
   console.log();
 }
 
+// assign rarityData to object in order to output
+let jsonOut = {};
+Object.assign(jsonOut, rarityData);
+
 //save rarity
-fs.writeFile ("rarity.json", JSON.stringify(rarityData), function(err) {
+fs.writeFile ("rarity.json", JSON.stringify(jsonOut), function(err) {
   if (err) throw err;
   console.log('complete');
   }
