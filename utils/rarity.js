@@ -98,3 +98,10 @@ for (var layer in rarityData) {
   }
   console.log();
 }
+
+//save rarity
+fs.writeFile ("rarity.json", JSON.stringify(rarityData), function(err) {
+  if (err) throw err;
+  console.log('complete');
+  }
+);
