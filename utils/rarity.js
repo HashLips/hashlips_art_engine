@@ -1,4 +1,5 @@
 const basePath = process.cwd();
+const { randomInt } = require("crypto");
 const fs = require("fs");
 const layersDir = `${basePath}/layers`;
 
@@ -65,47 +66,58 @@ for (var layer in rarityData) {
   var editionsWithoutLayer = editionSize;
   for (var attribute in rarityData[layer]) {
     editionsWithoutLayer = editionsWithoutLayer - rarityData[layer][attribute].occurrence
-    // get chance
-    let chance =
-      ((rarityData[layer][attribute].occurrence / editionSize) * 100).toFixed(2);
 
-    // show two decimal places in percent
-    rarityData[layer][attribute].occurrence =
-      `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
-    
-    
   }
-    if (editionsWithoutLayer > 0){
-    
-    let trait = 'no'+layer;
+  if (editionsWithoutLayer > 0) {
+
+    let trait = 'no' + layer;
 
     let chance =
       ((editionsWithoutLayer / editionSize) * 100).toFixed(2);
 
     // add occurence to layer rarity
-    let occStr =
-      `${editionsWithoutLayer} in ${editionSize} editions (${chance} %)`;
-      rarityData[layer].push({trait: trait, weight: 'n/a', occurrence:occStr})
+
+    rarityData[layer].push({ trait: trait, weight: 'n/a', occurrence: editionsWithoutLayer })
+  }
+
+}
+
+saveRarity(rarityData);
+
+printRarity(rarityData);
+
+function printRarity(data) {
+  // print out rarity data
+  for (var layer in data) {
+    console.log(`Trait type: ${layer}`);
+    for (var attribute in rarityData[layer]) {
+      // get chance
+      let chance =
+        ((rarityData[layer][attribute].occurrence / editionSize) * 100).toFixed(2);
+
+      // show two decimal places in percent
+      rarityData[layer][attribute].occurrence =
+        `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
+      console.log(rarityData[layer][attribute]);
     }
+    console.log();
+  }
 
 }
 
-// print out rarity data
-for (var layer in rarityData) {
-  console.log(`Trait type: ${layer}`);
-  for (var trait in rarityData[layer]) {
-    console.log(rarityData[layer][trait]);
+
+function saveRarity(data) {
+  // assign rarityData to object in order to output
+  let jsonOut = {};
+  Object.assign(jsonOut, data);
+
+  //save rarity
+  fs.writeFile("rarity.json", JSON.stringify(jsonOut), function (err) {
+    if (err) throw err;
+    console.log('complete');
   }
-  console.log();
+  );
+
 }
 
-// assign rarityData to object in order to output
-let jsonOut = {};
-Object.assign(jsonOut, rarityData);
 
-//save rarity
-fs.writeFile ("rarity.json", JSON.stringify(jsonOut), function(err) {
-  if (err) throw err;
-  console.log('complete');
-  }
-);
