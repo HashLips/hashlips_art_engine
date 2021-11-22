@@ -61,7 +61,10 @@ data.forEach((element) => {
 
 // convert occurrences to occurence string
 for (var layer in rarityData) {
+  //initialize to keep track how many editions without layer occur
+  var editionsWithoutLayer = editionSize;
   for (var attribute in rarityData[layer]) {
+    editionsWithoutLayer = editionsWithoutLayer - rarityData[layer][attribute].occurrence
     // get chance
     let chance =
       ((rarityData[layer][attribute].occurrence / editionSize) * 100).toFixed(2);
@@ -69,7 +72,22 @@ for (var layer in rarityData) {
     // show two decimal places in percent
     rarityData[layer][attribute].occurrence =
       `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
+    
+    
   }
+    if (editionsWithoutLayer > 0){
+    // get chance
+    let trait = 'no'+layer;
+
+    let chance =
+      ((editionsWithoutLayer / editionSize) * 100).toFixed(2);
+
+    // show two decimal places in percent
+    let occStr =
+      `${editionsWithoutLayer} in ${editionSize} editions (${chance} %)`;
+      rarityData[layer].push({trait: trait, weight: 'n/a', occurrence:occStr})
+    }
+
 }
 
 // print out rarity data
