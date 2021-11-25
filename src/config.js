@@ -26,18 +26,84 @@ const layerConfigurations = [
   {
     growEditionSizeTo: 3000,
     layersOrder: [
-      { name: "Background" },
-      { name: "Body Colors" },
-      { name: "Outline" },
-      { name: "Body Skin" },
-      { name: "Clothing" },
-      { name: "Weapon" },
-      { name: "Adornment" },
-      { name: "Mouth" },
-      { name: "Eyes" },
-      { name: "Mask" },
-      { name: "Mouth Accessory" },
-      { name: "Above Head" },
+      {
+        name: "13_Background",
+        options: {
+          displayName: "Background",
+        },
+      },
+      {
+        name: "12_Behind",
+        options: {
+          displayName: "12_Behind",
+        },
+      },
+      {
+        name: "11_BodyColors",
+        options: {
+          displayName: "Body Colors",
+        },
+      },
+      {
+        name: "10_Outline",
+        options: {
+          displayName: "Outline",
+        },
+      },
+      {
+        name: "9_BodySkins",
+        options: {
+          displayName: "Skin",
+        },
+      },
+      {
+        name: "8_Clothing",
+        options: {
+          displayName: "Clothing",
+        },
+      },
+      {
+        name: "7_Weapon",
+        options: {
+          displayName: "Weapon",
+        },
+      },
+      {
+        name: "6_Adornment",
+        options: {
+          displayName: "Adornment",
+        },
+      },
+      {
+        name: "5_Mouth",
+        options: {
+          displayName: "Mouth",
+        },
+      },
+      {
+        name: "4_Eyes",
+        options: {
+          displayName: "Eyes",
+        },
+      },
+      {
+        name: "3_MasksHelmetsFace",
+        options: {
+          displayName: "MasksHelmetsFace",
+        },
+      },
+      {
+        name: "2_MouthAccessory",
+        options: {
+          displayName: "Mouth Accessory",
+        },
+      },
+      {
+        name: "1_AboveHead",
+        options: {
+          displayName: "Above Head",
+        },
+      },
     ],
   },
 ];
@@ -47,8 +113,8 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-  width: 618,
-  height: 1000,
+  width: 3000,
+  height: 4000,
 };
 
 const gif = {
@@ -72,11 +138,11 @@ const text = {
 };
 
 const pixelFormat = {
-  ratio: 2 / 128,
+  ratio: 5 / 128,
 };
 
 const background = {
-  generate: true,
+  generate: false,
   brightness: "80%",
   static: false,
   default: "#000000",
