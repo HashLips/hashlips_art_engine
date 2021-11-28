@@ -109,7 +109,7 @@ const getElements = (path, layer) => {
   return fs
     .readdirSync(path)
     .filter((item) => {
-      return !/(^|\/)\.[^\/\.]/g.test(item);
+      return /\.(png|PNG|jpe?g|JPE?G|svg)/g.test(item);
     })
     .map((i, index) => {
       const name = cleanName(i);
