@@ -8,6 +8,7 @@ const {
   namePrefix,
   network,
   solanaMetadata,
+  hederaMetadata,
 } = require(`${basePath}/src/config.js`);
 
 // read json data
@@ -19,6 +20,14 @@ data.forEach((item) => {
     item.name = `${namePrefix} #${item.edition}`;
     item.description = description;
     item.creators = solanaMetadata.creators;
+  } else if (network == NETWORK.hbar) {
+    item.name = `${namePrefix} #${item.edition}`;
+    item.description = description;
+    item.image = `${baseUri}/${item.edition}.png`;
+    item.creator = hederaMetadata.creator;
+    item.category = hederaMetadata.category;
+    item.properties = hederaMetadata.properties;
+    item.symbol = hederaMetadata.symbol;
   } else {
     item.name = `${namePrefix} #${item.edition}`;
     item.description = description;

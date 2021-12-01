@@ -178,7 +178,7 @@ const addAttributes = (_element) => {
 
 const loadLayerImg = async (_layer) => {
   return new Promise(async (resolve) => {
-    const image = await loadImage(`${_layer.selectedElement.path}`);
+    const image = await loadImage(`${_layer.selectedElement?.path}`);
     resolve({ layer: _layer, loadedImage: image });
   });
 };
@@ -358,6 +358,7 @@ const startCreating = async () => {
         let loadedElements = [];
 
         results.forEach((layer) => {
+          console.log(layer)
           loadedElements.push(loadLayerImg(layer));
         });
 

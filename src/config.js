@@ -2,11 +2,11 @@ const basePath = process.cwd();
 const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 
-const network = NETWORK.eth;
+const network = NETWORK.hbar;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
+const namePrefix = "HGraph Punk";
+const description = "HGraph Punks are a collection of 8,192 punk NFTs that exist on the Hedera network. HGraph Punk holders get access to “The H” bar, exclusive community events, and voting for the charities HGraph Punks donates 1% of income. For more information, visit www.hgraphpunks.com";
 const baseUri = "ipfs://NewUriToReplace";
 
 const solanaMetadata = {
@@ -21,18 +21,39 @@ const solanaMetadata = {
   ],
 };
 
+const hederaMetadata = {
+  symbol: "HGP",
+  creator: "HGraph Punks",
+  category: "Collectable",
+  properties: {
+    type: "object",
+    description: {
+      edition: {
+        set: 0,
+        drop: 1,
+        pack: 5
+      },
+      extras: [""],
+      catalog: ["classic punks"]
+    }
+  },
+}
+
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 300,
     layersOrder: [
-      { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "background" },
+      { name: "skin" },
+      { name: "tattoos"},
+      { name: "forehead-h" },
+      { name: "earrings" },
+      { name: "necklace" },
+      { name: "eyes" },
+      { name: "nose" },
+      { name: "mouth" },
+      { name: "hair" },
     ],
   },
 ];
@@ -42,8 +63,8 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 1080,
+  height: 1080,
   smoothing: false,
 };
 
@@ -73,14 +94,12 @@ const pixelFormat = {
 
 const background = {
   generate: true,
-  brightness: "80%",
-  static: false,
-  default: "#000000",
+  brightness: "100%",
 };
 
 const extraMetadata = {};
 
-const rarityDelimiter = "#";
+const rarityDelimiter = "__#";
 
 const uniqueDnaTorrance = 10000;
 
@@ -117,6 +136,7 @@ module.exports = {
   namePrefix,
   network,
   solanaMetadata,
+  hederaMetadata,
   gif,
   preview_gif,
 };
