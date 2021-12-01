@@ -27,9 +27,9 @@ const layerConfigurations = [
     layersOrder: [
       {
         name: "Back Accessory",
-        options: {
-          bypassDNA: true,
-        },
+        // options: {
+        //   bypassDNA: true,
+        // },
       },
       { name: "Head" },
       { name: "Clothes" },
@@ -74,7 +74,7 @@ const incompatible = {
  * further in the stack
  */
 const forcedCombinations = {
-  floral: ["MetallicShades", "Golden Sakura"],
+  // floral: ["MetallicShades", "Golden Sakura"],
 };
 
 const shuffleLayerConfigurations = false;

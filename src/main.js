@@ -109,7 +109,8 @@ const getElements = (path, layer) => {
   return fs
     .readdirSync(path)
     .filter((item) => {
-      return /\.(png|PNG|jpe?g|JPE?G|svg)/g.test(item);
+      const invalid = /(\.ini)/g;
+      return !/(^|\/)\.[^\/\.]/g.test(item) && !invalid.test(item);
     })
     .map((i, index) => {
       const name = cleanName(i);
@@ -278,7 +279,9 @@ const addAttributes = (_element) => {
 const loadLayerImg = async (_layer) => {
   return new Promise(async (resolve) => {
     // selected elements is an array.
-    const image = await loadImage(`${_layer.path}`);
+    const image = await loadImage(`${_layer.path}`).catch((err) =>
+      console.log(chalk.redBright(`failed to load ${_layer.path}`, err))
+    );
     resolve({ layer: _layer, loadedImage: image });
   });
 };
