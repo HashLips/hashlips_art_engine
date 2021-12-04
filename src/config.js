@@ -24,7 +24,7 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 3000,
+    growEditionSizeTo: 1000,
     layersOrder: [
       {
         name: "13_Background",
@@ -35,13 +35,13 @@ const layerConfigurations = [
       {
         name: "12_Behind",
         options: {
-          displayName: "12_Behind",
+          displayName: "Behind",
         },
       },
       {
         name: "11_BodyColors",
         options: {
-          displayName: "Body Colors",
+          displayName: "Body",
         },
       },
       {
@@ -89,7 +89,7 @@ const layerConfigurations = [
       {
         name: "3_MasksHelmetsFace",
         options: {
-          displayName: "MasksHelmetsFace",
+          displayName: "Mask",
         },
       },
       {
@@ -150,7 +150,7 @@ const background = {
 
 const extraMetadata = {};
 
-const rarityDelimiter = "#";
+const rarityDelimiter = "_";
 
 const uniqueDnaTorrance = 10000;
 
