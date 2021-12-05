@@ -7,6 +7,7 @@ const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const chalk = require("chalk");
 
 const {
+  NFTName,
   collectionName,
   collectionFamily,
   symbol,
@@ -83,7 +84,7 @@ jsonFiles.forEach((file) => {
   const jsonData = JSON.parse(rawData);
 
   let tempMetadata = {
-    name: jsonData.name,
+    name: NFTName + ' ' + jsonData.name,
     symbol: symbol,
     description: description,
     seller_fee_basis_points: royaltyFee,
@@ -108,7 +109,7 @@ jsonFiles.forEach((file) => {
       ...(jsonData.imageHash !== undefined && {
         imageHash: jsonData.imageHash,
       }),
-      compiler: "HashLips Art Engine - NFTChef fork",
+      compiler: "HashLips Art Engine - NFTChef fork | SolanaJax",
     },
   };
   fs.writeFileSync(
