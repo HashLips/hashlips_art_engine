@@ -5,8 +5,10 @@ const fs = require("fs");
 const path = require("path");
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
-const buildDir = `${basePath}/build`;
-const layersDir = '/home/hero/Sporos Dropbox/IT Lackey/Georges arts NFTs/Sporos/Assets/Collection0/Layers'; // `${basePath}/layers`;
+const buildDir =
+  `/home/hero/Sporos Dropbox/IT Lackey/Georges arts NFTs/Sporos/Assets/Collection0/Test Run/build`; // `${basePath}/build`;
+const layersDir =
+  "/home/hero/Sporos Dropbox/IT Lackey/Georges arts NFTs/Sporos/Assets/Collection0/Layers"; // `${basePath}/layers`;
 const {
   format,
   baseUri,
@@ -293,6 +295,21 @@ const createDna = (_layers) => {
     });
     // number between 0 - totalWeight
     let random = Math.floor(Math.random() * totalWeight);
+
+    //Sort elements by most likely to be selected
+
+    // layer.elements = layer.elements.sort((a, b) => {
+    //   if (a.weight == b.weight) {
+    //     // if (a.weight > Math.random(-100, 100)) return 1;
+    //     // if (b.id >= Math.random(0, layer.elements.length)) return -1;
+    //     // return 0;
+    //     return 0.5 - Math.random();
+    //   }
+    //   return b.weight - a.weight;
+    // });
+    layer.elements = layer.elements.sort((a, b) => {
+        return 0.5 - Math.random();
+    });
     for (var i = 0; i < layer.elements.length; i++) {
       // subtract the current weight from the random weight until we reach a sub zero value.
       random -= layer.elements[i].weight;

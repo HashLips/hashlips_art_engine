@@ -5,13 +5,13 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Sporos";
-const description = "Sporos Rabbits - Series 1";
+const namePrefix = "Rabbit";
+const description = "Sporo Rabbits - Series 1";
 const baseUri = "https://dimmcitystorage.blob.core.windows.net/sporos/s1r1";
 
 const solanaMetadata = {
   symbol: "YC",
-  seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
+  seller_fee_basis_points: 100, // Define how much % you want from secondary market sales 1000 = 10%
   external_url: "https://www.youtube.com/c/hashlipsnft",
   creators: [
     {
@@ -24,12 +24,14 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 1000,
+    growEditionSizeTo: 3000,
     layersOrder: [
       {
         name: "13_Background",
         options: {
           displayName: "Background",
+          bypassDNA: true,
+          opacity: 0.55,       
         },
       },
       {
@@ -48,6 +50,7 @@ const layerConfigurations = [
         name: "10_Outline",
         options: {
           displayName: "Outline",
+          bypassDNA: true
         },
       },
       {
@@ -148,7 +151,13 @@ const background = {
   default: "#000000",
 };
 
-const extraMetadata = {};
+const extraMetadata = {
+  compiler: "Daemon",
+  release: "DCS1R1",
+  artist: "Scott Georges",
+  thumbnail_uri: `${baseUri}/small/[id].png`,
+  fullresulotion_uri: `${baseUri}/hires/[id].png`
+};
 
 const rarityDelimiter = "_";
 

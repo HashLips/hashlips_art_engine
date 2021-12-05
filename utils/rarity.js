@@ -1,8 +1,13 @@
-const basePath = process.cwd();
-const fs = require("fs");
-const layersDir = `${basePath}/layers`;
+//const basePath = process.cwd();
+const basePath =
+  `/home/hero/Sporos Dropbox/IT Lackey/Georges arts NFTs/Sporos/Assets/Collection0/Test Run/`;
 
-const { layerConfigurations } = require(`${basePath}/src/config.js`);
+const fs = require("fs");
+//const layersDir = `${basePath}/layers`;
+const layersDir =
+  "/home/hero/Sporos Dropbox/IT Lackey/Georges arts NFTs/Sporos/Assets/Collection0/Layers"; // `${basePath}/layers`;
+
+const { layerConfigurations } = require(`${process.cwd()}/src/config.js`);
 
 const { getElements } = require("../src/main.js");
 
@@ -27,6 +32,7 @@ layerConfigurations.forEach((config) => {
         trait: element.name,
         weight: element.weight.toFixed(0),
         occurrence: 0, // initialize at 0
+        layer: layer
       };
       elementsForLayer.push(rarityDataElement);
     });
