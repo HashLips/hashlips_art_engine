@@ -87,7 +87,7 @@ jsonFiles.forEach((file) => {
     symbol: symbol,
     description: description,
     seller_fee_basis_points: royaltyFee,
-    image: `${newEditionCount}.png`,
+    image: 'image.png',
     ...(external_url !== "" && { external_url }),
     attributes: jsonData.attributes,
     collection: {
@@ -98,7 +98,7 @@ jsonFiles.forEach((file) => {
       edition: jsonData.edition,
       files: [
         {
-          uri: `${baseUriPrefix}${newEditionCount}.png`,
+          uri: 'image.png',
           type: "image/png",
         },
       ],
