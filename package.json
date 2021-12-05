@@ -20,7 +20,8 @@
     "update_info": "node utils/update_info.js",
     "preview_gif": "node utils/preview_gif.js",
     "generate_metadata": "node utils/generate_metadata.js",
-    "update_rarity_weights": "node utils/update_rarity_weights.js"
+    "update_rarity_weights": "node utils/update_rarity_weights.js",
+    "preview_rarity": "node utils/preview_rarity.js"
   },
   "author": "Daniel Eugene Botha (HashLips)",
   "license": "MIT",

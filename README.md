@@ -243,6 +243,19 @@ For example, to set the Pink and Purple eyes to a rarity weight of 5 run this co
 npm run update_rarity_weights layers/Eye\ color/P*.png 5
 ```
 
+You can also preview the estimated rarity of items per layer with this command:
+```sh
+npm run preview_rarity [directory path]
+```
+For example, to view the estimated number of each color eye you can run this command:
+```sh
+npm run preview_rarity layers/Eye\ color/
+```
+
+The output to the console is in CSV format so the data can be easily viewed in your favorite spreadsheet tool. Also, the tool supports the idea of having a blank or "none" file in the given folder. It will calculate the overall chance of selecting "no item" as well. 
+
+*NOTE* Please keep in mind these numbers are purely apporximates and the *DO NOT* account for the randomness included in the generation. Please use this only as a guide while configuring your layer rarities.
+
 ### Updating baseUri for IPFS and description
 
 You might possibly want to update the baseUri and description after you have ran your collection. To update the baseUri and description simply run:
