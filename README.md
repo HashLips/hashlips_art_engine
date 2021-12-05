@@ -231,6 +231,18 @@ That's it, you're done.
 
 ## Utils
 
+### Updating rarity weights on layer files before generating
+Use the following command to update a batch of layer files to a particular rarity weight:
+
+```sh
+npm run update_rarity_weights [glob pattern] [weight]
+```
+
+For example, to set the Pink and Purple eyes to a rarity weight of 5 run this command:
+```sh
+npm run update_rarity_weights layers/Eye\ color/P*.png 5
+```
+
 ### Updating baseUri for IPFS and description
 
 You might possibly want to update the baseUri and description after you have ran your collection. To update the baseUri and description simply run:
