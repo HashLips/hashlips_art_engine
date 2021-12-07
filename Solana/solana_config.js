@@ -10,10 +10,10 @@
  * Credits:
  * Metaplex.js util by https://github.com/DawidAbram
  */
-
-const collectionName = "PROJECT_NAME";
+const NFTName = "NameOfNFT" //This is the name there will be showen on your NFTs !!! Name can at max be 32 characters !!!
+const collectionName = "PROJECT_NAME"; //This is used if mutiple collection is needed
 const collectionFamily = "PROJECT_FAMILY"; // Many projects can belong to one family
-const symbol = "PRJSMBL";
+const symbol = "PRJSMBL"; // !!! Symbol can at max be 10 characters !!!
 
 const baseUriPrefix = ""; // OPTIONAL, if you need to prefix your image#.png with a baseURI
 const description = "Default Solana Description";
@@ -28,7 +28,7 @@ const royaltyFee = 200; // This is 2% royalty fee
 const creators = [
   {
     address: "WALLET_ADDRESS", // Wallet address for royalties
-    share: 100, // Amount of shares for this wallet, can be more than one, all have to add up to 100 together
+    share: 100, // Amount of shares for this wallet, can be more than one, all have to add up to 100 together !!! And a maximum of 4 creators !!!
   },
   // uncomment and edit for additional creator.
   // {
@@ -44,6 +44,7 @@ const propertyCategory = "image";
 
 module.exports = {
   symbol,
+  NFTName,
   collectionName,
   collectionFamily,
   description,
