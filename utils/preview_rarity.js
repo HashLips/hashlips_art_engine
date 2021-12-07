@@ -18,7 +18,11 @@ for (let index = 0; index < files.length; index++) {
   try {
     let filename = basename(file);
     let parts = filename.split(rarityDelimiter);
-    const weight = parts[1].replace(extname(filename), "") * 1;
+    let weight = 0;
+    if (filename.indexOf(rarityDelimiter)> -1)
+      weight = parts[1].replace(extname(filename), "") * 1;
+    else weight = 1;
+
     if (weight > 1) {
       totalWeight += weight;
     } else {
@@ -45,8 +49,8 @@ items.forEach((item) => {
     )}`
   );
   totalEstimate += estimate;
-  if (item.name.toLowerCase() == "none"
-    || item.name.toLowerCase() == "blank") chanceOfNone = estimate;
+  if (item.name.toLowerCase() == "none" || item.name.toLowerCase() == "blank")
+    chanceOfNone = estimate;
 });
 console.log("================================================");
 console.log(
