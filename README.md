@@ -20,7 +20,7 @@ To find out more please visit:
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/banner.png)
 
-Create generative art by using the canvas api and node js. Before you use the generation engine, make sure you have node.js(v10.18.0) installed.
+Create generative art by using the canvas api and node js. Before you use the generation engine, make sure you have node.js(v14.18.1) installed.
 
 ## Installation 🛠️
 
