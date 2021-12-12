@@ -1,0 +1,385 @@
+//Rarity Date
+
+Trait_type: Background_Colors
+{
+  trait: 'Blue',
+  weight: '1',
+  occurrence: '153 in 1000 editions (15.30 %)'
+}
+{
+  trait: 'Green',
+  weight: '1',
+  occurrence: '122 in 1000 editions (12.20 %)'
+}
+{
+  trait: 'Orange',
+  weight: '1',
+  occurrence: '141 in 1000 editions (14.10 %)'
+}
+{
+  trait: 'Pink',
+  weight: '1',
+  occurrence: '159 in 1000 editions (15.90 %)'
+}
+{
+  trait: 'Purple',
+  weight: '1',
+  occurrence: '136 in 1000 editions (13.60 %)'
+}
+{
+  trait: 'Red',
+  weight: '1',
+  occurrence: '145 in 1000 editions (14.50 %)'
+}
+{
+  trait: 'Yellow',
+  weight: '1',
+  occurrence: '144 in 1000 editions (14.40 %)'
+}
+
+Trait type: Body_Colors
+{
+  trait: 'Blue_Body',
+  weight: '20',
+  occurrence: '139 in 1000 editions (13.90 %)'
+}
+{
+  trait: 'Green_Body',
+  weight: '20',
+  occurrence: '146 in 1000 editions (14.60 %)'
+}
+{
+  trait: 'Grey_Body',
+  weight: '10',
+  occurrence: '74 in 1000 editions (7.40 %)'
+}
+{
+  trait: 'MurkGreen_Body',
+  weight: '10',
+  occurrence: '79 in 1000 editions (7.90 %)'
+}
+{
+  trait: 'Orange_Body',
+  weight: '20',
+  occurrence: '144 in 1000 editions (14.40 %)'
+}
+{
+  trait: 'Purple_Body',
+  weight: '20',
+  occurrence: '147 in 1000 editions (14.70 %)'
+}
+{
+  trait: 'Red_Body',
+  weight: '20',
+  occurrence: '107 in 1000 editions (10.70 %)'
+}
+{
+  trait: 'Yellow_Body',
+  weight: '20',
+  occurrence: '144 in 1000 editions (14.40 %)'
+}
+{
+  trait: 'Zombie_Body',
+  weight: '4',
+  occurrence: '20 in 1000 editions (2.00 %)'
+}
+
+Trait type: Body
+{
+  trait: 'Frame',
+  weight: '1',
+  occurrence: '1000 in 1000 editions (100.00 %)'
+}
+
+Trait type: Eyes
+{
+  trait: 'Anger',
+  weight: '10',
+  occurrence: '76 in 1000 editions (7.60 %)'
+}
+{
+  trait: 'Blue_Color',
+  weight: '10',
+  occurrence: '55 in 1000 editions (5.50 %)'
+}
+{
+  trait: 'Brown_Color',
+  weight: '25',
+  occurrence: '146 in 1000 editions (14.60 %)'
+}
+{
+  trait: 'Confused',
+  weight: '10',
+  occurrence: '67 in 1000 editions (6.70 %)'
+}
+{
+  trait: 'Excited_Closed',
+  weight: '10',
+  occurrence: '84 in 1000 editions (8.40 %)'
+}
+{
+  trait: 'Green_Color',
+  weight: '10',
+  occurrence: '62 in 1000 editions (6.20 %)'
+}
+{
+  trait: 'Heterochromia',
+  weight: '3',
+  occurrence: '23 in 1000 editions (2.30 %)'
+}
+{
+  trait: 'Magenta_Color',
+  weight: '10',
+  occurrence: '54 in 1000 editions (5.40 %)'
+}
+{
+  trait: 'Panic',
+  weight: '10',
+  occurrence: '54 in 1000 editions (5.40 %)'
+}
+{
+  trait: 'Plain',
+  weight: '25',
+  occurrence: '161 in 1000 editions (16.10 %)'
+}
+{
+  trait: 'Squee',
+  weight: '25',
+  occurrence: '181 in 1000 editions (18.10 %)'
+}
+{
+  trait: 'Unalive',
+  weight: '5',
+  occurrence: '37 in 1000 editions (3.70 %)'
+}
+
+Trait type: Mouth
+{
+  trait: 'Buck',
+  weight: '3',
+  occurrence: '31 in 1000 editions (3.10 %)'
+}
+{
+  trait: 'Cheezer',
+  weight: '10',
+  occurrence: '133 in 1000 editions (13.30 %)'
+}
+{
+  trait: 'Drool',
+  weight: '7',
+  occurrence: '83 in 1000 editions (8.30 %)'
+}
+{
+  trait: 'Excited',
+  weight: '5',
+  occurrence: '36 in 1000 editions (3.60 %)'
+}
+{
+  trait: 'Fancy_Moustache',
+  weight: '3',
+  occurrence: '34 in 1000 editions (3.40 %)'
+}
+{
+  trait: 'Fangs',
+  weight: '10',
+  occurrence: '131 in 1000 editions (13.10 %)'
+}
+{
+  trait: 'Frown',
+  weight: '10',
+  occurrence: '124 in 1000 editions (12.40 %)'
+}
+{
+  trait: 'Happy',
+  weight: '10',
+  occurrence: '123 in 1000 editions (12.30 %)'
+}
+{
+  trait: 'Meh',
+  weight: '10',
+  occurrence: '101 in 1000 editions (10.10 %)'
+}
+{
+  trait: 'Nya',
+  weight: '1',
+  occurrence: '6 in 1000 editions (0.60 %)'
+}
+{
+  trait: 'Sad',
+  weight: '10',
+  occurrence: '108 in 1000 editions (10.80 %)'
+}
+{
+  trait: 'Yum',
+  weight: '7',
+  occurrence: '90 in 1000 editions (9.00 %)'
+}
+
+Trait type: Hats
+{
+  trait: '3D',
+  weight: '5',
+  occurrence: '48 in 1000 editions (4.80 %)'
+}
+{
+  trait: 'Aviator',
+  weight: '10',
+  occurrence: '89 in 1000 editions (8.90 %)'
+}
+{
+  trait: 'Blank',
+  weight: '5',
+  occurrence: '44 in 1000 editions (4.40 %)'
+}
+{
+  trait: 'Crown',
+  weight: '5',
+  occurrence: '39 in 1000 editions (3.90 %)'
+}
+{
+  trait: 'Fez',
+  weight: '10',
+  occurrence: '84 in 1000 editions (8.40 %)'
+}
+{
+  trait: 'Halo',
+  weight: '6',
+  occurrence: '48 in 1000 editions (4.80 %)'
+}
+{
+  trait: 'Horns',
+  weight: '15',
+  occurrence: '106 in 1000 editions (10.60 %)'
+}
+{
+  trait: 'Nerd_Glasses',
+  weight: '10',
+  occurrence: '81 in 1000 editions (8.10 %)'
+}
+{
+  trait: 'Posh_Cap',
+  weight: '8',
+  occurrence: '71 in 1000 editions (7.10 %)'
+}
+{
+  trait: 'Santa',
+  weight: '3',
+  occurrence: '22 in 1000 editions (2.20 %)'
+}
+{
+  trait: 'Sun_Hat',
+  weight: '10',
+  occurrence: '90 in 1000 editions (9.00 %)'
+}
+{
+  trait: 'Top_Hat',
+  weight: '15',
+  occurrence: '113 in 1000 editions (11.30 %)'
+}
+{
+  trait: 'Visor',
+  weight: '10',
+  occurrence: '81 in 1000 editions (8.10 %)'
+}
+{
+  trait: 'Witch',
+  weight: '10',
+  occurrence: '84 in 1000 editions (8.40 %)'
+}
+
+Trait type: Accessories
+{
+  trait: 'Blue_Fancy',
+  weight: '25',
+  occurrence: '79 in 1000 editions (7.90 %)'
+}
+{
+  trait: 'Blue_Shirt',
+  weight: '25',
+  occurrence: '71 in 1000 editions (7.10 %)'
+}
+{
+  trait: 'Blue_Warm',
+  weight: '10',
+  occurrence: '25 in 1000 editions (2.50 %)'
+}
+{
+  trait: 'Dark_Blue_Dress',
+  weight: '25',
+  occurrence: '67 in 1000 editions (6.70 %)'
+}
+{
+  trait: 'Golden_Bracelets',
+  weight: '3',
+  occurrence: '6 in 1000 editions (0.60 %)'
+}
+{
+  trait: 'Green_Dress',
+  weight: '25',
+  occurrence: '69 in 1000 editions (6.90 %)'
+}
+{
+  trait: 'Green_Shirt',
+  weight: '25',
+  occurrence: '83 in 1000 editions (8.30 %)'
+}
+{
+  trait: 'Green_Warm',
+  weight: '10',
+  occurrence: '24 in 1000 editions (2.40 %)'
+}
+{
+  trait: 'Mask',
+  weight: '5',
+  occurrence: '9 in 1000 editions (0.90 %)'
+}
+{
+  trait: 'Orange_Fancy',
+  weight: '25',
+  occurrence: '68 in 1000 editions (6.80 %)'
+}
+{
+  trait: 'Orange_Shirt',
+  weight: '25',
+  occurrence: '72 in 1000 editions (7.20 %)'
+}
+{
+  trait: 'Pink_Dress',
+  weight: '25',
+  occurrence: '70 in 1000 editions (7.00 %)'
+}
+{
+  trait: 'Purple_Dress',
+  weight: '25',
+  occurrence: '78 in 1000 editions (7.80 %)'
+}
+{
+  trait: 'Purple_Shirt',
+  weight: '25',
+  occurrence: '77 in 1000 editions (7.70 %)'
+}
+{
+  trait: 'Red_Shirt',
+  weight: '25',
+  occurrence: '60 in 1000 editions (6.00 %)'
+}
+{
+  trait: 'Salmon_Fancy',
+  weight: '25',
+  occurrence: '62 in 1000 editions (6.20 %)'
+}
+{
+  trait: 'Silver_Bracelets',
+  weight: '5',
+  occurrence: '15 in 1000 editions (1.50 %)'
+}
+{
+  trait: 'Wine_Warm',
+  weight: '10',
+  occurrence: '27 in 1000 editions (2.70 %)'
+}
+{
+  trait: 'Yellow_Warm',
+  weight: '10',
+  occurrence: '38 in 1000 editions (3.80 %)'
+}
