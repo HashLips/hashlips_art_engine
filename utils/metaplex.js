@@ -84,11 +84,11 @@ jsonFiles.forEach((file) => {
   const jsonData = JSON.parse(rawData);
 
   let tempMetadata = {
-    name: NFTName + ' ' + jsonData.name,
+    name: NFTName + " " + jsonData.name,
     symbol: symbol,
     description: description,
     seller_fee_basis_points: royaltyFee,
-    image: 'image.png',
+    image: "image.png",
     ...(external_url !== "" && { external_url }),
     attributes: jsonData.attributes,
     collection: {
@@ -99,7 +99,7 @@ jsonFiles.forEach((file) => {
       edition: jsonData.edition,
       files: [
         {
-          uri: 'image.png',
+          uri: "image.png",
           type: "image/png",
         },
       ],
