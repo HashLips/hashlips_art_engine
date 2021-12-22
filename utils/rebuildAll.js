@@ -61,7 +61,7 @@ const setup = () => {
  * This currently only supports a single layer config
  */
 
-const regenerate = (dnaData, options) => {
+const regenerate = async (dnaData, options) => {
   /**
    * TODO:
    * The Dna needs to store background generation color
@@ -71,7 +71,7 @@ const regenerate = (dnaData, options) => {
   const ctxMain = canvas.getContext("2d");
   let layerConfigIndex = 0;
   let abstractedIndexes = [];
-
+  let drawIndex = 0;
   for (
     let i = 1;
     i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
@@ -81,12 +81,20 @@ const regenerate = (dnaData, options) => {
   }
 
   const layers = layersSetup(layerConfigurations[layerConfigIndex].layersOrder);
-
-  dnaData.forEach(async (dnaStrand, index) => {
+  console.log({ drawIndex, len: dnaData.length });
+  while (drawIndex < dnaData.length) {
+    const dnaStrand = dnaData[drawIndex];
     let loadedElements = [];
     // loop over the dna data, check if it is an array or a string, if string, make arayy
+    options.debug && options.verbose
+      ? console.log("dna strand type", typeof dnaStrand)
+      : null;
+    options.debug && options.verbose
+      ? console.log(`DNA for index ${drawIndex}: \n`, dnaStrand)
+      : null;
+
     let images =
-      typeof dnaStrand === "Array" ? dnaStrand.join(DNA_DELIMITER) : dnaStrand;
+      typeof dnaStrand === "object" ? dnaStrand.join(DNA_DELIMITER) : dnaStrand;
 
     options.debug ? console.log("Rebuilding DNA:", images) : null;
     if (options.omit) {
@@ -100,7 +108,6 @@ const regenerate = (dnaData, options) => {
 
       images = dnaImages.join(DNA_DELIMITER);
     }
-    console.log({ images });
 
     let results = constructLayerToDna(images, layers);
 
@@ -109,11 +116,12 @@ const regenerate = (dnaData, options) => {
     const allImages = results.reduce((images, layer) => {
       return [...images, ...layer.selectedElements];
     }, []);
+
     allImages.forEach((layer) => {
       loadedElements.push(loadLayerImg(layer));
     });
 
-    await Promise.all(loadedElements).then((renderObjectArray) => {
+    await Promise.all(loadedElements).then(async (renderObjectArray) => {
       if (options.background) {
         background.generate = options.background === "true";
       }
@@ -124,27 +132,18 @@ const regenerate = (dnaData, options) => {
         _background: background,
       };
       paintLayers(ctxMain, renderObjectArray, layerData);
-      // TODO: unpause output
+
       const editionCount = options.startIndex
-        ? Number(index) + Number(options.startIndex)
-        : index;
+        ? Number(drawIndex) + Number(options.startIndex)
+        : drawIndex;
       fs.writeFileSync(
         `${outputDir}/${editionCount}${outputJPEG ? ".jpg" : ".png"}`,
         canvas.toBuffer(`${outputJPEG ? "image/jpeg" : "image/png"}`)
       );
-      //  outputFiles(abstractedIndexes, layerData);
-    });
-  });
 
-  //     // overwrite the build image file
-  //     fs.writeFileSync(
-  //       path.join(builtJsonDir, "_metadata.json"),
-  //       JSON.stringify(updatedGlobalMetadata, null, 2)
-  //     );
-  //   } catch (error) {
-  //     console.error(error);
-  //     throw new Error(`Image ${imageNum} is missing a matching JSON file`);
-  //   }
+      drawIndex++;
+    });
+  }
 };
 
 program
@@ -160,10 +159,15 @@ program
   )
   .option("-s, --source <source>", "Optional source path of _dna.json")
   .option("-d, --debug", "display additional logging")
+  .option("-v, --verbose", "display even more additional logging")
   .action((options, command) => {
     const dnaData = options.source
       ? require(path.join(basePath, options.source))
       : require(dnaFilePath);
+
+    options.debug && options.verbose
+      ? console.log("Loaed DNA data\n", dnaData)
+      : null;
 
     console.log(chalk.greenBright.inverse(`\nRegenerating images..`));
     options.omit
