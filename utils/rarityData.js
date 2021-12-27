@@ -1,8 +1,13 @@
-const basePath = process.cwd();
+"use strict";
+
+const path = require("path");
+const isLocal = typeof process.pkg === "undefined";
+const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
 const layersDir = `${basePath}/layers`;
 
-const { layerConfigurations } = require(`${basePath}/src/config.js`);
+console.log(path.join(basePath, "/src/config.js"));
+const { layerConfigurations } = require(path.join(basePath, "/src/config.js"));
 
 const { getElements } = require("../src/main.js");
 
@@ -25,19 +30,16 @@ layerConfigurations.forEach((config) => {
       // just get name and weight for each element
       let rarityDataElement = {
         trait: element.name,
-        weight: element.weight.toFixed(0),
+        chance: element.weight.toFixed(0),
         occurrence: 0, // initialize at 0
       };
       elementsForLayer.push(rarityDataElement);
     });
-    let layerName =
-      layer.options?.["displayName"] != undefined
-        ? layer.options?.["displayName"]
-        : layer.name;
+
     // don't include duplicate layers
     if (!rarityData.includes(layer.name)) {
       // add elements for each layer to chart
-      rarityData[layerName] = elementsForLayer;
+      rarityData[layer.name] = elementsForLayer;
     }
   });
 });
@@ -45,6 +47,7 @@ layerConfigurations.forEach((config) => {
 // fill up rarity chart with occurrences from metadata
 data.forEach((element) => {
   let attributes = element.attributes;
+
   attributes.forEach((attribute) => {
     let traitType = attribute.trait_type;
     let value = attribute.value;
@@ -59,17 +62,23 @@ data.forEach((element) => {
   });
 });
 
-// convert occurrences to occurence string
+// convert occurrences to percentages
 for (var layer in rarityData) {
   for (var attribute in rarityData[layer]) {
-    // get chance
-    let chance =
-      ((rarityData[layer][attribute].occurrence / editionSize) * 100).toFixed(2);
+    // convert to percentage
+    rarityData[layer][attribute].occurrence =
+      (rarityData[layer][attribute].occurrence / editionSize) * 100;
 
     // show two decimal places in percent
     rarityData[layer][attribute].occurrence =
-      `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
-  }
+      rarityData[layer][attribute].occurrence.toFixed(0) + "% out of 100%";
+
+     
+  } 
+  fs.writeFile(`./rarityDataOutput_${layer}_${attribute}.json`, JSON.stringify(rarityData[layer][attribute]), (err) => {
+    if (err) throw err;
+    console.log('Rarity Data written to file');
+  });
 }
 
 // print out rarity data
@@ -80,3 +89,4 @@ for (var layer in rarityData) {
   }
   console.log();
 }
+

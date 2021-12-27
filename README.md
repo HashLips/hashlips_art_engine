@@ -20,7 +20,7 @@ To find out more please visit:
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/banner.png)
 
-Create generative art by using the canvas api and node js. Before you use the generation engine, make sure you have node.js(v10.18.0) installed.
+Create generative art by using the canvas api and node js. Before you use the generation engine, make sure you have node.js installed.
 
 ## Installation 🛠️
 
@@ -107,13 +107,7 @@ You can mix up the `layerConfigurations` order on how the images are saved by se
 
 If you want to have logs to debug and see what is happening when you generate images you can set the variable `debugLogs` in the `config.js` file to true. It is false by default, so you will only see general logs.
 
-If you want to play around with different blending modes, you can add a `blend: MODE.colorBurn` field to the layersOrder `options` object.
-
-If you need a layers to have a different opacity then you can add the `opacity: 0.7` field to the layersOrder `options` object as well.
-
-If you want to have a layer _ignored_ in the DNA uniqueness check, you can set `bypassDNA: true` in the `options` object. This has the effect of making sure the rest of the traits are unique while not considering the `Background` Layers as traits, for example. The layers _are_ included in the final image.
-
-To use a different metadata attribute name you can add the `displayName: "Awesome Eye Color"` to the `options` object. All options are optional and can be addes on the same layer if you want to.
+If you want to play around with different blending modes, you can add a `blend: MODE.colorBurn` field to the layersOrder object. If you need a layers to have a different opacity then you can add the `opacity: 0.7` field to the layersOrder object as well. Both the `blend: MODE.colorBurn` and `opacity: 0.7` can be addes on the same layer if you want to.
 
 Here is an example on how you can play around with both filter fields:
 
@@ -122,24 +116,13 @@ const layerConfigurations = [
   {
     growEditionSizeTo: 5,
     layersOrder: [
-      { name: "Background" , {
-        options: {
-          bypassDNA: false;
-        }
-      }},
+      { name: "Background" },
       { name: "Eyeball" },
-      {
-        name: "Eye color",
-        options: {
-          blend: MODE.destinationIn,
-          opacity: 0.2,
-          displayName: "Awesome Eye Color",
-        },
-      },
+      { name: "Eye color", blend: MODE.colorBurn },
       { name: "Iris" },
       { name: "Shine" },
-      { name: "Bottom lid", options: { blend: MODE.overlay, opacity: 0.7 } },
-      { name: "Top lid" },
+      { name: "Bottom lid", blend: MODE.overlay, opacity: 0.7 },
+      { name: "Top lid", opacity: 0.7 },
     ],
   },
 ];
@@ -231,12 +214,12 @@ That's it, you're done.
 
 ## Utils
 
-### Updating baseUri for IPFS and description
+### Updating baseUri for IPFS
 
-You might possibly want to update the baseUri and description after you have ran your collection. To update the baseUri and description simply run:
+You might possibly want to update the baseUri after you have ran your collection. To update the baseUri simply run:
 
 ```sh
-npm run update_info
+node utils/updateBaseUri.js
 ```
 
 ### Generate a preview image
@@ -244,41 +227,15 @@ npm run update_info
 Create a preview image collage of your collection, run:
 
 ```sh
-npm run preview
+node utils/createPreviewCollage.js
 ```
 
-### Generate pixelated images from collection
+### Re-generate the \_metadata.json file
 
-In order to convert images into pixelated images you would need a list of images that you want to convert. So run the generator first.
-
-Then simply run this command:
+This util will only work if you have all the individual json files and want to re-generate the \_metadata.json file if you lost it, run:
 
 ```sh
-npm run pixelate
-```
-
-All your images will be outputted in the `/build/pixel_images` directory.
-If you want to change the ratio of the pixelation then you can update the ratio property on the `pixelFormat` object in the `src/config.js` file. The lower the number on the left, the more pixelated the image will be.
-
-```js
-const pixelFormat = {
-  ratio: 5 / 128,
-};
-```
-
-### Generate GIF images from collection
-
-In order to export gifs based on the layers created, you just need to set the export on the `gif` object in the `src/config.js` file to `true`. You can also play around with the `repeat`, `quality` and the `delay` of the exported gif.
-
-Setting the `repeat: -1` will produce a one time render and `repeat: 0` will loop forever.
-
-```js
-const gif = {
-  export: true,
-  repeat: 0,
-  quality: 100,
-  delay: 500,
-};
+node utils/regenerateMetadata.js
 ```
 
 ### Printing rarity data (Experimental feature)
@@ -286,28 +243,21 @@ const gif = {
 To see the percentages of each attribute across your collection, run:
 
 ```sh
-npm run rarity
+node utils/rarityData.js
 ```
 
 The output will look something like this:
 
 ```sh
-Trait type: Top lid
-{
-  trait: 'High',
-  chance: '30',
-  occurrence: '3 in 20 editions (15.00 %)'
-}
-{
-  trait: 'Low',
-  chance: '20',
-  occurrence: '3 in 20 editions (15.00 %)'
-}
-{
-  trait: 'Middle',
-  chance: '50',
-  occurrence: '14 in 20 editions (70.00 %)'
-}
+Trait type: Bottom lid
+{ trait: 'High', chance: '20', occurrence: '15% out of 100%' }
+{ trait: 'Low', chance: '40', occurrence: '40% out of 100%' }
+{ trait: 'Middle', chance: '40', occurrence: '45% out of 100%' }
+
+Trait type: Iris
+{ trait: 'Large', chance: '20', occurrence: '15% out of 100%' }
+{ trait: 'Medium', chance: '20', occurrence: '15% out of 100%' }
+{ trait: 'Small', chance: '60', occurrence: '70% out of 100%' }
 ```
 
 Hope you create some awesome artworks with this code 👄
