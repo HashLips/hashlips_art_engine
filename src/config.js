@@ -7,7 +7,8 @@ const network = NETWORK.eth;
 // General metadata for Ethereum
 const namePrefix = "Squid Friends";
 const description = "A creature constructed of love, magic, and code.";
-const baseUri = "https://gateway.pinata.cloud/ipfs";
+const baseUri = "ipfs://QmavqoyFvkxg7bFvG3HXBRtQutCfPiZQkviJ6yQHTKycy4";
+
 
 const solanaMetadata = {
   symbol: "YC",
@@ -80,7 +81,9 @@ const background = {
   default: "#000000",
 };
 
-const extraMetadata = {};
+const extraMetadata = {
+  creator: "Jordan Morales",
+};
 
 const rarityDelimiter = "#";
 
