@@ -5,7 +5,7 @@ const basePath = process.cwd();
 const fs = require("fs");
 
 const AUTH = process.env.AUTH_KEY;
-const CONTRACT_ADDRESS = '0xEf43532F87b3EC5ea927f78D6a212B2711c43305';
+const CONTRACT_ADDRESS = '0xa4Ebc74C75Afd908fe3cd7CD96e10A269d352A88';
 const MINT_TO_ADDRESS = '0x2D2Fb38a6926E446f97B4696E823fe71D4B82896';
 const CHAIN = 'polygon';
 const TIMEOUT = 5000; // Milliseconds. This a timeout for errors only. If there is an error, it will wait then try again. 5000 = 5 seconds.
