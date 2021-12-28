@@ -3,7 +3,7 @@ const fetch = require("node-fetch");
 const basePath = process.cwd();
 const fs = require("fs");
 const readDir = `${basePath}/build/json`;
-let fileCount = fs.readdirSync(readDir).length - 2;
+let fileCount = fs.readdirSync(readDir).length - 1;
 
 const AUTH = process.env.AUTH_KEY;
 const TIMEOUT = 1000; // Milliseconds. Extend this if needed to wait for each upload. 1000 = 1 second.

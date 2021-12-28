@@ -24,7 +24,7 @@ const solanaMetadata = {
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 1000,
+    growEditionSizeTo: 3333,
     layersOrder: [
       { name: "Background_Colors" },
       { name: "Body_Colors" },
@@ -82,7 +82,7 @@ const background = {
 };
 
 const extraMetadata = {
-  creator: "Jordan Morales",
+  external_url: "http://squidfriends.xyz/",
 };
 
 const rarityDelimiter = "#";

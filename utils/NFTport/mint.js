@@ -7,7 +7,7 @@ const fs = require("fs");
 const AUTH = process.env.AUTH_KEY;
 const CONTRACT_ADDRESS = '0xEf43532F87b3EC5ea927f78D6a212B2711c43305';
 const MINT_TO_ADDRESS = '0x2D2Fb38a6926E446f97B4696E823fe71D4B82896';
-const CHAIN = 'rinkeby';
+const CHAIN = 'polygon';
 const TIMEOUT = 5000; // Milliseconds. This a timeout for errors only. If there is an error, it will wait then try again. 5000 = 5 seconds.
 const mintedArray = [];
 
@@ -29,7 +29,7 @@ async function main() {
         metaData: meta,
         mintData: mintData
       }
-      writeMintData(meta.edition, combinedData)
+      writeMintData(meta.custom_fields.edition, combinedData)
     } catch(err) {
       console.log(err)
     }
@@ -51,7 +51,7 @@ async function fetchWithRetry(meta)  {
         contract_address: CONTRACT_ADDRESS,
         metadata_uri: _meta.metadata_uri,
         mint_to_address: MINT_TO_ADDRESS,
-        token_id: _meta.edition,
+        token_id: _meta.custom_fields.edition,
       };
 
       let options = {
