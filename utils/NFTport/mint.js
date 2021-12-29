@@ -68,20 +68,20 @@ async function fetchWithRetry(meta)  {
 
           if(status === 200) {
             return resolve(res.json());
-          }            
+          }
           else if (_n === 1) {
-            throw reject("Too many attempts.. Error in getting http data");                
+            throw reject("Too many attempts.. Error in getting http data");
           }
           else {
             console.log("Retry again: Got back " + status);
             console.log("With delay " + attempts * TIMEOUT);
             setTimeout(() => {
                 attempts++;
-                
-                fetch_retry(_meta, _n - 1);                    
+
+                fetch_retry(_meta, _n - 1);
             }, attempts * TIMEOUT);
-          }            
-      }).catch(function (error) {            
+          }
+      }).catch(function (error) {
           if (_n === 1) {
             reject(error)
           }
@@ -92,7 +92,7 @@ async function fetchWithRetry(meta)  {
               }, attempts * TIMEOUT);
           }
       });
-    }        
+    }
     return fetch_retry(meta, numberOfRetry);
   });
 }
