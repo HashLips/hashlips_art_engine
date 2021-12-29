@@ -8,15 +8,15 @@ const AUTH = process.env.AUTH_KEY;
 
 let url = 'https://api.nftport.xyz/v0/me/mints';
 
-fs.writeFileSync(`${basePath}/utils/NFTport/Minted.json`, "");
-const writter = fs.createWriteStream(`${basePath}/utils/NFTport/Minted.json`, {
+fs.writeFileSync(`${basePath}/utils/NFTport/Minted1.json`, "");
+const writter = fs.createWriteStream(`${basePath}/utils/NFTport/Minted1.json`, {
   flags: "a",
 });
 writter.write("[");
 
 let options = {
   method: 'GET',
-  qs: {chain: 'polygon'},
+  qs: {chain: 'polygon', page_number: '1'},
   headers: {
     'Content-Type': 'application/json',
     Authorization: AUTH
