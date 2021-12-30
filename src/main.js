@@ -35,12 +35,14 @@ const {
   hashImages,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
-const ctx = canvas.getContext("2d");
-ctx.imageSmoothingEnabled = format.smoothing;
+const ctxMain = canvas.getContext("2d");
+ctxMain.imageSmoothingEnabled = format.smoothing;
 
 var metadataList = [];
 var attributesList = [];
-var dnaList = [];
+
+var dnaList = new Set();
+const DNA_DELIMITER = "*";
 
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
@@ -75,6 +77,24 @@ const cleanName = (_str) => {
   return nameWithoutWeight;
 };
 
+const parseQueryString = (filename) => {
+  const query = /\?(.*)\./;
+  const querystring = query.exec(filename);
+  if (!querystring) {
+    return { blendmode: "source-over", opacity: 1 };
+  }
+
+  const layerstyles = querystring[1].split("&").reduce((r, setting) => {
+    const keyPairs = setting.split("=");
+    return { ...r, [keyPairs[0]]: keyPairs[1] };
+  }, []);
+
+  return {
+    blendmode: layerstyles.blend ? layerstyles.blend : "source-over",
+    opacity: layerstyles.opacity ? layerstyles.opacity / 100 : 1,
+  };
+};
+
 /**
  * Given some input, creates a sha256 hash.
  * @param {Object} input
@@ -90,21 +110,21 @@ const hash = (input) => {
  *
  * @param {Object} layer the parent layer object
  * @param {String} sublayer Clean name of the current layer
- * @returns {blendMode, opaticty} options object
+ * @returns {blendmode, opaticty} options object
  */
 const getElementOptions = (layer, sublayer) => {
-  let blendMode = "source-over";
+  let blendmode = "source-over";
   let opacity = 1;
   if (layer.sublayerOptions?.[sublayer]) {
     const options = layer.sublayerOptions[sublayer];
-    options.blend !== undefined ? (blendMode = options.blend) : null;
+    options.blend !== undefined ? (blendmode = options.blend) : null;
     options.opacity !== undefined ? (opacity = options.blend) : null;
   } else {
     // inherit parent blend mode
-    blendMode = layer.blend != undefined ? layer.blend : "source-over";
+    blendmode = layer.blend != undefined ? layer.blend : "source-over";
     opacity = layer.opacity != undefined ? layer.opacity : 1;
   }
-  return { blendMode, opacity };
+  return { blendmode, opacity };
 };
 
 const getElements = (path, layer) => {
@@ -120,12 +140,12 @@ const getElements = (path, layer) => {
       const sublayer = !extension.test(i);
       const weight = getRarityWeight(i);
 
-      const { blendMode, opacity } = getElementOptions(layer, name);
+      const { blendmode, opacity } = getElementOptions(layer, name);
 
       const element = {
         sublayer,
         weight,
-        blendMode,
+        blendmode,
         opacity,
         id: index,
         name,
@@ -135,7 +155,7 @@ const getElements = (path, layer) => {
       if (sublayer) {
         element.path = `${path}${i}`;
         const subPath = `${path}${i}/`;
-        const sublayer = { ...layer, blend: blendMode, opacity };
+        const sublayer = { ...layer, blend: blendmode, opacity };
         element.elements = getElements(subPath, sublayer);
       }
 
@@ -195,7 +215,7 @@ const layersSetup = (layersOrder) => {
     return {
       id: index,
       name: layerObj.name,
-      blendMode:
+      blendmode:
         layerObj["blend"] != undefined ? layerObj["blend"] : "source-over",
       opacity: layerObj["opacity"] != undefined ? layerObj["opacity"] : 1,
       elements: getElements(`${layersDir}/${layerObj.name}/`, layerObj),
@@ -225,9 +245,9 @@ const genColor = () => {
   return pastel;
 };
 
-const drawBackground = () => {
-  ctx.fillStyle = genColor();
-  ctx.fillRect(0, 0, format.width, format.height);
+const drawBackground = (canvasContext) => {
+  canvasContext.fillStyle = genColor();
+  canvasContext.fillRect(0, 0, format.width, format.height);
 };
 
 const addMetadata = (_dna, _edition, _prefixData) => {
@@ -288,17 +308,28 @@ const loadLayerImg = async (_layer) => {
   });
 };
 
-const drawElement = (_renderObject) => {
-  ctx.globalAlpha = _renderObject.layer.opacity;
-  ctx.globalCompositeOperation = _renderObject.layer.blendMode;
-  ctx.drawImage(_renderObject.loadedImage, 0, 0, format.width, format.height);
+const drawElement = (_renderObject, mainCanvas) => {
+  const layerCanvas = createCanvas(format.width, format.height);
+  const layerctx = layerCanvas.getContext("2d");
+
+  layerctx.drawImage(
+    _renderObject.loadedImage,
+    0,
+    0,
+    format.width,
+    format.height
+  );
+
   addAttributes(_renderObject);
+  mainCanvas.drawImage(layerCanvas, 0, 0, format.width, format.height);
+  return layerCanvas;
 };
 
 const constructLayerToDna = (_dna = [], _layers = []) => {
+  const dna = _dna.split(DNA_DELIMITER);
   let mappedDnaToLayers = _layers.map((layer, index) => {
     let selectedElements = [];
-    const layerImages = _dna.filter(
+    const layerImages = dna.filter(
       (element) => element.split(".")[0] == layer.id
     );
     layerImages.forEach((img) => {
@@ -324,7 +355,7 @@ const constructLayerToDna = (_dna = [], _layers = []) => {
 
     return {
       name: layer.name,
-      blendMode: layer.blendMode,
+      blendmode: layer.blendmode,
       opacity: layer.opacity,
       selectedElements: selectedElements,
       ...(layer.display_type !== undefined && {
@@ -344,7 +375,7 @@ const constructLayerToDna = (_dna = [], _layers = []) => {
  * @returns new DNA string with any items that should be filtered, removed.
  */
 const filterDNAOptions = (_dna) => {
-  const filteredDNA = _dna.filter((element) => {
+  const filteredDNA = _dna.split(DNA_DELIMITER).filter((element) => {
     const query = /(\?.*$)/;
     const querystring = query.exec(element);
     if (!querystring) {
@@ -358,7 +389,7 @@ const filterDNAOptions = (_dna) => {
     return options.bypassDNA;
   });
 
-  return filteredDNA;
+  return filteredDNA.join(DNA_DELIMITER);
 };
 
 /**
@@ -374,9 +405,8 @@ const removeQueryStrings = (_dna) => {
   return _dna.replace(query, "");
 };
 
-const isDnaUnique = (_DnaList = [], _dna = []) => {
-  let foundDna = _DnaList.find((i) => i.join("") === _dna.join(""));
-  return foundDna == undefined ? true : false;
+const isDnaUnique = (_DnaList, _dna = []) => {
+  return !dnaList.has(_dna);
 };
 
 // expecting to return an array of strings for each _layer_ that is picked,
@@ -550,7 +580,8 @@ const createDna = (_layers) => {
     const sortedLayers = sortLayers(layerSequence);
     dnaSequence = [...dnaSequence, [sortedLayers]];
   });
-  return dnaSequence.flat(2);
+  const dnaStrand = dnaSequence.flat(2).join(DNA_DELIMITER);
+  return dnaStrand;
 };
 
 const writeMetaData = (_data) => {
@@ -588,6 +619,95 @@ function shuffle(array) {
   return array;
 }
 
+/**
+ * Paints the given renderOjects to the main canvas context.
+ *
+ * @param {Array} renderObjectArray Array of render elements to draw to canvas
+ * @param {Object} layerData data passed from the current iteration of the loop or configured dna-set
+ *
+ */
+const paintLayers = (canvasContext, renderObjectArray, layerData) => {
+  debugLogs ? console.log("Clearing canvas") : null;
+  canvasContext.clearRect(0, 0, format.width, format.height);
+
+  const { abstractedIndexes, _background } = layerData;
+
+  renderObjectArray.forEach((renderObject) => {
+    // one main canvas
+    // each render Object should be a solo canvas
+    // append them all to main canbas
+    canvasContext.globalAlpha = renderObject.layer.opacity;
+    canvasContext.globalCompositeOperation = renderObject.layer.blendmode;
+    canvasContext.drawImage(
+      drawElement(renderObject, canvasContext),
+      0,
+      0,
+      format.weight,
+      format.height
+    );
+  });
+  console.log("_background.generate", _background.generate);
+  if (_background.generate) {
+    canvasContext.globalCompositeOperation = "destination-over";
+    drawBackground(canvasContext);
+  }
+  debugLogs
+    ? console.log("Editions left to create: ", abstractedIndexes)
+    : null;
+};
+
+const postProcessMetadata = (layerData) => {
+  const { abstractedIndexes, layerConfigIndex } = layerData;
+  // Metadata options
+  const savedFile = fs.readFileSync(
+    `${buildDir}/images/${abstractedIndexes[0]}${outputJPEG ? ".jpg" : ".png"}`
+  );
+  const _imageHash = hash(savedFile);
+
+  // if there's a prefix for the current configIndex, then
+  // start count back at 1 for the name, only.
+  const _prefix = layerConfigurations[layerConfigIndex].namePrefix
+    ? layerConfigurations[layerConfigIndex].namePrefix
+    : null;
+  // if resetNameIndex is turned on, calculate the offset and send it
+  // with the prefix
+  let _offset = 0;
+  if (layerConfigurations[layerConfigIndex].resetNameIndex) {
+    _offset = layerConfigurations.reduce((acc, layer, index) => {
+      if (index < layerConfigIndex) {
+        acc += layer.growEditionSizeTo;
+        return acc;
+      }
+      return acc;
+    }, 0);
+  }
+
+  return {
+    _imageHash,
+    _prefix,
+    _offset,
+  };
+};
+
+const outputFiles = (abstractedIndexes, layerData) => {
+  const { newDna, layerConfigIndex } = layerData;
+  // Save the canvas buffer to file
+  saveImage(abstractedIndexes[0]);
+
+  const { _imageHash, _prefix, _offset } = postProcessMetadata(layerData);
+
+  addMetadata(newDna, abstractedIndexes[0], {
+    _prefix,
+    _offset,
+    _imageHash,
+  });
+
+  saveMetaDataSingleFile(abstractedIndexes[0]);
+  console.log(
+    `Created edition: ${abstractedIndexes[0]}, with DNA: ${hash(newDna)}`
+  );
+};
+
 const startCreating = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
@@ -616,9 +736,7 @@ const startCreating = async () => {
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
-
-        debugLogs ? console.log("Created DNA:", newDna) : null;
-
+        debugLogs ? console.log("DNA:", newDna.split(DNA_DELIMITER)) : null;
         let loadedElements = [];
         // reduce the stacked and nested layer into a single array
         const allImages = results.reduce((images, layer) => {
@@ -629,59 +747,17 @@ const startCreating = async () => {
         });
 
         await Promise.all(loadedElements).then((renderObjectArray) => {
-          debugLogs ? console.log("Clearing canvas") : null;
-          ctx.clearRect(0, 0, format.width, format.height);
-          renderObjectArray.forEach((renderObject) => {
-            drawElement(renderObject);
-          });
-          // Draw the background last, always under
-          if (background.generate) {
-            ctx.globalCompositeOperation = "destination-over";
-            drawBackground();
-          }
-          debugLogs
-            ? console.log("Editions left to create: ", abstractedIndexes)
-            : null;
-          saveImage(abstractedIndexes[0]);
-
-          // Metadata options
-          const savedFile = fs.readFileSync(
-            `${buildDir}/images/${abstractedIndexes[0]}${
-              outputJPEG ? ".jpg" : ".png"
-            }`
-          );
-          const _imageHash = hash(savedFile);
-          // if there's a prefix for the current configIndex, then
-          // start count back at 1 for the name, only.
-          const _prefix = layerConfigurations[layerConfigIndex].namePrefix
-            ? layerConfigurations[layerConfigIndex].namePrefix
-            : null;
-          // if resetNameIndex is turned on, calculate the offset and send it
-          // with the prefix
-          let _offset = 0;
-          if (layerConfigurations[layerConfigIndex].resetNameIndex) {
-            _offset = layerConfigurations.reduce((acc, layer, index) => {
-              if (index < layerConfigIndex) {
-                acc += layer.growEditionSizeTo;
-                return acc;
-              }
-              return acc;
-            }, 0);
-          }
-          addMetadata(newDna, abstractedIndexes[0], {
-            _prefix,
-            _offset,
-            _imageHash,
-          });
-
-          saveMetaDataSingleFile(abstractedIndexes[0]);
-          console.log(
-            `Created edition: ${abstractedIndexes[0]}, with DNA: ${hash(
-              newDna
-            )}`
-          );
+          const layerData = {
+            newDna,
+            layerConfigIndex,
+            abstractedIndexes,
+            _background: background,
+          };
+          paintLayers(ctxMain, renderObjectArray, layerData);
+          outputFiles(abstractedIndexes, layerData);
         });
-        dnaList.push(filterDNAOptions(newDna));
+
+        dnaList.add(filterDNAOptions(newDna));
         editionCount++;
         abstractedIndexes.shift();
       } else {
@@ -698,7 +774,23 @@ const startCreating = async () => {
     layerConfigIndex++;
   }
   writeMetaData(JSON.stringify(metadataList, null, 2));
-  writeDnaLog(JSON.stringify(dnaList, null, 2));
+  writeDnaLog(JSON.stringify([...dnaList], null, 2));
 };
 
-module.exports = { startCreating, buildSetup, getElements, layersSetup };
+module.exports = {
+  startCreating,
+  DNA_DELIMITER,
+  createDna,
+  constructLayerToDna,
+  isDnaUnique,
+  loadLayerImg,
+  layersSetup,
+  paintLayers,
+  postProcessMetadata,
+  addAttributes,
+  addMetadata,
+  buildSetup,
+  getElements,
+  parseQueryString,
+  hash,
+};
