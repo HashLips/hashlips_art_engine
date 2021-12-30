@@ -135,6 +135,25 @@ layersOrder: [
       },
 ```
 
+#### Use Parent folders as trait_value in attributes
+
+In some projects, you may define a root folder in `layersOrder` only as a starting point in the branching structure and not want to use that folders name as the `trait_value` in the attributes. Rather, nested, weighted subfolders should be the trait_type for example:
+
+```
+layers/Headware
+├── Cap#10
+│   ├── cap a#6.png
+│   └── cap b#6.png
+└── Hair#10\
+    ├── hair a#6.png
+    └── hair b#6.png
+
+```
+
+Rather than the attribute data always listing `Headware` as the type, you can use `Cap` or `Hair` instead.
+
+Set useRootTraitType`to`false` in config.js to use parent folder names instead of the root.
+
 ### Sublayer Options
 
 🧪 BETA FEATURE
@@ -238,7 +257,9 @@ const emptyLayerName = "NONE";
 
 # Flagging Incompatible layers
 
-Often it is useful to flag certain images that _should never be used with_ another image, for this, you can use the incompatible configuration in `config.js`
+**For edge cases only** Nested Folders should always be used first and can solve 90% of "if this, then _not_ that" use cases.
+
+To flag certain images that _should never be used with_ another image, for this, you can use the incompatible configuration in `config.js`
 
 To set incompatible items, in the `incompatible` object, use the layer/images `cleanName` (the name without rarity weight, or .png extension) as a key, and create an array of incompatible layer names (again, clean names). Layers that have space or hyphens in their names should be wrapped in quotes
 

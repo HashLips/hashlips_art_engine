@@ -133,6 +133,13 @@ const rarityDelimiter = "#";
 
 const uniqueDnaTorrance = 10000;
 
+/**
+ * Set to true to always use the root folder as trait_tybe
+ * Set to false to use weighted parent folders as trait_type
+ * Default is true.
+ */
+const useRootTraitType = true;
+
 const preview = {
   thumbPerRow: 5,
   thumbWidth: 50,
@@ -160,5 +167,6 @@ module.exports = {
   traitValueOverrides,
   outputJPEG,
   emptyLayerName,
+  useRootTraitType,
   hashImages,
 };

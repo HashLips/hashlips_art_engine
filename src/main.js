@@ -32,6 +32,7 @@ const {
   traitValueOverrides,
   outputJPEG,
   emptyLayerName,
+  useRootTraitType,
   hashImages,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
@@ -170,11 +171,14 @@ const getElements = (path, layer) => {
         typeAncestor = element.sublayer ? 1 : 3;
       }
       // we need to check if the parent is required, or if it's a prop-folder
-      if (lineage[lineage.length - typeAncestor].includes(rarityDelimiter)) {
+      if (
+        useRootTraitType &&
+        lineage[lineage.length - typeAncestor].includes(rarityDelimiter)
+      ) {
         typeAncestor += 1;
       }
 
-      const parentName = lineage[lineage.length - typeAncestor];
+      const parentName = cleanName(lineage[lineage.length - typeAncestor]);
 
       element.trait = layer.sublayerOptions?.[parentName]
         ? layer.sublayerOptions[parentName].trait
