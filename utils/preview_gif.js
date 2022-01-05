@@ -20,7 +20,7 @@ const loadImg = async (_img) => {
 // read image paths
 const imageList = [];
 const rawdata = fs.readdirSync(imageDir).forEach((file) => {
-  imageList.push(loadImg(`${imageDir}/${file}`));
+  imageList.push(file);
 });
 
 const saveProjectPreviewGIF = async (_data) => {
@@ -56,22 +56,23 @@ const saveProjectPreviewGIF = async (_data) => {
     );
     hashlipsGiffer.start();
 
-    await Promise.all(_data).then((renderObjectArray) => {
+    await Promise.all(_data).then(async (fileArray) => {
       // Determin the order of the Images before creating the gif
       if (order == "ASC") {
         // Do nothing
       } else if (order == "DESC") {
-        renderObjectArray.reverse();
+        fileArray.reverse();
       } else if (order == "MIXED") {
-        renderObjectArray = renderObjectArray.sort(() => Math.random() - 0.5);
+        fileArray = fileArray.sort(() => Math.random() - 0.5);
       }
 
       // Reduce the size of the array of Images to the desired amount
       if (parseInt(numberOfImages) > 0) {
-        renderObjectArray = renderObjectArray.slice(0, numberOfImages);
+        fileArray = fileArray.slice(0, numberOfImages);
       }
 
-      renderObjectArray.forEach((renderObject, index) => {
+      await Promise.all(fileArray.map(async (file, index) => {
+        const renderObject = await loadImg(`${imageDir}/${file}`);
         ctx.globalAlpha = 1;
         ctx.globalCompositeOperation = "source-over";
         ctx.drawImage(
@@ -82,7 +83,7 @@ const saveProjectPreviewGIF = async (_data) => {
           previewCanvasHeight
         );
         hashlipsGiffer.add();
-      });
+      }));
     });
     hashlipsGiffer.stop();
   }

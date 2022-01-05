@@ -66,17 +66,13 @@ const startCreating = async () => {
     console.log("Please generate collection first.");
     return;
   }
-  let loadedImageObjects = [];
-  images.forEach((imgObject) => {
-    loadedImageObjects.push(loadImgData(imgObject));
-  });
-  await Promise.all(loadedImageObjects).then((loadedImageObjectArray) => {
-    loadedImageObjectArray.forEach((loadedImageObject) => {
-      draw(loadedImageObject);
-      saveImage(loadedImageObject);
-      console.log(`Pixelated image: ${loadedImageObject.imgObject.filename}`);
-    });
-  });
+
+  for (const imgObject of images) {
+    const loadedImageObject = await loadImgData(imgObject);
+    draw(loadedImageObject);
+    saveImage(loadedImageObject);
+    console.log(`Pixelated image: ${loadedImageObject.imgObject.filename}`);
+  }
 };
 
 buildSetup();
