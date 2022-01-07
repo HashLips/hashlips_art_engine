@@ -4,7 +4,6 @@ const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const { MODE } = require(path.join(basePath, "src/blendMode.js"));
-const description = "X are a collection of X randomly generated NFTs that exist on the Hedera network.";
 const baseUri = "ipfs://LinkIsRepleacedWhenUploadingWithTurtleMoonTools";
 
 // If you have selected Solana then the collection starts from 0 automatically
@@ -23,11 +22,21 @@ const layerConfigurations = [
   },
 ];
 
-const creator = "Project Name (ex: HGraph Punks)";
+// UPDATE THIS TO: The maximum number of mints of this collection
+const creator = "Turtle Moon";
 
+// UPDATE THIS TO: A category that makes sense for your art. Digital Art, Collectible, etc
 const category = "Digital Art";
 
+// UPDATE THIS TO: The maximum number of mints of this collection
+const maxSupply = '8,192'
+
+// UPDATE THIS DESCRIPTION. Your own description would be best :)
+const description = `${creator} are a collection of ${maxSupply} randomly generated NFTs that exist on the Hedera network.`;
+
 const shuffleLayerConfigurations = false;
+
+const useAdditionalData = false;
 
 const debugLogs = true;
 
@@ -67,5 +76,7 @@ module.exports = {
   debugLogs,
   extraMetadata,
   category,
-  creator
+  creator,
+  maxSupply,
+  useAdditionalData,
 };

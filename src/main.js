@@ -24,7 +24,9 @@ const {
   shuffleLayerConfigurations,
   debugLogs,
   category,
-  creator
+  creator,
+  maxSupply,
+  useAdditionalData
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -114,16 +116,13 @@ const addMetadata = (_dna, _edition) => {
     dna: sha1(_dna.join("")),
     creator: creator,
     category: category,
-    name: `${addedData[_edition -1]}`,
+    name: `${useAdditionalData ? addedData[_edition -1] : creator +' #'+ _edition}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
-    supply: '8192',
+    supply: maxSupply,
     date: dateTime,
     edition: _edition,
-    properties: {
-      extras: [],
-      catalog: ["classic"]
-    },
+    properties: {},
     royalties: {
       numerator: 5,
       denominator: 100,
@@ -132,6 +131,7 @@ const addMetadata = (_dna, _edition) => {
     attributes: attributesList,
     compiler: "Turtle Moon Tools",
   };
+  tempMetadata.properties = extraMetadata;
   metadataList.push(tempMetadata);
   attributesList = [];
 };
