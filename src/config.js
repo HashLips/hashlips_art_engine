@@ -1,10 +1,7 @@
-"use strict";
-
-const path = require("path");
-const isLocal = typeof process.pkg === "undefined";
-const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
-const { MODE } = require(path.join(basePath, "constants/blend_mode.js"));
-const { NETWORK } = require(path.join(basePath, "constants/network.js"));
+const basePath = process.cwd();
+const { MODE } = require(`${basePath}/constants/blend_mode.js`);
+const { NETWORK } = require(`${basePath}/constants/network.js`);
+const seedrandom = require("seedrandom");
 
 const network = NETWORK.eth;
 
@@ -43,11 +40,21 @@ const layerConfigurations = [
 
 const shuffleLayerConfigurations = false;
 
+const predictablyRandom = false;
+const seed = "Change this phrase to create a different collection";
+
+if (predictablyRandom) {
+  seedrandom(seed, {
+    global: true,
+  });
+}
+
 const debugLogs = false;
 
 const format = {
   width: 512,
   height: 512,
+  smoothing: false,
 };
 
 const gif = {
