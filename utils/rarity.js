@@ -74,9 +74,17 @@ for (var layer in rarityData) {
 
 // print out rarity data
 for (var layer in rarityData) {
-  console.log(`Trait type: ${layer}`);
-  for (var trait in rarityData[layer]) {
-    console.log(rarityData[layer][trait]);
+  if (process.argv.length <= 2) {
+    console.log(`Trait type: ${layer}`);
+    for (var trait in rarityData[layer]) {
+      console.log(rarityData[layer][trait]);
+    }
+    console.log();
   }
-  console.log();
+  else {
+    if (process.argv[2] == "table") {
+      console.log(`Trait type: ${layer}`);
+      console.table(rarityData[layer]);
+    }
+  }
 }
