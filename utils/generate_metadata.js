@@ -9,6 +9,7 @@ const {
   namePrefix,
   description,
   baseUri,
+  network,
 } = require(`${basePath}/src/config.js`);
 const console = require("console");
 const canvas = createCanvas(format.width, format.height);
@@ -97,15 +98,15 @@ const addRarity = () => {
 
   return [
     {
-      trait_type: "average color",
+      name: "average color",
       value: `rgb(${newRgb.r},${newRgb.g},${newRgb.b})`,
     },
     {
-      trait_type: "What is this?",
+      name: "What is this?",
       value: rarity,
     },
     {
-      trait_type: "date",
+      name: "date",
       value: randomIntFromInterval(1500, 1900),
     },
   ];
@@ -131,15 +132,40 @@ const saveMetadata = (_loadedImageObject) => {
 
   let tempAttributes = [];
   tempAttributes.push(addRarity());
+  let tempMetadata = {};
 
-  let tempMetadata = {
-    name: `${namePrefix} #${shortName}`,
-    description: description,
-    image: `${baseUri}/${shortName}.png`,
-    edition: Number(shortName),
-    attributes: tempAttributes,
-    compiler: "HashLips Art Engine",
-  };
+  if (network == "tez") {
+    tempMetadata = {
+      name: `${namePrefix} #${shortName}`,
+      description: description,
+      artifactUri: `${baseUri}/${shortName}.png`,
+      displayUri: `${baseUri}/${shortName}.png`,
+      thumbnailUri: `${baseUri}/${shortName}.png`,
+      edition: Number(shortName),
+      attributes: tempAttributes,
+      creators: ["Vivek Kumar @vivekascoder"],
+      isBooleanAmount: true,
+      symbol: "DNFT",
+      rights: "All rights reserved.",
+      // TODO: Add formats here.
+      formats: [
+        {
+          mimeType: "image/png",
+          uri: `${baseUri}/${shortName}.png`,
+        },
+      ],
+    };
+  } else {
+    tempMetadata = {
+      name: `${namePrefix} #${shortName}`,
+      description: description,
+      image: `${baseUri}/${shortName}.png`,
+      edition: Number(shortName),
+      attributes: tempAttributes,
+      compiler: "HashLips Art Engine",
+    };
+  }
+
   fs.writeFileSync(
     `${buildDir}/${shortName}.json`,
     JSON.stringify(tempMetadata, null, 2)
