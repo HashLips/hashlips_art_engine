@@ -1,3 +1,19 @@
+# Tezos Specif Doc
+
+## How to generate tezos specific metadata.
+
+1. Build the artwork.
+
+```bash
+yarn build
+```
+
+2. Generate the metadata.
+
+```bash
+yarn generate_metadata
+```
+
 # Welcome to HashLips 👄
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/logo.png)
