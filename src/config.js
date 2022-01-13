@@ -101,6 +101,22 @@ const preview_gif = {
   imageName: "preview.gif",
 };
 
+/**
+ * Tezos specific metadata config.
+ * NOTE: Modify this config to generate different metadata.
+ */
+
+const tezosConfig = {
+  creators: ["Mekatron @mekatron.k9"],
+  isBooleanAmount: true,
+  symbol: "K9NFT",
+  right: "All right reserved.",
+};
+
+/**
+ * End of tezos specific config.
+ */
+
 module.exports = {
   format,
   baseUri,
@@ -120,4 +136,5 @@ module.exports = {
   solanaMetadata,
   gif,
   preview_gif,
+  tezosConfig,
 };

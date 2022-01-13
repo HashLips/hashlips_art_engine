@@ -10,6 +10,7 @@ const {
   description,
   baseUri,
   network,
+  tezosConfig,
 } = require(`${basePath}/src/config.js`);
 const console = require("console");
 const canvas = createCanvas(format.width, format.height);
@@ -143,17 +144,17 @@ const saveMetadata = (_loadedImageObject) => {
       thumbnailUri: `${baseUri}/${shortName}.png`,
       edition: Number(shortName),
       attributes: tempAttributes,
-      creators: ["Vivek Kumar @vivekascoder"],
-      isBooleanAmount: true,
-      symbol: "DNFT",
-      rights: "All rights reserved.",
-      // TODO: Add formats here.
+      creators: tezosConfig.creators,
+      isBooleanAmount: tezosConfig.isBooleanAmount,
+      symbol: tezosConfig.symbol,
+      rights: tezosConfig.rights,
       formats: [
         {
           mimeType: "image/png",
           uri: `${baseUri}/${shortName}.png`,
         },
       ],
+      // TODO: Add royalties here.
     };
   } else {
     tempMetadata = {
