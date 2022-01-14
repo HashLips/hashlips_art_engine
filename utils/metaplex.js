@@ -88,28 +88,20 @@ jsonFiles.forEach((file) => {
     symbol: symbol,
     description: description,
     seller_fee_basis_points: royaltyFee,
-    image: "image.png",
+    image: `${newEditionCount}.png`,
     ...(external_url !== "" && { external_url }),
     attributes: jsonData.attributes,
-    collection: {
-      name: collectionName,
-      family: collectionFamily,
-    },
     properties: {
       edition: jsonData.edition,
       files: [
         {
-          uri: "image.png",
+          uri: `${newEditionCount}.png`,
           type: "image/png",
         },
       ],
       category: "image",
-      date: jsonData.date,
       creators: creators,
-      ...(jsonData.imageHash !== undefined && {
-        imageHash: jsonData.imageHash,
-      }),
-      compiler: "HashLips Art Engine - NFTChef fork | SolanaJax",
+      compiler: "HashLips Art Engine - NFTChef fork | qualifieddevs.io",
     },
   };
   fs.writeFileSync(
