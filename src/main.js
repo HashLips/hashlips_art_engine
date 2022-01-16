@@ -178,17 +178,19 @@ const addMetadata = (_dna, _edition) => {
     //   compiler: "HashLips Art Engine",
     // };
     tempMetadata = {
+      edition: Number(_edition),
       name: `${namePrefix} #${_edition}`,
       description: description,
       artifactUri: `${tezosConfig.baseArtifactUri}/${_edition}.png`,
       displayUri: `${tezosConfig.baseDisplayUri}/${_edition}.png`,
       thumbnailUri: `${tezosConfig.baseThumbnailUri}/${_edition}.png`,
-      edition: Number(_edition),
+      decimals: tezosConfig.decimals,
       attributes: attributesList,
       creators: tezosConfig.creators,
       isBooleanAmount: tezosConfig.isBooleanAmount,
       symbol: tezosConfig.symbol,
       rights: tezosConfig.rights,
+      shouldPreferSymbol: tezosConfig.shouldPreferSymbol,
       formats: [
         {
           mimeType: "image/png",
@@ -217,6 +219,7 @@ const addMetadata = (_dna, _edition) => {
       ],
       ...extraMetadata,
       // TODO: Add royalties here.
+      royalties: tezosConfig.royalties,
     };
   }
   metadataList.push(tempMetadata);

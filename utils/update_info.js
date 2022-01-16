@@ -51,6 +51,18 @@ if (network == NETWORK.sol) {
       solanaMetadata.creators
     )}`
   );
+} else if (network == NETWORK.tez) {
+  console.log(
+    `Updated artifactUri for images to ===> ${tezosConfig.baseArtifactUri}`
+  );
+  console.log(
+    `Updated displayUri for images to ===> ${tezosConfig.baseDisplayUri}`
+  );
+  console.log(
+    `Updated thumbnailUri for images to ===> ${tezosConfig.baseThumbnailUri}`
+  );
+  console.log(`Updated description for images to ===> ${description}`);
+  console.log(`Updated name prefix for images to ===> ${namePrefix}`);
 } else {
   console.log(`Updated baseUri for images to ===> ${baseUri}`);
   console.log(`Updated description for images to ===> ${description}`);

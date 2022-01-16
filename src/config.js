@@ -107,10 +107,12 @@ const preview_gif = {
  */
 
 const tezosConfig = {
-  creators: ["Mekatron @mekatron.k9"],
+  creators: ["tz1UxnruUqq2demYbAHsHkZ2VV95PV8MXVGq"],
   isBooleanAmount: true,
+  shouldPreferSymbol: false,
+  decimals: 0,
   symbol: "K9NFT",
-  right: "All right reserved.",
+  rights: "All right reserved.",
   baseArtifactUri: baseUri,
   baseDisplayUri: "ipfs://BASE_DISPLAY_URI",
   baseThumbnailUri: "ipfs://BASE_THUMBNAIL_URI",
@@ -121,6 +123,12 @@ const tezosConfig = {
     artifactUri: { w: format.width, h: format.height },
     displayUri: { w: 500, h: 500 },
     thumbnailUri: { w: 300, h: 300 },
+  },
+  royalties: {
+    decimals: 3,
+    shares: {
+      tz1UxnruUqq2demYbAHsHkZ2VV95PV8MXVGq: 80,
+    },
   },
 };
 
