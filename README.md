@@ -8,10 +8,18 @@
 yarn build
 ```
 
-2. Generate the metadata.
+2. Generate the resized images for display and thumbnail.
 
 ```bash
-yarn generate_metadata
+yarn resize
+```
+
+3. Deploy the Images folder to IPFS and get the base ipfs url.
+
+4. Update the metadata to the new IPFS url.
+
+```bash
+yarn update_info
 ```
 
 # Welcome to HashLips 👄
