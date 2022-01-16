@@ -166,17 +166,6 @@ const addMetadata = (_dna, _edition) => {
     };
   }
   if (network == NETWORK.tez) {
-    // tempMetadata = {
-    //   name: `${namePrefix} #${_edition}`,
-    //   description: description,
-    //   image: `${baseUri}/${_edition}.png`,
-    //   dna: sha1(_dna),
-    //   edition: _edition,
-    //   date: dateTime,
-    //   ...extraMetadata,
-    //   attributes: attributesList,
-    //   compiler: "HashLips Art Engine",
-    // };
     tempMetadata = {
       edition: Number(_edition),
       name: `${namePrefix} #${_edition}`,
@@ -218,7 +207,6 @@ const addMetadata = (_dna, _edition) => {
         },
       ],
       ...extraMetadata,
-      // TODO: Add royalties here.
       royalties: tezosConfig.royalties,
     };
   }
