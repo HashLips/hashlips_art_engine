@@ -7,10 +7,10 @@
 const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
-const { tezosConfig } = require(`${basePath}/src/config.js`);
 
 const basePath = process.cwd();
 const imagesDir = `${basePath}/build/images`;
+const { tezosConfig } = require(`${basePath}/src/config.js`);
 
 const config = {
   thumbnailUri: {

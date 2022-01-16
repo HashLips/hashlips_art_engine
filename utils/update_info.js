@@ -8,6 +8,7 @@ const {
   namePrefix,
   network,
   solanaMetadata,
+  tezosConfig,
 } = require(`${basePath}/src/config.js`);
 
 // read json data
@@ -19,6 +20,13 @@ data.forEach((item) => {
     item.name = `${namePrefix} #${item.edition}`;
     item.description = description;
     item.creators = solanaMetadata.creators;
+  } else if (network == NETWORK.tez) {
+    // Modify tezos specif metadata
+    item.name = `${namePrefix} #${item.edition}`;
+    item.description = description;
+    item.artifactUri = `${tezosConfig.baseArtifactUri}/${item.edition}.png`;
+    item.displayUri = `${tezosConfig.baseDisplayUri}/${item.edition}.png`;
+    item.thumbnailUri = `${tezosConfig.baseThumbnailUri}/${item.edition}.png`;
   } else {
     item.name = `${namePrefix} #${item.edition}`;
     item.description = description;
