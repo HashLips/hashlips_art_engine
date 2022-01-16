@@ -7,13 +7,20 @@
 const sharp = require("sharp");
 const fs = require("fs");
 const path = require("path");
+const { tezosConfig } = require(`${basePath}/src/config.js`);
 
 const basePath = process.cwd();
 const imagesDir = `${basePath}/build/images`;
 
 const config = {
-  thumbnailUri: { w: 300, h: 300, path: `${basePath}/build/thumbnailUri/` },
-  displayUri: { w: 500, h: 500, path: `${basePath}/build/displayUri/` },
+  thumbnailUri: {
+    ...tezosConfig.size.thumbnailUri,
+    path: `${basePath}/build/thumbnailUri/`,
+  },
+  displayUri: {
+    ...tezosConfig.size.thumbnailUri,
+    path: `${basePath}/build/displayUri/`,
+  },
 };
 
 function getAllImages(dir) {

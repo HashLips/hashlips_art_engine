@@ -111,6 +111,17 @@ const tezosConfig = {
   isBooleanAmount: true,
   symbol: "K9NFT",
   right: "All right reserved.",
+  baseArtifactUri: baseUri,
+  baseDisplayUri: "BASE_DISPLAY_URI",
+  baseThumbnailUri: "BASE_THUMBNAIL_URI",
+  size: {
+    // artifactUri: `${format.width}x${format.height}`,
+    // displayUri: `${format.width}x${format.height}`,
+    // thumbnailUri: `${format.width}x${format.height}`,
+    artifactUri: { w: format.width, h: format.height },
+    displayUri: { w: 500, h: 500 },
+    thumbnailUri: { w: 300, h: 300 },
+  },
 };
 
 /**

@@ -130,6 +130,7 @@ const saveMetadata = (_loadedImageObject) => {
     /\.[^/.]+$/,
     ""
   );
+  console.log(`_loadedImageObject`, _loadedImageObject);
 
   let tempAttributes = [];
   tempAttributes.push(addRarity());

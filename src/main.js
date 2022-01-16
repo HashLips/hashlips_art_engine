@@ -21,6 +21,7 @@ const {
   network,
   solanaMetadata,
   gif,
+  tezosConfig,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -164,16 +165,77 @@ const addMetadata = (_dna, _edition) => {
       },
     };
   }
+  if (network == NETWORK.tez) {
+    // tempMetadata = {
+    //   name: `${namePrefix} #${_edition}`,
+    //   description: description,
+    //   image: `${baseUri}/${_edition}.png`,
+    //   dna: sha1(_dna),
+    //   edition: _edition,
+    //   date: dateTime,
+    //   ...extraMetadata,
+    //   attributes: attributesList,
+    //   compiler: "HashLips Art Engine",
+    // };
+    tempMetadata = {
+      name: `${namePrefix} #${_edition}`,
+      description: description,
+      artifactUri: `${tezosConfig.baseArtifactUri}/${_edition}.png`,
+      displayUri: `${tezosConfig.baseDisplayUri}/${_edition}.png`,
+      thumbnailUri: `${tezosConfig.baseThumbnailUri}/${_edition}.png`,
+      edition: Number(_edition),
+      attributes: attributesList,
+      creators: tezosConfig.creators,
+      isBooleanAmount: tezosConfig.isBooleanAmount,
+      symbol: tezosConfig.symbol,
+      rights: tezosConfig.rights,
+      formats: [
+        {
+          mimeType: "image/png",
+          uri: `${tezosConfig.baseArtifactUri}/${_edition}.png`,
+          dimensions: {
+            value: `${tezosConfig.size.artifactUri.w}x${tezosConfig.size.artifactUri.h}`,
+            unit: "px",
+          },
+        },
+        {
+          mimeType: "image/png",
+          uri: `${tezosConfig.baseDisplayUri}/${_edition}.png`,
+          dimensions: {
+            value: `${tezosConfig.size.displayUri.w}x${tezosConfig.size.displayUri.h}`,
+            unit: "px",
+          },
+        },
+        {
+          mimeType: "image/png",
+          uri: `${tezosConfig.baseThumbnailUri}/${_edition}.png`,
+          dimensions: {
+            value: `${tezosConfig.size.thumbnailUri.w}x${tezosConfig.size.thumbnailUri.h}`,
+            unit: "px",
+          },
+        },
+      ],
+      ...extraMetadata,
+      // TODO: Add royalties here.
+    };
+  }
   metadataList.push(tempMetadata);
   attributesList = [];
 };
 
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
-  attributesList.push({
-    trait_type: _element.layer.name,
-    value: selectedElement.name,
-  });
+  if (network == NETWORK.tez) {
+    attributesList.push({
+      name: _element.layer.name,
+      value: selectedElement.name,
+    });
+  } else {
+    attributesList.push({
+      trait_type: _element.layer.name,
+      value: selectedElement.name,
+    });
+  }
 };
 
 const loadLayerImg = async (_layer) => {
