@@ -15,6 +15,7 @@ This repository is a fork from the original Hashlips generator and makes a coupl
 ## Options and conditional output
 
 - [Chance of "NONE" or skipping a trait](#Chance-of-"NONE"-or-skipping-a-trait)
+- [Controlling layer order (z-index)](#Controlling-layer-order-z-index)
 - [Flagging Incompatible layers](#flagging-incompatible-layers)
 - [Forced Combinations](#forced-combinations)
 - [Output Files as JPEG](#outputting-jpegs)
@@ -255,9 +256,31 @@ const emptyLayerName = "NONE";
 
 ⚠️ NOTE: if you _would_ like the trait to appear as "NONE", change the empty layer name to something you are _not_ using. e.g., 'unused'.
 
+# Controlling layer order (z-index)
+
+Generally, layer order is defined by using `layersOrder` in config.js. However, when using nested folders, layer order defaults to alphanumerec sorting (0-9,a-z)
+
+To manually define stacking order for sublayers (nested folders) use the `z#,` (`z` followed by a positive or negative number, followed bu a `,` commma) prefix for folder names and/or file names.
+
+Example folders
+
+```
+|- z-1,folder
+|-normal folder/
+|-z1,foldername
+|-z2,foldername/
+|-- z-2,image-that-needs-to-go-under-everything.png
+```
+
+Folders and files without a `z#,` prefix default to a z-index of `0`
+
+If a file has a `z#,` prefix, and it's parent folder(s) does as well, the files z-index will be used, allowing you to overwrite and define an individual's layer order.
+
+Layer order z-indexes are "global" meaning the index is relative to ALL OTHER z-indices defined in every folder/file
+
 # Flagging Incompatible layers
 
-**For edge cases only** Nested Folders should always be used first and can solve 90% of "if this, then _not_ that" use cases.
+> 👉 **For edge cases only** Nested Folders should always be used first and can solve 90% of "if this, then _not_ that" use cases.
 
 To flag certain images that _should never be used with_ another image, for this, you can use the incompatible configuration in `config.js`
 
