@@ -592,10 +592,9 @@ const sortLayers = (layers) => {
     return addressA.length - addressB.length;
   });
 
-  let stack = { front: [], normal: [...nestedsort], end: [] };
+  let stack = { front: [], normal: [], end: [] };
   stack = nestedsort.reduce((acc, layer) => {
     const zindex = parseZIndex(layer);
-
     if (!zindex)
       return { ...acc, normal: [...(acc.normal ? acc.normal : []), layer] };
     // move negative z into `front`
@@ -608,7 +607,15 @@ const sortLayers = (layers) => {
     // contat everything back to an ordered array
   }, stack);
 
-  return stack.front.concat(stack.normal).concat(stack.end);
+  const sortByZ = (dnastrings) => {
+    return dnastrings.sort((a, b) => {
+      const indexA = parseZIndex(a);
+      const indexB = parseZIndex(b);
+      return indexA - indexB;
+    });
+  };
+
+  return sortByZ(stack.front).concat(stack.normal).concat(sortByZ(stack.end));
 };
 
 const createDna = (_layers) => {
