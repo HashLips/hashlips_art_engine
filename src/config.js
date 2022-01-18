@@ -8,7 +8,7 @@ const network = NETWORK.tez;
 // General metadata for Ethereum
 const namePrefix = "k9 Demo";
 const description = "We're an awesome NFT collection that will make you rick.";
-const baseUri = "ipfs://NewUriToReplace";
+const baseUri = "ipfs://QmXqCFJWzBNuhpc67iJ2rjCQ93AwdXF6fqTfhBcfXyUBPW";
 
 const solanaMetadata = {
   symbol: "YC",
@@ -25,7 +25,7 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 15,
+    growEditionSizeTo: 13,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
@@ -114,12 +114,9 @@ const tezosConfig = {
   symbol: "K9NFT",
   rights: "All right reserved.",
   baseArtifactUri: baseUri,
-  baseDisplayUri: "ipfs://BASE_DISPLAY_URI",
-  baseThumbnailUri: "ipfs://BASE_THUMBNAIL_URI",
+  baseDisplayUri: "ipfs://QmWkfRwR6TK8STyAe66iA7vCZhZrcd28uJdHJ9VEw7keig",
+  baseThumbnailUri: "ipfs://QmWkfRwR6TK8STyAe66iA7vCZhZrcd28uJdHJ9VEw7keig",
   size: {
-    // artifactUri: `${format.width}x${format.height}`,
-    // displayUri: `${format.width}x${format.height}`,
-    // thumbnailUri: `${format.width}x${format.height}`,
     artifactUri: { w: format.width, h: format.height },
     displayUri: { w: 500, h: 500 },
     thumbnailUri: { w: 300, h: 300 },

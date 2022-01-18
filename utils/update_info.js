@@ -27,6 +27,7 @@ data.forEach((item) => {
     item.artifactUri = `${tezosConfig.baseArtifactUri}/${item.edition}.png`;
     item.displayUri = `${tezosConfig.baseDisplayUri}/${item.edition}.png`;
     item.thumbnailUri = `${tezosConfig.baseThumbnailUri}/${item.edition}.png`;
+    item.royalties = tezosConfig.royalties;
   } else {
     item.name = `${namePrefix} #${item.edition}`;
     item.description = description;
@@ -60,6 +61,13 @@ if (network == NETWORK.sol) {
   );
   console.log(
     `Updated thumbnailUri for images to ===> ${tezosConfig.baseThumbnailUri}`
+  );
+  console.log(
+    `Updated royalties for item to ===> ${JSON.stringify(
+      tezosConfig.royalties,
+      0,
+      2
+    )}`
   );
   console.log(`Updated description for images to ===> ${description}`);
   console.log(`Updated name prefix for images to ===> ${namePrefix}`);
