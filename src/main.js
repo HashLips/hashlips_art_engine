@@ -607,16 +607,29 @@ const sortLayers = (layers) => {
     // contat everything back to an ordered array
   }, stack);
 
-  const sortByZ = (dnastrings) => {
-    return dnastrings.sort((a, b) => {
-      const indexA = parseZIndex(a);
-      const indexB = parseZIndex(b);
-      return indexA - indexB;
-    });
-  };
-
   return sortByZ(stack.front).concat(stack.normal).concat(sortByZ(stack.end));
 };
+
+/** File String sort by zFlag */
+function sortByZ(dnastrings) {
+  return dnastrings.sort((a, b) => {
+    const indexA = parseZIndex(a);
+    const indexB = parseZIndex(b);
+    return indexA - indexB;
+  });
+}
+
+/**
+ * Sorting by index based on the layer.z property
+ * @param {Array } layers selected Image layer objects array
+ */
+function sortZIndex(layers) {
+  return layers.sort((a, b) => {
+    const indexA = parseZIndex(a.zindex);
+    const indexB = parseZIndex(b.zindex);
+    return indexA - indexB;
+  });
+}
 
 const createDna = (_layers) => {
   let dnaSequence = [];
@@ -637,7 +650,8 @@ const createDna = (_layers) => {
     const sortedLayers = sortLayers(layerSequence);
     dnaSequence = [...dnaSequence, [sortedLayers]];
   });
-  const dnaStrand = dnaSequence.flat(2).join(DNA_DELIMITER);
+  const zSortDNA = sortByZ(dnaSequence.flat(2));
+  const dnaStrand = zSortDNA.join(DNA_DELIMITER);
   return dnaStrand;
 };
 
@@ -799,7 +813,7 @@ const startCreating = async () => {
         const allImages = results.reduce((images, layer) => {
           return [...images, ...layer.selectedElements];
         }, []);
-        allImages.forEach((layer) => {
+        sortZIndex(allImages).forEach((layer) => {
           loadedElements.push(loadLayerImg(layer));
         });
 
