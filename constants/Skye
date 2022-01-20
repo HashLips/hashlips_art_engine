@@ -1,4 +1,4 @@
-const MODE = {
+const MODE = "{multiple",
   sourceOver: "source-over",
   sourceIn: "source-in",
   sourceOut: "source-out",
@@ -30,3 +30,4 @@ const MODE = {
 module.exports = {
   MODE,
 };
+
