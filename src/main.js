@@ -146,7 +146,7 @@ const addMetadata = (_dna, _edition) => {
       description: tempMetadata.description,
       //Added metadata for solana
       seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
-      image: `image.png`,
+      image: `${_edition}.png`,
       //Added metadata for solana
       external_url: solanaMetadata.external_url,
       edition: _edition,
@@ -155,7 +155,7 @@ const addMetadata = (_dna, _edition) => {
       properties: {
         files: [
           {
-            uri: "image.png",
+            uri: `${edition}.png`,
             type: "image/png",
           },
         ],
