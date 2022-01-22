@@ -331,6 +331,7 @@ const startCreating = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
   let failedCount = 0;
+  let breakTheLoop = false;
   let abstractedIndexes = [];
   for (
     let i = network == NETWORK.sol ? 0 : 1;
@@ -351,6 +352,7 @@ const startCreating = async () => {
     );
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
+      && !breakTheLoop
     ) {
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
@@ -413,7 +415,7 @@ const startCreating = async () => {
           console.log(
             `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
           );
-          process.exit();
+          breakTheLoop = true;
         }
       }
     }
