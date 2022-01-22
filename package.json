@@ -14,6 +14,8 @@
   "scripts": {
     "build": "node index.js",
     "generate": "node index.js",
+    "test": "jest",
+    "coverage": "jest --coverage",
     "rarity": "node utils/rarity.js",
     "preview": "node utils/preview.js",
     "pixelate": "node utils/pixelate.js",
@@ -27,5 +29,8 @@
     "canvas": "^2.8.0",
     "gif-encoder-2": "^1.0.5",
     "sha1": "^1.1.1"
+  },
+  "devDependencies": {
+    "jest": "^27.4.7"
   }
 }

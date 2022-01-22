@@ -44,7 +44,7 @@ npm install
 
 ## Usage ℹ️
 
-Create your different layers as folders in the 'layers' directory, and add all the layer assets in these directories. You can name the assets anything as long as it has a rarity weight attached in the file name like so: `example element#70.png`. You can optionally change the delimiter `#` to anything you would like to use in the variable `rarityDelimiter` in the `src/config.js` file.
+Create your different layers as folders in the 'layers' directory, and add all the layer assets in these directories. You can name the assets anything. If you want to add a rarity weight to the trait, attach it at the end of the file name like so: `example element#70.png`. If no weight is provided, a value of 1 will be assumed. You can optionally change the delimiter `#` to anything you would like to use in the variable `rarityDelimiter` in the `src/config.js` file.
 
 Once you have all your layers, go into `src/config.js` and update the `layerConfigurations` objects `layersOrder` array to be your layer folders name in order of the back layer to the front layer.
 
