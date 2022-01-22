@@ -24,15 +24,19 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 10000,
     layersOrder: [
-      { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "1Background" },
+      { name: "2Body" },
+      { name: "3Earings" },
+      { name: "4Mouth" },
+      { name: "5Brows" },
+      { name: "6Tattoo" },
+      { name: "7Necklace" },
+      { name: "8Sunglasses" },
+      { name: "9Hats" },
+      { name: "10HandItem" },
+      { name: "11Foreground" },
     ],
   },
 ];
@@ -68,7 +72,7 @@ const text = {
 };
 
 const pixelFormat = {
-  ratio: 2 / 128,
+  ratio: 32 / 128,
 };
 
 const background = {
@@ -82,13 +86,14 @@ const extraMetadata = {};
 
 const rarityDelimiter = "#";
 
-const uniqueDnaTorrance = 10000;
+const uniqueDnaTorrance = 20000;
 
 const preview = {
-  thumbPerRow: 5,
+  thumbPerRow: 30,
   thumbWidth: 50,
   imageRatio: format.height / format.width,
   imageName: "preview.png",
+  maxImagesInPreview: 240,
 };
 
 const preview_gif = {
