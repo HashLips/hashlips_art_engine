@@ -5,6 +5,10 @@ const layerConfigurations = [
       { name: "Background" },
       { name: "Eyeball" },
       { name: "Eye color" },
+      { name: "Iris" },
+      { name: "Shine" },
+      { name: "Bottom lid" },
+      { name: "Top lid" },
     ],
     incompatibleTraits: {
       "Eye color/Cyan": [
