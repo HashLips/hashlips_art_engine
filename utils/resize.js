@@ -18,7 +18,7 @@ const config = {
     path: `${basePath}/build/thumbnailUri/`,
   },
   displayUri: {
-    ...tezosConfig.size.thumbnailUri,
+    ...tezosConfig.size.displayUri,
     path: `${basePath}/build/displayUri/`,
   },
 };
@@ -87,6 +87,12 @@ const createPath = (path) => {
 function transformForTez(images) {
   // Converting for the `displayUri`.
   createPath(config.displayUri.path);
+  console.log(
+    "------------> Display",
+    config.displayUri.path,
+    config.displayUri.w,
+    config.displayUri.h
+  );
   renderResizedImages(
     images,
     config.displayUri.path,
@@ -95,6 +101,13 @@ function transformForTez(images) {
   );
 
   createPath(config.thumbnailUri.path);
+
+  console.log(
+    "------------> Thumbnail",
+    config.thumbnailUri.path,
+    config.thumbnailUri.w,
+    config.thumbnailUri.h
+  );
   renderResizedImages(
     images,
     config.thumbnailUri.path,
