@@ -72,7 +72,7 @@ const runMain = async () => {
 		}
 	} catch (error) {
 		console.log('error: ', error);
-		process.exit();	
+		process.exit(1);	
 	}
 }
 
