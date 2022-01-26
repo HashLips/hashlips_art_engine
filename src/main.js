@@ -178,9 +178,12 @@ const addAttributes = (_element) => {
 
 const loadLayerImg = async (_layer) => {
   try {
-    const image = await loadImage(`${_layer.selectedElement.path}`);
+    if (_layer.selectedElement.path.includes("-")) {
+      throw new Error("layer name can not contain dashes");
+    }
+    const image = await loadImage(`${_imgObject.path}`);
     return {
-      layer: _layer,
+      imgObject: _imgObject,
       loadedImage: image,
     };
   } catch (error) {
