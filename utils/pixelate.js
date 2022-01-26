@@ -38,10 +38,15 @@ const getImages = (_dir) => {
 };
 
 const loadImgData = async (_imgObject) => {
-  return new Promise(async (resolve) => {
+  try {
     const image = await loadImage(`${_imgObject.path}`);
-    resolve({ imgObject: _imgObject, loadedImage: image });
-  });
+    return {
+      imgObject: _imgObject,
+      loadedImage: image,
+    };
+  } catch (error) {
+    console.error("Error loading image:", error);
+  }
 };
 
 const draw = (_imgObject) => {
