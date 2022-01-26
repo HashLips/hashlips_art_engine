@@ -43,7 +43,7 @@ const createProvenanceAndConcatedHashJSON = (finalProof, concatedHashString) => 
 	fs.writeFileSync(`${basePath}/build/json/provenanceHash.json`, JSON.stringify(finalProof, null, 2));
 }
 
-const runMain = async () => {
+const runMain = () => {
 	const finalProof = {
 		provenance: '',
 		collection: [],

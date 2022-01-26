@@ -8,9 +8,9 @@ const basePath = process.cwd();
 dotenv.config();
 
 // Your Pinata API Key
-const pinataApiKey = '';
+const pinataApiKey = process.env.API_KEY;
 // Your Pinata API secret
-const pinataSecretApiKey = '';
+const pinataSecretApiKey = process.env.API_SECRET;
 
 /* 
 	Here we upload the images to Pinata, and update the metadata.json file_url with 
