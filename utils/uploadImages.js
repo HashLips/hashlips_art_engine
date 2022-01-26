@@ -8,10 +8,9 @@ const basePath = process.cwd();
 dotenv.config();
 
 // Your Pinata API Key
-const pinataApiKey = process.env.API_KEY;
+const pinataApiKey = '';
 // Your Pinata API secret
-const pinataSecretApiKey = process.env.API_SECRET;
-
+const pinataSecretApiKey = '';
 
 /* 
 	Here we upload the images to Pinata, and update the metadata.json file_url with 
@@ -19,6 +18,9 @@ const pinataSecretApiKey = process.env.API_SECRET;
 */
 const pinFileToIPFS = async () => {
 	const files = fs.readdirSync(`${basePath}/build/images`);
+	if (!files.length) {
+		return null;
+	}
 	files.sort(function(a, b){
 		return a.split(".")[0] - b.split(".")[0];
 	});
@@ -26,10 +28,10 @@ const pinFileToIPFS = async () => {
 		const fileName = path.parse(file).name;
 		let jsonFile = fs.readFileSync(`${basePath}/build/json/${fileName}.json`);
 		let metaData = JSON.parse(jsonFile);
-		if(!metaData.file_url.includes('https://')) {
+		if(!metaData.image.includes('https://')) {
 			const response = await uploadToPinata(file);
 			console.log('response.data.IpfsHash', response.data.IpfsHash);
-			metaData.file_url = 'ipfs://' + response.data.IpfsHash;
+			metaData.image = 'ipfs://' + response.data.IpfsHash;
 			fs.writeFileSync(
 				`${basePath}/build/json/${fileName}.json`,
 				JSON.stringify(metaData, null, 2)
@@ -62,4 +64,16 @@ const uploadToPinata = async (file) => {
 	}
 }
 
-pinFileToIPFS();
+const runMain = async () => {
+	try {
+		if (await pinFileToIPFS() === null) {
+			console.log('No images exist. Please create first your images and json files by running node index.js');
+			process.exit(0);	
+		}
+	} catch (error) {
+		console.log('error: ', error);
+		process.exit();	
+	}
+}
+
+runMain();

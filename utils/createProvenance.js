@@ -25,7 +25,7 @@ const hashImages = (finalProof, concatedHashString) => {
 		let metaData = JSON.parse(jsonFile);
 		const currentNFT = {
 			tokenId: tokenIdCounter,
-			image: metaData.file_url,
+			image: metaData.image,
 			imageHash: imageHash,
 			traits: metaData.attributes,
 		};
@@ -54,7 +54,7 @@ const runMain = async () => {
 
 	if (hashImages(finalProof, concatedHashString) === null) {
 		console.log('No images exist. Please create first your images and json files by running node index.js');
-		return ;
+		process.exit(0);	
 	}
 	createProvenanceAndConcatedHashJSON(finalProof, concatedHashString);	
 }
