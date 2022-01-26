@@ -4,6 +4,10 @@ const FormData = require('form-data');
 const path = require('path');
 const basePath = process.cwd();
 
+/*
+	Here we loop through all generated images, retrieve their filename, hash each image and concat it
+	to concatedHashString.concatedHash, and finally create a an object which to append to finalProof.collection
+*/
 const hashImages = (finalProof, concatedHashString) => {
 	const files = fs.readdirSync(`${basePath}/build/images`);
 	if (!files.length) {
@@ -31,6 +35,9 @@ const hashImages = (finalProof, concatedHashString) => {
 	finalProof.provenance = createHash('sha256').update(concatedHashString.concatedHash).digest('hex');;
 }
 
+/*
+	Here we create the concatedHash.json and provenanceHash.json files in /build/json/
+*/
 const createProvenanceAndConcatedHashJSON = (finalProof, concatedHashString) => {
 	fs.writeFileSync(`${basePath}/build/json/concatedHash.json`, JSON.stringify(concatedHashString, null, 2));
 	fs.writeFileSync(`${basePath}/build/json/provenanceHash.json`, JSON.stringify(finalProof, null, 2));
