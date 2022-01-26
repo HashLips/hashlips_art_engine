@@ -39,7 +39,6 @@ const pinFileToIPFS = async (pinataApiKey, pinataSecretApiKey) => {
 	}
 };
 
-
 const fetchWithRetry = async (file) => {
 	const formData = new FormData();
 	const fileStream = fs.createReadStream(`${basePath}/build/images/${file}`);
