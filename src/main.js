@@ -177,13 +177,17 @@ const addAttributes = (_element) => {
 };
 
 const loadLayerImg = async (_layer) => {
-  if (_layer.selectedElement.path.includes("-")) {
-    throw new Error("layer name can not contain dashes");
+  try {
+    if (_layer.selectedElement.path.includes("-")) {
+      throw new Error("layer name can not contain dashes");
+    }
+    return new Promise(async (resolve) => {
+      const image = await loadImage(`${_layer.selectedElement.path}`);
+      resolve({ layer: _layer, loadedImage: image });
+    });
+  } catch (error) {
+    console.error("Error loading image:", error);
   }
-  return new Promise(async (resolve) => {
-    const image = await loadImage(`${_layer.selectedElement.path}`);
-    resolve({ layer: _layer, loadedImage: image });
-  });
 };
 
 const addText = (_sig, x, y, size) => {
