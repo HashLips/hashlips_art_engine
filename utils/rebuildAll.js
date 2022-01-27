@@ -1,10 +1,13 @@
 "use strict";
 
 /**
- * This utility tool is designed specifically for the scenario in which you 
- * would like to replace one or many tokens with one off, non-generated items,
- * (or any image/metadata combo that does NOT conflict with the generators permutation DNA checks)
- 
+ * Utility for regenerating the same output using the DNA file to
+ * redraw each previously generated image.
+ *
+ * Optionally, you can reconfigure backgrounds,
+ * turn off layers, e.g. backgrounds for transparent vertions
+ * using --omit
+
  */
 
 const isLocal = typeof process.pkg === "undefined";
