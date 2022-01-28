@@ -4,7 +4,8 @@ const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
-const layersDir = `${basePath}/layers`;
+// const layersDir = `${basePath}/layers`;
+const layersDir = path.join(basePath, "../", "genkiFiles");
 
 const {
   layerConfigurations,
@@ -12,12 +13,12 @@ const {
   rarityDelimiter,
 } = require(path.join(basePath, "/src/config.js"));
 
-const { getElements } = require("../src/main.js");
+const { getElements, cleanName } = require("../src/main.js");
 
 class Rarity {
   constructor(traitObj, editionSize) {
     this.trait = traitObj.trait;
-    this.chance = traitObj.chance;
+    this.weight = traitObj.weight;
     this.occurrence = traitObj.occurrence;
     this.percentage = `${(this.occurrence / editionSize) * 100} of 100%`;
   }
@@ -41,7 +42,7 @@ layerConfigurations.forEach((config) => {
         elements: [
           {
             trait: attr.value,
-            chance: 1 / layerConfigurations.length,
+            weight: 1 / layerConfigurations.length,
             occurrence: 0,
           },
         ],
@@ -52,16 +53,16 @@ layerConfigurations.forEach((config) => {
   const allLayers = layers.reduce((acc, layer) => {
     return [
       ...acc,
-      ...getDirectoriesRecursive(`${basePath}/layers/${layer.name}`)
+      ...getDirectoriesRecursive(path.join(layersDir, layer.name))
         // get the last name in the long string path by splitting, then reversing
         .map(
           (pathname) =>
             `${layer.name}${pathname.split(`${layer.name}`).reverse()[0]}`
         )
         // Then, filter out the folders with a weight, those are 'values' not trait_types
-        .filter(
-          (name) => !name.split("/").reverse()[0].includes(rarityDelimiter)
-        )
+        // .filter(
+        //   (name) => !name.split("/").reverse()[0].includes(rarityDelimiter)
+        // )
         // lastly, if the original layer name was removed during split, put it back
         .map((pathname) => {
           return {
@@ -69,8 +70,8 @@ layerConfigurations.forEach((config) => {
             ...(layer.trait !== undefined && { trait: layer.trait }),
           };
         }),
-      // phew…we made it, fam
     ];
+    // phew…we made it, fam
   }, []);
   // .map((path) => path.split(`"/"`).reverse()[0])
 
@@ -86,7 +87,7 @@ layerConfigurations.forEach((config) => {
         // just get name and weight for each element
         let rarityDataElement = {
           trait: element.name,
-          chance: element.weight.toFixed(0),
+          weight: element.weight.toFixed(0),
           occurrence: 0, // initialize at 0
         };
         elementsForLayer.push(rarityDataElement);
@@ -95,7 +96,7 @@ layerConfigurations.forEach((config) => {
     // ...(element.trait !== undefined && {
     //   rootTrait: layer.name,
     // }),
-    const cleanLayerName = layer.name.split("/").reverse()[0];
+    const cleanLayerName = cleanName(layer.name.split("/").reverse()[0]);
     const baseTrait = layer.trait ? layer.trait : cleanLayerName;
     // don't include duplicate layers
     if (!rarityData.includes(baseTrait)) {
@@ -150,7 +151,7 @@ for (var layer in rarityData) {
       editionSize
     );
   }
-  console.table(output, ["chance", "occurrence", "percentage"]);
+  console.table(output, ["weight", "occurrence", "percentage"]);
 }
 
 /**
