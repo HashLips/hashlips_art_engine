@@ -1,3 +1,6 @@
+For general questions and help, please check and/or open a discussion in
+https://github.com/nftchef/art-engine/discussions
+
 This repository is a fork from the original Hashlips generator and makes a couple of **fundamental changes** to how layers are expected to be named and organized. Please read this README's Nesting Structure section and the related Advanced options for a better understanding of how things should be named and organized.
 
 # Additional Features in this fork
