@@ -286,6 +286,15 @@ const createDna = (_layers) => {
     layer.elements.forEach((element) => {
       totalWeight += element.weight;
     });
+    // if totalWeight is 0, this stops it from erroring
+    if (totalWeight == 0) {
+      let random = Math.floor(Math.random() * layer.elements.length);
+      return randNum.push(
+        `${layer.elements[random].id}:${layer.elements[random].filename}${
+          layer.bypassDNA ? "?bypassDNA=true" : ""
+        }`
+      );
+    }
     // number between 0 - totalWeight
     let random = Math.floor(Math.random() * totalWeight);
     for (var i = 0; i < layer.elements.length; i++) {
