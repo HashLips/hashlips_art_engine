@@ -76,6 +76,7 @@ const layerConfigurations = [
   {
     // Creates up to 50 artworks
     growEditionSizeTo: 50,
+    startEditionFrom: 50,
     layersOrder: [
       { name: "Background" },
       { name: "Head" },
@@ -103,6 +104,8 @@ const layerConfigurations = [
 
 Update your `format` size, ie the outputted image size, and the `growEditionSizeTo` on each `layerConfigurations` object, which is the amount of variation outputted.
 
+You can start the count from any number with `startEditionFrom`. This won't work with sol, as it has to start from 0.
+
 You can mix up the `layerConfigurations` order on how the images are saved by setting the variable `shuffleLayerConfigurations` in the `config.js` file to true. It is false by default and will save all images in numerical order.
 
 If you want to have logs to debug and see what is happening when you generate images you can set the variable `debugLogs` in the `config.js` file to true. It is false by default, so you will only see general logs.
@@ -121,6 +124,7 @@ Here is an example on how you can play around with both filter fields:
 const layerConfigurations = [
   {
     growEditionSizeTo: 5,
+    startEditionFrom: 5,
     layersOrder: [
       { name: "Background" , {
         options: {

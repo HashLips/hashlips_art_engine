@@ -25,6 +25,7 @@ const solanaMetadata = {
 const layerConfigurations = [
   {
     growEditionSizeTo: 5,
+    startEditionFrom: 1,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },

@@ -340,7 +340,7 @@ const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
   for (
-    let i = network == NETWORK.sol ? 0 : 1;
+    let i = network == NETWORK.sol ? 0 : (layerConfigurations[layerConfigurations.length - 1].startEditionFrom || 1);
     i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
     i++
   ) {
