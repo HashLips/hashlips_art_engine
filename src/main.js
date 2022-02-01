@@ -432,6 +432,7 @@ const startCreating = async () => {
           console.log(
             `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
           );
+          writeMetaData(JSON.stringify(metadataList, null, 2));
           process.exit();
         }
       }
