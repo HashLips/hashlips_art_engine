@@ -69,6 +69,9 @@ const cleanName = (_str) => {
 };
 
 const getElements = (path) => {
+  if (!fs.existsSync(path)) {
+    throw new Error(`{path} doesn't exist, make sure your layers/ folder matches your src/config.js`);
+  }
   return fs
     .readdirSync(path)
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
