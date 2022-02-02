@@ -18,6 +18,7 @@ const {
   extraMetadata,
   text,
   namePrefix,
+  startEditionFrom,
   network,
   solanaMetadata,
   gif,
@@ -340,8 +341,15 @@ const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
   for (
-    let i = network == NETWORK.sol ? 0 : 1;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+    let i =
+      network == NETWORK.sol
+        ? startEditionFrom > 1
+          ? startEditionFrom
+          : 0
+        : startEditionFrom;
+    i <=
+    layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo +
+      (startEditionFrom > 1 && startEditionFrom);
     i++
   ) {
     abstractedIndexes.push(i);
