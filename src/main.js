@@ -14,26 +14,27 @@ const { createCanvas, loadImage } = require(path.join(
 
 console.log(path.join(basePath, "/src/config.js"));
 const {
-  buildDir,
-  layersDir,
-  format,
-  baseUri,
-  description,
   background,
-  uniqueDnaTorrance,
-  layerConfigurations,
-  rarityDelimiter,
-  shuffleLayerConfigurations,
+  baseUri,
+  buildDir,
   debugLogs,
+  description,
+  emptyLayerName,
   extraAttributes,
   extraMetadata,
-  incompatible,
   forcedCombinations,
-  traitValueOverrides,
-  outputJPEG,
-  emptyLayerName,
-  useRootTraitType,
+  format,
   hashImages,
+  incompatible,
+  layerConfigurations,
+  layersDir,
+  outputJPEG,
+  rarityDelimiter,
+  shuffleLayerConfigurations,
+  startIndex,
+  traitValueOverrides,
+  uniqueDnaTorrance,
+  useRootTraitType,
 } = require(path.join(basePath, "/src/config.js"));
 const canvas = createCanvas(format.width, format.height);
 const ctxMain = canvas.getContext("2d");
@@ -744,13 +745,7 @@ const postProcessMetadata = (layerData) => {
   // with the prefix
   let _offset = 0;
   if (layerConfigurations[layerConfigIndex].resetNameIndex) {
-    _offset = layerConfigurations.reduce((acc, layer, index) => {
-      if (index < layerConfigIndex) {
-        acc += layer.growEditionSizeTo;
-        return acc;
-      }
-      return acc;
-    }, 0);
+    _offset = layerConfigurations[layerConfigIndex - 1].growEditionSizeTo;
   }
 
   return {
@@ -785,7 +780,7 @@ const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
   for (
-    let i = 1;
+    let i = startIndex;
     i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
     i++
   ) {
@@ -849,19 +844,19 @@ const startCreating = async () => {
 };
 
 module.exports = {
-  startCreating,
-  DNA_DELIMITER,
-  createDna,
-  constructLayerToDna,
-  isDnaUnique,
-  loadLayerImg,
-  layersSetup,
-  paintLayers,
-  postProcessMetadata,
   addAttributes,
   addMetadata,
   buildSetup,
+  constructLayerToDna,
+  createDna,
+  DNA_DELIMITER,
   getElements,
-  parseQueryString,
   hash,
+  isDnaUnique,
+  layersSetup,
+  loadLayerImg,
+  paintLayers,
+  parseQueryString,
+  postProcessMetadata,
+  startCreating,
 };
