@@ -19,6 +19,7 @@
     "generate": "node index.js",
     "generate:solana": "node index.js && node utils/metaplex.js",
     "generate:cardano": "node index.js && node utils/cardano.js",
+    "update_info": "node utils/updateInfo.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Daniel Eugene Botha (HashLips), NFTChef",
