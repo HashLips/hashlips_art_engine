@@ -44,7 +44,29 @@ npm install
 
 ## Usage ℹ️
 
-Create your different layers as folders in the 'layers' directory, and add all the layer assets in these directories. You can name the assets anything as long as it has a rarity weight attached in the file name like so: `example element#70.png`. You can optionally change the delimiter `#` to anything you would like to use in the variable `rarityDelimiter` in the `src/config.js` file.
+Create your different layers as folders in the 'layers' directory, and add all the layer assets in these directories.
+You can name the assets anything as long as it has a rarity weight attached in the file name like so: `example element#70.png`.
+You can optionally change the delimiter `#` to anything you would like to use in the variable `rarityDelimiter` in the `src/config.js` file.
+
+> The 'weight' you assign to an individual item, after the '#', is NOT a percentage, as explained in the video tutorial linked elsewhere.
+>
+> Let's say you would like to have 0.15 % chance of occurrence of example trait blueeyes and 99.85 % of occurrence of browneyes.
+> If the program would have supported fractions, you would want to name the files:
+>
+> blueeyes#0.15.png
+> browneyes#99.85.png
+>
+> Because the program adds all the weights together and calculates the odds by dividing the weight by the total sum we however can achieve this by naming the files:
+>
+> blueeyes#15.png
+> browneyes#9985.png
+>
+> The program first adds all the weights (15 + 9985 = 10000) and calculates the odds of occurrence by dividing the individual weight by the total sum (15 / 10000).
+> Because we multiplied the numerator and denominator by the same factor, the ratio remains the same, in other words, ( 0.15 / 99.85 ) = (15 / 9985)
+>
+> TLDR; if you want to use weights smaller than 1, multiply all weights by 10^(number of decimals of the smallest weight)
+
+\- [edenheijer](https://github.com/edenheijer)
 
 Once you have all your layers, go into `src/config.js` and update the `layerConfigurations` objects `layersOrder` array to be your layer folders name in order of the back layer to the front layer.
 
