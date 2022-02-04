@@ -17,7 +17,7 @@ const metadataList = [];
 
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
-    fs.rmdirSync(buildDir, { recursive: true });
+    fs.rm(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
 };

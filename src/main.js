@@ -5,7 +5,17 @@ const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
 const buildDir = `${basePath}/build`;
 const layersDir = `${basePath}/layers`;
-const {
+
+let config;
+
+try {
+  config = require(`${basePath}/src/config.js`)
+} catch (error) {
+  console.error(`Syntax error: ${error.message} in src/config.js`);
+  process.exit();
+}
+
+let {
   format,
   baseUri,
   description,
@@ -21,7 +31,8 @@ const {
   network,
   solanaMetadata,
   gif,
-} = require(`${basePath}/src/config.js`);
+} = config;
+
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;
@@ -34,13 +45,16 @@ const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 let hashlipsGiffer = null;
 
 const buildSetup = () => {
-  if (fs.existsSync(buildDir)) {
-    fs.rmdirSync(buildDir, { recursive: true });
+  if (!fs.existsSync(buildDir)) {
+    fs.mkdirSync(buildDir);
   }
-  fs.mkdirSync(buildDir);
-  fs.mkdirSync(`${buildDir}/json`);
-  fs.mkdirSync(`${buildDir}/images`);
-  if (gif.export) {
+  if (!fs.existsSync(`${buildDir}/json`)) {
+    fs.mkdirSync(`${buildDir}/json`);
+  }
+  if (!fs.existsSync(`${buildDir}/images`)) {
+    fs.mkdirSync(`${buildDir}/images`);
+  }
+  if (gif.export && !fs.existsSync(`${buildDir}/gifs`)) {
     fs.mkdirSync(`${buildDir}/gifs`);
   }
 };
@@ -70,14 +84,16 @@ const cleanName = (_str) => {
 
 const getElements = (path) => {
   if (!fs.existsSync(path)) {
-    throw new Error(`{path} doesn't exist, make sure your layers/ folder matches your src/config.js`);
+     console.error(`{path} doesn't exist, make sure your layers/ folder matches your src/config.js`);
+     process.exit();
   }
   return fs
     .readdirSync(path)
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
     .map((i, index) => {
       if (i.includes("-")) {
-        throw new Error(`layer name can not contain dashes, please fix: ${i}`);
+        console.error(`layer name can not contain dashes, please fix: ${i}`);
+        process.exit();
       }
       return {
         id: index,
@@ -278,8 +294,8 @@ const removeQueryStrings = (_dna) => {
 };
 
 const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
-  const _filteredDNA = filterDNAOptions(_dna);
-  return !_DnaList.has(_filteredDNA);
+  const _hashedDNA = sha1(_dna);
+  return !_DnaList.has(_hashedDNA);
 };
 
 const createDna = (_layers) => {
@@ -347,32 +363,47 @@ function shuffle(array) {
 }
 
 const startCreating = async () => {
-  let layerConfigIndex = 0;
-  let editionCount = 1;
   let failedCount = 0;
-  let abstractedIndexes = [];
-  for (
-    let i = network == NETWORK.sol ? 0 : (layerConfigurations[layerConfigurations.length - 1].startEditionFrom || 1);
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
-    i++
-  ) {
-    abstractedIndexes.push(i);
+  let dnaHashList = new Set();
+  let existingEditions = new Set();
+  if (fs.existsSync(`${basePath}/build/json/_metadata.json`)) {
+    let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
+    let data = JSON.parse(rawdata);
+    data.forEach(element => {
+      existingEditions.add(element.edition);
+      dnaHashList.add(element.dna);
+      metadataList.push(element);
+    });
   }
-  if (shuffleLayerConfigurations) {
-    abstractedIndexes = shuffle(abstractedIndexes);
-  }
-  debugLogs
-    ? console.log("Editions left to create: ", abstractedIndexes)
-    : null;
-  while (layerConfigIndex < layerConfigurations.length) {
-    const layers = layersSetup(
-      layerConfigurations[layerConfigIndex].layersOrder
-    );
-    while (
-      editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
+
+  for (layerconfiguration of layerConfigurations) {
+    let abstractedIndexes = [];
+    const layers = layersSetup(layerconfiguration.layersOrder);
+
+    for (
+      let i =
+        network == NETWORK.sol
+          ? 0
+          : (layerconfiguration.startEditionFrom || 1);
+      i <= layerconfiguration.growEditionSizeTo;
+      i++
     ) {
+      if (!existingEditions.has(i)) {
+        abstractedIndexes.push(i);
+      }
+    }
+
+    if (shuffleLayerConfigurations) {
+      abstractedIndexes = shuffle(abstractedIndexes);
+    }
+
+    debugLogs
+      ? console.log("Editions left to create: ", abstractedIndexes)
+      : null;
+
+    for (abstractedIndex of abstractedIndexes) {
       let newDna = createDna(layers);
-      if (isDnaUnique(dnaList, newDna)) {
+      if (isDnaUnique(dnaHashList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
         let loadedElements = [];
 
@@ -387,7 +418,7 @@ const startCreating = async () => {
             hashlipsGiffer = new HashlipsGiffer(
               canvas,
               ctx,
-              `${buildDir}/gifs/${abstractedIndexes[0]}.gif`,
+              `${buildDir}/gifs/${abstractedIndex}.gif`,
               gif.repeat,
               gif.quality,
               gif.delay
@@ -401,7 +432,7 @@ const startCreating = async () => {
             drawElement(
               renderObject,
               index,
-              layerConfigurations[layerConfigIndex].layersOrder.length
+              layerconfiguration.layersOrder.length
             );
             if (gif.export) {
               hashlipsGiffer.add();
@@ -410,34 +441,29 @@ const startCreating = async () => {
           if (gif.export) {
             hashlipsGiffer.stop();
           }
-          debugLogs
-            ? console.log("Editions left to create: ", abstractedIndexes)
-            : null;
-          saveImage(abstractedIndexes[0]);
-          addMetadata(newDna, abstractedIndexes[0]);
-          saveMetaDataSingleFile(abstractedIndexes[0]);
+          saveImage(abstractedIndex);
+          addMetadata(newDna, abstractedIndex);
+          saveMetaDataSingleFile(abstractedIndex);
           console.log(
-            `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
+            `Created edition: ${abstractedIndex}, with DNA: ${sha1(
               newDna
             )}`
           );
         });
         dnaList.add(filterDNAOptions(newDna));
-        editionCount++;
-        abstractedIndexes.shift();
+        dnaHashList.add(sha1(filterDNAOptions(newDna)));
       } else {
         console.log("DNA exists!");
         failedCount++;
         if (failedCount >= uniqueDnaTorrance) {
           console.log(
-            `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
+            `You need more layers or elements to grow your edition to ${layerconfiguration.growEditionSizeTo} artworks!`
           );
           writeMetaData(JSON.stringify(metadataList, null, 2));
           process.exit();
         }
       }
     }
-    layerConfigIndex++;
   }
   writeMetaData(JSON.stringify(metadataList, null, 2));
 };
