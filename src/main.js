@@ -464,7 +464,7 @@ function pickRandomElement(
     debugLogs
       ? console.log(chalk.yellowBright(`Force picking ${forcedPick.name}/n`))
       : null;
-    let dnaString = `${parentId}.${forcedPick.id}:${element.zindex}${forcedPick.filename}${bypassDNA}`;
+    let dnaString = `${parentId}.${forcedPick.id}:${forcedPick.zindex}${forcedPick.filename}${bypassDNA}`;
     return dnaSequence.push(dnaString);
   }
 
