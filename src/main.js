@@ -95,6 +95,10 @@ const getElements = (path) => {
         console.error(`layer name can not contain dashes, please fix: ${i}`);
         process.exit();
       }
+      if (i.includes("\n")) {
+        console.error(`layer name can not contain newlines, please fix: ${i}`);
+        process.exit();
+      }
       return {
         id: index,
         name: cleanName(i),
