@@ -91,8 +91,8 @@ const getElements = (path) => {
     .readdirSync(path)
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
     .map((i, index) => {
-      if (i.includes("-")) {
-        console.error(`layer name can not contain dashes, please fix: ${i}`);
+      if (i.includes(DNA_DELIMITER)) {
+        console.error(`layer name can not contain DNA_DELIMITER ("-"), please fix: ${i}`);
         process.exit();
       }
       if (i.includes("\n")) {
