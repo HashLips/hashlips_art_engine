@@ -43,6 +43,14 @@ const layerConfigurations = [
 
 const shuffleLayerConfigurations = false;
 
+/* 
+Run 'npm run rarity' to create _rarity.json file.
+After that you can add the frequency % to all JSON files by running 'npm run update_info'
+
+If addRarityAttribute is set to true, frequency % will be added when running 'npm run update_info' 
+*/
+const addRarityAttribute = true;
+
 const debugLogs = false;
 
 const format = {
@@ -116,6 +124,7 @@ module.exports = {
   shuffleLayerConfigurations,
   debugLogs,
   extraMetadata,
+  addRarityAttribute,
   pixelFormat,
   text,
   namePrefix,

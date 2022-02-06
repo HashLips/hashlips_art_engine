@@ -66,17 +66,30 @@ for (var layer in rarityData) {
     let chance =
       ((rarityData[layer][attribute].occurrence / editionSize) * 100).toFixed(2);
 
+    rarityData[layer][attribute].frequency = `${chance}%`
+
     // show two decimal places in percent
     rarityData[layer][attribute].occurrence =
       `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
   }
 }
 
-// print out rarity data
+
+const writeMetaData = (_data) => {
+  // console.log(rarityData)
+  fs.writeFileSync(`${basePath}/build/json/_rarity.json`, _data);
+};
+
+let rarityJsonData = {}
+
 for (var layer in rarityData) {
-  console.log(`Trait type: ${layer}`);
+  rarityJsonData[layer] = []
   for (var trait in rarityData[layer]) {
-    console.log(rarityData[layer][trait]);
+    rarityJsonData[layer].push((rarityData[layer][trait]))
   }
-  console.log();
+  writeMetaData(JSON.stringify(rarityJsonData, null, 2));
 }
+
+console.log('\u001b[' + 32 + 'm' +
+  "_rarity.json genereated successfully\n"
+  + '\u001b[0m')
