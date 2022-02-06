@@ -203,19 +203,12 @@ const addAttributes = (_element) => {
 };
 
 const loadLayerImg = async (_layer) => {
-  try {
-    return new Promise(async (resolve) => {
-      try {
-        const image = await loadImage(`${_layer.selectedElement.path}`);
-      } catch (error) {
-        console.error(`${error.message}: ${_layer.selectedElement.path}`)
-        process.exit();
-      }
-      resolve({ layer: _layer, loadedImage: image });
-    });
-  } catch (error) {
-    console.error("Error loading image:", error);
-  }
+  return new Promise(async (resolve) => {
+    const image = await loadImage(`${_layer.selectedElement.path}`);
+    resolve({ layer: _layer, loadedImage: image });
+  }).catch(error => {
+    console.error("Error loading image:", error, _layer.selectedElement.path);
+  });
 };
 
 const addText = (_sig, x, y, size) => {
@@ -397,8 +390,9 @@ const startCreating = async () => {
       i <= layerconfiguration.growEditionSizeTo;
       i++
     ) {
-      if (!existingEditions.has(i)) {
+      if (existingEditions.has(i)) {
         console.log("Edition exists!");
+      } else {
         abstractedIndexes.push(i);
       }
     }
@@ -411,7 +405,7 @@ const startCreating = async () => {
       ? console.log("Editions left to create: ", abstractedIndexes)
       : null;
 
-    for (abstractedIndex of abstractedIndexes) {
+    for (let abstractedIndex = 0; abstractedIndex < abstractedIndexes.length;) {
       let newDna = createDna(layers);
       if (isDnaUnique(dnaHashList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
@@ -428,7 +422,7 @@ const startCreating = async () => {
             hashlipsGiffer = new HashlipsGiffer(
               canvas,
               ctx,
-              `${buildDir}/gifs/${abstractedIndex}.gif`,
+              `${buildDir}/gifs/${abstractedIndexes[abstractedIndex]}.gif`,
               gif.repeat,
               gif.quality,
               gif.delay
@@ -451,17 +445,18 @@ const startCreating = async () => {
           if (gif.export) {
             hashlipsGiffer.stop();
           }
-          saveImage(abstractedIndex);
-          addMetadata(newDna, abstractedIndex);
-          saveMetaDataSingleFile(abstractedIndex);
+          saveImage(abstractedIndexes[abstractedIndex]);
+          addMetadata(newDna, abstractedIndexes[abstractedIndex]);
+          saveMetaDataSingleFile(abstractedIndexes[abstractedIndex]);
           console.log(
-            `Created edition: ${abstractedIndex}, with DNA: ${sha1(
+            `Created edition: ${abstractedIndexes[abstractedIndex]}, with DNA: ${sha1(
               newDna
             )}`
           );
         });
         dnaList.add(filterDNAOptions(newDna));
         dnaHashList.add(sha1(filterDNAOptions(newDna)));
+        abstractedIndex++;
       } else {
         console.log("DNA exists!");
         failedCount++;
