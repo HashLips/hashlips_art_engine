@@ -205,7 +205,12 @@ const addAttributes = (_element) => {
 const loadLayerImg = async (_layer) => {
   try {
     return new Promise(async (resolve) => {
-      const image = await loadImage(`${_layer.selectedElement.path}`);
+      try {
+        const image = await loadImage(`${_layer.selectedElement.path}`);
+      } catch (error) {
+        console.error(`${error.message}: ${_layer.selectedElement.path}`)
+        process.exit();
+      }
       resolve({ layer: _layer, loadedImage: image });
     });
   } catch (error) {
