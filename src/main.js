@@ -393,6 +393,7 @@ const startCreating = async () => {
       i++
     ) {
       if (!existingEditions.has(i)) {
+        console.log("Edition exists!");
         abstractedIndexes.push(i);
       }
     }
