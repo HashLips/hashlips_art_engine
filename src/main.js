@@ -382,13 +382,14 @@ const startCreating = async () => {
   for (layerconfiguration of layerConfigurations) {
     const layers = layersSetup(layerconfiguration.layersOrder);
 
+    const offset = abstractedIndexes.length;
     for (
       let i =
         network == NETWORK.sol
           ? 0
           : (layerconfiguration.startEditionFrom || 1)
-        + abstractedIndexes.length;
-      i <= layerconfiguration.growEditionSizeTo + abstractedIndexes.length;
+        + offset;
+      i <= layerconfiguration.growEditionSizeTo + offset;
       i++
     ) {
       if (existingEditions.has(i)) {
@@ -398,7 +399,7 @@ const startCreating = async () => {
       }
     }
   }
-  
+
   if (shuffleLayerConfigurations) {
     abstractedIndexes = shuffle(abstractedIndexes);
   }
