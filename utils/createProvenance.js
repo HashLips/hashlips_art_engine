@@ -21,7 +21,7 @@ const hashImages = (finalProof, concatedHashString) => {
 		const imageHash = createHash('sha256').update(file).digest('hex');
 		concatedHashString.concatedHash += imageHash;
 		const fileName = path.parse(file).name;
-		let jsonFile = fs.readFileSync(`${basePath}/build/json/${fileName}.json`);
+		let jsonFile = fs.readFileSync(`${basePath}/build/json/${fileName}`);
 		let metaData = JSON.parse(jsonFile);
 		const currentNFT = {
 			tokenId: tokenIdCounter,

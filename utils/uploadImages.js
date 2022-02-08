@@ -8,9 +8,9 @@ const basePath = process.cwd();
 dotenv.config();
 
 // Your Pinata API Key
-const pinataApiKey = '';
+const pinataApiKey = process.env.API_KEY;
 // Your Pinata API secret
-const pinataSecretApiKey = '';
+const pinataSecretApiKey = process.env.API_SECRET;
 
 /* 
 	Here we upload the images to Pinata, and update the metadata.json file_url with 
@@ -26,14 +26,14 @@ const pinFileToIPFS = async () => {
 	});
 	for (const file of files) {
 		const fileName = path.parse(file).name;
-		let jsonFile = fs.readFileSync(`${basePath}/build/json/${fileName}.json`);
+		let jsonFile = fs.readFileSync(`${basePath}/build/json/${fileName}`);
 		let metaData = JSON.parse(jsonFile);
 		if(!metaData.image.includes('https://')) {
 			const response = await uploadToPinata(file);
 			console.log('response.data.IpfsHash', response.data.IpfsHash);
 			metaData.image = 'ipfs://' + response.data.IpfsHash;
 			fs.writeFileSync(
-				`${basePath}/build/json/${fileName}.json`,
+				`${basePath}/build/json/${fileName}`,
 				JSON.stringify(metaData, null, 2)
 			);
 			console.log(`${file} uploaded & ${fileName}.json updated!`);
