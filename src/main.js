@@ -92,7 +92,7 @@ const getElements = (path) => {
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
     .map((i, index) => {
       if (i.includes(DNA_DELIMITER)) {
-        console.error(`layer name can not contain DNA_DELIMITER ("-"), please fix: ${i}`);
+        console.error(`layer name can not contain DNA_DELIMITER (${DNA_DELIMITER}), please fix: ${i}`);
         process.exit();
       }
       if (i.includes("\n")) {
@@ -367,6 +367,7 @@ function shuffle(array) {
 const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
+  let layerArray = [];
   let dnaHashList = new Set();
   let existingEditions = new Set();
   if (fs.existsSync(`${basePath}/build/json/_metadata.json`)) {
@@ -395,7 +396,8 @@ const startCreating = async () => {
       if (existingEditions.has(i)) {
         console.log("Edition exists!");
       } else {
-        abstractedIndexes.push([i, layers]);
+        abstractedIndexes.push(i);
+        layerArray.push(layers);
       }
     }
   }
@@ -409,8 +411,8 @@ const startCreating = async () => {
     : null;
 
   for (let abstractedIndex = 0; abstractedIndex < abstractedIndexes.length;) {
-    const i = abstractedIndexes[abstractedIndex][0];
-    const layers = abstractedIndexes[abstractedIndex][1];
+    const i = abstractedIndexes[abstractedIndex];
+    const layers = layerArray[abstractedIndex];
 
     let newDna = createDna(layers);
     if (isDnaUnique(dnaHashList, newDna)) {
