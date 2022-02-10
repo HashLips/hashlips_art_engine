@@ -8,6 +8,8 @@ const {
   namePrefix,
   network,
   solanaMetadata,
+  shuffleCollection,
+  shuffleDir,
 } = require(`${basePath}/src/config.js`);
 
 // read json data
@@ -47,4 +49,42 @@ if (network == NETWORK.sol) {
   console.log(`Updated baseUri for images to ===> ${baseUri}`);
   console.log(`Updated description for images to ===> ${description}`);
   console.log(`Updated name prefix for images to ===> ${namePrefix}`);
+}
+
+/// SHUFFEL COLLECTION WITH METADATA
+ 
+const randomizeImage = (source, destimation) => {
+  fs.copyFile(`${basePath}/build/images/${source}.png`,`${shuffleDir}/${destimation}.png`, (err) => {
+    if (err) throw err;
+    console.log('source.txt was copied to destination.txt');
+  });
+};
+
+function shuffle(array) {
+  array.sort(() => Math.random() - 0.5);
+}
+
+const shuffleArray = (array) => {
+  shuffle(array)
+  data.forEach((item, currentIndex) => {
+    console.log(currentIndex+1, item.image);
+    randomizeImage(item.edition, currentIndex+1);
+  });
+  fs.writeFileSync(
+    `${basePath}/build/json/_metadata_shuffel.json`,
+    JSON.stringify(array, null, 2)
+  );
+
+};
+console.log("shuffleCollection", shuffleDir);
+try {
+  if(shuffleCollection){
+    console.log("shuffling array");
+    if (!fs.existsSync(shuffleDir)) {
+      fs.mkdirSync(shuffleDir);
+    }
+    shuffleArray(data);
+  }
+}catch (err) {
+  console.log("Shuffling Error", err);
 }
