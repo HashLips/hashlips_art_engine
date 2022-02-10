@@ -52,11 +52,10 @@ if (network == NETWORK.sol) {
 }
 
 /// SHUFFEL COLLECTION WITH METADATA
- 
+
 const randomizeImage = (source, destimation) => {
   fs.copyFile(`${basePath}/build/images/${source}.png`,`${shuffleDir}/${destimation}.png`, (err) => {
     if (err) throw err;
-    console.log('source.txt was copied to destination.txt');
   });
 };
 
@@ -68,6 +67,9 @@ const shuffleArray = (array) => {
   shuffle(array)
   data.forEach((item, currentIndex) => {
     console.log(currentIndex+1, item.image);
+    item.name = `${namePrefix} #${currentIndex+1}`;
+    item.description = description;
+    item.image = `${baseUri}/${currentIndex+1}.png`;
     randomizeImage(item.edition, currentIndex+1);
   });
   fs.writeFileSync(
