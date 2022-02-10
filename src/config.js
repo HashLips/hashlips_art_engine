@@ -9,10 +9,9 @@ const namePrefix = "Your Collection";
 const description = "Remember to replace this description";
 const baseUri = "ipfs://NewUriToReplace";
 
-// Run Update_info to randomize collection
+// Run Update_info to shuffle collection
 const shuffleCollection = true;
 const shuffleDir = `${basePath}/build/shuffelImages`;
-
 
 const solanaMetadata = {
   symbol: "YC",
@@ -29,7 +28,7 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 10,
+    growEditionSizeTo: 5,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
