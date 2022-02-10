@@ -27,6 +27,32 @@ data.forEach((item) => {
     item.artifactUri = `${tezosConfig.baseArtifactUri}/${item.edition}.png`;
     item.displayUri = `${tezosConfig.baseDisplayUri}/${item.edition}.png`;
     item.thumbnailUri = `${tezosConfig.baseThumbnailUri}/${item.edition}.png`;
+    item.formats = [
+      {
+        mimeType: "image/png",
+        uri: `${tezosConfig.baseArtifactUri}/${item.edition}.png`,
+        dimensions: {
+          value: `${tezosConfig.size.artifactUri.w}x${tezosConfig.size.artifactUri.h}`,
+          unit: "px",
+        },
+      },
+      {
+        mimeType: "image/png",
+        uri: `${tezosConfig.baseDisplayUri}/${item.edition}.png`,
+        dimensions: {
+          value: `${tezosConfig.size.displayUri.w}x${tezosConfig.size.displayUri.h}`,
+          unit: "px",
+        },
+      },
+      {
+        mimeType: "image/png",
+        uri: `${tezosConfig.baseThumbnailUri}/${item.edition}.png`,
+        dimensions: {
+          value: `${tezosConfig.size.thumbnailUri.w}x${tezosConfig.size.thumbnailUri.h}`,
+          unit: "px",
+        },
+      },
+    ];
     item.royalties = tezosConfig.royalties;
   } else {
     item.name = `${namePrefix} #${item.edition}`;

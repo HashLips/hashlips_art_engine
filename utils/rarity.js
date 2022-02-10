@@ -69,12 +69,13 @@ for (var layer in rarityData) {
     ).toFixed(2);
 
     // show two decimal places in percent
-    rarityData[layer][
-      attribute
-    ].occurrence = `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
+    rarityData[layer][attribute].occurrence =
+      rarityData[layer][attribute].occurrence;
+
+    // show two decimal places in percent
+    rarityData[layer][attribute].chance = chance;
   }
 }
-
 // print out rarity data
 for (var layer in rarityData) {
   console.log(`Trait type: ${layer}`);
@@ -83,3 +84,11 @@ for (var layer in rarityData) {
   }
   console.log();
 }
+
+const raredata = JSON.stringify(rarityData);
+console.log(raredata, rarityData);
+const write = async () => {
+  console.log(raredata);
+  await fs.promises.writeFile(`${basePath}/build/rarity.json`, rarityData);
+};
+write();
