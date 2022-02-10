@@ -70,6 +70,7 @@ const shuffleArray = (array) => {
     item.name = `${namePrefix} #${currentIndex+1}`;
     item.description = description;
     item.image = `${baseUri}/${currentIndex+1}.png`;
+    item.edition = currentIndex+1;
     randomizeImage(item.edition, currentIndex+1);
   });
   fs.writeFileSync(
