@@ -66,12 +66,13 @@ function shuffle(array) {
 const shuffleArray = (array) => {
   shuffle(array)
   data.forEach((item, currentIndex) => {
-    console.log(currentIndex+1, item.image);
+    console.log("new_image:",currentIndex+1, "<=original_image:",item.edition);
+    randomizeImage(item.edition, currentIndex+1);
     item.name = `${namePrefix} #${currentIndex+1}`;
     item.description = description;
     item.image = `${baseUri}/${currentIndex+1}.png`;
     item.edition = currentIndex+1;
-    randomizeImage(item.edition, currentIndex+1);
+    
   });
   fs.writeFileSync(
     `${basePath}/build/json/_metadata_shuffel.json`,
