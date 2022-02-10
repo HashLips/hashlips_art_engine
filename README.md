@@ -309,5 +309,5 @@ Trait type: Top lid
   occurrence: '14 in 20 editions (70.00 %)'
 }
 ```
-
+Added Shuffle code
 Hope you create some awesome artworks with this code 👄
