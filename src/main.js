@@ -776,12 +776,14 @@ const outputFiles = (abstractedIndexes, layerData) => {
 
 const startCreating = async () => {
   let layerConfigIndex = 0;
-  let editionCount = 1;
+  let editionCount = 1; //used for the growEditionSize while loop, not edition number
   let failedCount = 0;
   let abstractedIndexes = [];
   for (
     let i = startIndex;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+    i <=
+    startIndex +
+      layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
     i++
   ) {
     abstractedIndexes.push(i);
