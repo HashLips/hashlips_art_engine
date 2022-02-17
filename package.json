@@ -26,7 +26,9 @@
     "update_info:tezos": "node tezos/updateInfo.js",
     "resize": "node utils/resize.js",
     "stats": "node utils/usageStats.js",
-    "rarity": "node utils/rarity.js"
+    "rarity": "node utils/rarity.js",
+    "preview": "node utils/createPreviewCollage.js",
+    "update_info": "node utils/updateInfo.js"
   },
   "author": "Daniel Eugene Botha (HashLips), NFTChef",
   "license": "MIT",

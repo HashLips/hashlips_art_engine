@@ -22,6 +22,7 @@ const metadataPath = path.join(basePath, "/build/json/_metadata.json");
 function calculate(options = {}) {
   let rarity = {};
   let totals = {};
+  let attributeCounts = {};
 
   const dataset = JSON.parse(fs.readFileSync(metadataPath)); // filter out .DS_Store
   // .filter((item) => {
@@ -34,6 +35,14 @@ function calculate(options = {}) {
     metadata.attributes = metadata.attributes.filter(
       (attr) => attr.value !== ""
     );
+
+    console.log(`how many attributes: ${metadata.attributes.length}`);
+    // add a count to the attribue counts
+    attributeCounts[metadata.attributes.length] = attributeCounts[
+      metadata.attributes.length
+    ]
+      ? attributeCounts[metadata.attributes.length] + 1
+      : 1;
 
     metadata.attributes.forEach((attribute) => {
       rarity = {
@@ -85,6 +94,17 @@ function calculate(options = {}) {
       return obj;
     }, {});
 
+  // append attribute count as a trait
+  ordered["Attribute Count"] = {};
+
+  for (const key in attributeCounts) {
+    console.log(`attributeCounts ${key}`);
+    ordered["Attribute Count"][`${key} Attributes`] = {
+      count: attributeCounts[key],
+      percentage: (attributeCounts[key] / dataset.length).toFixed(4) * 100,
+    };
+  }
+
   // TODO: Calculate rarity score by looping through the set again
   console.log({ count: dataset.length });
 
@@ -110,6 +130,7 @@ function calculate(options = {}) {
   });
 
   console.log(ordered);
+  console.log(attributeCounts);
   outputRarityCSV(ordered);
 
   // console.log(tokenRarities);
