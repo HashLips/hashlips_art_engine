@@ -16,7 +16,7 @@ Go to the root of your folder and run this command if you have yarn installed.
 yarn install
 ```
 
-Alternatively you can run this command if you have node installed.
+Alternatively you can run this command if you have Node (v14 or above) installed.
 
 ```sh
 npm install
