@@ -24,11 +24,43 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
 	{
-		growEditionSizeTo: 2,
+		growEditionSizeTo: 10,
 		layersOrder: [
 			{ name: 'Background' },
-			{ name: 'Bottle' },
-			{ name: 'Label' },
+			{ name: 'Bottle_one' },
+			{ name: 'Label_one' },
+		],
+	},
+	{
+		growEditionSizeTo: 20,
+		layersOrder: [
+			{ name: 'Background' },
+			{ name: 'Bottle_two' },
+			{ name: 'Label_two' },
+		],
+	},
+	{
+		growEditionSizeTo: 30,
+		layersOrder: [
+			{ name: 'Background' },
+			{ name: 'Bottle_three' },
+			{ name: 'Label_three' },
+		],
+	},
+	{
+		growEditionSizeTo: 40,
+		layersOrder: [
+			{ name: 'Background' },
+			{ name: 'Bottle_four' },
+			{ name: 'Label_four' },
+		],
+	},
+	{
+		growEditionSizeTo: 50,
+		layersOrder: [
+			{ name: 'Background' },
+			{ name: 'Bottle_five' },
+			{ name: 'Label_five' },
 		],
 	},
 ];
@@ -38,8 +70,8 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-	width: 512,
-	height: 512,
+	width: 400,
+	height: 400,
 	smoothing: false,
 };
 
@@ -68,13 +100,15 @@ const pixelFormat = {
 };
 
 const background = {
-	generate: true,
-	brightness: '80%',
+	generate: false,
+	brightness: '50%',
 	static: false,
 	default: '#000000',
 };
 
-const extraMetadata = {};
+const extraMetadata = {
+	artist: 'Mysterious X Beauty',
+};
 
 const rarityDelimiter = '#';
 
