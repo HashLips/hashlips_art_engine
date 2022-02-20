@@ -17,6 +17,7 @@ const {
   royaltyFee,
   creators,
 } = require(path.join(basePath, "/Solana/solana_config.js"));
+const { startIndex } = require(path.join(basePath, "/src/config.js"));
 const imagesDir = `${basePath}/build/images`;
 const jsonDir = `${basePath}/build/json`;
 
@@ -48,6 +49,7 @@ const getIndividualJsonFiles = () => {
 
 setup();
 console.log(chalk.bgGreenBright.black("Beginning Solana/Metaplex conversion"));
+console.log({ startIndex });
 console.log(
   chalk.green(
     `\nExtracting metaplex-ready files.\nWriting to folder: ${metaplexFilePath}`
@@ -59,7 +61,7 @@ const imageFiles = getIndividualImageFiles();
 imageFiles.forEach((file) => {
   let nameWithoutExtension = file.slice(0, -4);
   let editionCountFromFileName = Number(nameWithoutExtension);
-  let newEditionCount = editionCountFromFileName - 1;
+  let newEditionCount = editionCountFromFileName - startIndex;
   fs.copyFile(
     `${imagesDir}/${file}`,
     path.join(`${metaplexDir}`, "images", `${newEditionCount}.png`),
@@ -78,7 +80,7 @@ console.log(
 jsonFiles.forEach((file) => {
   let nameWithoutExtension = file.slice(0, -4);
   let editionCountFromFileName = Number(nameWithoutExtension);
-  let newEditionCount = editionCountFromFileName - 1;
+  let newEditionCount = editionCountFromFileName - startIndex;
 
   const rawData = fs.readFileSync(`${jsonDir}/${file}`);
   const jsonData = JSON.parse(rawData);
