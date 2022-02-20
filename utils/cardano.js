@@ -1,15 +1,20 @@
 "use strict";
-
+/**
+ * Cardono util is build to conform to the specifications and workflow
+ * for NFTMaker Pro.
+ *
+ * The policy_id, image location, and other values are left in the
+ * placeholder form, e.g., <policy_id>
+ * The actual values are replaced dynamically by NFTmakerPro.
+ *
+ *
+ */
 const fs = require("fs");
 const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const chalk = require("chalk");
 
-const { policyId, policyName, location } = require(path.join(
-  basePath,
-  "/Cardano/cardano_config.js"
-));
 // const imagesDir = `${basePath}/build/images`;
 const jsonDir = `${basePath}/build/json`;
 
@@ -23,7 +28,7 @@ const setup = () => {
     });
   }
   fs.mkdirSync(metadataBuildPath);
-  fs.mkdirSync(path.join(metadataBuildPath, "/json"));
+  fs.mkdirSync(path.join(metadataBuildPath, "/metadata"));
 };
 
 const getIndividualJsonFiles = () => {
@@ -52,36 +57,41 @@ jsonFiles.forEach((file) => {
   const rawData = fs.readFileSync(`${jsonDir}/${file}`);
   const jsonData = JSON.parse(rawData);
 
-  const restructuredAttributes = jsonData.attributes.reduce(
-    (properties, attr) => {
-      return [...properties, { [attr.trait_type]: attr.value }];
-    },
-    []
-  );
+  // convert the array of attributes into a flat object
+  // this object is spread into the metadata template
+  const restructuredAttributes = {};
+  jsonData.attributes.map((attr) => {
+    restructuredAttributes[attr.trait_type] = attr.value;
+  }, []);
 
-  let tempMetadata = {
+  let metadataTemplate = {
     721: {
-      [policyId]: {
-        [policyName]: {
+      "<policy_id>": {
+        "<asset_name>": {
           name: jsonData.name,
+          image: "<ipfs_link>",
+          mediaType: "<mime_type>",
           description: jsonData.description,
-          ...(jsonData.imageHash !== undefined && {
-            keccack256: jsonData.imageHash,
-          }),
-          type: "image",
-          location,
-          properties: [...restructuredAttributes],
+          files: [
+            {
+              name: "<display_name>",
+              mediaType: "<mime_type>",
+              src: "<ipfs_link>",
+            },
+          ],
+          ...restructuredAttributes,
         },
       },
+      version: "1.0",
     },
   };
   fs.writeFileSync(
     path.join(
       `${metadataConfigPath}`,
-      "json",
-      `${editionCountFromFileName}.json`
+      "metadata",
+      `${editionCountFromFileName}.metadata`
     ),
-    JSON.stringify(tempMetadata, null, 2)
+    JSON.stringify(metadataTemplate, null, 2)
   );
 });
 console.log(`\nFinished converting json metadata files to Cardano Format.`);
