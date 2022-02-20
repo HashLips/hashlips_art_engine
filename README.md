@@ -534,6 +534,7 @@ If you are building for Solana, all the image generation options in config are a
 
 Configure the `solona_config.js` file located in the `Solana/` folder.
 Here, enter in all the necessary information for your collection.
+The Solana config will set your images and metadata to start from `0` (zero index), regardless of what you have set in config.js for `startIndex`
 
 You can run the generator AND output Solana data by running the following command from your terminal
 
