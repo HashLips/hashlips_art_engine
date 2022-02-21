@@ -17,7 +17,7 @@ const outputJPEG = false; // if false, the generator outputs png's
  * Set your tokenID index start number.
  * ⚠️ Be sure it matches your smart contract!
  */
-const startIndex = 0;
+const startIndex = 11;
 
 // if you use an empty/transparent file, set the name here.
 const emptyLayerName = "NONE";
@@ -27,8 +27,8 @@ const hashImages = true;
 
 const layerConfigurations = [
   {
-    growEditionSizeTo: 11,
-    // namePrefix: "Monkey", Use to add a name to Metadata `name:`
+    growEditionSizeTo: 10,
+    namePrefix: "Series 2", // Use to add a name to Metadata `name:`
     layersOrder: [
       { name: "Background" },
       {
