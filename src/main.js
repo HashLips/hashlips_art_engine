@@ -40,10 +40,10 @@ const canvas = createCanvas(format.width, format.height);
 const ctxMain = canvas.getContext("2d");
 ctxMain.imageSmoothingEnabled = format.smoothing;
 
-var metadataList = [];
-var attributesList = [];
+let metadataList = [];
+let attributesList = [];
 
-var dnaList = new Set();
+let dnaList = new Set();
 const DNA_DELIMITER = "*";
 
 const zflag = /(z-?\d*,)/;
@@ -484,8 +484,10 @@ function pickRandomElement(
   if (compatibleLayers.length === 0) {
     debugLogs
       ? console.log(
-          "No compatible layers in the directory, skipping",
-          layer.name
+          chalk.yellow(
+            "No compatible layers in the directory, skipping",
+            layer.name
+          )
         )
       : null;
     return dnaSequence;
@@ -699,7 +701,7 @@ function shuffle(array) {
  *
  */
 const paintLayers = (canvasContext, renderObjectArray, layerData) => {
-  debugLogs ? console.log("Clearing canvas") : null;
+  debugLogs ? console.log("\nClearing canvas") : null;
   canvasContext.clearRect(0, 0, format.width, format.height);
 
   const { abstractedIndexes, _background } = layerData;
@@ -718,7 +720,7 @@ const paintLayers = (canvasContext, renderObjectArray, layerData) => {
       format.height
     );
   });
-  console.log("_background.generate", _background.generate);
+
   if (_background.generate) {
     canvasContext.globalCompositeOperation = "destination-over";
     drawBackground(canvasContext);
@@ -770,11 +772,17 @@ const outputFiles = (abstractedIndexes, layerData) => {
 
   saveMetaDataSingleFile(abstractedIndexes[0]);
   console.log(
-    `Created edition: ${abstractedIndexes[0]}, with DNA: ${hash(newDna)}`
+    chalk.cyan(
+      `Created edition: ${abstractedIndexes[0]}, with DNA: ${hash(newDna)}`
+    )
   );
 };
 
-const startCreating = async () => {
+const startCreating = async (storedDNA) => {
+  if (storedDNA) {
+    console.log(`using stored dna of ${storedDNA.size}`);
+    dnaList = storedDNA;
+  }
   let layerConfigIndex = 0;
   let editionCount = 1; //used for the growEditionSize while loop, not edition number
   let failedCount = 0;
@@ -829,7 +837,7 @@ const startCreating = async () => {
         editionCount++;
         abstractedIndexes.shift();
       } else {
-        console.log("DNA exists!");
+        console.log(chalk.bgRed("DNA exists!"));
         failedCount++;
         if (failedCount >= uniqueDnaTorrance) {
           console.log(
