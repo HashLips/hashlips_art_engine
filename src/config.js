@@ -24,9 +24,6 @@ const outputJPEG = false; // if false, the generator outputs png's
  */
 const startIndex = 0;
 
-// if you use an empty/transparent file, set the name here.
-const emptyLayerName = "NONE";
-
 const format = {
   width: 512,
   height: 512,
@@ -81,6 +78,9 @@ const debugLogs = true;
 /*********************
  * Advanced Generator Options
  ***********************/
+
+// if you use an empty/transparent file, set the name here.
+const emptyLayerName = "NONE";
 
 /**
  * Incompatible items can be added to this object by a files cleanName
