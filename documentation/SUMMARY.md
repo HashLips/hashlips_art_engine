@@ -1,9 +1,10 @@
 # Table of contents
 
 * [Art Engine](README.md)
-* [Quickstart](quickstart.md)
-* [Conditional Branching](conditional-branching.md)
-* [Extending a collection](extending-a-collection.md)
+  * [Quickstart](readme/quickstart.md)
+  * [Conditional Branching](readme/conditional-branching.md)
+  * [Extending a collection](readme/extending-a-collection.md)
+  * [z-index (layer order)](readme/z-index-layer-order.md)
 * [Utils](../utils/README.md)
   * [Rarity](../utils/rarity.md)
   * [Stats](../utils/stats.md)

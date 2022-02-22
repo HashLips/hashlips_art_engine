@@ -10,8 +10,8 @@ This art generator (art engine) has a number of advanced features to help build 
 
 This generator is only for static images.&#x20;
 
-![Diagram by @juanicarmesi](<.gitbook/assets/Branching with nested folders.png>)
+![Diagram by @juanicarmesi](<../.gitbook/assets/Branching with nested folders.png>)
 
-![Example provided by @juanicarmesi](<.gitbook/assets/Branching result.png>)
+![Example provided by @juanicarmesi](<../.gitbook/assets/Branching result.png>)
 
 \
