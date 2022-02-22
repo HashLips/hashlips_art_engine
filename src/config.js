@@ -166,6 +166,15 @@ const preview = {
   imageName: "preview.png",
 };
 
+const preview_gif = {
+  numberOfImages: 5,
+  order: "ASC", // ASC, DESC, MIXED
+  repeat: 0,
+  quality: 100,
+  delay: 500,
+  imageName: "preview.gif",
+};
+
 module.exports = {
   background,
   baseUri,
@@ -183,6 +192,7 @@ module.exports = {
   layersDir,
   outputJPEG,
   preview,
+  preview_gif,
   rarityDelimiter,
   shuffleLayerConfigurations,
   startIndex,

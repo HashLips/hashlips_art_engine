@@ -20,6 +20,7 @@
     "generate:solana": "node index.js && node utils/metaplex.js",
     "generate:cardano": "node index.js && node utils/cardano.js",
     "preview": "node utils/createPreviewCollage.js",
+    "gif": "node utils/preview_gif.js",
     "update_info": "node utils/updateInfo.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -30,6 +31,7 @@
     "chalk": "^4.1.2",
     "commander": "^8.2.0",
     "eslint-plugin-node": "^11.1.0",
-    "keccak256": "^1.0.3"
+    "keccak256": "^1.0.3",
+    "gif-encoder-2": "^1.0.5"
   }
 }
