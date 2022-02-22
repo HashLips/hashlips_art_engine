@@ -35,7 +35,7 @@ const layerConfigurations = [
         name: "Back Accessory",
         // options: {
         //   bypassDNA: true,
-        // },
+      // },
       },
       { name: "Head" },
       { name: "Clothes" },
@@ -100,6 +100,7 @@ const debugLogs = true;
 const format = {
   width: 512,
   height: 512,
+  smoothing: true, // set to false when up-scaling pixel art.
 };
 
 const background = {
@@ -139,7 +140,7 @@ const rarityDelimiter = "#";
 const uniqueDnaTorrance = 10000;
 
 /**
- * Set to true to always use the root folder as trait_tybe
+ * Set to true to always use the root folder as trait_type
  * Set to false to use weighted parent folders as trait_type
  * Default is true.
  */
