@@ -335,6 +335,7 @@ const loadLayerImg = async (_layer) => {
 const drawElement = (_renderObject, mainCanvas) => {
   const layerCanvas = createCanvas(format.width, format.height);
   const layerctx = layerCanvas.getContext("2d");
+  layerctx.imageSmoothingEnabled = format.smoothing;
 
   layerctx.drawImage(
     _renderObject.loadedImage,
