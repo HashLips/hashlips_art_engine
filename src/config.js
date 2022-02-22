@@ -8,22 +8,35 @@ const { MODE } = require(path.join(basePath, "src/blendMode.js"));
 const buildDir = path.join(basePath, "/build");
 const layersDir = path.join(basePath, "/layers");
 
+/*********************
+ * General Generator Options
+ ***********************/
+
 const description =
   "This is the description of your NFT project, remember to replace this";
 const baseUri = "ipfs://NewUriToReplace";
 
 const outputJPEG = false; // if false, the generator outputs png's
+
 /**
  * Set your tokenID index start number.
  * ⚠️ Be sure it matches your smart contract!
  */
-const startIndex = 11;
+const startIndex = 0;
 
 // if you use an empty/transparent file, set the name here.
 const emptyLayerName = "NONE";
 
-//IF you need a provenance hash, turn this on
-const hashImages = true;
+const format = {
+  width: 512,
+  height: 512,
+  smoothing: true, // set to false when up-scaling pixel art.
+};
+
+const background = {
+  generate: true,
+  brightness: "80%",
+};
 
 const layerConfigurations = [
   {
@@ -35,7 +48,7 @@ const layerConfigurations = [
         name: "Back Accessory",
         // options: {
         //   bypassDNA: true,
-      // },
+        // },
       },
       { name: "Head" },
       { name: "Clothes" },
@@ -56,6 +69,18 @@ const layerConfigurations = [
   //   ],
   // },
 ];
+
+/**
+ * Set to true for when using multiple layersOrder configuration
+ * and you would like to shuffle all the artwork together
+ */
+const shuffleLayerConfigurations = false;
+
+const debugLogs = true;
+
+/*********************
+ * Advanced Generator Options
+ ***********************/
 
 /**
  * Incompatible items can be added to this object by a files cleanName
@@ -83,8 +108,6 @@ const forcedCombinations = {
   // floral: ["MetallicShades", "Golden Sakura"],
 };
 
-const shuffleLayerConfigurations = false;
-
 /**
  * In the event that a filename cannot be the trait value name, for example when
  * multiple items should have the same value, specify
@@ -93,19 +116,6 @@ const shuffleLayerConfigurations = false;
 const traitValueOverrides = {
   Helmet: "Space Helmet",
   "gold chain": "GOLDEN NECKLACE",
-};
-
-const debugLogs = true;
-
-const format = {
-  width: 512,
-  height: 512,
-  smoothing: true, // set to false when up-scaling pixel art.
-};
-
-const background = {
-  generate: true,
-  brightness: "80%",
 };
 
 const extraMetadata = {};
@@ -134,6 +144,9 @@ const extraAttributes = () => [
   //   value: Math.floor(Math.random() * 100),
   // },
 ];
+
+// Outputs an Keccack256 hash for the image. Required for provenance hash
+const hashImages = true;
 
 const rarityDelimiter = "#";
 
