@@ -2,6 +2,7 @@
 
 * [Art Engine](README.md)
 * [Quickstart](quickstart.md)
+* [Conditional Branching](conditional-branching.md)
 * [Extending a collection](extending-a-collection.md)
 * [Utils](../utils/README.md)
   * [Rarity](../utils/rarity.md)
