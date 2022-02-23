@@ -1,6 +1,6 @@
 # Rarity
 
-![](<../.gitbook/assets/image (6).png>)
+![](<../../.gitbook/assets/image (6).png>)
 
 Calculate the count and percentage of each trait and value that _was_ generated, and output `rarity.csv`
 

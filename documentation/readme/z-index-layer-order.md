@@ -4,7 +4,50 @@ description: Fine grain control over the stacking order of your artwork layers
 
 # z-index (layer order)
 
-### Advanced Usage
+## Controlling stacking order
+
+![Diagram provided by @juanicarmesi ](../.gitbook/assets/z-index.png)
+
+### Basic organization
+
+Generally, layer order is defined by using `layersOrder` in config.js. However, when using nested folders, layer order defaults to alphanumeric sorting (0-9,a-z)
+
+To manually define stacking order for sublayers (nested folders) use the `z#,` (`z` followed by a positive or negative number, followed bu a `,` comma) prefix for folder names and/or file names.
+
+Example folders _inside_ a root folder.&#x20;
+
+⚠️ **z-index does not work on "Root Layers", the layers listed in the `layersOrder` inside config.js**
+
+⚠️ **If you are not seeing your negative z-index layers, be sure you do not have a background layer covering them! you may need to set backgrounds to a lower negative number.**
+
+```
+```
+
+```
+|- z-1,under layer
+|-normal layer/
+|-normal layer two/
+|-- z3,OptionAlways On Top#50.png
+|-z2,layer two/
+```
+
+![Example folder names to illustrate the usage of z#, ](<../.gitbook/assets/image (1).png>)
+
+Folders and files without a `z#,` prefix default to a z-index of `0`
+
+If a file has a `z#,` prefix, and its parent folder(s) does as well, the **files z-index will be used,** allowing you to overwrite and define an individual's layer order.
+
+<mark style="background-color:orange;">Layer order z-indexes are "global" meaning the index is relative to ALL OTHER z-indices defined in every folder/file</mark>
+
+### Multiple layers for a single trait
+
+In the case where a single trait needs to have one part of the image on top, and another layered below (see the Hair Example in the illustated diagram at the top of this document), use weighted subfolders with required folders inside.
+
+The result will be the Hair, Front.png being stacked _normally,_ while Back.png will be send below all other layers (higher that negative one).
+
+![Required png's combined to make a single trait](../.gitbook/assets/image.png)
+
+## Advanced Usage
 
 There are many cases where simple layers result in a tangle of options and incompatible layers Nested Layers and z-Index features of this application have all the answers that are needed.
 
