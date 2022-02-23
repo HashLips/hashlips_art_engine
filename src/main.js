@@ -412,7 +412,7 @@ const startCreating = async () => {
 
   for (let abstractedIndex = 0; abstractedIndex < abstractedIndexes.length;) {
     const i = abstractedIndexes[abstractedIndex];
-    const layers = layerArray[abstractedIndex];
+    const layers = layerArray[i];
 
     let newDna = createDna(layers);
     if (isDnaUnique(dnaHashList, newDna)) {
