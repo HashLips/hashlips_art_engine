@@ -21,9 +21,6 @@ Example folders _inside_ a root folder.&#x20;
 ⚠️ **If you are not seeing your negative z-index layers, be sure you do not have a background layer covering them! you may need to set backgrounds to a lower negative number.**
 
 ```
-```
-
-```
 |- z-1,under layer
 |-normal layer/
 |-normal layer two/
