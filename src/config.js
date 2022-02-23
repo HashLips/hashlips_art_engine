@@ -5,18 +5,17 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
-const pinata = "QmfSPdJYfpSZxgaXc3dZtSxAKjT8oGNtmEmNkiNJGRBXfr";
-const baseUri = `ipfs://${pinata}`;
+const namePrefix = "LizArt";
+const description = "Dragon Nation First Gen NFTs";
+const baseUri = `ipfs://QmUNdZ48reV5Mm3NufLiauCudnfqWt2PgsRidZb8dC8jRQ`;
 
 const solanaMetadata = {
   symbol: "YC",
   seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
-  external_url: "https://www.youtube.com/c/hashlipsnft",
+  external_url: "https://twitter.com/LizArtNFT_",
   creators: [
     {
-      address: "7fXNuer5sbZtaTEPhtJ5g5gNtuyRoKkvxdjEjEnPN4mC",
+      address: "0xf246bF23dBb959d4bf3d9F15f1C50c6264fdF966",
       share: 100,
     },
   ],

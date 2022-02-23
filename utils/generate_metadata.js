@@ -60,6 +60,7 @@ const draw = (_imgObject) => {
   let h = canvas.height;
   ctx.drawImage(_imgObject.loadedImage, 0, 0, w, h);
 };
+const year = new Date().getFullYear();
 
 const addRarity = () => {
   let w = canvas.width;
@@ -70,6 +71,7 @@ const addRarity = () => {
   let rgb = imgdata.data;
   let newRgb = { r: 0, g: 0, b: 0 };
   const tolerance = 15;
+
   const rareColorBase = "NOT a Hot Dog";
   const rareColor = [
     { name: "Hot Dog", rgb: { r: 192, g: 158, b: 131 } },
@@ -106,12 +108,8 @@ const addRarity = () => {
       value: `rgb(${newRgb.r},${newRgb.g},${newRgb.b})`,
     },
     {
-      trait_type: "What is this?",
-      value: rarity,
-    },
-    {
       trait_type: "date",
-      value: randomIntFromInterval(1500, 1900),
+      value: year,
     },
   ];
 };
@@ -141,9 +139,9 @@ const saveMetadata = (_loadedImageObject) => {
     name: `${namePrefix} #${shortName}`,
     description: description,
     image: `${baseUri}/${shortName}.png`,
-    edition: Number(shortName),
+    edition: Number(1.0),
     attributes: tempAttributes,
-    compiler: "HashLips Art Engine",
+    compiler: "LizArt Engine",
   };
   fs.writeFileSync(
     `${buildDir}/${shortName}.json`,
