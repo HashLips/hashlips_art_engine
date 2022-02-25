@@ -114,20 +114,20 @@ const layersSetup = (layersOrder) => {
     id: index,
     elements: getElements(`${layersDir}/${layerObj.name}/`),
     name:
-      layerObj.options?.["displayName"] != undefined
-        ? layerObj.options?.["displayName"]
+      layerObj.options && layerObj.options["displayName"] != undefined
+        ? layerObj.options && layerObj.options["displayName"]
         : layerObj.name,
     blend:
-      layerObj.options?.["blend"] != undefined
-        ? layerObj.options?.["blend"]
+      layerObj.options && layerObj.options["blend"] != undefined
+        ? layerObj.options && layerObj.options["blend"]
         : "source-over",
     opacity:
-      layerObj.options?.["opacity"] != undefined
-        ? layerObj.options?.["opacity"]
+      layerObj.options && layerObj.options["opacity"] != undefined
+        ? layerObj.options && layerObj.options["opacity"]
         : 1,
     bypassDNA:
-      layerObj.options?.["bypassDNA"] !== undefined
-        ? layerObj.options?.["bypassDNA"]
+      layerObj.options && layerObj.options["bypassDNA"] !== undefined
+        ? layerObj.options && layerObj.options["bypassDNA"]
         : false,
   }));
   return layers;
