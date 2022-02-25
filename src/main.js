@@ -397,7 +397,7 @@ const startCreating = async () => {
         console.log("Edition exists!");
       } else {
         abstractedIndexes.push(i);
-        layerArray.push(layers);
+        layerArray[i] = layers;
       }
     }
   }
