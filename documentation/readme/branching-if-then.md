@@ -1,3 +1,7 @@
+---
+description: Understanding and setting up conditional branching  with nested folders.
+---
+
 # Branching (IF/Then)
 
 ![Diagram provided by @juanicarmesi](<../.gitbook/assets/Branching with nested folders.png>)
