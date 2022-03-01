@@ -41,6 +41,9 @@ const shuffleLayerConfigurations = false;
 
 const debugLogs = false;
 
+const numWorkers = 1;
+const batchSize = 1; // only matters when numWorkers > 1
+
 const format = {
   width: 512,
   height: 512,
@@ -119,4 +122,6 @@ module.exports = {
   solanaMetadata,
   gif,
   preview_gif,
+  numWorkers,
+  batchSize,
 };

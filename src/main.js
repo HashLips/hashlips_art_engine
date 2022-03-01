@@ -35,7 +35,7 @@ let hashlipsGiffer = null;
 
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
-    fs.rmdirSync(buildDir, { recursive: true });
+    fs.rmSync(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
   fs.mkdirSync(`${buildDir}/json`);
@@ -334,7 +334,7 @@ function shuffle(array) {
   return array;
 }
 
-const startCreating = async () => {
+const chooseDnas = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
   let failedCount = 0;
@@ -352,6 +352,7 @@ const startCreating = async () => {
   debugLogs
     ? console.log("Editions left to create: ", abstractedIndexes)
     : null;
+  let createList = [];
   while (layerConfigIndex < layerConfigurations.length) {
     const layers = layersSetup(
       layerConfigurations[layerConfigIndex].layersOrder
@@ -361,7 +362,44 @@ const startCreating = async () => {
     ) {
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
+        createList.push({
+          newDna,
+          editionCount,
+          index: abstractedIndexes[0],
+          layerConfigIndex,
+        });
+
+        dnaList.add(filterDNAOptions(newDna));
+        editionCount++;
+        abstractedIndexes.shift();
+      } else {
+        console.log("DNA exists!");
+        failedCount++;
+        if (failedCount >= uniqueDnaTorrance) {
+          console.log(
+            `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
+          );
+          process.exit();
+        }
+      }
+    }
+    layerConfigIndex++;
+  }
+  writeMetaData(JSON.stringify(metadataList, null, 2));
+  return createList;
+};
+
+const createDnas = async (createList) => {
+  const allLayers = [];
+  for (let i = 0; i < layerConfigurations.length; ++i) {
+    allLayers.push(layersSetup(
+      layerConfigurations[i].layersOrder
+    ));
+  }
+  for (const { newDna, editionCount, index, layerConfigIndex } of createList) {
+    const layers = allLayers[layerConfigIndex];
         let results = constructLayerToDna(newDna, layers);
+        let abstractedIndexes = [index];
         let loadedElements = [];
 
         results.forEach((layer) => {
@@ -398,9 +436,6 @@ const startCreating = async () => {
           if (gif.export) {
             hashlipsGiffer.stop();
           }
-          debugLogs
-            ? console.log("Editions left to create: ", abstractedIndexes)
-            : null;
           saveImage(abstractedIndexes[0]);
           addMetadata(newDna, abstractedIndexes[0]);
           saveMetaDataSingleFile(abstractedIndexes[0]);
@@ -410,23 +445,7 @@ const startCreating = async () => {
             )}`
           );
         });
-        dnaList.add(filterDNAOptions(newDna));
-        editionCount++;
-        abstractedIndexes.shift();
-      } else {
-        console.log("DNA exists!");
-        failedCount++;
-        if (failedCount >= uniqueDnaTorrance) {
-          console.log(
-            `You need more layers or elements to grow your edition to ${layerConfigurations[layerConfigIndex].growEditionSizeTo} artworks!`
-          );
-          process.exit();
-        }
-      }
-    }
-    layerConfigIndex++;
   }
-  writeMetaData(JSON.stringify(metadataList, null, 2));
 };
 
-module.exports = { startCreating, buildSetup, getElements };
+module.exports = { chooseDnas, createDnas, buildSetup, getElements };
