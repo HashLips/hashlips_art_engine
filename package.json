@@ -1,7 +1,7 @@
 {
-  "name": "hashlips_art_engine",
-  "version": "1.0.6",
-  "description": "NFTChef Fork - HashLips Art Engine is a tool used to create multiple different instances of artworks based on provided layers.",
+  "name": "nft-kitchen-sink-generator",
+  "version": "2.0.2",
+  "description": "NFTChef Fork - Hard fork from HashLips Art Engine, is a tool used to create multiple different instances of artworks based on provided layers. Most config is the same as Hashlips",
   "main": "index.js",
   "bin": "index.js",
   "engines": {
@@ -22,7 +22,7 @@
     "preview": "node utils/createPreviewCollage.js",
     "gif": "node utils/preview_gif.js",
     "update_info": "node utils/updateInfo.js",
-    "update:metadata": "node utils/updateInfo.js",
+    "update:metadata": "node utils/updateInfo.js"
   },
   "author": "Daniel Eugene Botha (HashLips), NFTChef",
   "license": "MIT",
