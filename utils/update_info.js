@@ -19,6 +19,13 @@ data.forEach((item) => {
     item.name = `${namePrefix} #${item.edition}`;
     item.description = description;
     item.creators = solanaMetadata.creators;
+  } else if (network == NETWORK.near) {
+    item.title = `${namePrefix} #${item.edition}`;
+    item.media  = `${baseUri}/${item.edition}.png`;
+
+    // Conditional delete
+    if (item.name) delete item.name;
+    if (item.image) delete item.image;
   } else {
     item.name = `${namePrefix} #${item.edition}`;
     item.description = description;
