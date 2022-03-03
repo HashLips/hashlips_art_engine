@@ -20,7 +20,8 @@ const loadImg = async (_img) => {
 // read image paths
 const imageList = [];
 const rawdata = fs.readdirSync(imageDir).forEach((file) => {
-  imageList.push(loadImg(`${imageDir}/${file}`));
+  console.log(`${imageDir}/${file}`);
+  imageList.push(`${imageDir}/${file}`);
 });
 
 const saveProjectPreviewGIF = async (_data) => {
@@ -56,20 +57,26 @@ const saveProjectPreviewGIF = async (_data) => {
     );
     hashlipsGiffer.start();
 
-    await Promise.all(_data).then((renderObjectArray) => {
-      // Determin the order of the Images before creating the gif
-      if (order == "ASC") {
-        // Do nothing
-      } else if (order == "DESC") {
-        renderObjectArray.reverse();
-      } else if (order == "MIXED") {
-        renderObjectArray = renderObjectArray.sort(() => Math.random() - 0.5);
-      }
+    // Determine the order of the Images before creating the gif
+    if (order == "ASC") {
+      // Do nothing
+    } else if (order == "DESC") {
+      _data.reverse();
+    } else if (order == "MIXED") {
+      _data = _data.sort(() => Math.random() - 0.5);
+    }
 
-      // Reduce the size of the array of Images to the desired amount
-      if (parseInt(numberOfImages) > 0) {
-        renderObjectArray = renderObjectArray.slice(0, numberOfImages);
-      }
+    // Reduce the size of the array of Images to the desired amount
+    if (parseInt(numberOfImages) > 0) {
+      _data = _data.slice(0, numberOfImages);
+    }
+
+    // load the images now that we've reduced and sorted the array
+    _data = _data.map((dataItem) => {
+      return loadImg(dataItem);
+    })
+
+    await Promise.all(_data).then((renderObjectArray) => {
 
       renderObjectArray.forEach((renderObject, index) => {
         ctx.globalAlpha = 1;
