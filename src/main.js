@@ -86,7 +86,35 @@ const getElements = (path) => {
     });
 };
 
-const layersSetup = (layersOrder) => {
+let cachedElements = [];
+
+const cacheElements = async(layers) => {
+  let pElements = []; // Promises
+  // Cache Elements
+  Object.values(layers).forEach(layer => { // Layer iterator
+    if(layer.elements != undefined) {
+      Object.values(layer.elements).forEach(element => { // Element iterator
+        const layerData = {
+          blend: layer.blend,
+          name: layer.name,
+          opacity: layer.opacity,
+          selectedElement: element
+        }
+
+        pElements.push(loadLayerImg(layerData))
+      });
+    }
+  });
+
+  await Promise.all(pElements).then(elementArray => cachedElements = elementArray);
+}
+
+const getCache = (layer) => {
+  let ret = cachedElements.find(lyr => lyr.layer.selectedElement.path == layer.selectedElement.path);
+  return ret;
+};
+
+const layersSetup = async(layersOrder) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
     elements: getElements(`${layersDir}/${layerObj.name}/`),
@@ -107,6 +135,7 @@ const layersSetup = (layersOrder) => {
         ? layerObj.options?.["bypassDNA"]
         : false,
   }));
+  await cacheElements(layers); // Cache all elements here
   return layers;
 };
 
@@ -353,7 +382,7 @@ const startCreating = async () => {
     ? console.log("Editions left to create: ", abstractedIndexes)
     : null;
   while (layerConfigIndex < layerConfigurations.length) {
-    const layers = layersSetup(
+    const layers = await layersSetup(
       layerConfigurations[layerConfigIndex].layersOrder
     );
     while (
@@ -365,51 +394,49 @@ const startCreating = async () => {
         let loadedElements = [];
 
         results.forEach((layer) => {
-          loadedElements.push(loadLayerImg(layer));
+          loadedElements.push(getCache(layer));
         });
 
-        await Promise.all(loadedElements).then((renderObjectArray) => {
-          debugLogs ? console.log("Clearing canvas") : null;
-          ctx.clearRect(0, 0, format.width, format.height);
-          if (gif.export) {
-            hashlipsGiffer = new HashlipsGiffer(
-              canvas,
-              ctx,
-              `${buildDir}/gifs/${abstractedIndexes[0]}.gif`,
-              gif.repeat,
-              gif.quality,
-              gif.delay
-            );
-            hashlipsGiffer.start();
-          }
-          if (background.generate) {
-            drawBackground();
-          }
-          renderObjectArray.forEach((renderObject, index) => {
-            drawElement(
-              renderObject,
-              index,
-              layerConfigurations[layerConfigIndex].layersOrder.length
-            );
-            if (gif.export) {
-              hashlipsGiffer.add();
-            }
-          });
-          if (gif.export) {
-            hashlipsGiffer.stop();
-          }
-          debugLogs
-            ? console.log("Editions left to create: ", abstractedIndexes)
-            : null;
-          saveImage(abstractedIndexes[0]);
-          addMetadata(newDna, abstractedIndexes[0]);
-          saveMetaDataSingleFile(abstractedIndexes[0]);
-          console.log(
-            `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
-              newDna
-            )}`
+        debugLogs ? console.log("Clearing canvas") : null;
+        ctx.clearRect(0, 0, format.width, format.height);
+        if (gif.export) {
+          hashlipsGiffer = new HashlipsGiffer(
+            canvas,
+            ctx,
+            `${buildDir}/gifs/${abstractedIndexes[0]}.gif`,
+            gif.repeat,
+            gif.quality,
+            gif.delay
           );
+          hashlipsGiffer.start();
+        }
+        if (background.generate) {
+          drawBackground();
+        }
+        loadedElements.forEach((renderObject, index) => {
+          drawElement(
+            renderObject,
+            index,
+            layerConfigurations[layerConfigIndex].layersOrder.length
+          );
+          if (gif.export) {
+            hashlipsGiffer.add();
+          }
         });
+        if (gif.export) {
+          hashlipsGiffer.stop();
+        }
+        debugLogs
+          ? console.log("Editions left to create: ", abstractedIndexes)
+          : null;
+        saveImage(abstractedIndexes[0]);
+        addMetadata(newDna, abstractedIndexes[0]);
+        saveMetaDataSingleFile(abstractedIndexes[0]);
+        console.log(
+          `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
+            newDna
+          )}`
+        );
         dnaList.add(filterDNAOptions(newDna));
         editionCount++;
         abstractedIndexes.shift();
