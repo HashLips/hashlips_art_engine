@@ -46,7 +46,7 @@ layerConfigurations.forEach((config) => {
 data.forEach((element) => {
   let attributes = element.attributes;
   attributes.forEach((attribute) => {
-    let traitType = attribute.trait_type;
+    let traitType = attribute.name;
     let value = attribute.value;
 
     let rarityDataTraits = rarityData[traitType];
@@ -63,15 +63,19 @@ data.forEach((element) => {
 for (var layer in rarityData) {
   for (var attribute in rarityData[layer]) {
     // get chance
-    let chance =
-      ((rarityData[layer][attribute].occurrence / editionSize) * 100).toFixed(2);
+    let chance = (
+      (rarityData[layer][attribute].occurrence / editionSize) *
+      100
+    ).toFixed(2);
 
     // show two decimal places in percent
     rarityData[layer][attribute].occurrence =
-      `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
+      rarityData[layer][attribute].occurrence;
+
+    // show two decimal places in percent
+    rarityData[layer][attribute].chance = chance;
   }
 }
-
 // print out rarity data
 for (var layer in rarityData) {
   console.log(`Trait type: ${layer}`);
@@ -80,3 +84,11 @@ for (var layer in rarityData) {
   }
   console.log();
 }
+
+const raredata = JSON.stringify(rarityData);
+console.log(raredata, rarityData);
+const write = async () => {
+  console.log(raredata);
+  await fs.promises.writeFile(`${basePath}/build/rarity.json`, rarityData);
+};
+write();

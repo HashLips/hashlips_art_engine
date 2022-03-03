@@ -1,5 +1,18 @@
 # Welcome to HashLips 👄
 
+- [Welcome to HashLips 👄](#welcome-to-hashlips-)
+- [HashLips Art Engine 🔥](#hashlips-art-engine-)
+  - [Installation 🛠️](#installation-️)
+  - [Usage ℹ️](#usage-ℹ️)
+  - [Utils](#utils)
+    - [Updating baseUri for IPFS and description](#updating-baseuri-for-ipfs-and-description)
+    - [Generate a preview image](#generate-a-preview-image)
+    - [Generate pixelated images from collection](#generate-pixelated-images-from-collection)
+    - [Generate GIF images from collection](#generate-gif-images-from-collection)
+    - [Printing rarity data (Experimental feature)](#printing-rarity-data-experimental-feature)
+  - [Tezos Specif Doc](#tezos-specif-doc)
+    - [How to generate tezos specific metadata.](#how-to-generate-tezos-specific-metadata)
+
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/logo.png)
 
 All the code in these repos was created and explained by HashLips on the main YouTube channel.
@@ -308,6 +321,30 @@ Trait type: Top lid
   chance: '50',
   occurrence: '14 in 20 editions (70.00 %)'
 }
+```
+
+## Tezos Specif Doc
+
+### How to generate tezos specific metadata.
+
+1. Build the artwork.
+
+```bash
+yarn build
+```
+
+2. Generate the resized images for display and thumbnail.
+
+```bash
+yarn resize
+```
+
+3. Deploy the Images folder to IPFS and get the base ipfs url.
+
+4. Update the metadata to the new IPFS url.
+
+```bash
+yarn update_info
 ```
 
 Hope you create some awesome artworks with this code 👄

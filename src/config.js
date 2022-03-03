@@ -2,12 +2,13 @@ const basePath = process.cwd();
 const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 
-const network = NETWORK.eth;
+// `const network = NETWORK.eth;
+const network = NETWORK.tez;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
-const baseUri = "ipfs://NewUriToReplace";
+const namePrefix = "k9 Demo";
+const description = "We're an awesome NFT collection that will make you rick.";
+const baseUri = "ipfs://QmXqCFJWzBNuhpc67iJ2rjCQ93AwdXF6fqTfhBcfXyUBPW";
 
 const solanaMetadata = {
   symbol: "YC",
@@ -24,7 +25,7 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 13,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
@@ -42,8 +43,8 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 2048,
+  height: 2048,
   smoothing: false,
 };
 
@@ -100,6 +101,38 @@ const preview_gif = {
   imageName: "preview.gif",
 };
 
+/**
+ * Tezos specific metadata config.
+ * NOTE: Modify this config to generate different metadata.
+ */
+
+const tezosConfig = {
+  creators: ["tz1UxnruUqq2demYbAHsHkZ2VV95PV8MXVGq"],
+  isBooleanAmount: true,
+  shouldPreferSymbol: false,
+  decimals: 0,
+  symbol: "K9NFT",
+  rights: "All right reserved.",
+  baseArtifactUri: baseUri,
+  baseDisplayUri: "ipfs://QmWkfRwR6TK8STyAe66iA7vCZhZrcd28uJdHJ9VEw7keig",
+  baseThumbnailUri: "ipfs://QmWkfRwR6TK8STyAe66iA7vCZhZrcd28uJdHJ9VEw7keig",
+  size: {
+    artifactUri: { w: format.width, h: format.height },
+    displayUri: { w: 500, h: 500 },
+    thumbnailUri: { w: 300, h: 300 },
+  },
+  royalties: {
+    decimals: 3,
+    shares: {
+      tz1UxnruUqq2demYbAHsHkZ2VV95PV8MXVGq: 80,
+    },
+  },
+};
+
+/**
+ * End of tezos specific config.
+ */
+
 module.exports = {
   format,
   baseUri,
@@ -119,4 +152,5 @@ module.exports = {
   solanaMetadata,
   gif,
   preview_gif,
+  tezosConfig,
 };
