@@ -11,31 +11,32 @@ let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
 let data = JSON.parse(rawdata);
 let editionSize = data.length;
 
-let rarityData = [];
+let rarityData = {};
 
 // intialize layers to chart
 layerConfigurations.forEach((config) => {
   let layers = config.layersOrder;
 
   layers.forEach((layer) => {
-    // get elements for each layer
-    let elementsForLayer = [];
-    let elements = getElements(`${layersDir}/${layer.name}/`);
-    elements.forEach((element) => {
-      // just get name and weight for each element
-      let rarityDataElement = {
-        trait: element.name,
-        weight: element.weight.toFixed(0),
-        occurrence: 0, // initialize at 0
-      };
-      elementsForLayer.push(rarityDataElement);
-    });
-    let layerName =
-      layer.options?.["displayName"] != undefined
-        ? layer.options?.["displayName"]
-        : layer.name;
-    // don't include duplicate layers
-    if (!rarityData.includes(layer.name)) {
+    if (!(layer.name in rarityData)) {
+      // get elements for each layer
+      let elementsForLayer = [];
+      let elements = getElements(`${layersDir}/${layer.name}/`);
+      elements.forEach((element) => {
+        // just get name and weight for each element
+        let rarityDataElement = {
+          trait: element.name,
+          weight: element.weight.toFixed(0),
+          occurrence: 0, // initialize at 0
+        };
+        elementsForLayer.push(rarityDataElement);
+      });
+      let layerName =
+        layer.options?.["displayName"] != undefined
+          ? layer.options?.["displayName"]
+          : layer.name;
+      // don't include duplicate layers
+      
       // add elements for each layer to chart
       rarityData[layerName] = elementsForLayer;
     }
@@ -72,11 +73,21 @@ for (var layer in rarityData) {
   }
 }
 
-// print out rarity data
-for (var layer in rarityData) {
-  console.log(`Trait type: ${layer}`);
-  for (var trait in rarityData[layer]) {
-    console.log(rarityData[layer][trait]);
+if (process.argv.length > 2 && process.argv[2] == "raw") {
+  //print raw data
+  console.log(rarityData);
+} else {
+  for (const [layer, attributes] of Object.entries(rarityData)) {
+    console.log(`Trait type: ${layer}`);
+
+    attributes.forEach((attribute) => {
+      console.log(attribute);
+    });
+    console.log('\n');
   }
-  console.log();
 }
+
+fs.writeFileSync(
+  `${basePath}/build/json/_rarity.json`,
+  JSON.stringify(rarityData, null, 2)
+);
