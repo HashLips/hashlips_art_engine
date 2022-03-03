@@ -282,23 +282,17 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
 const createDna = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
-    var totalWeight = 0;
+    //Murf new random picker
+    var  layerPicks = new WeightedRandomBag();
     layer.elements.forEach((element) => {
-      totalWeight += element.weight;
+      layerPicks.addEntry(element, element.weight);
     });
-    // number between 0 - totalWeight
-    let random = Math.floor(Math.random() * totalWeight);
-    for (var i = 0; i < layer.elements.length; i++) {
-      // subtract the current weight from the random weight until we reach a sub zero value.
-      random -= layer.elements[i].weight;
-      if (random < 0) {
-        return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}${
-            layer.bypassDNA ? "?bypassDNA=true" : ""
-          }`
-        );
-      }
-    }
+    var foundElement = layerPicks.getRandom();
+    return randNum.push(
+      `${foundElement.id}:${foundElement.filename}${
+        layer.bypassDNA ? "?bypassDNA=true" : ""
+      }`
+    );
   });
   return randNum.join(DNA_DELIMITER);
 };
@@ -428,5 +422,23 @@ const startCreating = async () => {
   }
   writeMetaData(JSON.stringify(metadataList, null, 2));
 };
+
+var WeightedRandomBag = function() {
+
+  var entries = [];
+  var accumulatedWeight = 0.0;
+
+  this.addEntry = function(object, weight) {
+      accumulatedWeight += weight;
+      entries.push( { object: object, accumulatedWeight: accumulatedWeight });
+  }
+
+  this.getRandom = function() {
+      var r = Math.random() * accumulatedWeight;
+      return entries.find(function(entry) {
+          return entry.accumulatedWeight >= r;
+      }).object;
+  }   
+}
 
 module.exports = { startCreating, buildSetup, getElements };
