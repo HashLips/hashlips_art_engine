@@ -124,7 +124,7 @@ const layerConfigurations = [
     layersOrder: [
       { name: "Background" , {
         options: {
-          bypassDNA: false;
+          bypassDNA: false
         }
       }},
       { name: "Eyeball" },
