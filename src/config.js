@@ -5,17 +5,17 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
+const namePrefix = "Scissors Paper Rock";
+const description = "Remember that game we all use to play? Get ready to collect the (limited range) of NFT's!";
 const baseUri = "ipfs://NewUriToReplace";
 
 const solanaMetadata = {
   symbol: "YC",
-  seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
-  external_url: "https://www.youtube.com/c/hashlipsnft",
+  seller_fee_basis_points: 300, // Define how much % you want from secondary market sales 1000 = 10%
+  external_url: "https://opensea.io/SirWest",
   creators: [
     {
-      address: "7fXNuer5sbZtaTEPhtJ5g5gNtuyRoKkvxdjEjEnPN4mC",
+      address: "0x701c462bf86dbc2bd0c3e77c9a53de38b9a984ed",
       share: 100,
     },
   ],
@@ -27,12 +27,10 @@ const layerConfigurations = [
     growEditionSizeTo: 5,
     layersOrder: [
       { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "ScissorsPaperRock" },
+      { name: "Eyes" },
+      { name: "Moustache" },
+      { name: "Mouth" },
     ],
   },
 ];
@@ -42,8 +40,8 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 2000,
+  height: 2000,
   smoothing: false,
 };
 
