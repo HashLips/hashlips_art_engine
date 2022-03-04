@@ -2,6 +2,7 @@ const basePath = process.cwd();
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const fs = require("fs");
 const sha1 = require(`${basePath}/node_modules/sha1`);
+const sharp = require('sharp');
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
 const buildDir = `${basePath}/build`;
 const layersDir = `${basePath}/layers`;
@@ -111,10 +112,7 @@ const layersSetup = (layersOrder) => {
 };
 
 const saveImage = (_editionCount) => {
-  fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}.png`,
-    canvas.toBuffer("image/png")
-  );
+  sharp(canvas.toBuffer('image/png',{ compressionLevel: 0, filters: canvas.PNG_FILTER_NONE })).png({compressionLevel: 4}).toFile( `${buildDir}/images/${_editionCount}.png`);
 };
 
 const genColor = () => {
