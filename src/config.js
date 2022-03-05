@@ -8,6 +8,8 @@ const network = NETWORK.eth;
 const namePrefix = "Your Collection";
 const description = "Remember to replace this description";
 const baseUri = "ipfs://NewUriToReplace";
+const sellerFeeBasis = 100; // Indicates a 1% seller fee.
+const feeRecipient = "0xC55141cE5b30CAD47b31D9237243b2df62c653ad";
 
 const solanaMetadata = {
   symbol: "YC",
@@ -103,6 +105,8 @@ const preview_gif = {
 module.exports = {
   format,
   baseUri,
+  sellerFeeBasis,
+  feeRecipient,
   description,
   background,
   uniqueDnaTorrance,

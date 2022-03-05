@@ -21,6 +21,8 @@ const {
   network,
   solanaMetadata,
   gif,
+  sellerFeeBasis,
+  feeRecipient,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -139,7 +141,8 @@ const addMetadata = (_dna, _edition) => {
     date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
-    compiler: "HashLips Art Engine",
+	seller_fee_basis_points: sellerFeeBasis,
+	fee_recipient: feeRecipient,
   };
   if (network == NETWORK.sol) {
     tempMetadata = {
@@ -315,7 +318,7 @@ const saveMetaDataSingleFile = (_editionCount) => {
       )
     : null;
   fs.writeFileSync(
-    `${buildDir}/json/${_editionCount}.json`,
+    `${buildDir}/json/${_editionCount}`,
     JSON.stringify(metadata, null, 2)
   );
 };
@@ -340,7 +343,7 @@ const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
   for (
-    let i = network == NETWORK.sol ? 0 : 1;
+    let i = network == NETWORK.sol ? 0 : 0;
     i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
     i++
   ) {

@@ -24,8 +24,13 @@
   "author": "Daniel Eugene Botha (HashLips)",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.25.0",
     "canvas": "^2.8.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^14.3.0",
+    "form-data": "^4.0.0",
     "gif-encoder-2": "^1.0.5",
+    "path": "^0.12.7",
     "sha1": "^1.1.1"
   }
 }

@@ -9,6 +9,8 @@ const {
   namePrefix,
   description,
   baseUri,
+  sellerFeeBasis,
+  feeRecipient
 } = require(`${basePath}/src/config.js`);
 const console = require("console");
 const canvas = createCanvas(format.width, format.height);
@@ -144,6 +146,8 @@ const saveMetadata = (_loadedImageObject) => {
     edition: Number(shortName),
     attributes: tempAttributes,
     compiler: "HashLips Art Engine",
+	seller_fee_basis_points: sellerFeeBasis,
+	fee_recipient: feeRecipient,
   };
   fs.writeFileSync(
     `${buildDir}/${shortName}.json`,
