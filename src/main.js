@@ -84,7 +84,7 @@ const cleanName = (_str) => {
 
 const getElements = (path) => {
   if (!fs.existsSync(path)) {
-     console.error(`{path} doesn't exist, make sure your layers/ folder matches your src/config.js`);
+     console.error(`${path} doesn't exist, make sure your layers/ folder matches your src/config.js`);
      process.exit();
   }
   return fs
