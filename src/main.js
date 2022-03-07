@@ -1,8 +1,8 @@
 const basePath = process.cwd();
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const fs = require("fs");
+const { ChildProcess } = require('child_process');
 const sha1 = require(`${basePath}/node_modules/sha1`);
-const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
 const buildDir = `${basePath}/build`;
 const layersDir = `${basePath}/layers`;
 
@@ -33,16 +33,10 @@ let {
   gif,
 } = config;
 
-const canvas = createCanvas(format.width, format.height);
-const ctx = canvas.getContext("2d");
-ctx.imageSmoothingEnabled = format.smoothing;
 var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
 const DNA_DELIMITER = "-";
-const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
-
-let hashlipsGiffer = null;
 
 const buildSetup = () => {
   if (!fs.existsSync(buildDir)) {
@@ -70,19 +64,13 @@ const getRarityWeight = (_str) => {
   return nameWithoutWeight;
 };
 
-const cleanDna = (_str) => {
-  const withoutOptions = removeQueryStrings(_str);
-  var dna = Number(withoutOptions.split(":").shift());
-  return dna;
-};
-
 const cleanName = (_str) => {
   let nameWithoutExtension = _str.slice(0, -4);
   var nameWithoutWeight = nameWithoutExtension.split(rarityDelimiter).shift();
   return nameWithoutWeight;
 };
 
-const getElements = (path) => {
+const getElements = (path, name) => {
   if (!fs.existsSync(path)) {
      console.error(`${path} doesn't exist, make sure your layers/ folder matches your src/config.js`);
      process.exit();
@@ -99,11 +87,10 @@ const getElements = (path) => {
         console.error(`layer name can not contain newlines, please fix: ${i}`);
         process.exit();
       }
+
       return {
         id: index,
-        name: cleanName(i),
-        filename: i,
-        path: `${path}${i}`,
+        path: `${name}/${i}`,
         weight: getRarityWeight(i),
       };
     });
@@ -112,7 +99,7 @@ const getElements = (path) => {
 const layersSetup = (layersOrder) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
-    elements: getElements(`${layersDir}/${layerObj.name}/`),
+    elements: getElements(`${layersDir}/${layerObj.name}/`, layerObj.name),
     name:
       layerObj.options && layerObj.options["displayName"] != undefined
         ? layerObj.options && layerObj.options["displayName"]
@@ -131,24 +118,6 @@ const layersSetup = (layersOrder) => {
         : false,
   }));
   return layers;
-};
-
-const saveImage = (_editionCount) => {
-  fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}.png`,
-    canvas.toBuffer("image/png")
-  );
-};
-
-const genColor = () => {
-  let hue = Math.floor(Math.random() * 360);
-  let pastel = `hsl(${hue}, 100%, ${background.brightness})`;
-  return pastel;
-};
-
-const drawBackground = () => {
-  ctx.fillStyle = background.static ? background.default : genColor();
-  ctx.fillRect(0, 0, format.width, format.height);
 };
 
 const addMetadata = (_dna, _edition) => {
@@ -200,59 +169,6 @@ const addAttributes = (_element) => {
     trait_type: _element.layer.name,
     value: selectedElement.name,
   });
-};
-
-const loadLayerImg = async (_layer) => {
-  return new Promise(async (resolve) => {
-    const image = await loadImage(`${_layer.selectedElement.path}`);
-    resolve({ layer: _layer, loadedImage: image });
-  }).catch(error => {
-    console.error("Error loading image:", error, _layer.selectedElement.path);
-  });
-};
-
-const addText = (_sig, x, y, size) => {
-  ctx.fillStyle = text.color;
-  ctx.font = `${text.weight} ${size}pt ${text.family}`;
-  ctx.textBaseline = text.baseline;
-  ctx.textAlign = text.align;
-  ctx.fillText(_sig, x, y);
-};
-
-const drawElement = (_renderObject, _index, _layersLen) => {
-  ctx.globalAlpha = _renderObject.layer.opacity;
-  ctx.globalCompositeOperation = _renderObject.layer.blend;
-  text.only
-    ? addText(
-        `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
-        text.xGap,
-        text.yGap * (_index + 1),
-        text.size
-      )
-    : ctx.drawImage(
-        _renderObject.loadedImage,
-        0,
-        0,
-        format.width,
-        format.height
-      );
-
-  addAttributes(_renderObject);
-};
-
-const constructLayerToDna = (_dna = "", _layers = []) => {
-  let mappedDnaToLayers = _layers.map((layer, index) => {
-    let selectedElement = layer.elements.find(
-      (e) => e.id == cleanDna(_dna.split(DNA_DELIMITER)[index])
-    );
-    return {
-      name: layer.name,
-      blend: layer.blend,
-      opacity: layer.opacity,
-      selectedElement: selectedElement,
-    };
-  });
-  return mappedDnaToLayers;
 };
 
 /**
@@ -311,7 +227,7 @@ const createDna = (_layers) => {
     if (totalWeight == 0) {
       let random = Math.floor(Math.random() * layer.elements.length);
       return randNum.push(
-        `${layer.elements[random].id}:${layer.elements[random].filename}${
+        `${layer.elements[random].path}${
           layer.bypassDNA ? "?bypassDNA=true" : ""
         }`
       );
@@ -323,7 +239,7 @@ const createDna = (_layers) => {
       random -= layer.elements[i].weight;
       if (random < 0) {
         return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}${
+          `${layer.elements[i].path}${
             layer.bypassDNA ? "?bypassDNA=true" : ""
           }`
         );
@@ -365,9 +281,9 @@ function shuffle(array) {
 }
 
 const startCreating = async () => {
+  const nodeExec = process.argv[0];
   let failedCount = 0;
   let abstractedIndexes = [];
-  let layerArray = [];
   let dnaHashList = new Set();
   let existingEditions = new Set();
   if (fs.existsSync(`${basePath}/build/json/_metadata.json`)) {
@@ -381,8 +297,7 @@ const startCreating = async () => {
   }
 
   for (layerconfiguration of layerConfigurations) {
-    const layers = layersSetup(layerconfiguration.layersOrder);
-
+    const layers = await Promise.all(layersSetup(layerconfiguration.layersOrder));
     const offset = abstractedIndexes.length;
     for (
       let i =
@@ -396,8 +311,7 @@ const startCreating = async () => {
       if (existingEditions.has(i)) {
         console.log("Edition exists!");
       } else {
-        abstractedIndexes.push(i);
-        layerArray[i] = layers;
+        abstractedIndexes.push(layers);
       }
     }
   }
@@ -411,57 +325,32 @@ const startCreating = async () => {
     : null;
 
   for (let abstractedIndex = 0; abstractedIndex < abstractedIndexes.length;) {
-    const i = abstractedIndexes[abstractedIndex];
-    const layers = layerArray[i];
+    const layers = abstractedIndexes[abstractedIndex];
 
     let newDna = createDna(layers);
     if (isDnaUnique(dnaHashList, newDna)) {
-      let results = constructLayerToDna(newDna, layers);
-      let loadedElements = [];
-
-      results.forEach((layer) => {
-        loadedElements.push(loadLayerImg(layer));
+      new ChildProcess()._handle.spawn({
+        args: [nodeExec, `${basePath}/src/worker.js`, newDna, abstractedIndex],
+        file: nodeExec,
       });
-
-      await Promise.all(loadedElements).then((renderObjectArray) => {
-        debugLogs ? console.log("Clearing canvas") : null;
-        ctx.clearRect(0, 0, format.width, format.height);
-        if (gif.export) {
-          hashlipsGiffer = new HashlipsGiffer(
-            canvas,
-            ctx,
-            `${buildDir}/gifs/${i}.gif`,
-            gif.repeat,
-            gif.quality,
-            gif.delay
-          );
-          hashlipsGiffer.start();
-        }
-        if (background.generate) {
-          drawBackground();
-        }
-        renderObjectArray.forEach((renderObject, index) => {
-          drawElement(
-            renderObject,
-            index,
-            layerconfiguration.layersOrder.length
-          );
-          if (gif.export) {
-            hashlipsGiffer.add();
-          }
+      newDna.replace(/\?bypassDNA=true/g, '').split(DNA_DELIMITER).forEach(layer => {
+        const names = layer.split('/');
+        addAttributes({
+          layer: {
+            name: names[0],
+            selectedElement: {
+              name: cleanName(names[1]),
+            },
+          },
         });
-        if (gif.export) {
-          hashlipsGiffer.stop();
-        }
-        saveImage(i);
-        addMetadata(newDna, i);
-        saveMetaDataSingleFile(i);
-        console.log(
-          `Created edition: ${i}, with DNA: ${sha1(
-            newDna
-          )}`
-        );
       });
+      addMetadata(newDna, abstractedIndex);
+      saveMetaDataSingleFile(abstractedIndex);
+      console.log(
+        `Created edition: ${abstractedIndex}, with DNA: ${sha1(
+          newDna
+        )}`
+      );
       dnaList.add(filterDNAOptions(newDna));
       dnaHashList.add(sha1(filterDNAOptions(newDna)));
       abstractedIndex++;
