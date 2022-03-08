@@ -16,17 +16,14 @@ try {
 }
 
 let {
-  format,
   baseUri,
   description,
-  background,
   uniqueDnaTorrance,
   layerConfigurations,
   rarityDelimiter,
   shuffleLayerConfigurations,
   debugLogs,
   extraMetadata,
-  text,
   namePrefix,
   network,
   solanaMetadata,
@@ -281,6 +278,7 @@ function shuffle(array) {
 }
 
 const startCreating = async () => {
+  const childProcess = new ChildProcess();
   const nodeExec = process.argv[0];
   let failedCount = 0;
   let abstractedIndexes = [];
@@ -329,8 +327,9 @@ const startCreating = async () => {
 
     let newDna = createDna(layers);
     if (isDnaUnique(dnaHashList, newDna)) {
-      new ChildProcess()._handle.spawn({
-        args: [nodeExec, `${basePath}/src/worker.js`, newDna, abstractedIndex],
+      childProcess._handle.spawn({
+        args: [null, `${basePath}/src/worker.js`, newDna, abstractedIndex],
+        cwd: "",
         file: nodeExec,
       });
       newDna.replace(/\?bypassDNA=true/g, '').split(DNA_DELIMITER).forEach(layer => {
@@ -361,12 +360,12 @@ const startCreating = async () => {
         console.log(
           `You need more layers or elements to grow your edition to ${layerconfiguration.growEditionSizeTo} artworks!`
         );
-        writeMetaData(JSON.stringify(metadataList, null, 2));
-        process.exit();
+        break;
       }
     }
   }
   writeMetaData(JSON.stringify(metadataList, null, 2));
+  process.exit();
 };
 
 module.exports = { startCreating, buildSetup, getElements };

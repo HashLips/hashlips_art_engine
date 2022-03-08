@@ -45,6 +45,7 @@ const format = {
   width: 512,
   height: 512,
   smoothing: false,
+  resolution: undefined, // ppi
 };
 
 const gif = {

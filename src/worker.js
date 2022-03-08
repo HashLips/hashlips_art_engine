@@ -1,21 +1,31 @@
 const basePath = process.cwd();
-const fs = require("fs");
-const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
+const { writeFileSync } = require("fs");
+const {
+  Canvas,
+  CanvasRenderingContext2d,
+  Image,
+  SetSource
+} = require(`${basePath}/node_modules/canvas/build/Release/canvas.node`);
 const buildDir = `${basePath}/build`;
 const layersDir = `${basePath}/layers`;
 const { format, background, layerConfigurations, text, gif } = require(`${basePath}/src/config.js`);
 
-const canvas = createCanvas(format.width, format.height);
-const ctx = canvas.getContext("2d");
+const canvas = new Canvas(format.width, format.height);
+const ctx = new CanvasRenderingContext2d(canvas);
 ctx.imageSmoothingEnabled = format.smoothing;
-const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
-const saveImage = (_editionCount) => {
-  fs.writeFileSync(
-   `${buildDir}/images/${_editionCount}.png`,
-   canvas.toBuffer("image/png")
- );
-};
+if (gif.export) {
+  const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
+  let hashlipsGiffer = new HashlipsGiffer(
+    canvas,
+    ctx,
+    `${buildDir}/gifs/${abstractedIndex}.gif`,
+    gif.repeat,
+    gif.quality,
+    gif.delay
+  );
+  hashlipsGiffer.start();
+}
 
 const genColor = () => {
   let hue = Math.floor(Math.random() * 360);
@@ -28,21 +38,9 @@ const drawBackground = () => {
   ctx.fillRect(0, 0, format.width, format.height);
 };
 
-const loadLayerImg = async (_layer) => {
-  return new Promise(async (resolve) => {
-    try {
-      const image = await loadImage(`${layersDir}/${_layer.selectedElement.path}`);
-      resolve({ layer: _layer, loadedImage: image });
-    } catch (error) {
-      console.error("Error loading image:", error, _layer.selectedElement.path);
-      process.exit();
-    }
-  })
-};
-
 const drawElement = (_renderObject) => {
   ctx.drawImage(
-    _renderObject.loadedImage,
+    _renderObject,
     0,
     0,
     format.width,
@@ -50,23 +48,15 @@ const drawElement = (_renderObject) => {
   );
 };
 
-if (gif.export) {
-  let hashlipsGiffer = new HashlipsGiffer(
-    canvas,
-    ctx,
-    `${buildDir}/gifs/${abstractedIndex}.gif`,
-    gif.repeat,
-    gif.quality,
-    gif.delay
-  );
-  hashlipsGiffer.start();
-}
 if (background.generate) {
   drawBackground();
 }
-process.argv[2].replace(/\?bypassDNA=true/g, '').split("-").forEach(async (layer, index) => {
-  const loadedImage = await loadLayerImg({selectedElement: { path: layer }});
+
+const loadedImage = new Image();
+process.argv[2].replace(/\?bypassDNA=true/g, '').split("-").forEach((layer, index) => {
+  SetSource.call(loadedImage, `${layersDir}/${layer}`);
   drawElement(loadedImage);
+
   if (gif.export) {
     hashlipsGiffer.add();
   }
@@ -75,4 +65,10 @@ process.argv[2].replace(/\?bypassDNA=true/g, '').split("-").forEach(async (layer
 if (gif.export) {
   hashlipsGiffer.stop();
 }
-setTimeout(() => saveImage(process.argv[3]));
+
+canvas.toBuffer((_, buffer) => {
+  writeFileSync(
+    `${buildDir}/images/${process.argv[3]}.png`,
+    buffer
+  );
+}, "image/png", { resolution: format.resolution })

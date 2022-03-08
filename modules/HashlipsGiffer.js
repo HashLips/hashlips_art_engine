@@ -1,4 +1,5 @@
-const GifEncoder = require("gif-encoder-2");
+const basePath = process.cwd();
+const GifEncoder = require(`${basePath}/node_modules/gif-encoder-2/src/GIFEncoder.js`);
 const { writeFile } = require("fs");
 
 class HashLipsGiffer {
