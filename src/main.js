@@ -28,7 +28,7 @@ ctx.imageSmoothingEnabled = format.smoothing;
 var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
-const DNA_DELIMITER = "-";
+const DNA_DELIMITER = "*";
 const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
 let hashlipsGiffer = null;
@@ -405,7 +405,7 @@ const startCreating = async () => {
           addMetadata(newDna, abstractedIndexes[0]);
           saveMetaDataSingleFile(abstractedIndexes[0]);
           console.log(
-            `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
+            `NO. ${editionCount}, Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
               newDna
             )}`
           );
