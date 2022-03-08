@@ -175,7 +175,7 @@ const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
   attributesList.push({
     trait_type: _element.layer.name,
-    value: selectedElement.name,
+    value: selectedElement.name.replace(/_/g, " "),
   });
 };
 
