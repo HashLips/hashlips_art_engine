@@ -85,11 +85,11 @@ const cleanName = (_str) => {
   return nameWithoutWeight;
 };
 
-const parseQueryString = (filename) => {
+const parseQueryString = (filename, layer, sublayer) => {
   const query = /\?(.*)\./;
   const querystring = query.exec(filename);
   if (!querystring) {
-    return { blendmode: "source-over", opacity: 1 };
+    return getElementOptions(layer, sublayer);
   }
 
   const layerstyles = querystring[1].split("&").reduce((r, setting) => {
@@ -98,8 +98,8 @@ const parseQueryString = (filename) => {
   }, []);
 
   return {
-    blendmode: layerstyles.blend ? layerstyles.blend : "source-over",
-    opacity: layerstyles.opacity ? layerstyles.opacity / 100 : 1,
+    blendmode: layerstyles.blend ? layerstyles.blend : getElementOptions(layer,sublayer).blendmode,
+    opacity: layerstyles.opacity ? layerstyles.opacity / 100 : getElementOptions(layer,sublayer).opacity,
   };
 };
 
@@ -126,7 +126,7 @@ const getElementOptions = (layer, sublayer) => {
   if (layer.sublayerOptions?.[sublayer]) {
     const options = layer.sublayerOptions[sublayer];
     options.blend !== undefined ? (blendmode = options.blend) : null;
-    options.opacity !== undefined ? (opacity = options.blend) : null;
+    options.opacity !== undefined ? (opacity = options.opacity) : null;
   } else {
     // inherit parent blend mode
     blendmode = layer.blend != undefined ? layer.blend : "source-over";
@@ -153,7 +153,7 @@ const getElements = (path, layer) => {
       const sublayer = !extension.test(i);
       const weight = getRarityWeight(i);
 
-      const { blendmode, opacity } = getElementOptions(layer, name);
+      const { blendmode, opacity } = parseQueryString(i, layer, name);
       //pass along the zflag to any children
       const zindex = zflag.exec(i)
         ? zflag.exec(i)[0]
