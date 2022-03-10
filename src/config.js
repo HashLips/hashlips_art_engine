@@ -5,9 +5,9 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
-const baseUri = "ipfs://NewUriToReplace";
+const namePrefix = "PFP";
+const description = "PFP NFT project";
+const baseUri = "ipfs://QmZpBsJVAZ1heG5gCVvZTYhN3s99tzi3WmULKUssRaa9qP";
 
 const solanaMetadata = {
   symbol: "YC",
@@ -22,22 +22,24 @@ const solanaMetadata = {
 };
 
 // If you have selected Solana then the collection starts from 0 automatically
-const layerConfigurations = [
+const layerConfigurations = [ 
   {
-    growEditionSizeTo: 5,
+    // Creates an additional 100 artworks
+    growEditionSizeTo: 10,
     layersOrder: [
-      { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "Backgrounds" },
+      { name: "Special" },
+      { name: "Shape" },
+      { name: "Eyes" },
+      { name: "Mouths" },
+      { name: "Ornaments"},
+      { name: "Wings" },
+      { name: "Tails" },
     ],
   },
 ];
 
-const shuffleLayerConfigurations = false;
+const shuffleLayerConfigurations = true;
 
 const debugLogs = false;
 
@@ -78,9 +80,11 @@ const background = {
   default: "#000000",
 };
 
-const extraMetadata = {};
+const extraMetadata = {
+  creator: "Tawseef Ahmad Bhat"
+};
 
-const rarityDelimiter = "#";
+const rarityDelimiter = "#"; // Used to separate the rarity from the name
 
 const uniqueDnaTorrance = 10000;
 
