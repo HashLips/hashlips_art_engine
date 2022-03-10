@@ -22,10 +22,23 @@ class HashLipsGiffer {
 
   start() {
     this.gifEncoder.start();
+
+    this.gifEncoder.indexedPixels = new Uint8Array();
+    this.gifEncoder.writeLSD();
+    this.gifEncoder.writeImageDesc();
+    this.gifEncoder.writePixels();
+
+    this.gifEncoder.firstFrame = false;
   };
 
   add() {
-    this.gifEncoder.addFrame(this.ctx);
+    this.gifEncoder.image = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height).data;
+    this.gifEncoder.analyzePixels();
+
+    this.gifEncoder.writeGraphicCtrlExt();
+    this.gifEncoder.writeImageDesc();
+    this.gifEncoder.writePalette();
+    this.gifEncoder.writePixels();
   }
 
   stop() {

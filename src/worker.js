@@ -14,12 +14,14 @@ const canvas = new Canvas(format.width, format.height);
 const ctx = new CanvasRenderingContext2d(canvas);
 ctx.imageSmoothingEnabled = format.smoothing;
 
+let hashlipsGiffer;
+
 if (gif.export) {
   const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
-  let hashlipsGiffer = new HashlipsGiffer(
+  hashlipsGiffer = new HashlipsGiffer(
     canvas,
     ctx,
-    `${buildDir}/gifs/${abstractedIndex}.gif`,
+    `${buildDir}/gifs/${process.argv[3]}.gif`,
     gif.repeat,
     gif.quality,
     gif.delay

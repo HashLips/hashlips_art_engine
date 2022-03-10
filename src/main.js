@@ -251,7 +251,7 @@ const writeMetaData = (_data) => {
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
-  let metadata = metadataList.find((meta) => meta.edition == _editionCount);
+  let metadata = metadataList.find((meta) => (meta.edition ?? meta.custom_fields.edition) == _editionCount);
   debugLogs
     ? console.log(
         `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
@@ -301,7 +301,7 @@ const startCreating = async () => {
       let i =
         network == NETWORK.sol
           ? 0
-          : (layerconfiguration.startEditionFrom || 1)
+          : (layerconfiguration.startEditionFrom ?? 1)
         + offset;
       i <= layerconfiguration.growEditionSizeTo + offset;
       i++
