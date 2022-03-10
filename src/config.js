@@ -39,6 +39,9 @@ const layerConfigurations = [
 
 const shuffleLayerConfigurations = false;
 
+const deterministicallyRandom = false;
+const seed = "Input Seed Here";
+
 const debugLogs = false;
 
 const format = {
@@ -110,6 +113,8 @@ module.exports = {
   rarityDelimiter,
   preview,
   shuffleLayerConfigurations,
+  deterministicallyRandom,
+  seed,
   debugLogs,
   extraMetadata,
   pixelFormat,

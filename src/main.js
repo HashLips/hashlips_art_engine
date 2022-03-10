@@ -3,6 +3,7 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const fs = require("fs");
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
+const { psuedoRandom } = require("./helpers/psuedoRandom");
 const buildDir = `${basePath}/build`;
 const layersDir = `${basePath}/layers`;
 const {
@@ -117,14 +118,14 @@ const saveImage = (_editionCount) => {
   );
 };
 
-const genColor = () => {
-  let hue = Math.floor(Math.random() * 360);
+const genColor = (_editionCount, _failedCount) => {
+  let hue = Math.floor(psuedoRandom(_editionCount, _failedCount) * 360);
   let pastel = `hsl(${hue}, 100%, ${background.brightness})`;
   return pastel;
 };
 
-const drawBackground = () => {
-  ctx.fillStyle = background.static ? background.default : genColor();
+const drawBackground = (_editionCount, _failedCount) => {
+  ctx.fillStyle = genColor(_editionCount, _failedCount);
   ctx.fillRect(0, 0, format.width, format.height);
 };
 
@@ -279,15 +280,17 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
   return !_DnaList.has(_filteredDNA);
 };
 
-const createDna = (_layers) => {
+const createDna = (_layers, _editionCount, _failedCount) => {
   let randNum = [];
-  _layers.forEach((layer) => {
+  _layers.forEach((layer, index) => {
     var totalWeight = 0;
     layer.elements.forEach((element) => {
       totalWeight += element.weight;
     });
     // number between 0 - totalWeight
-    let random = Math.floor(Math.random() * totalWeight);
+    let random = Math.floor(
+       psuedoRandom(_editionCount, _failedCount, index) * totalWeight
+     );
     for (var i = 0; i < layer.elements.length; i++) {
       // subtract the current weight from the random weight until we reach a sub zero value.
       random -= layer.elements[i].weight;
@@ -324,7 +327,7 @@ function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
   while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
+    randomIndex = Math.floor(psuedoRandom(currentIndex) * currentIndex);
     currentIndex--;
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
@@ -359,7 +362,7 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
-      let newDna = createDna(layers);
+      let newDna =createDna(layers, editionCount, failedCount);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
         let loadedElements = [];
@@ -383,7 +386,7 @@ const startCreating = async () => {
             hashlipsGiffer.start();
           }
           if (background.generate) {
-            drawBackground();
+            drawBackground(editionCount, failedCount);
           }
           renderObjectArray.forEach((renderObject, index) => {
             drawElement(
