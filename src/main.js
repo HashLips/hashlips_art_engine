@@ -281,6 +281,7 @@ const startCreating = async () => {
   const childProcess = new ChildProcess();
   const nodeExec = process.argv[0];
   let failedCount = 0;
+  let newDna = "";
   let abstractedIndexes = [];
   let dnaHashList = new Set();
   let existingEditions = new Set();
@@ -309,7 +310,7 @@ const startCreating = async () => {
       if (existingEditions.has(i)) {
         console.log("Edition exists!");
       } else {
-        abstractedIndexes.push(layers);
+        abstractedIndexes[i] = layers;
       }
     }
   }
@@ -322,48 +323,55 @@ const startCreating = async () => {
     ? console.log("Editions left to create: ", abstractedIndexes)
     : null;
 
-  for (let abstractedIndex = 0; abstractedIndex < abstractedIndexes.length;) {
-    const layers = abstractedIndexes[abstractedIndex];
+  abstractedIndexes.every((layers, abstractedIndex) => {
+    for (;; failedCount++) {
+      newDna = createDna(layers);
 
-    let newDna = createDna(layers);
-    if (isDnaUnique(dnaHashList, newDna)) {
-      childProcess._handle.spawn({
-        args: [null, `${basePath}/src/worker.js`, newDna, abstractedIndex],
-        cwd: "",
-        file: nodeExec,
-      });
-      newDna.replace(/\?bypassDNA=true/g, '').split(DNA_DELIMITER).forEach(layer => {
-        const names = layer.split('/');
-        addAttributes({
-          layer: {
-            name: names[0],
-            selectedElement: {
-              name: cleanName(names[1]),
-            },
-          },
-        });
-      });
-      addMetadata(newDna, abstractedIndex);
-      saveMetaDataSingleFile(abstractedIndex);
-      console.log(
-        `Created edition: ${abstractedIndex}, with DNA: ${sha1(
-          newDna
-        )}`
-      );
-      dnaList.add(filterDNAOptions(newDna));
-      dnaHashList.add(sha1(filterDNAOptions(newDna)));
-      abstractedIndex++;
-    } else {
+      if (isDnaUnique(dnaHashList, newDna)) {
+        break;
+      }
       console.log("DNA exists!");
-      failedCount++;
+
       if (failedCount >= uniqueDnaTorrance) {
         console.log(
           `You need more layers or elements to grow your edition to ${layerconfiguration.growEditionSizeTo} artworks!`
         );
-        break;
+        return false;
       }
     }
-  }
+
+    debugLogs
+      ? console.log(`running ${nodeExec} ${basePath}/src/worker.js ${newDna} ${abstractedIndex}`);
+      : null;
+
+    childProcess._handle.spawn({
+      args: [null, `${basePath}/src/worker.js`, newDna, abstractedIndex],
+      cwd: "",
+      file: nodeExec,
+    });
+    newDna.replace(/\?bypassDNA=true/g, '').split(DNA_DELIMITER).forEach(layer => {
+      const names = layer.split('/');
+      addAttributes({
+        layer: {
+          name: names[0],
+          selectedElement: {
+            name: cleanName(names[1]),
+          },
+        },
+      });
+    });
+    addMetadata(newDna, abstractedIndex);
+    saveMetaDataSingleFile(abstractedIndex);
+    console.log(
+      `Created edition: ${abstractedIndex}, with DNA: ${sha1(
+        newDna
+      )}`
+    );
+    dnaList.add(filterDNAOptions(newDna));
+    dnaHashList.add(sha1(filterDNAOptions(newDna)));
+    abstractedIndex++;
+    return true;
+  });
   writeMetaData(JSON.stringify(metadataList, null, 2));
   process.exit();
 };
