@@ -25,7 +25,7 @@ layerConfigurations.forEach((config) => {
       // just get name and weight for each element
       let rarityDataElement = {
         trait: element.name,
-        weight: element.weight.toFixed(0),
+        weight: element.weight.toFixed(2),
         occurrence: 0, // initialize at 0
       };
       elementsForLayer.push(rarityDataElement);

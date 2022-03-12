@@ -287,7 +287,7 @@ const createDna = (_layers) => {
       totalWeight += element.weight;
     });
     // number between 0 - totalWeight
-    let random = Math.floor(Math.random() * totalWeight);
+    let random = Math.random() * totalWeight;
     for (var i = 0; i < layer.elements.length; i++) {
       // subtract the current weight from the random weight until we reach a sub zero value.
       random -= layer.elements[i].weight;
