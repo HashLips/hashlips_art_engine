@@ -341,7 +341,7 @@ const startCreating = async () => {
     }
 
     debugLogs
-      ? console.log(`running ${nodeExec} ${basePath}/src/worker.js ${newDna} ${abstractedIndex}`);
+      ? console.log(`running ${nodeExec} ${basePath}/src/worker.js ${newDna} ${abstractedIndex}`)
       : null;
 
     childProcess._handle.spawn({
