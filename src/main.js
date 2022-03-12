@@ -339,11 +339,16 @@ const startCreating = async () => {
   let editionCount = 1;
   let failedCount = 0;
   let abstractedIndexes = [];
-  for (
-    let i = network == NETWORK.sol ? 0 : 1;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
-    i++
-  ) {
+  let loopStart = 1;
+  let loopLength = layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+
+  // Solana Check
+  if (network == NETWORK.sol) {
+    loopStart = 0;
+    loopLength = loopLength - 1;
+  }
+ 
+  for (let i = loopStart; i <= loopLength; i++) {
     abstractedIndexes.push(i);
   }
   if (shuffleLayerConfigurations) {
