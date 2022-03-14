@@ -44,7 +44,7 @@ const external_url = ""; // add optional external URL here, e.g, https://0n10nDi
 
 const royalties = {
   tz1UxnruUqq2demYbAHsHkZ2VV95PV8MXVGq: 100, // 100 * 10 ^ -3 * 100 = 10%
-  tz1WNKahMHz1bkuAfZrsvtmjBhh4GJzw8YcU: 100, // 100 * 10 ^ -3 * 100 = 10%
+  tz1WNKahMHz1bkuAZrsvtmjBhh4GJzw8YcUZ: 100, // 100 * 10 ^ -3 * 100 = 10%
 };
 const isBooleanAmount = true;
 const shouldPreferSymbol = false;

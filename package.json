@@ -22,6 +22,7 @@
     "generate:tezos": "node index.js && node utils/tezos.js",
     "preview": "node utils/createPreviewCollage.js",
     "update_info": "node utils/updateInfo.js",
+    "update_info:tezos": "node tezos/updateInfo.js",
     "resize": "node utils/resize.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

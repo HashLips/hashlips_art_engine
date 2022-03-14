@@ -66,7 +66,7 @@ data.forEach((item) => {
   };
 
   fs.writeFileSync(
-    `${basePath}/build/json/${item.edition}.json`,
+    `${basePath}/build/tezos/json/${item.edition}.json`,
     JSON.stringify(item, null, 2)
   );
 });
