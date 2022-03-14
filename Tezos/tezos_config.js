@@ -20,8 +20,32 @@ const baseThumbnailUri = "BASE_THUMBNAIL_URI";
 const description = "Default Solana Description";
 const external_url = ""; // add optional external URL here, e.g, https://0n10nDivision.com
 
-const royaltyFee = 200; // This is 2% royalty fee
-const royaltyWallet = "tz1UxnruUqq2demYbAHsHkZ2VV95PV8MXVGq";
+/**
+ * How to write the % here ?
+ * Royalties and royalty-splits should be defined in the token-metadata with the following format: 
+
+```json
+{
+    [...],
+    "royalties": {
+       "decimals": 3,
+        "shares": {
+            "tz1h3rQ8wBxFd8L9B3d7Jhaawu6Z568XU3xY": 50,
+            "tz1eY5Aqa1kXDFoiebL28emyXFoneAoVg1zh": 25
+        }
+    },
+    [...]
+}
+```
+> This example defines two royalty recipients with `tz1h3rQ8wBxFd8L9B3d7Jhaawu6Z568XU3xY` @ 5% and `tz1eY5Aqa1kXDFoiebL28emyXFoneAoVg1zh` @ 2.5%.
+> The `"decimals"` field defines the position of the decimal point: `305` with `4` decimals would mean `305 * 10^-4 = 0.0305 = 3.05%`.
+
+ */
+
+const royalties = {
+  tz1UxnruUqq2demYbAHsHkZ2VV95PV8MXVGq: 100, // 100 * 10 ^ -3 * 100 = 10%
+  tz1WNKahMHz1bkuAfZrsvtmjBhh4GJzw8YcU: 100, // 100 * 10 ^ -3 * 100 = 10%
+};
 const isBooleanAmount = true;
 const shouldPreferSymbol = false;
 const decimals = 0;
@@ -51,12 +75,11 @@ module.exports = {
   collectionName,
   collectionFamily,
   description,
-  royaltyFee,
   creators,
   external_url,
   baseUriPrefix,
   propertyCategory,
-  royaltyWallet,
+
   rights,
   isBooleanAmount,
   shouldPreferSymbol,
@@ -64,4 +87,5 @@ module.exports = {
   size,
   baseDisplayUri,
   baseThumbnailUri,
+  royalties,
 };

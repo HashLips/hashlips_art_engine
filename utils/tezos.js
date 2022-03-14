@@ -101,10 +101,8 @@ jsonFiles.forEach((file) => {
     ],
 
     royalties: {
-      decimals: 2,
-      shares: {
-        [tezosConfig.royaltyWallet]: tezosConfig.royaltyFee,
-      },
+      decimals: 3,
+      shares: tezosConfig.royalties,
     },
   };
   fs.writeFileSync(
