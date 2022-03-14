@@ -60,6 +60,10 @@ data.forEach((item) => {
   // ✨ if you would like to rename all the names, add a prefix here and
   // enable the following line
   // item.name = `PREFIX #${item.edition}`;
+  item.royalties = {
+    decimals: 3,
+    shares: tezosConfig.royalties,
+  };
 
   fs.writeFileSync(
     `${basePath}/build/json/${item.edition}.json`,
@@ -73,6 +77,13 @@ fs.writeFileSync(
 );
 
 console.log(`Updated baseUri for images to ===> ${baseUri}`);
+console.log(
+  `Updated Royalties for images to ===> ${JSON.stringify(
+    tezosConfig.royalties,
+    null,
+    2
+  )}`
+);
 console.log(
   `Updated displayUri for images to ===> ${tezosConfig.baseDisplayUri}`
 );
