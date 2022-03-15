@@ -1,7 +1,13 @@
 const basePath = process.cwd();
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const fs = require("fs");
-const { ChildProcess } = require('child_process');
+const { inspect } = require("util");
+const {
+  Canvas,
+  CanvasRenderingContext2d,
+  Image,
+  SetSource
+} = require(`${basePath}/node_modules/canvas/build/Release/canvas.node`);
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const buildDir = `${basePath}/build`;
 const layersDir = `${basePath}/layers`;
@@ -27,13 +33,23 @@ let {
   namePrefix,
   network,
   solanaMetadata,
+  format,
+  background,
+  text,
   gif,
 } = config;
 
+let loadedImages = {};
 var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
 const DNA_DELIMITER = "-";
+
+let HashlipsGiffer;
+
+if (gif.export) {
+  HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
+}
 
 const buildSetup = () => {
   if (!fs.existsSync(buildDir)) {
@@ -72,6 +88,7 @@ const getElements = (path, name) => {
      console.error(`${path} doesn't exist, make sure your layers/ folder matches your src/config.js`);
      process.exit();
   }
+
   return fs
     .readdirSync(path)
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
@@ -83,6 +100,13 @@ const getElements = (path, name) => {
       if (i.includes("\n")) {
         console.error(`layer name can not contain newlines, please fix: ${i}`);
         process.exit();
+      }
+
+      if (!(`${name}/${i}` in loadedImages)) {
+        const loadedImage = new Image();
+        SetSource.call(loadedImage, `${layersDir}/${name}/${i}`);
+
+        loadedImages[`${name}/${i}`] = loadedImage;
       }
 
       return {
@@ -115,6 +139,25 @@ const layersSetup = (layersOrder) => {
         : false,
   }));
   return layers;
+};
+
+const saveBuffer = (buffer, _editionCount) => {
+  fs.writeFileSync(
+    `${buildDir}/images/${_editionCount}.png`,
+    buffer
+  );
+  console.log(`Saved edition: ${_editionCount}`);
+};
+
+const genColor = () => {
+  let hue = Math.floor(Math.random() * 360);
+  let pastel = `hsl(${hue}, 100%, ${background.brightness})`;
+  return pastel;
+};
+
+const drawBackground = (ctx) => {
+  ctx.fillStyle = background.static ? background.default : genColor();
+  ctx.fillRect(0, 0, format.width, format.height);
 };
 
 const addMetadata = (_dna, _edition) => {
@@ -165,6 +208,57 @@ const addAttributes = (_element) => {
   attributesList.push({
     trait_type: _element.layer.name,
     value: selectedElement.name,
+  });
+};
+
+const drawElement = (ctx, _renderObject) => {
+  ctx.drawImage(
+    _renderObject,
+    0,
+    0,
+    format.width,
+    format.height
+  );
+};
+
+const drawElements = (elements, _editionCount) => {
+  return new Promise(resolve => {
+    const canvas = new Canvas(format.width, format.height);
+    const ctx = new CanvasRenderingContext2d(canvas);
+    ctx.imageSmoothingEnabled = format.smoothing;
+
+    let hashlipsGiffer;
+    if (gif.export) {
+        hashlipsGiffer = new HashlipsGiffer(
+        canvas,
+        ctx,
+        `${buildDir}/gifs/${_editionCount}.gif`,
+        gif.repeat,
+        gif.quality,
+        gif.delay
+      );
+      hashlipsGiffer.start();
+    }
+
+    if (background.generate) {
+      drawBackground(ctx);
+    }
+
+    elements.forEach(layer => {
+      drawElement(ctx, loadedImages[layer]);
+
+      if (gif.export) {
+        hashlipsGiffer.add();
+      }
+    });
+
+    if (gif.export) {
+      hashlipsGiffer.stop();
+    }
+
+    canvas.toBuffer((_, buffer) =>
+      resolve({buffer, _editionCount})
+    , "image/png", { resolution: format.resolution });
   });
 };
 
@@ -278,8 +372,6 @@ function shuffle(array) {
 }
 
 const startCreating = async () => {
-  const childProcess = new ChildProcess();
-  const nodeExec = process.argv[0];
   let failedCount = 0;
   let newDna = "";
   let abstractedIndexes = [];
@@ -296,7 +388,8 @@ const startCreating = async () => {
   }
 
   for (layerconfiguration of layerConfigurations) {
-    const layers = await Promise.all(layersSetup(layerconfiguration.layersOrder));
+    const layers = layersSetup(layerconfiguration.layersOrder);
+
     const offset = abstractedIndexes.length;
     for (
       let i =
@@ -340,16 +433,13 @@ const startCreating = async () => {
       }
     }
 
-    debugLogs
-      ? console.log(`running ${nodeExec} ${basePath}/src/worker.js ${newDna} ${abstractedIndex}`)
-      : null;
+    const elements = newDna.replace(/\?bypassDNA=true/g, '').split(DNA_DELIMITER);
 
-    childProcess._handle.spawn({
-      args: [null, `${basePath}/src/worker.js`, newDna, abstractedIndex],
-      cwd: "",
-      file: nodeExec,
-    });
-    newDna.replace(/\?bypassDNA=true/g, '').split(DNA_DELIMITER).forEach(layer => {
+    drawElements(elements, abstractedIndex).then(buffer =>
+      saveBuffer(buffer.buffer, buffer._editionCount)
+    );
+
+    elements.forEach(layer => {
       const names = layer.split('/');
       addAttributes({
         layer: {
@@ -360,6 +450,7 @@ const startCreating = async () => {
         },
       });
     });
+
     addMetadata(newDna, abstractedIndex);
     saveMetaDataSingleFile(abstractedIndex);
     console.log(
@@ -369,11 +460,10 @@ const startCreating = async () => {
     );
     dnaList.add(filterDNAOptions(newDna));
     dnaHashList.add(sha1(filterDNAOptions(newDna)));
-    abstractedIndex++;
+
     return true;
   });
   writeMetaData(JSON.stringify(metadataList, null, 2));
-  process.exit();
 };
 
 module.exports = { startCreating, buildSetup, getElements };

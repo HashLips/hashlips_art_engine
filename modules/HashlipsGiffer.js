@@ -1,6 +1,6 @@
 const basePath = process.cwd();
 const GifEncoder = require(`${basePath}/node_modules/gif-encoder-2/src/GIFEncoder.js`);
-const { writeFile } = require("fs");
+const { writeFileSync } = require("fs");
 
 class HashLipsGiffer {
   constructor(_canvas, _ctx, _fileName, _repeat, _quality, _delay) {
@@ -44,7 +44,7 @@ class HashLipsGiffer {
   stop() {
     this.gifEncoder.finish();
     const buffer = this.gifEncoder.out.getData();
-    writeFile(this.fileName, buffer, (error) => {});
+    writeFileSync(this.fileName, buffer);
     console.log(`Created gif at ${this.fileName}`);
   }
 }
