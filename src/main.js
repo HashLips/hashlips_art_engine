@@ -437,6 +437,13 @@ const startCreating = () => {
 
     const elements = newDna.replace(/\?bypassDNA=true/g, '').split(DNA_DELIMITER);
 
+    if (format.hexEdition) {
+      abstractedIndex = abstractedIndex.toString(16);
+    }
+    if (format.padEdition) {
+      abstractedIndex = "0".repeat(format.padEdition - String(abstractedIndex).length) + abstractedIndex;
+    }
+
     drawElements(elements, abstractedIndex).then(buffer =>
       saveBuffer(buffer.buffer, buffer._editionCount)
     );

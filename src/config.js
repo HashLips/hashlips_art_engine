@@ -46,6 +46,9 @@ const format = {
   height: 512,
   smoothing: false,
   resolution: undefined, // ppi
+
+  padEdition: 0,
+  hexEdition: false,
 };
 
 const gif = {
