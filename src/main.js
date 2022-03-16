@@ -390,13 +390,13 @@ const startCreating = async () => {
   for (layerconfiguration of layerConfigurations) {
     const layers = layersSetup(layerconfiguration.layersOrder);
 
-    const offset = abstractedIndexes.length;
+    const offset =
+      network == NETWORK.sol
+        ? abstractedIndexes.length
+        : (layerconfiguration.startEditionFrom ?? abstractedIndexes.length + 1);
+
     for (
-      let i =
-        network == NETWORK.sol
-          ? 0
-          : (layerconfiguration.startEditionFrom ?? 1)
-        + offset;
+      let i = offset;
       i <= layerconfiguration.growEditionSizeTo + offset;
       i++
     ) {
