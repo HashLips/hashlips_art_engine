@@ -142,9 +142,10 @@ const layersSetup = (layersOrder) => {
 };
 
 const saveBuffer = (buffer, _editionCount) => {
-  fs.writeFileSync(
+  fs.writeFile(
     `${buildDir}/images/${_editionCount}.png`,
-    buffer
+    buffer,
+    () => {}
   );
   console.log(`Saved edition: ${_editionCount}`);
 };
@@ -358,20 +359,21 @@ const saveMetaDataSingleFile = (_editionCount) => {
 };
 
 function shuffle(array) {
-  let currentIndex = array.length,
-    randomIndex;
-  while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+  let randomIndex;
+  array.forEach((currentElement, currentIndex) => {
+    do {
+      randomIndex = Math.floor(Math.random() * array.length);
+    } while (!array[randomIndex])
+
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
-      array[currentIndex],
+      currentElement,
     ];
-  }
+  });
   return array;
 }
 
-const startCreating = async () => {
+const startCreating = () => {
   let failedCount = 0;
   let newDna = "";
   let abstractedIndexes = [];
