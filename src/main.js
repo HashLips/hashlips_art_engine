@@ -292,6 +292,7 @@ const createDna = (_layers) => {
       // subtract the current weight from the random weight until we reach a sub zero value.
       random -= layer.elements[i].weight;
       if (random < 0) {
+        executeConstraints(randNum);
         return randNum.push(
           `${layer.elements[i].id}:${layer.elements[i].filename}${
             layer.bypassDNA ? "?bypassDNA=true" : ""
@@ -301,6 +302,24 @@ const createDna = (_layers) => {
     }
   });
   return randNum.join(DNA_DELIMITER);
+};
+
+const executeConstraints = (randNum) => {
+  // Find any element who matches with your layer name
+  if (randNum.some((predicate) => predicate.includes("yourLayerName"))) {
+    // Get the element
+    const yourLayerName = randNum.filter((e) =>
+      e.includes("yourLayerName") ? e : null
+    )[0];
+    if (yourLayerName) {
+      // Find the index of the element
+      const idx = randNum.indexOf(yourLayerName);
+      // Override the entry with an empty layer that must be in the same folder than the element
+      // The number before the colon is obtained from the index of total elements of the folder
+      // The element can be an empty layer or whatever you want to use
+      randNum[idx] = ["4:void#5.png"]; // => This name must be exact
+    }
+  }
 };
 
 const writeMetaData = (_data) => {
