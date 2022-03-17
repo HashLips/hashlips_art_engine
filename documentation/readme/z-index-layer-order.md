@@ -28,7 +28,7 @@ Example folders _inside_ a root folder.&#x20;
 |-z2,layer two/
 ```
 
-![Example folder names to illustrate the usage of z#, ](<../.gitbook/assets/image (1).png>)
+![Example folder names to illustrate the usage of z#, ](<../.gitbook/assets/image (1) (1).png>)
 
 Folders and files without a `z#,` prefix default to a z-index of `0`
 
@@ -42,7 +42,7 @@ In the case where a single trait needs to have one part of the image on top, and
 
 The result will be the Hair, Front.png being stacked _normally,_ while Back.png will be send below all other layers (higher that negative one).
 
-![Required png's combined to make a single trait](../.gitbook/assets/image.png)
+![Required png's combined to make a single trait](<../.gitbook/assets/image (1).png>)
 
 ## Advanced Usage
 
