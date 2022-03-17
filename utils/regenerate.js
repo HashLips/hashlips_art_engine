@@ -43,6 +43,7 @@ const {
   outputJPEG,
   emptyLayerName,
   hashImages,
+  startIndex,
 } = require(path.join(basePath, "/src/config.js"));
 
 const {
@@ -70,8 +71,8 @@ const getDNA = () => {
 
 const createItem = (layers) => {
   let newDna = createDna(layers);
-  const exitingDNA = getDNA();
-  if (isDnaUnique(exitingDNA, newDna)) {
+  const existingDna = getDNA();
+  if (isDnaUnique(existingDna, newDna)) {
     return { newDna, layerImages: constructLayerToDna(newDna, layers) };
   } else {
     failedCount++;
@@ -147,7 +148,22 @@ const regenerateItem = (_id, options) => {
     // update the _dna.json
     const existingDna = getDNA();
     const existingDnaFlat = existingDna.map((dna) => dna.join(DNA_DELIMITER));
-    const updatedDnaList = [...existingDnaFlat, newDna];
+
+    const updatedDnaList = [...existingDnaFlat];
+    // find the correct entry and update it
+    const dnaIndex = _id - startIndex;
+    updatedDnaList[dnaIndex] = newDna;
+
+    options.debug
+      ? console.log(
+          chalk.redBright(`replacing old DNA:\n`, existingDnaFlat[dnaIndex])
+        )
+      : null;
+    options.debug
+      ? console.log(
+          chalk.greenBright(`\nWith new DNA:\n`, updatedDnaList[dnaIndex])
+        )
+      : null;
 
     fs.writeFileSync(
       path.join(dnaFilePath),
