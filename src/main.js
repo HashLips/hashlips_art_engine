@@ -225,7 +225,7 @@ const drawElement = (ctx, _renderObject) => {
 const drawElements = (elements, _editionCount) => {
   return new Promise(resolve => {
     const canvas = new Canvas(format.width, format.height);
-    const ctx = new CanvasRenderingContext2d(canvas);
+    const ctx = new CanvasRenderingContext2d(canvas, { alpha: !background.generate });
     ctx.imageSmoothingEnabled = format.smoothing;
 
     let hashlipsGiffer;
