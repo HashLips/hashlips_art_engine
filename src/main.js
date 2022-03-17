@@ -302,6 +302,7 @@ const addMetadata = (_dna, _edition, _prefixData) => {
   };
   metadataList.push(tempMetadata);
   attributesList = [];
+  return tempMetadata;
 };
 
 const addAttributes = (_element) => {
