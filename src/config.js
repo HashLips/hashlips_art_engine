@@ -5,9 +5,9 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
-const baseUri = "ipfs://NewUriToReplace";
+const namePrefix = "Navy Punk";
+const description = "These are crazy Pixel Punks from Navy";
+const baseUri = "ipfs://NavyPunk";
 
 const solanaMetadata = {
   symbol: "YC",
@@ -15,7 +15,7 @@ const solanaMetadata = {
   external_url: "https://www.youtube.com/c/hashlipsnft",
   creators: [
     {
-      address: "7fXNuer5sbZtaTEPhtJ5g5gNtuyRoKkvxdjEjEnPN4mC",
+      address: "0xeef0a3c30185396bFc49F52B3003A3F4F48fFD03",
       share: 100,
     },
   ],
@@ -27,12 +27,12 @@ const layerConfigurations = [
     growEditionSizeTo: 5,
     layersOrder: [
       { name: "Background" },
-      { name: "Eyeball" },
+      { name: "clothes" },
       { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "hat" },
+      { name: "sunshine" },
+      { name: "mountains" },
+      { name: "clouds" },
     ],
   },
 ];
