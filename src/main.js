@@ -5,6 +5,10 @@ const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
 const buildDir = `${basePath}/build`;
 const layersDir = `${basePath}/layers`;
+
+// functions
+const getAbstractedIndexes = `${basePath}/src/functions/getAbstractedIndexes`;
+
 const {
   format,
   baseUri,
@@ -333,18 +337,16 @@ function shuffle (array) {
 }
 
 const startCreating = async () => {
+  const startI = network === NETWORK.sol ? 0 : 1;
+
   let layerConfigIndex = 0;
   let editionCount = 1;
   let failedCount = 0;
   let abstractedIndexes = [];
 
-  for (
-    let i = network === NETWORK.sol ? 0 : 1;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
-    i++
-  ) {
-    abstractedIndexes.push(i);
-  }
+  const growEditionSizeTo = layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+  const abstractedIndexesStart = getAbstractedIndexes(growEditionSizeTo, startI);
+  abstractedIndexes.concat(abstractedIndexesStart);
 
   if (shuffleLayerConfigurations) {
     abstractedIndexes = shuffle(abstractedIndexes);

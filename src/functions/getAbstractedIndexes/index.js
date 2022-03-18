@@ -1,11 +1,13 @@
-function getAbstractedIndexes() {
+function getAbstractedIndexes (growEditionSizeTo, startI) {
+  const abstractedIndexes = [];
   for (
-    let i = network == NETWORK.sol ? 0 : 1;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+    let i = startI;
+    i <= growEditionSizeTo;
     i++
   ) {
     abstractedIndexes.push(i);
   }
+  return abstractedIndexes;
 }
 
 module.exports = getAbstractedIndexes;

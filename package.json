@@ -19,7 +19,8 @@
     "pixelate": "node utils/pixelate.js",
     "update_info": "node utils/update_info.js",
     "preview_gif": "node utils/preview_gif.js",
-    "generate_metadata": "node utils/generate_metadata.js"
+    "generate_metadata": "node utils/generate_metadata.js",
+    "test":"jest"
   },
   "author": "Daniel Eugene Botha (HashLips)",
   "license": "MIT",
@@ -29,10 +30,13 @@
     "sha1": "^1.1.1"
   },
   "devDependencies": {
+    "@types/jest": "^27.4.1",
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^26.1.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.2.0"
+    "eslint-plugin-promise": "^5.2.0",
+    "jest": "^27.5.1"
   }
 }
