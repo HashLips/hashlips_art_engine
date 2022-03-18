@@ -7,7 +7,7 @@ const buildDir = `${basePath}/build`;
 const layersDir = `${basePath}/layers`;
 
 // functions
-const getAbstractedIndexes = `${basePath}/src/functions/getAbstractedIndexes`;
+const getAbstractedIndexes = require(`${basePath}/src/functions/getAbstractedIndexes`);
 
 const {
   format,
