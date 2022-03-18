@@ -310,6 +310,7 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
 
 const createDna = (_layers) => {
   let randNum = [];
+  let random;
   _layers.forEach((layer) => {
     var totalWeight = 0;
     layer.elements.forEach((element) => {
@@ -317,7 +318,9 @@ const createDna = (_layers) => {
     });
     // if totalWeight is 0, this stops it from erroring
     if (totalWeight == 0) {
-      let random = Math.floor(Math.random() * layer.elements.length);
+      do{
+        random = Math.floor(Math.random() * layer.elements.length);
+      } while (!layer.elements[random])
       return randNum.push(
         `${layer.elements[random].path}${
           layer.bypassDNA ? "?bypassDNA=true" : ""
@@ -325,7 +328,7 @@ const createDna = (_layers) => {
       );
     }
     // number between 0 - totalWeight
-    let random = Math.floor(Math.random() * totalWeight);
+    random = Math.floor(Math.random() * totalWeight);
     for (var i = 0; i < layer.elements.length; i++) {
       // subtract the current weight from the random weight until we reach a sub zero value.
       random -= layer.elements[i].weight;
