@@ -318,7 +318,7 @@ const createDna = (_layers) => {
     });
     // if totalWeight is 0, this stops it from erroring
     if (totalWeight == 0) {
-      do{
+      do {
         random = Math.floor(Math.random() * layer.elements.length);
       } while (!layer.elements[random])
       return randNum.push(
@@ -380,6 +380,7 @@ const startCreating = () => {
   let failedCount = 0;
   let newDna = "";
   let abstractedIndexes = [];
+  abstractedIndexes.length = NETWORK.sol ? 1 : 0;
   let dnaHashList = new Set();
   let existingEditions = new Set();
   if (fs.existsSync(`${basePath}/build/json/_metadata.json`)) {
@@ -398,11 +399,11 @@ const startCreating = () => {
     const offset =
       network == NETWORK.sol
         ? abstractedIndexes.length
-        : (layerconfiguration.startEditionFrom ?? abstractedIndexes.length + 1);
+        : (layerconfiguration.startEditionFrom ?? abstractedIndexes.length);
 
     for (
       let i = offset;
-      i <= layerconfiguration.growEditionSizeTo + offset;
+      i < layerconfiguration.growEditionSizeTo + offset;
       i++
     ) {
       if (existingEditions.has(i)) {
