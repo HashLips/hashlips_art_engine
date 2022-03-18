@@ -346,7 +346,7 @@ const startCreating = async () => {
 
   const growEditionSizeTo = layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
   const abstractedIndexesStart = getAbstractedIndexes(growEditionSizeTo, startI);
-  abstractedIndexes.concat(abstractedIndexesStart);
+  abstractedIndexes = abstractedIndexes.concat(abstractedIndexesStart);
 
   if (shuffleLayerConfigurations) {
     abstractedIndexes = shuffle(abstractedIndexes);
@@ -358,11 +358,14 @@ const startCreating = async () => {
     const layers = layersSetup(
       layerConfigurations[layerConfigIndex].layersOrder
     );
+
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
       const newDna = createDna(layers);
-      if (isDnaUnique(dnaList, newDna)) {
+      const checkIsDnaUnique = isDnaUnique(dnaList, newDna);
+
+      if (checkIsDnaUnique) {
         const results = constructLayerToDna(newDna, layers);
         const loadedElements = [];
 
@@ -410,7 +413,9 @@ const startCreating = async () => {
             )}`
           );
         });
+
         dnaList.add(filterDNAOptions(newDna));
+
         editionCount++;
         abstractedIndexes.shift();
       } else {
