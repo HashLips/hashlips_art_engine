@@ -1,10 +1,9 @@
-const basePath = process.cwd();
-const { NETWORK } = require(`${basePath}/constants/network.js`);
+const { NETWORK } = require(`../constants/network.js`);
 const fs = require("fs");
-const sha1 = require(`${basePath}/node_modules/sha1`);
-const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
-const buildDir = `${basePath}/build`;
-const layersDir = `${basePath}/layers`;
+const sha1 = require(`../node_modules/sha1`);
+const { createCanvas, loadImage } = require(`../node_modules/canvas`);
+// const buildDir = `${basePath}/build`;
+// const layersDir = `${basePath}/layers`;
 const {
   format,
   baseUri,
@@ -21,7 +20,7 @@ const {
   network,
   solanaMetadata,
   gif,
-} = require(`${basePath}/src/config.js`);
+} = require(`./config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;
@@ -29,21 +28,21 @@ var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
 const DNA_DELIMITER = "-";
-const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
+// const HashlipsGiffer = require(`modules/HashlipsGiffer.js`);
 
 let hashlipsGiffer = null;
 
-const buildSetup = () => {
-  if (fs.existsSync(buildDir)) {
-    fs.rmdirSync(buildDir, { recursive: true });
-  }
-  fs.mkdirSync(buildDir);
-  fs.mkdirSync(`${buildDir}/json`);
-  fs.mkdirSync(`${buildDir}/images`);
-  if (gif.export) {
-    fs.mkdirSync(`${buildDir}/gifs`);
-  }
-};
+// const buildSetup = () => {
+//   if (fs.existsSync(buildDir)) {
+//     fs.rmdirSync(buildDir, { recursive: true });
+//   }
+//   fs.mkdirSync(buildDir);
+//   fs.mkdirSync(`${buildDir}/json`);
+//   fs.mkdirSync(`${buildDir}/images`);
+//   if (gif.export) {
+//     fs.mkdirSync(`${buildDir}/gifs`);
+//   }
+// };
 
 const getRarityWeight = (_str) => {
   let nameWithoutExtension = _str.slice(0, -4);
@@ -86,7 +85,7 @@ const getElements = (path) => {
     });
 };
 
-const layersSetup = (layersOrder) => {
+const layersSetup = (layersDir, layersOrder) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
     elements: getElements(`${layersDir}/${layerObj.name}/`),
@@ -141,32 +140,32 @@ const addMetadata = (_dna, _edition) => {
     attributes: attributesList,
     compiler: "HashLips Art Engine",
   };
-  if (network == NETWORK.sol) {
-    tempMetadata = {
-      //Added metadata for solana
-      name: tempMetadata.name,
-      symbol: solanaMetadata.symbol,
-      description: tempMetadata.description,
-      //Added metadata for solana
-      seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
-      image: `${_edition}.png`,
-      //Added metadata for solana
-      external_url: solanaMetadata.external_url,
-      edition: _edition,
-      ...extraMetadata,
-      attributes: tempMetadata.attributes,
-      properties: {
-        files: [
-          {
-            uri: `${_edition}.png`,
-            type: "image/png",
-          },
-        ],
-        category: "image",
-        creators: solanaMetadata.creators,
-      },
-    };
-  }
+  // if (network == NETWORK.sol) {
+  //   tempMetadata = {
+  //     //Added metadata for solana
+  //     name: tempMetadata.name,
+  //     symbol: solanaMetadata.symbol,
+  //     description: tempMetadata.description,
+  //     //Added metadata for solana
+  //     seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
+  //     image: `${_edition}.png`,
+  //     //Added metadata for solana
+  //     external_url: solanaMetadata.external_url,
+  //     edition: _edition,
+  //     ...extraMetadata,
+  //     attributes: tempMetadata.attributes,
+  //     properties: {
+  //       files: [
+  //         {
+  //           uri: `${_edition}.png`,
+  //           type: "image/png",
+  //         },
+  //       ],
+  //       category: "image",
+  //       creators: solanaMetadata.creators,
+  //     },
+  //   };
+  // }
   metadataList.push(tempMetadata);
   attributesList = [];
 };
@@ -334,7 +333,12 @@ function shuffle(array) {
   return array;
 }
 
-const startCreating = async () => {
+const startCreating = async ({
+    layersDir,
+    onImage,
+}) => {
+  const result = [];
+
   let layerConfigIndex = 0;
   let editionCount = 1;
   let failedCount = 0;
@@ -354,6 +358,7 @@ const startCreating = async () => {
     : null;
   while (layerConfigIndex < layerConfigurations.length) {
     const layers = layersSetup(
+      layersDir,
       layerConfigurations[layerConfigIndex].layersOrder
     );
     while (
@@ -371,17 +376,17 @@ const startCreating = async () => {
         await Promise.all(loadedElements).then((renderObjectArray) => {
           debugLogs ? console.log("Clearing canvas") : null;
           ctx.clearRect(0, 0, format.width, format.height);
-          if (gif.export) {
-            hashlipsGiffer = new HashlipsGiffer(
-              canvas,
-              ctx,
-              `${buildDir}/gifs/${abstractedIndexes[0]}.gif`,
-              gif.repeat,
-              gif.quality,
-              gif.delay
-            );
-            hashlipsGiffer.start();
-          }
+          // if (gif.export) {
+          //   hashlipsGiffer = new HashlipsGiffer(
+          //     canvas,
+          //     ctx,
+          //     `${buildDir}/gifs/${abstractedIndexes[0]}.gif`,
+          //     gif.repeat,
+          //     gif.quality,
+          //     gif.delay
+          //   );
+          //   hashlipsGiffer.start();
+          // }
           if (background.generate) {
             drawBackground();
           }
@@ -391,19 +396,34 @@ const startCreating = async () => {
               index,
               layerConfigurations[layerConfigIndex].layersOrder.length
             );
-            if (gif.export) {
-              hashlipsGiffer.add();
-            }
+            // if (gif.export) {
+            //   hashlipsGiffer.add();
+            // }
           });
-          if (gif.export) {
-            hashlipsGiffer.stop();
-          }
+          // if (gif.export) {
+          //   hashlipsGiffer.stop();
+          // }
           debugLogs
             ? console.log("Editions left to create: ", abstractedIndexes)
             : null;
-          saveImage(abstractedIndexes[0]);
-          addMetadata(newDna, abstractedIndexes[0]);
-          saveMetaDataSingleFile(abstractedIndexes[0]);
+          // saveImage(abstractedIndexes[0]);
+          // addMetadata(newDna, abstractedIndexes[0]);
+          // saveMetaDataSingleFile(abstractedIndexes[0]);
+          let prop = `${abstractedIndexes[0]}.png`;
+          onImage({
+            [prop]: canvas.toBuffer("image/png"),
+            metadata: {
+              name: `${namePrefix} #${abstractedIndexes[0]}`,
+              description: description,
+              image: `${baseUri}/${abstractedIndexes[0]}.png`,
+              dna: sha1(newDna),
+              edition: abstractedIndexes[0],
+              date: Date.now(),
+              ...extraMetadata,
+              attributes: attributesList,
+              compiler: "HashLips Art Engine",
+            }
+          })
           console.log(
             `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
               newDna
@@ -426,7 +446,12 @@ const startCreating = async () => {
     }
     layerConfigIndex++;
   }
-  writeMetaData(JSON.stringify(metadataList, null, 2));
+  // writeMetaData(JSON.stringify(metadataList, null, 2));
+
 };
 
-module.exports = { startCreating, buildSetup, getElements };
+module.exports = {
+  startCreating,
+  // buildSetup,
+  getElements
+};

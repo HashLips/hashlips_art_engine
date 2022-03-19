@@ -1,7 +1,19 @@
-const basePath = process.cwd();
-const { startCreating, buildSetup } = require(`${basePath}/src/main.js`);
+const { startCreating } = require(`./src/main.js`);
 
-(() => {
-  buildSetup();
-  startCreating();
-})();
+const gen = ({
+  layersDir,
+  len,
+}) => new Promise((resolve, reject) => {
+  const images = []
+  startCreating({
+    layersDir,
+    onImage: (data) => {
+      images.push(data);
+      if (images.length === len) {
+        resolve(images);
+      }
+    }
+  });
+});
+
+module.exports = gen;
