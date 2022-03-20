@@ -118,26 +118,36 @@ const getElements = (path, name) => {
 };
 
 const layersSetup = (layersOrder) => {
-  const layers = layersOrder.map((layerObj, index) => ({
-    id: index,
-    elements: getElements(`${layersDir}/${layerObj.name}/`, layerObj.name),
-    name:
-      layerObj.options && layerObj.options["displayName"] != undefined
-        ? layerObj.options && layerObj.options["displayName"]
-        : layerObj.name,
-    blend:
-      layerObj.options && layerObj.options["blend"] != undefined
-        ? layerObj.options && layerObj.options["blend"]
-        : "source-over",
-    opacity:
-      layerObj.options && layerObj.options["opacity"] != undefined
-        ? layerObj.options && layerObj.options["opacity"]
-        : 1,
-    bypassDNA:
-      layerObj.options && layerObj.options["bypassDNA"] !== undefined
-        ? layerObj.options && layerObj.options["bypassDNA"]
-        : false,
-  }));
+  let layers = [];
+  let index = 0;
+  for (layerObj of layersOrder) {
+    const elements = getElements(`${layersDir}/${layerObj.name}/`, layerObj.name);
+
+    if (!elements.length) {
+      continue;
+    }
+
+    layers.push({
+      id: index++,
+      elements: elements,
+      name:
+        layerObj.options && layerObj.options["displayName"] != undefined
+          ? layerObj.options && layerObj.options["displayName"]
+          : layerObj.name,
+      blend:
+        layerObj.options && layerObj.options["blend"] != undefined
+          ? layerObj.options && layerObj.options["blend"]
+          : "source-over",
+      opacity:
+        layerObj.options && layerObj.options["opacity"] != undefined
+          ? layerObj.options && layerObj.options["opacity"]
+          : 1,
+      bypassDNA:
+        layerObj.options && layerObj.options["bypassDNA"] !== undefined
+          ? layerObj.options && layerObj.options["bypassDNA"]
+          : false,
+    });
+  }
   return layers;
 };
 
