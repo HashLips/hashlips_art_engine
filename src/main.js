@@ -389,7 +389,6 @@ const startCreating = () => {
   let failedCount = 0;
   let newDna = "";
   let abstractedIndexes = [];
-  abstractedIndexes.length = NETWORK.sol ? 1 : 0;
   let dnaHashList = new Set();
   let existingEditions = new Set();
   if (fs.existsSync(`${basePath}/build/json/_metadata.json`)) {
@@ -402,17 +401,19 @@ const startCreating = () => {
     });
   }
 
+  let offset = NETWORK.sol ? 1 : 0;
+
   for (layerconfiguration of layerConfigurations) {
     const layers = layersSetup(layerconfiguration.layersOrder);
 
-    const offset =
-      network == NETWORK.sol
-        ? abstractedIndexes.length
-        : (layerconfiguration.startEditionFrom ?? abstractedIndexes.length);
+    if (!NETWORK.sol && layerconfiguration.startEditionFrom) {
+      offset = layerconfiguration.startEditionFrom;
+    }
+    const startFrom = offset;
 
     for (
       let i = offset;
-      i < layerconfiguration.growEditionSizeTo + offset;
+      i < layerconfiguration.growEditionSizeTo + startFrom;
       i++
     ) {
       if (existingEditions.has(i)) {
@@ -420,6 +421,7 @@ const startCreating = () => {
       } else {
         abstractedIndexes[i] = layers;
       }
+      offset++;
     }
   }
 
