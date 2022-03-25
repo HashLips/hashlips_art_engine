@@ -1,6 +1,6 @@
 const basePath = process.cwd();
 const { NETWORK } = require(`${basePath}/constants/network.js`);
-const fs = require("fs");
+const fs = require('fs');
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
 const buildDir = `${basePath}/build`;
@@ -13,6 +13,8 @@ const shuffle = require(`${basePath}/node_modules/lodash/shuffle`);
 const saveMetaDataSingleFile = require(`${basePath}/src/functions/saveMetaDataSingleFile`);
 const filterDNAOptions = require(`${basePath}/src/functions/filterDNAOptions`);
 const buildSetup = require(`${basePath}/src/functions/buildSetup`);
+const getRarityWeight = require(`${basePath}/src/functions/getRarityWeight`);
+const cleanDna = require(`${basePath}/src/functions/cleanDna`);
 
 const {
   format,
@@ -29,37 +31,20 @@ const {
   namePrefix,
   network,
   solanaMetadata,
-  gif
+  gif,
 } = require(`${basePath}/src/config.js`);
 const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
 const canvas = createCanvas(format.width, format.height);
-const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = format.smoothing;
 
 const metadataList = [];
 let attributesList = [];
 const dnaList = new Set();
-const DNA_DELIMITER = "-";
+const DNA_DELIMITER = '-';
 
 let hashlipsGiffer = null;
-
-const getRarityWeight = (_str) => {
-  const nameWithoutExtension = _str.slice(0, -4);
-  let nameWithoutWeight = Number(
-    nameWithoutExtension.split(rarityDelimiter).pop()
-  );
-  if (isNaN(nameWithoutWeight)) {
-    nameWithoutWeight = 1;
-  }
-  return nameWithoutWeight;
-};
-
-const cleanDna = (_str) => {
-  const withoutOptions = removeQueryStrings(_str);
-  const dna = Number(withoutOptions.split(":").shift());
-  return dna;
-};
 
 const cleanName = (_str) => {
   const nameWithoutExtension = _str.slice(0, -4);
@@ -72,7 +57,7 @@ const getElements = (path) => {
     .readdirSync(path)
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
     .map((i, index) => {
-      if (i.includes("-")) {
+      if (i.includes('-')) {
         throw new Error(`layer name can not contain dashes, please fix: ${i}`);
       }
       return {
@@ -80,7 +65,7 @@ const getElements = (path) => {
         name: cleanName(i),
         filename: i,
         path: `${path}${i}`,
-        weight: getRarityWeight(i)
+        weight: getRarityWeight(i),
       };
     });
 };
@@ -96,15 +81,13 @@ const layersSetup = (layersOrder) => {
     blend:
       layerObj.options?.blend !== undefined
         ? layerObj.options?.blend
-        : "source-over",
+        : 'source-over',
     opacity:
-      layerObj.options?.opacity !== undefined
-        ? layerObj.options?.opacity
-        : 1,
+      layerObj.options?.opacity !== undefined ? layerObj.options?.opacity : 1,
     bypassDNA:
       layerObj.options?.bypassDNA !== undefined
         ? layerObj.options?.bypassDNA
-        : false
+        : false,
   }));
   return layers;
 };
@@ -112,7 +95,7 @@ const layersSetup = (layersOrder) => {
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
     `${buildDir}/images/${_editionCount}.png`,
-    canvas.toBuffer("image/png")
+    canvas.toBuffer('image/png')
   );
 };
 
@@ -138,7 +121,7 @@ const addMetadata = (_dna, _edition) => {
     date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
-    compiler: "HashLips Art Engine"
+    compiler: 'HashLips Art Engine',
   };
   if (network === NETWORK.sol) {
     tempMetadata = {
@@ -158,12 +141,12 @@ const addMetadata = (_dna, _edition) => {
         files: [
           {
             uri: `${_edition}.png`,
-            type: "image/png"
-          }
+            type: 'image/png',
+          },
         ],
-        category: "image",
-        creators: solanaMetadata.creators
-      }
+        category: 'image',
+        creators: solanaMetadata.creators,
+      },
     };
   }
   metadataList.push(tempMetadata);
@@ -174,7 +157,7 @@ const addAttributes = (_element) => {
   const selectedElement = _element.layer.selectedElement;
   attributesList.push({
     trait_type: _element.layer.name,
-    value: selectedElement.name
+    value: selectedElement.name,
   });
 };
 
@@ -185,7 +168,7 @@ const loadLayerImg = async (_layer) => {
       resolve({ layer: _layer, loadedImage: image });
     });
   } catch (error) {
-    console.error("Error loading image:", error);
+    console.error('Error loading image:', error);
   }
 };
 
@@ -206,46 +189,34 @@ const drawElement = (_renderObject, _index, _layersLen) => {
         text.xGap,
         text.yGap * (_index + 1),
         text.size
-    )
+      )
     : ctx.drawImage(
-      _renderObject.loadedImage,
-      0,
-      0,
-      format.width,
-      format.height
-    );
+        _renderObject.loadedImage,
+        0,
+        0,
+        format.width,
+        format.height
+      );
 
   addAttributes(_renderObject);
 };
 
-const constructLayerToDna = (_dna = "", _layers = []) => {
+const constructLayerToDna = (_dna = '', _layers = []) => {
   return _layers.map((layer, index) => {
-    const selectedElement = layer.elements.find(
-      (e) => e.id === cleanDna(_dna.split(DNA_DELIMITER)[index])
-    );
+    const selectedElement = layer.elements.find((e) => {
+      console.log('dna: ', _dna.split(DNA_DELIMITER)[index]);
+      return e.id === cleanDna(_dna.split(DNA_DELIMITER)[index]);
+    });
     return {
       name: layer.name,
       blend: layer.blend,
       opacity: layer.opacity,
-      selectedElement: selectedElement
+      selectedElement: selectedElement,
     };
   });
 };
 
-/**
- * Cleaning function for DNA strings. When DNA strings include an option, it
- * is added to the filename with a ?setting=value query string. It needs to be
- * removed to properly access the file name before Drawing.
- *
- * @param {String} _dna The entire newDNA string
- * @returns Cleaned DNA string without querystring parameters.
- */
-const removeQueryStrings = (_dna) => {
-  const query = /(\?.*$)/;
-  return _dna.replace(query, "");
-};
-
-const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
+const isDnaUnique = (_DnaList = new Set(), _dna = '') => {
   const _filteredDNA = filterDNAOptions(_dna);
   return !_DnaList.has(_filteredDNA);
 };
@@ -262,15 +233,19 @@ const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
 
-  const growEditionSizeTo = layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
-  const abstractedIndexesStart = getAbstractedIndexes(growEditionSizeTo, startI);
+  const growEditionSizeTo =
+    layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+  const abstractedIndexesStart = getAbstractedIndexes(
+    growEditionSizeTo,
+    startI
+  );
   abstractedIndexes = abstractedIndexes.concat(abstractedIndexesStart);
 
   if (shuffleLayerConfigurations) {
     abstractedIndexes = shuffle(abstractedIndexes);
   }
 
-  debugLogs && console.log("Editions left to create: ", abstractedIndexes);
+  debugLogs && console.log('Editions left to create: ', abstractedIndexes);
 
   while (layerConfigIndex < layerConfigurations.length) {
     const layers = layersSetup(
@@ -292,7 +267,7 @@ const startCreating = async () => {
         });
 
         await Promise.all(loadedElements).then((renderObjectArray) => {
-          debugLogs && console.log("Clearing canvas");
+          debugLogs && console.log('Clearing canvas');
           ctx.clearRect(0, 0, format.width, format.height);
           if (gif.export) {
             hashlipsGiffer = new HashlipsGiffer(
@@ -321,7 +296,8 @@ const startCreating = async () => {
           if (gif.export) {
             hashlipsGiffer.stop();
           }
-          debugLogs && console.log("Editions left to create: ", abstractedIndexes);
+          debugLogs &&
+            console.log('Editions left to create: ', abstractedIndexes);
           saveImage(abstractedIndexes[0]);
           addMetadata(newDna, abstractedIndexes[0]);
           saveMetaDataSingleFile(abstractedIndexes[0], metadataList);
@@ -337,7 +313,7 @@ const startCreating = async () => {
         editionCount++;
         abstractedIndexes.shift();
       } else {
-        console.log("DNA exists!");
+        console.log('DNA exists!');
         failedCount++;
         if (failedCount >= uniqueDnaTorrance) {
           console.log(
