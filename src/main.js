@@ -13,8 +13,8 @@ const shuffle = require(`${basePath}/node_modules/lodash/shuffle`);
 const saveMetaDataSingleFile = require(`${basePath}/src/functions/saveMetaDataSingleFile`);
 const filterDNAOptions = require(`${basePath}/src/functions/filterDNAOptions`);
 const buildSetup = require(`${basePath}/src/functions/buildSetup`);
-const getRarityWeight = require(`${basePath}/src/functions/getRarityWeight`);
 const cleanDna = require(`${basePath}/src/functions/cleanDna`);
+const getElements = require(`${basePath}/src/functions/getElements`);
 
 const {
   format,
@@ -46,49 +46,33 @@ const DNA_DELIMITER = '-';
 
 let hashlipsGiffer = null;
 
-const cleanName = (_str) => {
-  const nameWithoutExtension = _str.slice(0, -4);
-  const nameWithoutWeight = nameWithoutExtension.split(rarityDelimiter).shift();
-  return nameWithoutWeight;
-};
-
-const getElements = (path) => {
-  return fs
-    .readdirSync(path)
-    .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
-    .map((i, index) => {
-      if (i.includes('-')) {
-        throw new Error(`layer name can not contain dashes, please fix: ${i}`);
-      }
-      return {
-        id: index,
-        name: cleanName(i),
-        filename: i,
-        path: `${path}${i}`,
-        weight: getRarityWeight(i),
-      };
-    });
-};
-
 const layersSetup = (layersOrder) => {
-  const layers = layersOrder.map((layerObj, index) => ({
-    id: index,
-    elements: getElements(`${layersDir}/${layerObj.name}/`),
-    name:
-      layerObj.options?.displayName !== undefined
-        ? layerObj.options?.displayName
-        : layerObj.name,
-    blend:
-      layerObj.options?.blend !== undefined
-        ? layerObj.options?.blend
-        : 'source-over',
-    opacity:
-      layerObj.options?.opacity !== undefined ? layerObj.options?.opacity : 1,
-    bypassDNA:
-      layerObj.options?.bypassDNA !== undefined
-        ? layerObj.options?.bypassDNA
-        : false,
-  }));
+  const arr = [];
+  const layers = layersOrder.map((layerObj, index) => {
+    arr.push(`${layersDir}/${layerObj.name}/`);
+
+    return {
+      id: index,
+      elements: getElements(`${layersDir}/${layerObj.name}/`),
+      name:
+        layerObj.options?.displayName !== undefined
+          ? layerObj.options?.displayName
+          : layerObj.name,
+      blend:
+        layerObj.options?.blend !== undefined
+          ? layerObj.options?.blend
+          : 'source-over',
+      opacity:
+        layerObj.options?.opacity !== undefined ? layerObj.options?.opacity : 1,
+      bypassDNA:
+        layerObj.options?.bypassDNA !== undefined
+          ? layerObj.options?.bypassDNA
+          : false,
+    };
+  });
+
+  console.log('arr: ', arr);
+
   return layers;
 };
 
