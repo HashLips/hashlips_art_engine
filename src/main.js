@@ -47,13 +47,11 @@ const buildSetup = () => {
 
 const getRarityWeight = (_str) => {
   let nameWithoutExtension = _str.slice(0, -4);
-  var nameWithoutWeight = Number(
-    nameWithoutExtension.split(rarityDelimiter).pop()
-  );
-  if (isNaN(nameWithoutWeight)) {
-    nameWithoutWeight = 1;
+  var rarityWeight = Number(nameWithoutExtension.split(rarityDelimiter).pop());
+  if (isNaN(rarityWeight)) {
+    rarityWeight = 1;
   }
-  return nameWithoutWeight;
+  return rarityWeight;
 };
 
 const cleanDna = (_str) => {
