@@ -1,3 +1,7 @@
+const basePath = process.cwd();
+const getElements = require('../getElements');
+const layersDir = `${basePath}/layers`;
+
 const layersSetup = (layersOrder) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,

@@ -13,9 +13,16 @@ const shuffle = require(`${basePath}/node_modules/lodash/shuffle`);
 const saveMetaDataSingleFile = require(`${basePath}/src/functions/saveMetaDataSingleFile`);
 const filterDNAOptions = require(`${basePath}/src/functions/filterDNAOptions`);
 const buildSetup = require(`${basePath}/src/functions/buildSetup`);
-const cleanDna = require(`${basePath}/src/functions/cleanDna`);
 const getElements = require(`${basePath}/src/functions/getElements`);
 const constructLayerToDna = require(`${basePath}/src/functions/constructLayerToDna`);
+const layersSetup = require(`${basePath}/src/functions/layersSetup`);
+const { saveImage } = require(`${basePath}/src/functions/saveImage`);
+const drawBackground = require(`${basePath}/src/functions/drawBackground`);
+const {
+  addMetadata,
+  metadataList,
+  attributesList,
+} = require(`${basePath}/src/functions/addMetadata`);
 
 const {
   format,
@@ -40,103 +47,12 @@ const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = format.smoothing;
 
-const metadataList = [];
-let attributesList = [];
+//const metadataList = [];
+//let attributesList = [];
 const dnaList = new Set();
 const DNA_DELIMITER = '-';
 
 let hashlipsGiffer = null;
-
-const layersSetup = (layersOrder) => {
-  const arr = [];
-  const layers = layersOrder.map((layerObj, index) => {
-    arr.push(`${layersDir}/${layerObj.name}/`);
-
-    return {
-      id: index,
-      elements: getElements(`${layersDir}/${layerObj.name}/`),
-      name:
-        layerObj.options?.displayName !== undefined
-          ? layerObj.options?.displayName
-          : layerObj.name,
-      blend:
-        layerObj.options?.blend !== undefined
-          ? layerObj.options?.blend
-          : 'source-over',
-      opacity:
-        layerObj.options?.opacity !== undefined ? layerObj.options?.opacity : 1,
-      bypassDNA:
-        layerObj.options?.bypassDNA !== undefined
-          ? layerObj.options?.bypassDNA
-          : false,
-    };
-  });
-
-  console.log('arr: ', arr);
-
-  return layers;
-};
-
-const saveImage = (_editionCount) => {
-  fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}.png`,
-    canvas.toBuffer('image/png')
-  );
-};
-
-const genColor = () => {
-  const hue = Math.floor(Math.random() * 360);
-  const pastel = `hsl(${hue}, 100%, ${background.brightness})`;
-  return pastel;
-};
-
-const drawBackground = () => {
-  ctx.fillStyle = background.static ? background.default : genColor();
-  ctx.fillRect(0, 0, format.width, format.height);
-};
-
-const addMetadata = (_dna, _edition) => {
-  const dateTime = Date.now();
-  let tempMetadata = {
-    name: `${namePrefix} #${_edition}`,
-    description: description,
-    image: `${baseUri}/${_edition}.png`,
-    dna: sha1(_dna),
-    edition: _edition,
-    date: dateTime,
-    ...extraMetadata,
-    attributes: attributesList,
-    compiler: 'HashLips Art Engine',
-  };
-  if (network === NETWORK.sol) {
-    tempMetadata = {
-      // Added metadata for solana
-      name: tempMetadata.name,
-      symbol: solanaMetadata.symbol,
-      description: tempMetadata.description,
-      // Added metadata for solana
-      seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
-      image: `${_edition}.png`,
-      // Added metadata for solana
-      external_url: solanaMetadata.external_url,
-      edition: _edition,
-      ...extraMetadata,
-      attributes: tempMetadata.attributes,
-      properties: {
-        files: [
-          {
-            uri: `${_edition}.png`,
-            type: 'image/png',
-          },
-        ],
-        category: 'image',
-        creators: solanaMetadata.creators,
-      },
-    };
-  }
-  metadataList.push(tempMetadata);
-  attributesList = [];
-};
 
 const addAttributes = (_element) => {
   const selectedElement = _element.layer.selectedElement;
@@ -216,6 +132,10 @@ const startCreating = async () => {
   debugLogs && console.log('Editions left to create: ', abstractedIndexes);
 
   while (layerConfigIndex < layerConfigurations.length) {
+    console.log(
+      'layerorder: ',
+      layerConfigurations[layerConfigIndex].layersOrder
+    );
     const layers = layersSetup(
       layerConfigurations[layerConfigIndex].layersOrder
     );
