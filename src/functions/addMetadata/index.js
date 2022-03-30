@@ -52,7 +52,7 @@ const addMetadata = (_dna, _edition, metadataList, attributesList) => {
   metadataList.push(tempMetadata);
   //console.log('metadatalist:', metadataList);
   attributesList = [];
-  return metadataList;
+  return { metadataList, attributesList };
 };
 
 module.exports = addMetadata;

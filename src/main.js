@@ -44,6 +44,18 @@ const DNA_DELIMITER = '-';
 
 let hashlipsGiffer = null;
 
+const updateCtx = (ctx, newCtx) => {
+  ctx = newCtx;
+};
+
+const updateMetadataList = (metadataList, newMetadaList) => {
+  metadataList = newMetadaList;
+};
+
+const updateAttributesList = (attributesList, newAttributesList) => {
+  attributesList = newAttributesList;
+};
+
 const addAttributes = (_element) => {
   const selectedElement = _element.layer.selectedElement;
   attributesList.push({
@@ -104,19 +116,6 @@ const constructLayerToDna = (_dna = '', _layers = []) => {
       selectedElement: selectedElement,
     };
   });
-};
-
-/**
- * Cleaning function for DNA strings. When DNA strings include an option, it
- * is added to the filename with a ?setting=value query string. It needs to be
- * removed to properly access the file name before Drawing.
- *
- * @param {String} _dna The entire newDNA string
- * @returns Cleaned DNA string without querystring parameters.
- */
-const removeQueryStrings = (_dna) => {
-  const query = /(\?.*$)/;
-  return _dna.replace(query, '');
 };
 
 const isDnaUnique = (_DnaList = new Set(), _dna = '') => {
@@ -184,7 +183,9 @@ const startCreating = async () => {
             hashlipsGiffer.start();
           }
           if (background.generate) {
-            drawBackground(ctx);
+            const copyStateCtx = ctx;
+            const newCtx = drawBackground(copyStateCtx);
+            updateCtx(ctx, newCtx);
           }
           renderObjectArray.forEach((renderObject, index) => {
             drawElement(
@@ -202,12 +203,18 @@ const startCreating = async () => {
           debugLogs &&
             console.log('Editions left to create: ', abstractedIndexes);
           saveImage(abstractedIndexes[0], canvas);
-          addMetadata(
+          const copyMetadaList = metadataList;
+          const copyAttributesList = attributesList;
+
+          const { newMetadaList, newAttributesList } = addMetadata(
             newDna,
             abstractedIndexes[0],
-            metadataList,
-            attributesList
+            copyMetadaList,
+            copyAttributesList
           );
+          updateMetadataList(metadataList, newMetadaList);
+          updateAttributesList(attributesList, newAttributesList);
+
           saveMetaDataSingleFile(abstractedIndexes[0], metadataList);
           console.log(
             `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
