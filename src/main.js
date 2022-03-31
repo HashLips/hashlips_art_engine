@@ -19,6 +19,7 @@ const saveImage = require(`${basePath}/src/functions/saveImage`);
 const drawBackground = require(`${basePath}/src/functions/drawBackground`);
 const addMetadata = require(`${basePath}/src/functions/addMetadata`);
 const constructLayerToDna = require(`${basePath}/src/functions/constructLayerToDna`);
+const drawElement = require(`${basePath}/src/functions/drawElement`);
 
 const {
   format,
@@ -56,14 +57,6 @@ const updateAttributesList = (attributesList, newAttributesList) => {
   attributesList = newAttributesList;
 };
 
-const addAttributes = (_element) => {
-  const selectedElement = _element.layer.selectedElement;
-  attributesList.push({
-    trait_type: _element.layer.name,
-    value: selectedElement.name,
-  });
-};
-
 const loadLayerImg = async (_layer) => {
   try {
     const image = await loadImage(`${_layer.selectedElement.path}`);
@@ -71,35 +64,6 @@ const loadLayerImg = async (_layer) => {
   } catch (error) {
     console.error('Error loading image:', error);
   }
-};
-
-const addText = (_sig, x, y, size) => {
-  ctx.fillStyle = text.color;
-  ctx.font = `${text.weight} ${size}pt ${text.family}`;
-  ctx.textBaseline = text.baseline;
-  ctx.textAlign = text.align;
-  ctx.fillText(_sig, x, y);
-};
-
-const drawElement = (_renderObject, _index, _layersLen) => {
-  ctx.globalAlpha = _renderObject.layer.opacity;
-  ctx.globalCompositeOperation = _renderObject.layer.blend;
-  text.only
-    ? addText(
-        `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
-        text.xGap,
-        text.yGap * (_index + 1),
-        text.size
-      )
-    : ctx.drawImage(
-        _renderObject.loadedImage,
-        0,
-        0,
-        format.width,
-        format.height
-      );
-
-  addAttributes(_renderObject);
 };
 
 const isDnaUnique = (_DnaList = new Set(), _dna = '') => {
@@ -172,11 +136,20 @@ const startCreating = async () => {
             updateCtx(ctx, newCtx);
           }
           renderObjectArray.forEach((renderObject, index) => {
-            drawElement(
+            const copyStateCtx = ctx;
+            const copyAttributesListState = attributesList;
+            const { newCtx, newAttributesList } = drawElement(
               renderObject,
               index,
-              layerConfigurations[layerConfigIndex].layersOrder.length
+              layerConfigurations[layerConfigIndex].layersOrder.length,
+              copyAttributesListState,
+              copyStateCtx,
+              text
             );
+
+            updateCtx(ctx, newCtx);
+            updateAttributesList(attributesList, newAttributesList);
+
             if (gif.export) {
               hashlipsGiffer.add();
             }
