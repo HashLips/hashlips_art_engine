@@ -14,11 +14,11 @@ const saveMetaDataSingleFile = require(`${basePath}/src/functions/saveMetaDataSi
 const filterDNAOptions = require(`${basePath}/src/functions/filterDNAOptions`);
 const buildSetup = require(`${basePath}/src/functions/buildSetup`);
 const getElements = require(`${basePath}/src/functions/getElements`);
-const cleanDna = require(`${basePath}/src/functions/cleanDna`);
 const layersSetup = require(`${basePath}/src/functions/layersSetup`);
 const saveImage = require(`${basePath}/src/functions/saveImage`);
 const drawBackground = require(`${basePath}/src/functions/drawBackground`);
 const addMetadata = require(`${basePath}/src/functions/addMetadata`);
+const constructLayerToDna = require(`${basePath}/src/functions/constructLayerToDna`);
 
 const {
   format,
@@ -66,10 +66,8 @@ const addAttributes = (_element) => {
 
 const loadLayerImg = async (_layer) => {
   try {
-    return new Promise(async (resolve) => {
-      const image = await loadImage(`${_layer.selectedElement.path}`);
-      resolve({ layer: _layer, loadedImage: image });
-    });
+    const image = await loadImage(`${_layer.selectedElement.path}`);
+    return { layer: _layer, loadedImage: image };
   } catch (error) {
     console.error('Error loading image:', error);
   }
@@ -102,20 +100,6 @@ const drawElement = (_renderObject, _index, _layersLen) => {
       );
 
   addAttributes(_renderObject);
-};
-
-const constructLayerToDna = (_dna = '', _layers = []) => {
-  return _layers.map((layer, index) => {
-    const selectedElement = layer.elements.find(
-      (e) => e.id === cleanDna(_dna.split(DNA_DELIMITER)[index])
-    );
-    return {
-      name: layer.name,
-      blend: layer.blend,
-      opacity: layer.opacity,
-      selectedElement: selectedElement,
-    };
-  });
 };
 
 const isDnaUnique = (_DnaList = new Set(), _dna = '') => {
@@ -198,7 +182,7 @@ const startCreating = async () => {
             }
           });
           if (gif.export) {
-            hashlipsGiffer.stop();
+            hashlipsGiffer.add();
           }
           debugLogs &&
             console.log('Editions left to create: ', abstractedIndexes);
@@ -222,9 +206,7 @@ const startCreating = async () => {
             )}`
           );
         });
-
         dnaList.add(filterDNAOptions(newDna));
-
         editionCount++;
         abstractedIndexes.shift();
       } else {
