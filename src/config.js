@@ -1,5 +1,4 @@
 const basePath = process.cwd();
-const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 
 const network = NETWORK.eth;
@@ -16,9 +15,9 @@ const solanaMetadata = {
   creators: [
     {
       address: "7fXNuer5sbZtaTEPhtJ5g5gNtuyRoKkvxdjEjEnPN4mC",
-      share: 100,
-    },
-  ],
+      share: 100
+    }
+  ]
 };
 
 // If you have selected Solana then the collection starts from 0 automatically
@@ -28,13 +27,24 @@ const layerConfigurations = [
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
+      { name: "Iris" },
+      { name: "Shine" },
+      { name: "Bottom lid" },
+      { name: "Top lid" }
+    ]
+  },
+  {
+    growEditionSizeTo: 25,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Eyeball" },
       { name: "Eye color" },
       { name: "Iris" },
       { name: "Shine" },
       { name: "Bottom lid" },
-      { name: "Top lid" },
-    ],
-  },
+      { name: "Top lid" }
+    ]
+  }
 ];
 
 const shuffleLayerConfigurations = false;
@@ -44,14 +54,14 @@ const debugLogs = false;
 const format = {
   width: 512,
   height: 512,
-  smoothing: false,
+  smoothing: false
 };
 
 const gif = {
   export: false,
   repeat: 0,
   quality: 100,
-  delay: 500,
+  delay: 500
 };
 
 const text = {
@@ -64,18 +74,18 @@ const text = {
   baseline: "top",
   weight: "regular",
   family: "Courier",
-  spacer: " => ",
+  spacer: " => "
 };
 
 const pixelFormat = {
-  ratio: 2 / 128,
+  ratio: 2 / 128
 };
 
 const background = {
   generate: true,
   brightness: "80%",
   static: false,
-  default: "#000000",
+  default: "#000000"
 };
 
 const extraMetadata = {};
@@ -88,16 +98,16 @@ const preview = {
   thumbPerRow: 5,
   thumbWidth: 50,
   imageRatio: format.height / format.width,
-  imageName: "preview.png",
+  imageName: "preview.png"
 };
 
-const preview_gif = {
+const previewGif = {
   numberOfImages: 5,
   order: "ASC", // ASC, DESC, MIXED
   repeat: 0,
   quality: 100,
   delay: 500,
-  imageName: "preview.gif",
+  imageName: "preview.gif"
 };
 
 module.exports = {
@@ -118,5 +128,5 @@ module.exports = {
   network,
   solanaMetadata,
   gif,
-  preview_gif,
+  previewGif
 };

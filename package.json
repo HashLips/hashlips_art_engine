@@ -19,7 +19,10 @@
     "pixelate": "node utils/pixelate.js",
     "update_info": "node utils/update_info.js",
     "preview_gif": "node utils/preview_gif.js",
-    "generate_metadata": "node utils/generate_metadata.js"
+    "generate_metadata": "node utils/generate_metadata.js",
+    "test": "jest",
+    "lint": "eslint src/**",
+    "lint:fix": "eslint src/** --fix"
   },
   "author": "Daniel Eugene Botha (HashLips)",
   "license": "MIT",
@@ -27,5 +30,23 @@
     "canvas": "^2.8.0",
     "gif-encoder-2": "^1.0.5",
     "sha1": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jest": "^26.1.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "husky": "^7.0.4",
+    "jest": "^27.5.1",
+    "lint-staged": "^12.3.7"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run test"
+    }
   }
 }
