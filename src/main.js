@@ -1,6 +1,6 @@
 const basePath = process.cwd();
 const { NETWORK } = require(`${basePath}/constants/network.js`);
-const fs = require("fs");
+const fs = require('fs');
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
 const buildDir = `${basePath}/build`;
@@ -13,204 +13,60 @@ const shuffle = require(`${basePath}/node_modules/lodash/shuffle`);
 const saveMetaDataSingleFile = require(`${basePath}/src/functions/saveMetaDataSingleFile`);
 const filterDNAOptions = require(`${basePath}/src/functions/filterDNAOptions`);
 const buildSetup = require(`${basePath}/src/functions/buildSetup`);
+const getElements = require(`${basePath}/src/functions/getElements`);
+const layersSetup = require(`${basePath}/src/functions/layersSetup`);
+const saveImage = require(`${basePath}/src/functions/saveImage`);
+const drawBackground = require(`${basePath}/src/functions/drawBackground`);
+const addMetadata = require(`${basePath}/src/functions/addMetadata`);
 const constructLayerToDna = require(`${basePath}/src/functions/constructLayerToDna`);
+const drawElement = require(`${basePath}/src/functions/drawElement`);
 
 const {
   format,
-  baseUri,
-  description,
   background,
   uniqueDnaTorrance,
   layerConfigurations,
-  rarityDelimiter,
   shuffleLayerConfigurations,
   debugLogs,
-  extraMetadata,
   text,
-  namePrefix,
   network,
-  solanaMetadata,
-  gif
+  gif,
 } = require(`${basePath}/src/config.js`);
 const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
 const canvas = createCanvas(format.width, format.height);
-const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext('2d');
 ctx.imageSmoothingEnabled = format.smoothing;
 
 const metadataList = [];
 let attributesList = [];
 const dnaList = new Set();
+const DNA_DELIMITER = '-';
 
 let hashlipsGiffer = null;
 
-const getRarityWeight = (_str) => {
-  const nameWithoutExtension = _str.slice(0, -4);
-  let nameWithoutWeight = Number(
-    nameWithoutExtension.split(rarityDelimiter).pop()
-  );
-  if (isNaN(nameWithoutWeight)) {
-    nameWithoutWeight = 1;
-  }
-  return nameWithoutWeight;
+const updateCtx = (ctx, newCtx) => {
+  ctx = newCtx;
 };
 
-const cleanName = (_str) => {
-  const nameWithoutExtension = _str.slice(0, -4);
-  const nameWithoutWeight = nameWithoutExtension.split(rarityDelimiter).shift();
-  return nameWithoutWeight;
+const updateMetadataList = (metadataList, newMetadaList) => {
+  metadataList = newMetadaList;
 };
 
-const getElements = (path) => {
-  return fs
-    .readdirSync(path)
-    .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
-    .map((i, index) => {
-      if (i.includes("-")) {
-        throw new Error(`layer name can not contain dashes, please fix: ${i}`);
-      }
-      return {
-        id: index,
-        name: cleanName(i),
-        filename: i,
-        path: `${path}${i}`,
-        weight: getRarityWeight(i)
-      };
-    });
-};
-
-const layersSetup = (layersOrder) => {
-  const layers = layersOrder.map((layerObj, index) => ({
-    id: index,
-    elements: getElements(`${layersDir}/${layerObj.name}/`),
-    name:
-      layerObj.options?.displayName !== undefined
-        ? layerObj.options?.displayName
-        : layerObj.name,
-    blend:
-      layerObj.options?.blend !== undefined
-        ? layerObj.options?.blend
-        : "source-over",
-    opacity:
-      layerObj.options?.opacity !== undefined
-        ? layerObj.options?.opacity
-        : 1,
-    bypassDNA:
-      layerObj.options?.bypassDNA !== undefined
-        ? layerObj.options?.bypassDNA
-        : false
-  }));
-  return layers;
-};
-
-const saveImage = (_editionCount) => {
-  fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}.png`,
-    canvas.toBuffer("image/png")
-  );
-};
-
-const genColor = () => {
-  const hue = Math.floor(Math.random() * 360);
-  const pastel = `hsl(${hue}, 100%, ${background.brightness})`;
-  return pastel;
-};
-
-const drawBackground = () => {
-  ctx.fillStyle = background.static ? background.default : genColor();
-  ctx.fillRect(0, 0, format.width, format.height);
-};
-
-const addMetadata = (_dna, _edition) => {
-  const dateTime = Date.now();
-  let tempMetadata = {
-    name: `${namePrefix} #${_edition}`,
-    description: description,
-    image: `${baseUri}/${_edition}.png`,
-    dna: sha1(_dna),
-    edition: _edition,
-    date: dateTime,
-    ...extraMetadata,
-    attributes: attributesList,
-    compiler: "HashLips Art Engine"
-  };
-  if (network === NETWORK.sol) {
-    tempMetadata = {
-      // Added metadata for solana
-      name: tempMetadata.name,
-      symbol: solanaMetadata.symbol,
-      description: tempMetadata.description,
-      // Added metadata for solana
-      seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
-      image: `${_edition}.png`,
-      // Added metadata for solana
-      external_url: solanaMetadata.external_url,
-      edition: _edition,
-      ...extraMetadata,
-      attributes: tempMetadata.attributes,
-      properties: {
-        files: [
-          {
-            uri: `${_edition}.png`,
-            type: "image/png"
-          }
-        ],
-        category: "image",
-        creators: solanaMetadata.creators
-      }
-    };
-  }
-  metadataList.push(tempMetadata);
-  attributesList = [];
-};
-
-const addAttributes = (_element) => {
-  const selectedElement = _element.layer.selectedElement;
-  attributesList.push({
-    trait_type: _element.layer.name,
-    value: selectedElement.name
-  });
+const updateAttributesList = (attributesList, newAttributesList) => {
+  attributesList = newAttributesList;
 };
 
 const loadLayerImg = async (_layer) => {
   try {
     const image = await loadImage(`${_layer.selectedElement.path}`);
-    return ({ layer: _layer, loadedImage: image });
+    return { layer: _layer, loadedImage: image };
   } catch (error) {
-    console.error("Error loading image:", error);
+    console.error('Error loading image:', error);
   }
 };
 
-const addText = (_sig, x, y, size) => {
-  ctx.fillStyle = text.color;
-  ctx.font = `${text.weight} ${size}pt ${text.family}`;
-  ctx.textBaseline = text.baseline;
-  ctx.textAlign = text.align;
-  ctx.fillText(_sig, x, y);
-};
-
-const drawElement = (_renderObject, _index, _layersLen) => {
-  ctx.globalAlpha = _renderObject.layer.opacity;
-  ctx.globalCompositeOperation = _renderObject.layer.blend;
-  text.only
-    ? addText(
-        `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
-        text.xGap,
-        text.yGap * (_index + 1),
-        text.size
-    )
-    : ctx.drawImage(
-      _renderObject.loadedImage,
-      0,
-      0,
-      format.width,
-      format.height
-    );
-
-  addAttributes(_renderObject);
-};
-
-const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
+const isDnaUnique = (_DnaList = new Set(), _dna = '') => {
   const _filteredDNA = filterDNAOptions(_dna);
   return !_DnaList.has(_filteredDNA);
 };
@@ -227,15 +83,19 @@ const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
 
-  const growEditionSizeTo = layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
-  const abstractedIndexesStart = getAbstractedIndexes(growEditionSizeTo, startI);
+  const growEditionSizeTo =
+    layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+  const abstractedIndexesStart = getAbstractedIndexes(
+    growEditionSizeTo,
+    startI
+  );
   abstractedIndexes = abstractedIndexes.concat(abstractedIndexesStart);
 
   if (shuffleLayerConfigurations) {
     abstractedIndexes = shuffle(abstractedIndexes);
   }
 
-  debugLogs && console.log("Editions left to create: ", abstractedIndexes);
+  debugLogs && console.log('Editions left to create: ', abstractedIndexes);
 
   while (layerConfigIndex < layerConfigurations.length) {
     const layers = layersSetup(
@@ -256,52 +116,74 @@ const startCreating = async () => {
           loadedElements.push(loadLayerImg(layer));
         });
 
-        const renderObjectArray = await Promise.all(loadedElements);
-        debugLogs && console.log("Clearing canvas");
-        ctx.clearRect(0, 0, format.width, format.height);
-        if (gif.export) {
-          hashlipsGiffer = new HashlipsGiffer(
-            canvas,
-            ctx,
+        await Promise.all(loadedElements).then((renderObjectArray) => {
+          debugLogs && console.log('Clearing canvas');
+          ctx.clearRect(0, 0, format.width, format.height);
+          if (gif.export) {
+            hashlipsGiffer = new HashlipsGiffer(
+              canvas,
+              ctx,
               `${buildDir}/gifs/${abstractedIndexes[0]}.gif`,
               gif.repeat,
               gif.quality,
               gif.delay
-          );
-          hashlipsGiffer.start();
-        }
-        if (background.generate) {
-          drawBackground();
-        }
-        renderObjectArray.forEach((renderObject, index) => {
-          drawElement(
-            renderObject,
-            index,
-            layerConfigurations[layerConfigIndex].layersOrder.length
-          );
+            );
+            hashlipsGiffer.start();
+          }
+          if (background.generate) {
+            const copyStateCtx = ctx;
+            const newCtx = drawBackground(copyStateCtx);
+            updateCtx(ctx, newCtx);
+          }
+          renderObjectArray.forEach((renderObject, index) => {
+            const copyStateCtx = ctx;
+            const copyAttributesListState = attributesList;
+            const { newCtx, newAttributesList } = drawElement(
+              renderObject,
+              index,
+              layerConfigurations[layerConfigIndex].layersOrder.length,
+              copyAttributesListState,
+              copyStateCtx,
+              text
+            );
+
+            updateCtx(ctx, newCtx);
+            updateAttributesList(attributesList, newAttributesList);
+
+            if (gif.export) {
+              hashlipsGiffer.add();
+            }
+          });
           if (gif.export) {
             hashlipsGiffer.add();
           }
-        });
-        if (gif.export) {
-          hashlipsGiffer.stop();
-        }
-        debugLogs && console.log("Editions left to create: ", abstractedIndexes);
-        saveImage(abstractedIndexes[0]);
-        addMetadata(newDna, abstractedIndexes[0]);
-        saveMetaDataSingleFile(abstractedIndexes[0], metadataList);
-        console.log(
+          debugLogs &&
+            console.log('Editions left to create: ', abstractedIndexes);
+          saveImage(abstractedIndexes[0], canvas);
+          const copyMetadaList = metadataList;
+          const copyAttributesList = attributesList;
+
+          const { newMetadaList, newAttributesList } = addMetadata(
+            newDna,
+            abstractedIndexes[0],
+            copyMetadaList,
+            copyAttributesList
+          );
+          updateMetadataList(metadataList, newMetadaList);
+          updateAttributesList(attributesList, newAttributesList);
+
+          saveMetaDataSingleFile(abstractedIndexes[0], metadataList);
+          console.log(
             `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
               newDna
             )}`
-        );
-
+          );
+        });
         dnaList.add(filterDNAOptions(newDna));
-
         editionCount++;
         abstractedIndexes.shift();
       } else {
-        console.log("DNA exists!");
+        console.log('DNA exists!');
         failedCount++;
         if (failedCount >= uniqueDnaTorrance) {
           console.log(
