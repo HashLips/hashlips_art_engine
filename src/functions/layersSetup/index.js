@@ -1,5 +1,5 @@
 const basePath = process.cwd();
-const getElements = require('../getElements');
+const getElements = require("../getElements");
 const layersDir = `${basePath}/layers`;
 
 const layersSetup = (layersOrder) => {
@@ -13,13 +13,13 @@ const layersSetup = (layersOrder) => {
     blend:
       layerObj.options?.blend !== undefined
         ? layerObj.options?.blend
-        : 'source-over',
+        : "source-over",
     opacity:
       layerObj.options?.opacity !== undefined ? layerObj.options?.opacity : 1,
     bypassDNA:
       layerObj.options?.bypassDNA !== undefined
         ? layerObj.options?.bypassDNA
-        : false,
+        : false
   }));
   return layers;
 };

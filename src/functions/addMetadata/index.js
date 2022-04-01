@@ -5,7 +5,7 @@ const {
   extraMetadata,
   namePrefix,
   network,
-  solanaMetadata,
+  solanaMetadata
 } = require(`${basePath}/src/config.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const sha1 = require(`${basePath}/node_modules/sha1`);
@@ -21,7 +21,7 @@ const addMetadata = (_dna, _edition, metadataList, attributesList) => {
     date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
-    compiler: 'HashLips Art Engine',
+    compiler: "HashLips Art Engine"
   };
   if (network === NETWORK.sol) {
     tempMetadata = {
@@ -41,16 +41,16 @@ const addMetadata = (_dna, _edition, metadataList, attributesList) => {
         files: [
           {
             uri: `${_edition}.png`,
-            type: 'image/png',
-          },
+            type: "image/png"
+          }
         ],
-        category: 'image',
-        creators: solanaMetadata.creators,
-      },
+        category: "image",
+        creators: solanaMetadata.creators
+      }
     };
   }
   metadataList.push(tempMetadata);
-  //console.log('metadatalist:', metadataList);
+  // console.log('metadatalist:', metadataList);
   attributesList = [];
   return { metadataList, attributesList };
 };

@@ -1,8 +1,8 @@
-const addAttributes = require('./index');
-const { mockDataInput, mockDataOutput } = require('./inputOutputData.js');
+const addAttributes = require("./index");
+const { mockDataInput, mockDataOutput } = require("./inputOutputData.js");
 
-describe('addAttributes cero', () => {
-  test('addAttributes', () => {
+describe("addAttributes cero", () => {
+  test("addAttributes", () => {
     const resultNewDataAttribute = addAttributes(
       mockDataInput._element,
       mockDataInput.attributesList
