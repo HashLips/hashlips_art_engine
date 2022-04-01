@@ -1,10 +1,9 @@
 const basePath = process.cwd();
 const { NETWORK } = require(`${basePath}/constants/network.js`);
-const fs = require('fs');
+const fs = require("fs");
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
 const buildDir = `${basePath}/build`;
-const layersDir = `${basePath}/layers`;
 
 // functions
 const getAbstractedIndexes = require(`${basePath}/src/functions/getAbstractedIndexes`);
@@ -30,18 +29,17 @@ const {
   debugLogs,
   text,
   network,
-  gif,
+  gif
 } = require(`${basePath}/src/config.js`);
 const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
 const canvas = createCanvas(format.width, format.height);
-const ctx = canvas.getContext('2d');
+const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;
 
 const metadataList = [];
-let attributesList = [];
+const attributesList = [];
 const dnaList = new Set();
-const DNA_DELIMITER = '-';
 
 let hashlipsGiffer = null;
 
@@ -62,11 +60,11 @@ const loadLayerImg = async (_layer) => {
     const image = await loadImage(`${_layer.selectedElement.path}`);
     return { layer: _layer, loadedImage: image };
   } catch (error) {
-    console.error('Error loading image:', error);
+    console.error("Error loading image:", error);
   }
 };
 
-const isDnaUnique = (_DnaList = new Set(), _dna = '') => {
+const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
   const _filteredDNA = filterDNAOptions(_dna);
   return !_DnaList.has(_filteredDNA);
 };
@@ -95,7 +93,7 @@ const startCreating = async () => {
     abstractedIndexes = shuffle(abstractedIndexes);
   }
 
-  debugLogs && console.log('Editions left to create: ', abstractedIndexes);
+  debugLogs && console.log("Editions left to create: ", abstractedIndexes);
 
   while (layerConfigIndex < layerConfigurations.length) {
     const layers = layersSetup(
@@ -117,7 +115,7 @@ const startCreating = async () => {
         });
 
         await Promise.all(loadedElements).then((renderObjectArray) => {
-          debugLogs && console.log('Clearing canvas');
+          debugLogs && console.log("Clearing canvas");
           ctx.clearRect(0, 0, format.width, format.height);
           if (gif.export) {
             hashlipsGiffer = new HashlipsGiffer(
@@ -158,7 +156,7 @@ const startCreating = async () => {
             hashlipsGiffer.add();
           }
           debugLogs &&
-            console.log('Editions left to create: ', abstractedIndexes);
+            console.log("Editions left to create: ", abstractedIndexes);
           saveImage(abstractedIndexes[0], canvas);
           const copyMetadaList = metadataList;
           const copyAttributesList = attributesList;
@@ -183,7 +181,7 @@ const startCreating = async () => {
         editionCount++;
         abstractedIndexes.shift();
       } else {
-        console.log('DNA exists!');
+        console.log("DNA exists!");
         failedCount++;
         if (failedCount >= uniqueDnaTorrance) {
           console.log(

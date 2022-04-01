@@ -6,7 +6,8 @@ module.exports = {
     jest: true
   },
   extends: [
-    "standard"
+    "standard",
+    "prettier"
   ],
   parserOptions: {
     ecmaVersion: "latest"

@@ -1,4 +1,4 @@
-const mockDataInput = '0:Black#1.png';
-const mockDataOutput = '0:Black';
+const mockDataInput = "0:Black#1.png";
+const mockDataOutput = "0:Black";
 module.exports.mockDataInput = mockDataInput;
 module.exports.mockDataOutput = mockDataOutput;

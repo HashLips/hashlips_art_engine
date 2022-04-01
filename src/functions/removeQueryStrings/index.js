@@ -8,7 +8,7 @@
  */
 const removeQueryStrings = (_dna) => {
   const query = /(\?.*$)/;
-  return _dna.replace(query, '');
+  return _dna.replace(query, "");
 };
 
 module.exports = removeQueryStrings;
