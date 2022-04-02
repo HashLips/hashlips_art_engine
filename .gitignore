@@ -140,3 +140,8 @@ dist
 # OSX
 
 .DS_Store
+
+# IDE-related shits(use vim, u dork)
+
+.vscode
+.idea
