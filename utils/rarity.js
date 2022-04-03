@@ -1,82 +1,114 @@
 const basePath = process.cwd();
 const fs = require("fs");
-const layersDir = `${basePath}/layers`;
+const cliProgress = require("cli-progress");
+const colors = require("ansi-colors");
+const buildDir = `${basePath}/build`;
+const { rarityConfigurations } = require(`${basePath}/src/config.js`);
 
-const { layerConfigurations } = require(`${basePath}/src/config.js`);
+// read the metadata file
+const rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
+// parse the metadata file
+const metadata = JSON.parse(rawdata);
 
-const { getElements } = require("../src/main.js");
+// output of the new data
+const output = [];
+// collection name
+const collection = `${metadata[0].name.slice("#", -3)}'s`;
 
-// read json data
-let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
-let data = JSON.parse(rawdata);
-let editionSize = data.length;
+// progress bar
+const bar1 = new cliProgress.SingleBar({
+  format:
+    "Creating Rarity Scores |" +
+    colors.magenta("{bar}") +
+    `| {percentage}% || {value}/{total} ${collection} || {duration}s remaining`,
+  barCompleteChar: "\u2588",
+  barIncompleteChar: "\u2591",
+  hideCursor: true,
+});
 
-let rarityData = [];
+// start the progress bar
+bar1.start(metadata.length, 0, { speed: "N/A" });
 
-// intialize layers to chart
-layerConfigurations.forEach((config) => {
-  let layers = config.layersOrder;
+// loop through the metadata
+for (let i = 0; i <= metadata.length - 1; i++) {
+  // get the current nft
+  const nft = metadata[i];
+  // get the traits of the nft
+  const traits = nft.attributes;
+  // create the data array
+  const data = [];
 
-  layers.forEach((layer) => {
-    // get elements for each layer
-    let elementsForLayer = [];
-    let elements = getElements(`${layersDir}/${layer.name}/`);
-    elements.forEach((element) => {
-      // just get name and weight for each element
-      let rarityDataElement = {
-        trait: element.name,
-        weight: element.weight.toFixed(0),
-        occurrence: 0, // initialize at 0
-      };
-      elementsForLayer.push(rarityDataElement);
+  // loop through the traits
+  for (let j = 0; j < traits.length; j++) {
+    // get the current trait
+    const trait = traits[j];
+    // get the trait type
+    const trait_type = trait.trait_type;
+    // get the value of each trait_type
+    const value = trait.value;
+    // get the count of each trait_type and value
+    const trait_type_value_count = metadata.filter((nft) =>
+      nft.attributes.some(
+        (trait) => trait.trait_type === trait_type && trait.value === value
+      )
+    ).length;
+    // calculate the score of each trait_type and value aka rarity score read more at: https://raritytools.medium.com/ranking-rarity-understanding-rarity-calculation-methods-86ceaeb9b98c
+    const trait_individual_score = 1 / (trait_type_value_count / metadata.length);
+    // round the score to two decimal places
+    const trait_individual_score_final = Math.round(trait_individual_score * 100) / 100;
+
+    // push the data to the data array
+    data.push({
+      trait_type: trait_type,
+      value: value,
+      count: trait_type_value_count,
+      score: trait_individual_score_final,
     });
-    let layerName =
-      layer.options?.["displayName"] != undefined
-        ? layer.options?.["displayName"]
-        : layer.name;
-    // don't include duplicate layers
-    if (!rarityData.includes(layer.name)) {
-      // add elements for each layer to chart
-      rarityData[layerName] = elementsForLayer;
+  }
+
+  // if the ranked is true then sort the data by total_score and add ranking
+  if (rarityConfigurations.ranked) {
+    output.sort((a, b) => b.total_score - a.total_score);
+    for (let i = 0; i <= output.length - 1; i++) {
+      output[i].rank = i + 1;
     }
-  });
-});
+  }
 
-// fill up rarity chart with occurrences from metadata
-data.forEach((element) => {
-  let attributes = element.attributes;
-  attributes.forEach((attribute) => {
-    let traitType = attribute.trait_type;
-    let value = attribute.value;
-
-    let rarityDataTraits = rarityData[traitType];
-    rarityDataTraits.forEach((rarityDataTrait) => {
-      if (rarityDataTrait.trait == value) {
-        // keep track of occurrences
-        rarityDataTrait.occurrence++;
-      }
+  // if the total_score is true then add the total_score to the output
+  if (rarityConfigurations.total_score) {
+    output.forEach((nft) => {
+      nft.total_score =
+        Math.round(nft.attributes.reduce((a, b) => a + b.score, 0) * 100) / 100;
     });
+  }
+
+  // else just push the name, token_id, and attributes to the output
+  output.push({
+    name: nft.name,
+    token_id: i + 1,
+    attributes: data,
   });
-});
 
-// convert occurrences to occurence string
-for (var layer in rarityData) {
-  for (var attribute in rarityData[layer]) {
-    // get chance
-    let chance =
-      ((rarityData[layer][attribute].occurrence / editionSize) * 100).toFixed(2);
-
-    // show two decimal places in percent
-    rarityData[layer][attribute].occurrence =
-      `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
+  // update the progress bar
+  if (i % 1 === 0) {
+    bar1.update(i + 1);
   }
 }
 
-// print out rarity data
-for (var layer in rarityData) {
-  console.log(`Trait type: ${layer}`);
-  for (var trait in rarityData[layer]) {
-    console.log(rarityData[layer][trait]);
-  }
-  console.log();
-}
+// stop the progress bar
+bar1.stop();
+
+// clear the console
+console.clear();
+
+// say that the rarity scores has been successfully created
+console.log(
+  colors.green(
+    `Successfully Created Rarity Scores for the ${collection} Collection!\n`,
+    `Check it on the build folder!`
+  )
+);
+
+// wrie the output to the build directory
+const json_data = JSON.stringify(output, null, 2);
+fs.writeFileSync(`${buildDir}/rarity_data.json`, json_data);

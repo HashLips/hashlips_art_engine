@@ -4,6 +4,12 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 
 const network = NETWORK.eth;
 
+// rarity configurations
+const rarityConfigurations = {
+  ranked: false,
+  total_score: false,
+};
+
 // General metadata for Ethereum
 const namePrefix = "Your Collection";
 const description = "Remember to replace this description";
@@ -119,4 +125,5 @@ module.exports = {
   solanaMetadata,
   gif,
   preview_gif,
+  rarityConfigurations
 };
