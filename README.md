@@ -20,11 +20,11 @@ To find out more please visit:
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/banner.png)
 
-Create generative art by using the canvas api and node js. Before you use the generation engine, make sure you have node.js(v10.18.0) installed.
+Create generative art by using the canvas API and node js. Before you use the generation engine, make sure you have node.js(v10.18.0) installed.
 
 ## Installation 🛠️
 
-If you are cloning the project then run this first, otherwise you can download the source code on the release page and skip this step.
+If you are cloning the project then run this first, otherwise, you can download the source code on the release page and skip this step.
 
 ```sh
 git clone https://github.com/HashLips/hashlips_art_engine.git
@@ -36,7 +36,7 @@ Go to the root of your folder and run this command if you have yarn installed.
 yarn install
 ```
 
-Alternatively you can run this command if you have node installed.
+Alternatively, you can run this command if you have node installed.
 
 ```sh
 npm install
@@ -65,9 +65,9 @@ const layerConfigurations = [
 ];
 ```
 
-The `name` of each layer object represents the name of the folder (in `/layers/`) that the images reside in.
+The `name` of each layer object represents the name of the folder (in `/layers/`) where the images reside in.
 
-Optionally you can now add multiple different `layerConfigurations` to your collection. Each configuration can be unique and have different layer orders, use the same layers or introduce new ones. This gives the artist flexibility when it comes to fine tuning their collections to their needs.
+Optionally you can now add multiple different `layerConfigurations` to your collection. Each configuration can be unique and have different layer orders, use the same layers or introduce new ones. This gives the artist flexibility when it comes to fine-tuning their collections to their needs.
 
 _Example:_ If you were creating a portrait design, you might have a background, then a head, a mouth, eyes, eyewear, and then headwear and you want to create a new race or just simple re-order the layers or even introduce new layers, then you're `layerConfigurations` and `layersOrder` would look something like this:
 
@@ -107,15 +107,15 @@ You can mix up the `layerConfigurations` order on how the images are saved by se
 
 If you want to have logs to debug and see what is happening when you generate images you can set the variable `debugLogs` in the `config.js` file to true. It is false by default, so you will only see general logs.
 
-If you want to play around with different blending modes, you can add a `blend: MODE.colorBurn` field to the layersOrder `options` object.
+If you want to play around with different blending modes, you can add a `blend: MODE.colorBurn` field to the layers order `options` object.
 
-If you need a layers to have a different opacity then you can add the `opacity: 0.7` field to the layersOrder `options` object as well.
+If you need a layer to have a different opacity then you can add the `opacity: 0.7` field to the layers order `options` object as well.
 
 If you want to have a layer _ignored_ in the DNA uniqueness check, you can set `bypassDNA: true` in the `options` object. This has the effect of making sure the rest of the traits are unique while not considering the `Background` Layers as traits, for example. The layers _are_ included in the final image.
 
-To use a different metadata attribute name you can add the `displayName: "Awesome Eye Color"` to the `options` object. All options are optional and can be addes on the same layer if you want to.
+To use a different metadata attribute name you can add the `displayName: "Awesome Eye Color"` to the `options` object. All options are optional and can be added to the same layer if you want to.
 
-Here is an example on how you can play around with both filter fields:
+Here is an example of how you can play around with both filter fields:
 
 ```js
 const layerConfigurations = [
@@ -178,7 +178,7 @@ const MODE = {
 };
 ```
 
-When you are ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
+When you are ready, run the following command and your outputted art will be in the `build/images` directory and the JSON in the `build/json` directory:
 
 ```sh
 npm run build
@@ -190,7 +190,7 @@ or
 node index.js
 ```
 
-The program will output all the images in the `build/images` directory along with the metadata files in the `build/json` directory. Each collection will have a `_metadata.json` file that consists of all the metadata in the collection inside the `build/json` directory. The `build/json` folder also will contain all the single json files that represent each image file. The single json file of a image will look something like this:
+The program will output all the images in the `build/images` directory along with the metadata files in the `build/json` directory. Each collection will have a `_metadata.json` file that consists of all the metadata in the collection inside the `build/json` directory. The `build/json` folder also will contain all the single JSON files that represent each image file. The single JSON file of an image will look something like this:
 
 ```json
 {
@@ -233,7 +233,7 @@ That's it, you're done.
 
 ### Updating baseUri for IPFS and description
 
-You might possibly want to update the baseUri and description after you have ran your collection. To update the baseUri and description simply run:
+You might possibly want to update the baseUri and description after you have run your collection. To update the baseUri and description simply run:
 
 ```sh
 npm run update_info
@@ -249,7 +249,7 @@ npm run preview
 
 ### Generate pixelated images from collection
 
-In order to convert images into pixelated images you would need a list of images that you want to convert. So run the generator first.
+To convert images into pixelated images you would need a list of images that you want to convert. So run the generator first.
 
 Then simply run this command:
 
@@ -268,9 +268,9 @@ const pixelFormat = {
 
 ### Generate GIF images from collection
 
-In order to export gifs based on the layers created, you just need to set the export on the `gif` object in the `src/config.js` file to `true`. You can also play around with the `repeat`, `quality` and the `delay` of the exported gif.
+To export gifs based on the layers created, you just need to set the export on the `gif` object in the `src/config.js` file to `true`. You can also play around with the `repeat`, `quality`, and the `delay` of the exported gif.
 
-Setting the `repeat: -1` will produce a one time render and `repeat: 0` will loop forever.
+Setting the `repeat: -1` will produce a one-time render and `repeat: 0` will loop forever.
 
 ```js
 const gif = {
