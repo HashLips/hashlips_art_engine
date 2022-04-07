@@ -33,6 +33,22 @@ const layerConfigurations = [
       { name: "Shine" },
       { name: "Bottom lid" },
       { name: "Top lid" },
+
+      // { name: "Fur" },
+      // { name: "Hair", 
+      //   options: {
+      //     subGroup: true, // existance of sub folder corresponding to each kind of fur
+      //     linkLayer: 7, // layer 7 of Fur
+      //   },
+      // },
+      // { name: "Hats",  
+      //   options: {
+      //     noneToReveal: ['Hat_type1.png', 'Hat_type2.png'], // list of hats
+      //                                    // revealed only when Hair is None
+      //     linkLayer: 8, // layer 8 of Hair
+      //   },
+      // },  
+
     ],
   },
 ];
