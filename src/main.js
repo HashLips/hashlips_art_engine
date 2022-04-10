@@ -106,6 +106,10 @@ const layersSetup = (layersOrder) => {
       layerObj.options?.["bypassDNA"] !== undefined
         ? layerObj.options?.["bypassDNA"]
         : false,
+    skipAttribute:
+    layerObj.options && layerObj.options["skipAttribute"] !== undefined
+        ? layerObj.options["skipAttribute"]
+        : false,
   }));
   return layers;
 };
@@ -171,12 +175,14 @@ const addMetadata = (_dna, _edition) => {
   attributesList = [];
 };
 
-const addAttributes = (_element) => {
+const addAttributes = (_element , _skipAttribute) => {
   let selectedElement = _element.layer.selectedElement;
-  attributesList.push({
-    trait_type: _element.layer.name,
-    value: selectedElement.name,
-  });
+  if(!_skipAttribute) {
+    attributesList.push({
+      trait_type: _element.layer.name,
+      value: selectedElement.name,
+    });
+  }
 };
 
 const loadLayerImg = async (_layer) => {
@@ -198,7 +204,8 @@ const addText = (_sig, x, y, size) => {
   ctx.fillText(_sig, x, y);
 };
 
-const drawElement = (_renderObject, _index, _layersLen) => {
+const drawElement = (_renderObject, _index, _layersOrder) => {
+  _layersLen = _layersOrder.length;
   ctx.globalAlpha = _renderObject.layer.opacity;
   ctx.globalCompositeOperation = _renderObject.layer.blend;
   text.only
@@ -215,8 +222,11 @@ const drawElement = (_renderObject, _index, _layersLen) => {
         format.width,
         format.height
       );
-
-  addAttributes(_renderObject);
+  let _skipAttribute = false;
+  if(_layersOrder[_index]["options"] && _layersOrder[_index]["options"]["skipAttribute"]) {
+    _skipAttribute  = _layersOrder[_index]["options"]["skipAttribute"];
+  }
+  addAttributes(_renderObject , _skipAttribute);
 };
 
 const constructLayerToDna = (_dna = "", _layers = []) => {
@@ -389,7 +399,7 @@ const startCreating = async () => {
             drawElement(
               renderObject,
               index,
-              layerConfigurations[layerConfigIndex].layersOrder.length
+              layersOrder
             );
             if (gif.export) {
               hashlipsGiffer.add();

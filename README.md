@@ -101,6 +101,25 @@ const layerConfigurations = [
 ];
 ```
 
+If you need to remove layer as attribute, you can use the `skipAttribute` option. For example
+
+```js
+const layerConfigurations = [
+  {
+    growEditionSizeTo: 100,
+    layersOrder: [
+      { name: "Head" , options : { skipAttribute : true } },
+      { name: "Mouth" },
+      { name: "Eyes" },
+      { name: "Eyeswear" },
+      { name: "Headwear" },
+    ],
+  },
+];
+```
+The layer `Head` will not be included as attribute in the json file.
+
+
 Update your `format` size, ie the outputted image size, and the `growEditionSizeTo` on each `layerConfigurations` object, which is the amount of variation outputted.
 
 You can mix up the `layerConfigurations` order on how the images are saved by setting the variable `shuffleLayerConfigurations` in the `config.js` file to true. It is false by default and will save all images in numerical order.
