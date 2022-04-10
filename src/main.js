@@ -107,7 +107,7 @@ const layersSetup = (layersOrder) => {
         ? layerObj.options?.["bypassDNA"]
         : false,
     skipAttribute:
-    layerObj.options && layerObj.options["skipAttribute"] !== undefined
+    layerObj.options?.["skipAttribute"] !== undefined
         ? layerObj.options["skipAttribute"]
         : false,
   }));
