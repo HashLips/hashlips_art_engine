@@ -100,6 +100,8 @@ const preview_gif = {
   imageName: "preview.gif",
 };
 
+const emptyName = 'empty';
+
 module.exports = {
   format,
   baseUri,
@@ -119,4 +121,5 @@ module.exports = {
   solanaMetadata,
   gif,
   preview_gif,
+  emptyName,
 };

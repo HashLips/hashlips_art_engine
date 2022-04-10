@@ -21,6 +21,7 @@ const {
   network,
   solanaMetadata,
   gif,
+  emptyName,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -225,7 +226,12 @@ const drawElement = (_renderObject, _index, _layersOrder) => {
     _skipAttribute  = _layersOrder[_index]["options"]["skipAttribute"];
   }
   if(!_skipAttribute) {
-    addAttributes(_renderObject);
+    let name = _renderObject.layer.selectedElement.name;
+    name = name.toLowerCase();
+    name = name.trim();
+    if(name !== emptyName) {
+      addAttributes(_renderObject);
+    }
   }
 };
 
