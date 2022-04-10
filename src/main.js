@@ -175,14 +175,12 @@ const addMetadata = (_dna, _edition) => {
   attributesList = [];
 };
 
-const addAttributes = (_element , _skipAttribute) => {
+const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
-  if(!_skipAttribute) {
-    attributesList.push({
-      trait_type: _element.layer.name,
-      value: selectedElement.name,
-    });
-  }
+  attributesList.push({
+    trait_type: _element.layer.name,
+    value: selectedElement.name,
+  });
 };
 
 const loadLayerImg = async (_layer) => {
@@ -226,7 +224,9 @@ const drawElement = (_renderObject, _index, _layersOrder) => {
   if(_layersOrder[_index]["options"] && _layersOrder[_index]["options"]["skipAttribute"]) {
     _skipAttribute  = _layersOrder[_index]["options"]["skipAttribute"];
   }
-  addAttributes(_renderObject , _skipAttribute);
+  if(!_skipAttribute) {
+    addAttributes(_renderObject);
+  }
 };
 
 const constructLayerToDna = (_dna = "", _layers = []) => {
