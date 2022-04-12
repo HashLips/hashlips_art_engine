@@ -38,11 +38,11 @@ const buildSetup = () => {
     fs.rmdirSync(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
-  fs.mkdirSync(`${buildDir}/json`);
-  fs.mkdirSync(`${buildDir}/images`);
-  if (gif.export) {
-    fs.mkdirSync(`${buildDir}/gifs`);
-  }
+
+  if (network.jsonDirPrefix)
+    fs.mkdirSync(`${buildDir}/${network.jsonDirPrefix}`);
+  if (network.mediaDirPrefix)
+    fs.mkdirSync(`${buildDir}/${network.mediaDirPrefix}`);
 };
 
 const getRarityWeight = (_str) => {
@@ -112,7 +112,7 @@ const layersSetup = (layersOrder) => {
 
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}.png`,
+    `${buildDir}/${network.mediaDirPrefix}$${_editionCount}.png`,
     canvas.toBuffer("image/png")
   );
 };
@@ -304,7 +304,7 @@ const createDna = (_layers) => {
 };
 
 const writeMetaData = (_data) => {
-  fs.writeFileSync(`${buildDir}/json/_metadata.json`, _data);
+  fs.writeFileSync(`${buildDir}/${network.jsonDirPrefix}_metadata.json`, _data);
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
@@ -315,7 +315,7 @@ const saveMetaDataSingleFile = (_editionCount) => {
       )
     : null;
   fs.writeFileSync(
-    `${buildDir}/json/${_editionCount}.json`,
+    `${buildDir}/${network.jsonDirPrefix}${_editionCount}.json`,
     JSON.stringify(metadata, null, 2)
   );
 };
@@ -375,7 +375,7 @@ const startCreating = async () => {
             hashlipsGiffer = new HashlipsGiffer(
               canvas,
               ctx,
-              `${buildDir}/gifs/${abstractedIndexes[0]}.gif`,
+              `${buildDir}/${network.mediaDirPrefix}${abstractedIndexes[0]}.gif`,
               gif.repeat,
               gif.quality,
               gif.delay

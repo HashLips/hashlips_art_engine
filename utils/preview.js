@@ -6,7 +6,7 @@ const buildDir = `${basePath}/build`;
 const { preview } = require(`${basePath}/src/config.js`);
 
 // read json data
-const rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
+const rawdata = fs.readFileSync(`${basePath}/build/${network.jsonDirPrefix}_metadata.json`);
 const metadataList = JSON.parse(rawdata);
 
 const saveProjectPreviewImage = async (_data) => {
@@ -32,7 +32,7 @@ const saveProjectPreviewImage = async (_data) => {
   // Don't want to rely on "edition" for assuming index
   for (let index = 0; index < _data.length; index++) {
     const nft = _data[index];
-    await loadImage(`${buildDir}/images/${nft.edition}.png`).then((image) => {
+    await loadImage(`${buildDir}/${network.mediaDirPrefix}$${nft.edition}.png`).then((image) => {
       previewCtx.drawImage(
         image,
         thumbWidth * (index % thumbPerRow),

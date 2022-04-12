@@ -7,7 +7,7 @@ const { layerConfigurations } = require(`${basePath}/src/config.js`);
 const { getElements } = require("../src/main.js");
 
 // read json data
-let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
+let rawdata = fs.readFileSync(`${basePath}/build/${network.jsonDirPrefix}_metadata.json`);
 let data = JSON.parse(rawdata);
 let editionSize = data.length;
 
