@@ -2,8 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const { createCanvas, loadImage } = require("canvas");
 const basePath = process.cwd();
-const buildDir = `${basePath}/build/json`;
-const inputDir = `${basePath}/build/images`;
+const buildDir = `${basePath}/build/${network.jsonDirPath}`;
+const inputDir = `${basePath}/build/${network.jsonDirPath}`;
 const {
   format,
   namePrefix,
@@ -11,6 +11,7 @@ const {
   baseUri,
 } = require(`${basePath}/src/config.js`);
 const console = require("console");
+const { network } = require("../src/config");
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 const metadataList = [];
@@ -153,7 +154,7 @@ const saveMetadata = (_loadedImageObject) => {
 };
 
 const writeMetaData = (_data) => {
-  fs.writeFileSync(`${buildDir}/_metadata.json`, _data);
+  fs.writeFileSync(`${buildDir}/${network.metadataFileName}`, _data);
 };
 
 const startCreating = async () => {

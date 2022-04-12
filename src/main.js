@@ -1,5 +1,5 @@
 const basePath = process.cwd();
-const { NETWORK } = require(`${basePath}/constants/network.js`);
+const { NETWORK, metadataTypes } = require(`${basePath}/constants/network.js`);
 const fs = require("fs");
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
@@ -304,7 +304,10 @@ const createDna = (_layers) => {
 };
 
 const writeMetaData = (_data) => {
-  fs.writeFileSync(`${buildDir}/${network.jsonDirPrefix}_metadata.json`, _data);
+  fs.writeFileSync(
+    `${buildDir}/${network.jsonDirPrefix}${network.metadataFileName}`,
+    _data
+  );
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
@@ -426,7 +429,12 @@ const startCreating = async () => {
     }
     layerConfigIndex++;
   }
-  writeMetaData(JSON.stringify(metadataList, null, 2));
+
+  if (network.metadataType == metadataTypes.basic)
+    writeMetaData(JSON.stringify(metadataList, null, 2));
+  else if (network.metadataType == metadataTypes.rarities) {
+    // calculate rarities and generate metadata file
+  }
 };
 
 module.exports = { startCreating, buildSetup, getElements };

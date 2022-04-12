@@ -178,7 +178,7 @@ const MODE = {
 };
 ```
 
-When you are ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
+When you are ready, run the following command and your outputted art will be in the `build${network.mediaDirPrefix}` directory and the json in the `build${network.jsonDirPrefix}` directory:
 
 ```sh
 npm run build
@@ -190,7 +190,7 @@ or
 node index.js
 ```
 
-The program will output all the images in the `build/images` directory along with the metadata files in the `build/json` directory. Each collection will have a `_metadata.json` file that consists of all the metadata in the collection inside the `build/json` directory. The `build/json` folder also will contain all the single json files that represent each image file. The single json file of a image will look something like this:
+The program will output all the images in the `build${network.mediaDirPrefix}` directory along with the metadata files in the `build${network.jsonDirPrefix}` directory. Each collection will have a `${network.metadataFileName}` file that consists of all the metadata in the collection inside the `build${network.jsonDirPrefix}` directory. The `build${network.jsonDirPrefix}` folder also will contain all the single json files that represent each image file. The single json file of a image will look something like this:
 
 ```json
 {
