@@ -4,11 +4,14 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 
 const network = NETWORK.egld;
 
-// General metadata for Ethereum
+// General metadata
 const namePrefix = "Your Collection";
 const description = "Remember to replace this description";
+
+// Ethereum metadata
 const baseUri = "ipfs://NewUriToReplace";
 
+// Solana metadata
 const solanaMetadata = {
   symbol: "YC",
   seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%

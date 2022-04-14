@@ -59,7 +59,7 @@ data.forEach((element) => {
   });
 });
 
-// convert occurrences to occurence string
+// convert occurrences to occurrences string
 for (var layer in rarityData) {
   for (var attribute in rarityData[layer]) {
     // get chance

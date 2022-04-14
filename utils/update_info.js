@@ -11,19 +11,25 @@ const {
 } = require(`${basePath}/src/config.js`);
 
 // read json data
-let rawdata = fs.readFileSync(`${basePath}/build/${network.jsonDirPrefix}${network.metadataFileName}`);
+let rawdata = fs.readFileSync(
+  `${basePath}/build/${network.jsonDirPrefix}${network.metadataFileName}`
+);
 let data = JSON.parse(rawdata);
 
 data.forEach((item) => {
+  // general metadata
+  item.description = description;
+
+  // custom metadata
+  if (network == NETWORK.eth) {
+    item.image = `${baseUri}/${item.edition}.png`;
+    item.name = `${namePrefix} #${item.edition}`;
+  }
   if (network == NETWORK.sol) {
     item.name = `${namePrefix} #${item.edition}`;
-    item.description = description;
     item.creators = solanaMetadata.creators;
-  } else {
-    item.name = `${namePrefix} #${item.edition}`;
-    item.description = description;
-    item.image = `${baseUri}/${item.edition}.png`;
   }
+
   fs.writeFileSync(
     `${basePath}/build/${network.jsonDirPrefix}${item.edition}.json`,
     JSON.stringify(item, null, 2)

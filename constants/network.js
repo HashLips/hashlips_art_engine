@@ -6,8 +6,17 @@ const metadataTypes = {
 };
 
 const NETWORK = {
+  egld: {
+    name: "egld",
+    startIdx: 1,
+    jsonDirPrefix: "",
+    mediaDirPrefix: "",
+    metadataFileName: "_metadata.json",
+    metadataType: metadataTypes.rarities,
+  },
   eth: {
     name: "eth",
+    startIdx: 1,
     jsonDirPrefix: "json/",
     mediaDirPrefix: "media/",
     metadataFileName: "_metadata.json",
@@ -15,17 +24,11 @@ const NETWORK = {
   },
   sol: {
     name: "sol",
+    startIdx: 0,
     jsonDirPrefix: "json/",
     mediaDirPrefix: "media/",
     metadataFileName: "_metadata.json",
     metadataType: metadataTypes.basic,
-  },
-  egld: {
-    name: "egld",
-    jsonDirPrefix: "",
-    mediaDirPrefix: "",
-    metadataFileName: "_metadata.json",
-    metadataType: metadataTypes.rarities,
   },
 };
 
