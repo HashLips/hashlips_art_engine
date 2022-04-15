@@ -113,7 +113,7 @@ const layersSetup = (layersOrder) => {
 
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
-    `${buildDir}/${network.mediaDirPrefix}$${_editionCount}.png`,
+    `${buildDir}/${network.mediaDirPrefix}${network.mediaFilePrefix}${_editionCount}.png`,
     canvas.toBuffer("image/png")
   );
 };
@@ -191,7 +191,7 @@ const addRarityMetadata = () => {
   // currently using https://github.com/xterr/nft-generator/blob/d8992d2bcfa729a6b2ef443f9404ffa28102111b/src/components/RarityResolver.ts logic
   // ps: the only difference is that the attributeRarityNormed is calculated only once (in case there are NFTs with less/more attributes than others)
   // todo: add multiple rarity implementations
-  
+
   let traitOccurances = [];
   let totalAttributesCnt = 0;
 
@@ -544,7 +544,7 @@ const startCreating = async () => {
   }
 
   // build rarity (if needed)
-  if ((network.metadataType = metadataTypes.rarities)) {
+  if ((network.metadataType == metadataTypes.rarities)) {
     addRarityMetadata();
   }
 

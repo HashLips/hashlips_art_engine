@@ -1,7 +1,7 @@
 const metadataTypes = {
-  // metadata file will contain all individual metadata files (e.g. eth$, sol$)
+  // metadata file will contain all individual metadata files (common for eth$, sol$)
   basic: 0,
-  // metadata file will contain only rarities (e.g. egld$)
+  // metadata file will contain only rarities (common egld$)
   rarities: 1,
 };
 
@@ -11,6 +11,7 @@ const NETWORK = {
     startIdx: 1,
     jsonDirPrefix: "",
     mediaDirPrefix: "",
+    mediaFilePrefix: "",
     metadataFileName: "_metadata.json",
     metadataType: metadataTypes.rarities,
   },
@@ -19,6 +20,7 @@ const NETWORK = {
     startIdx: 1,
     jsonDirPrefix: "json/",
     mediaDirPrefix: "media/",
+    mediaFilePrefix: "$",
     metadataFileName: "_metadata.json",
     metadataType: metadataTypes.basic,
   },
@@ -27,6 +29,7 @@ const NETWORK = {
     startIdx: 0,
     jsonDirPrefix: "json/",
     mediaDirPrefix: "media/",
+    mediaFilePrefix: "$",
     metadataFileName: "_metadata.json",
     metadataType: metadataTypes.basic,
   },
