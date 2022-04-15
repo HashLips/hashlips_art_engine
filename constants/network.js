@@ -9,9 +9,6 @@ const NETWORK = {
   egld: {
     name: "egld",
     startIdx: 1,
-    jsonDirPrefix: "",
-    mediaDirPrefix: "",
-    mediaFilePrefix: "",
     metadataFileName: "_metadata.json",
     metadataType: metadataTypes.rarities,
   },

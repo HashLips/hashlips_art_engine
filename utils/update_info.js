@@ -12,7 +12,7 @@ const {
 
 // read json data
 let rawdata = fs.readFileSync(
-  `${basePath}/build/${network.jsonDirPrefix}${network.metadataFileName}`
+  `${basePath}/build/${network.jsonDirPrefix ?? ""}${network.metadataFileName}`
 );
 let data = JSON.parse(rawdata);
 
@@ -31,13 +31,13 @@ data.forEach((item) => {
   }
 
   fs.writeFileSync(
-    `${basePath}/build/${network.jsonDirPrefix}${item.edition}.json`,
+    `${basePath}/build/${network.jsonDirPrefix ?? ""}${item.edition}.json`,
     JSON.stringify(item, null, 2)
   );
 });
 
 fs.writeFileSync(
-  `${basePath}/build/${network.jsonDirPrefix}${network.metadataFileName}`,
+  `${basePath}/build/${network.jsonDirPrefix ?? ""}${network.metadataFileName}`,
   JSON.stringify(data, null, 2)
 );
 

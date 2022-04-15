@@ -41,9 +41,9 @@ const buildSetup = () => {
   fs.mkdirSync(buildDir);
 
   if (network.jsonDirPrefix)
-    fs.mkdirSync(`${buildDir}/${network.jsonDirPrefix}`);
+    fs.mkdirSync(`${buildDir}/${network.jsonDirPrefix ?? ""}`);
   if (network.mediaDirPrefix)
-    fs.mkdirSync(`${buildDir}/${network.mediaDirPrefix}`);
+    fs.mkdirSync(`${buildDir}/${network.mediaDirPrefix ?? ""}`);
 };
 
 const getRarityWeight = (_str) => {
@@ -113,7 +113,9 @@ const layersSetup = (layersOrder) => {
 
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
-    `${buildDir}/${network.mediaDirPrefix}${network.mediaFilePrefix}${_editionCount}.png`,
+    `${buildDir}/${network.mediaDirPrefix ?? ""}${
+      network.mediaFilePrefix ?? ""
+    }${_editionCount}.png`,
     canvas.toBuffer("image/png")
   );
 };
@@ -397,7 +399,7 @@ const createDna = (_layers) => {
 
 const writeMetaData = (_data) => {
   fs.writeFileSync(
-    `${buildDir}/${network.jsonDirPrefix}${network.metadataFileName}`,
+    `${buildDir}/${network.jsonDirPrefix ?? ""}${network.metadataFileName}`,
     _data
   );
 };
@@ -426,7 +428,7 @@ const saveIndividualMetadataFiles = (abstractedIndexes) => {
         )
       : null;
     fs.writeFileSync(
-      `${buildDir}/${network.jsonDirPrefix}${
+      `${buildDir}/${network.jsonDirPrefix ?? ""}${
         item.edition || abstractedIndexes[idx]
       }.json`,
       JSON.stringify(item, null, 2)
@@ -492,7 +494,7 @@ const startCreating = async () => {
             hashlipsGiffer = new HashlipsGiffer(
               canvas,
               ctx,
-              `${buildDir}/${network.mediaDirPrefix}${abstractedIndexes[0]}.gif`,
+              `${buildDir}/${network.mediaDirPrefix ?? ""}${abstractedIndexes[0]}.gif`,
               gif.repeat,
               gif.quality,
               gif.delay
@@ -544,7 +546,7 @@ const startCreating = async () => {
   }
 
   // build rarity (if needed)
-  if ((network.metadataType == metadataTypes.rarities)) {
+  if (network.metadataType == metadataTypes.rarities) {
     addRarityMetadata();
   }
 
