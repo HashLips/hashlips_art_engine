@@ -1,6 +1,8 @@
 const basePath = process.cwd();
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const fs = require("fs");
+const { metadataTypes } = require("../constants/network");
+const { getMetadataItems } = require(`${basePath}/utils/common.js`);
 
 const {
   baseUri,
@@ -11,22 +13,23 @@ const {
 } = require(`${basePath}/src/config.js`);
 
 // read json data
-let rawdata = fs.readFileSync(
-  `${basePath}/build/${network.jsonDirPrefix ?? ""}${network.metadataFileName}`
-);
-let data = JSON.parse(rawdata);
+let data = getMetadataItems();
 
+let idx = network.startIdx;
 data.forEach((item) => {
   // general metadata
   item.description = description;
+  if (network.metadataType != metadataTypes.basic) {
+    item.name = `${namePrefix} #${idx++}`;
+  } else {
+    item.name = `${namePrefix} #${item.edition}`;
+  }
 
   // custom metadata
   if (network == NETWORK.eth) {
     item.image = `${baseUri}/${item.edition}.png`;
-    item.name = `${namePrefix} #${item.edition}`;
   }
   if (network == NETWORK.sol) {
-    item.name = `${namePrefix} #${item.edition}`;
     item.creators = solanaMetadata.creators;
   }
 
@@ -36,10 +39,14 @@ data.forEach((item) => {
   );
 });
 
-fs.writeFileSync(
-  `${basePath}/build/${network.jsonDirPrefix ?? ""}${network.metadataFileName}`,
-  JSON.stringify(data, null, 2)
-);
+if (network.metadataType == metadataTypes.basic) {
+  fs.writeFileSync(
+    `${basePath}/build/${network.jsonDirPrefix ?? ""}${
+      network.metadataFileName
+    }`,
+    JSON.stringify(data, null, 2)
+  );
+}
 
 if (network == NETWORK.sol) {
   console.log(`Updated description for images to ===> ${description}`);

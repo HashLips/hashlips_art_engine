@@ -3,13 +3,11 @@ const fs = require("fs");
 const { createCanvas, loadImage } = require("canvas");
 const buildDir = `${basePath}/build`;
 
-const { preview } = require(`${basePath}/src/config.js`);
+const { network, preview } = require(`${basePath}/src/config.js`);
+const { getMetadataItems } = require(`${basePath}/utils/common.js`);
 
 // read json data
-const rawdata = fs.readFileSync(
-  `${basePath}/build/${network.jsonDirPrefix ?? ""}${network.metadataFileName}`
-);
-const metadataList = JSON.parse(rawdata);
+const metadataList = getMetadataItems();
 
 const saveProjectPreviewImage = async (_data) => {
   // Extract from preview config
@@ -35,7 +33,9 @@ const saveProjectPreviewImage = async (_data) => {
   for (let index = 0; index < _data.length; index++) {
     const nft = _data[index];
     await loadImage(
-      `${buildDir}/${network.mediaDirPrefix ?? ""}$${nft.edition}.png`
+      `${buildDir}/${network.mediaDirPrefix ?? ""}${
+        network.mediaFilePrefix ?? ""
+      }${nft.edition}.png`
     ).then((image) => {
       previewCtx.drawImage(
         image,

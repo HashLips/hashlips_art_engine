@@ -1,8 +1,14 @@
 const metadataTypes = {
   // metadata file will contain all individual metadata files (common for eth$, sol$)
+  // no rarities
   basic: 0,
-  // metadata file will contain only rarities (common egld$)
-  rarities: 1,
+
+  /// metadata file will contain only rarity data for traits & attributes
+  /// individual metadata file will also contain rarity data
+  // rarities calculated using Trait Rarity (less accurate)
+  rarities_TR: 1,
+  // rarities calculated using JaccardDistances (most accurate)
+  rarities_JD: 2,
 };
 
 const NETWORK = {
@@ -10,7 +16,7 @@ const NETWORK = {
     name: "egld",
     startIdx: 1,
     metadataFileName: "_metadata.json",
-    metadataType: metadataTypes.rarities,
+    metadataType: metadataTypes.rarities_JD,
   },
   eth: {
     name: "eth",

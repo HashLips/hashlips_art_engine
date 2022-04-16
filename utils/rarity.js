@@ -1,19 +1,23 @@
 const basePath = process.cwd();
 const fs = require("fs");
+const { exit } = require("process");
+const { metadataTypes } = require("../constants/network.js");
+const { network } = require("../src/config.js");
 const layersDir = `${basePath}/layers`;
 
 const { layerConfigurations } = require(`${basePath}/src/config.js`);
+const { getMetadataItems } = require(`${basePath}/utils/common.js`);
 
 const { getElements } = require("../src/main.js");
 
 // read json data
-let rawdata = fs.readFileSync(`${basePath}/build/${network.jsonDirPrefix ?? ""}${network.metadataFileName}`);
-let data = JSON.parse(rawdata);
+let data = getMetadataItems();
 let editionSize = data.length;
 
 let rarityData = [];
 
 // intialize layers to chart
+console.log("layerconfig", layerConfigurations);
 layerConfigurations.forEach((config) => {
   let layers = config.layersOrder;
 
@@ -63,12 +67,15 @@ data.forEach((element) => {
 for (var layer in rarityData) {
   for (var attribute in rarityData[layer]) {
     // get chance
-    let chance =
-      ((rarityData[layer][attribute].occurrence / editionSize) * 100).toFixed(2);
+    let chance = (
+      (rarityData[layer][attribute].occurrence / editionSize) *
+      100
+    ).toFixed(2);
 
     // show two decimal places in percent
-    rarityData[layer][attribute].occurrence =
-      `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
+    rarityData[layer][
+      attribute
+    ].occurrence = `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
   }
 }
 

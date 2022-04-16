@@ -163,13 +163,13 @@ const addMetadata = (_dna, _edition) => {
       tempMetadata = {
         name: `${namePrefix} #${_edition}`,
         symbol: solanaMetadata.symbol,
-        description: tempMetadata.description,
+        description: description,
         seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
         image: `${_edition}.png`,
         external_url: solanaMetadata.external_url,
         edition: _edition,
         ...extraMetadata,
-        attributes: tempMetadata.attributes,
+        attributes: attributesList,
         properties: {
           files: [
             {
@@ -244,25 +244,121 @@ const addRarityMetadata = () => {
   });
 
   // calculate rarity for each item/NFT
-  metadataList.forEach((item) => {
-    item.rarity = {
-      avgRarity: 0,
-      statRarity: 1,
-      rarityScore: 0,
-      rarityScoreNormed: 0,
-      usedTraitsCount: item.attributes.length,
-    };
+  if (network.metadataType == metadataTypes.rarities_TR) {
+    metadataList.forEach((item) => {
+      item.rarity = {
+        avgRarity: 0,
+        statRarity: 1,
+        rarityScore: 0,
+        rarityScoreNormed: 0,
+        usedTraitsCount: item.attributes.length,
+      };
 
-    item.attributes.forEach((a) => {
-      const attributeData = rarityObject[a.trait_type][a.value];
-      // original buggy implementation (not ok if different nr. of attributes)
-      //attributeData.attributeRarityNormed = attributeData.attributeRarity * avgAttributesPerTrait / item.attributes.length;
-      item.rarity.avgRarity += attributeData.attributeFrequency;
-      item.rarity.statRarity *= attributeData.attributeFrequency;
-      item.rarity.rarityScore += attributeData.attributeRarity;
-      item.rarity.rarityScoreNormed += attributeData.attributeRarityNormed;
+      item.attributes.forEach((a) => {
+        const attributeData = rarityObject[a.trait_type][a.value];
+        // original buggy implementation (not ok if different nr. of attributes)
+        //attributeData.attributeRarityNormed = attributeData.attributeRarity * avgAttributesPerTrait / item.attributes.length;
+        item.rarity.avgRarity += attributeData.attributeFrequency;
+        item.rarity.statRarity *= attributeData.attributeFrequency;
+        item.rarity.rarityScore += attributeData.attributeRarity;
+        item.rarity.rarityScoreNormed += attributeData.attributeRarityNormed;
+      });
     });
+  } else if (network.metadataType == metadataTypes.rarities_JD) {
+    let z = [];
+    let avg = [];
+
+    // calculate z(i,j) and avg(i)
+    for (let i = 0; i < metadataList.length; i++) {
+      for (let j = 0; j < metadataList.length; j++) {
+        if (i == j) continue;
+
+        if (z[i] == null) {
+          z[i] = [];
+        }
+
+        if (z[i][j] == null || z[j][i] == null) {
+          const commonTraitsCnt = getObjectCommonCnt(
+            metadataList[i].attributes,
+            metadataList[j].attributes
+          );
+          const uniqueTraitsCnt = getObjectUniqueCnt(
+            metadataList[i].attributes,
+            metadataList[j].attributes
+          );
+
+          z[i][j] = commonTraitsCnt / uniqueTraitsCnt;
+        }
+      }
+
+      // ps: length-1 because there's always an empty cell in matrix, where i == j
+      avg[i] = z[i].reduce((a, b) => a + b, 0) / (z[i].length - 1);
+    }
+
+    // calculate z(i)
+    let jd = [];
+    let avgMax = Math.max(...avg);
+    let avgMin = Math.min(...avg);
+
+    for (let i = 0; i < metadataList.length; i++) {
+      jd[i] = ((avg[i] - avgMin) / (avgMax - avgMin)) * 100;
+    }
+
+    const jd_asc = [...jd].sort(function (a, b) {
+      return a - b;
+    });
+
+    // add JD rarity data to NFT/item
+    for (let i = 0; i < metadataList.length; i++) {
+      metadataList[i].rarityScore = jd[i];
+      metadataList[i].rarityRank = jd.length - jd_asc.indexOf(jd[i]);
+    }
+
+    //console.log("z", z);
+    //console.log("avg", avg);
+    //console.log("avgMax", avgMax);
+    //console.log("avgMin", avgMin);
+    //console.log("jd", jd);
+    //console.log("ranks", ranks);
+  }
+};
+
+const getArrayCommonCnt = (arr1, arr2) => {
+  var cnt = 0;
+  for (var i = 0; i < arr1.length; ++i) {
+    for (var j = 0; j < arr2.length; ++j) {
+      if (arr1[i] == arr2[j]) {
+        cnt++;
+      }
+    }
+  }
+  return cnt;
+};
+const getArrayUniqueCnt = (arr1, arr2) => {
+  return [...new Set(arr1.concat(arr2))].length;
+};
+
+const getObjectCommonCnt = (obj1, obj2) => {
+  let arr1 = [];
+  let arr2 = [];
+  Object.entries(obj1).forEach((entry) => {
+    arr1.push(JSON.stringify(entry[1]));
   });
+  Object.entries(obj2).forEach((entry) => {
+    arr2.push(JSON.stringify(entry[1]));
+  });
+  return getArrayCommonCnt(arr1, arr2);
+};
+const getObjectUniqueCnt = (obj1, obj2) => {
+  let arr1 = [];
+  let arr2 = [];
+  Object.entries(obj1).forEach((entry) => {
+    arr1.push(JSON.stringify(entry[1]));
+  });
+  Object.entries(obj2).forEach((entry) => {
+    arr2.push(JSON.stringify(entry[1]));
+  });
+  return getArrayUniqueCnt(arr1, arr2);
 };
 
 const addAttributes = (_element) => {
@@ -494,7 +590,9 @@ const startCreating = async () => {
             hashlipsGiffer = new HashlipsGiffer(
               canvas,
               ctx,
-              `${buildDir}/${network.mediaDirPrefix ?? ""}${abstractedIndexes[0]}.gif`,
+              `${buildDir}/${network.mediaDirPrefix ?? ""}${
+                abstractedIndexes[0]
+              }.gif`,
               gif.repeat,
               gif.quality,
               gif.delay
@@ -546,7 +644,7 @@ const startCreating = async () => {
   }
 
   // build rarity (if needed)
-  if (network.metadataType == metadataTypes.rarities) {
+  if (network.metadataType != metadataTypes.basic) {
     addRarityMetadata();
   }
 
@@ -556,7 +654,7 @@ const startCreating = async () => {
   // save metadata.json
   if (network.metadataType == metadataTypes.basic)
     writeMetaData(JSON.stringify(metadataList, null, 2));
-  else if (network.metadataType == metadataTypes.rarities) {
+  else {
     writeMetaData(JSON.stringify(rarityObject, null, 2));
   }
 };
