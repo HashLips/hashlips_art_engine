@@ -241,7 +241,8 @@ npm run update_info
 
 ### Generate a preview image
 
-Create a preview image collage of your collection, run:
+Create a preview image collage of your collection , run:
+(requires that you've already built your collection via 'npm run build')
 
 ```sh
 npm run preview
