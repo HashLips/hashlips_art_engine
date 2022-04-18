@@ -5,10 +5,10 @@ const metadataTypes = {
 
   /// metadata file will contain only rarity data for traits & attributes
   /// individual metadata file will also contain rarity data
-  // rarities calculated using Trait Rarity (not accurate/recommended)
-  rarities_TR: 1,
-  // rarities calculated using JaccardDistances (accurate/recommended)
-  rarities_JD: 2,
+  // rarities calculated using JaccardDistances (most accurate/recommended)
+  rarities_JD: 1,
+  // rarities calculated using Trait Rarity (not recommended)
+  rarities_TR: 2,
 };
 
 const NETWORK = {

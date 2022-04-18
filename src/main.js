@@ -250,75 +250,84 @@ const addRarityMetadata = () => {
   });
 
   // calculate rarity for each item/NFT
-  if (network.metadataType == metadataTypes.rarities_TR) {
-    metadataList.forEach((item) => {
-      item.rarity = {
-        avgRarity: 0,
-        statRarity: 1,
-        rarityScore: 0,
-        rarityScoreNormed: 0,
-        usedTraitsCount: item.attributes.length,
-      };
+  switch (network.metadataType) {
+    case metadataTypes.rarities_JD: {
+      let z = [];
+      let avg = [];
 
-      item.attributes.forEach((a) => {
-        const attributeData = rarityObject[a.trait_type][a.value];
-        item.rarity.avgRarity += attributeData.attributeFrequency;
-        item.rarity.statRarity *= attributeData.attributeFrequency;
-        item.rarity.rarityScore += attributeData.attributeRarity;
-        item.rarity.rarityScoreNormed += attributeData.attributeRarityNormed;
-      });
-    });
-  } else if (network.metadataType == metadataTypes.rarities_JD) {
-    let z = [];
-    let avg = [];
+      // calculate z(i,j) and avg(i)
+      for (let i = 0; i < metadataList.length; i++) {
+        for (let j = 0; j < metadataList.length; j++) {
+          if (i == j) continue;
 
-    // calculate z(i,j) and avg(i)
-    for (let i = 0; i < metadataList.length; i++) {
-      for (let j = 0; j < metadataList.length; j++) {
-        if (i == j) continue;
+          if (z[i] == null) {
+            z[i] = [];
+          }
 
-        if (z[i] == null) {
-          z[i] = [];
+          if (z[i][j] == null || z[j][i] == null) {
+            const commonTraitsCnt = getObjectCommonCnt(
+              metadataList[i].attributes,
+              metadataList[j].attributes
+            );
+            const uniqueTraitsCnt = getObjectUniqueCnt(
+              metadataList[i].attributes,
+              metadataList[j].attributes
+            );
+
+            z[i][j] = commonTraitsCnt / uniqueTraitsCnt;
+          }
         }
 
-        if (z[i][j] == null || z[j][i] == null) {
-          const commonTraitsCnt = getObjectCommonCnt(
-            metadataList[i].attributes,
-            metadataList[j].attributes
-          );
-          const uniqueTraitsCnt = getObjectUniqueCnt(
-            metadataList[i].attributes,
-            metadataList[j].attributes
-          );
-
-          z[i][j] = commonTraitsCnt / uniqueTraitsCnt;
-        }
+        // ps: length-1 because there's always an empty cell in matrix, where i == j
+        avg[i] = z[i].reduce((a, b) => a + b, 0) / (z[i].length - 1);
       }
 
-      // ps: length-1 because there's always an empty cell in matrix, where i == j
-      avg[i] = z[i].reduce((a, b) => a + b, 0) / (z[i].length - 1);
+      // calculate z(i)
+      let jd = [];
+      let avgMax = Math.max(...avg);
+      let avgMin = Math.min(...avg);
+
+      for (let i = 0; i < metadataList.length; i++) {
+        jd[i] = ((avg[i] - avgMin) / (avgMax - avgMin)) * 100;
+      }
+
+      const jd_asc = [...jd].sort(function (a, b) {
+        return a - b;
+      });
+
+      // add JD rarity data to NFT/item
+      for (let i = 0; i < metadataList.length; i++) {
+        metadataList[i].rarity = {
+          score: jd[i],
+          rank: jd.length - jd_asc.indexOf(jd[i]),
+        };
+      }
+      break;
     }
 
-    // calculate z(i)
-    let jd = [];
-    let avgMax = Math.max(...avg);
-    let avgMin = Math.min(...avg);
+    case metadataTypes.rarities_TR: {
+      metadataList.forEach((item) => {
+        item.rarity = {
+          avgRarity: 0,
+          statRarity: 1,
+          rarityScore: 0,
+          rarityScoreNormed: 0,
+          usedTraitsCount: item.attributes.length,
+        };
 
-    for (let i = 0; i < metadataList.length; i++) {
-      jd[i] = ((avg[i] - avgMin) / (avgMax - avgMin)) * 100;
+        item.attributes.forEach((a) => {
+          const attributeData = rarityObject[a.trait_type][a.value];
+          item.rarity.avgRarity += attributeData.attributeFrequency;
+          item.rarity.statRarity *= attributeData.attributeFrequency;
+          item.rarity.rarityScore += attributeData.attributeRarity;
+          item.rarity.rarityScoreNormed += attributeData.attributeRarityNormed;
+        });
+      });
+      break;
     }
 
-    const jd_asc = [...jd].sort(function (a, b) {
-      return a - b;
-    });
-
-    // add JD rarity data to NFT/item
-    for (let i = 0; i < metadataList.length; i++) {
-      metadataList[i].rarity = {
-        score: jd[i],
-        rank: jd.length - jd_asc.indexOf(jd[i]),
-      };
-    }
+    default:
+      break;
   }
 };
 
