@@ -7,8 +7,8 @@ const metadataTypes = {
   /// individual metadata file will also contain rarity data
   // rarities calculated using JaccardDistances (most accurate/recommended)
   rarities_JD: 1,
-  // rarities calculated using Trait Rarity (not recommended)
-  rarities_TR: 2,
+  // rarities calculated using Trait Rarity & Statistical Rarity (not recommended)
+  rarities_Common: 2,
 };
 
 const NETWORK = {

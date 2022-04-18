@@ -233,7 +233,7 @@ const addRarityMetadata = () => {
         (asset[1].attributeOccurrence / metadataList.length) * 100;
 
       // rarity algorithm specific metadata
-      if (network.metadataType == metadataTypes.rarities_TR) {
+      if (network.metadataType == metadataTypes.rarities_Common) {
         // logic from https://github.com/xterr/nft-generator/blob/d8992d2bcfa729a6b2ef443f9404ffa28102111b/src/components/RarityResolver.ts
         // ps: the only difference being that attributeRarityNormed is calculated only once
         const totalLayersCnt = Object.keys(traitOccurances).length;
@@ -305,7 +305,7 @@ const addRarityMetadata = () => {
       break;
     }
 
-    case metadataTypes.rarities_TR: {
+    case metadataTypes.rarities_Common: {
       metadataList.forEach((item) => {
         item.rarity = {
           avgRarity: 0,
