@@ -22,6 +22,10 @@ const {
   solanaMetadata,
   gif,
 } = require(`${basePath}/src/config.js`);
+const {
+  getObjectCommonCnt,
+  getObjectUniqueCnt,
+} = require(`${basePath}/utils/common.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;
@@ -190,10 +194,6 @@ const addMetadata = (_dna, _edition) => {
 };
 
 const addRarityMetadata = () => {
-  // currently using https://github.com/xterr/nft-generator/blob/d8992d2bcfa729a6b2ef443f9404ffa28102111b/src/components/RarityResolver.ts logic
-  // ps: the only difference is that the attributeRarityNormed is calculated only once (in case there are NFTs with less/more attributes than others)
-  // todo: add multiple rarity implementations
-
   let traitOccurances = [];
   let totalAttributesCnt = 0;
 
@@ -217,10 +217,7 @@ const addRarityMetadata = () => {
     });
   });
 
-  const totalLayersCnt = Object.keys(traitOccurances).length;
-  const avgAttributesPerTrait = totalAttributesCnt / totalLayersCnt;
-
-  // calculate rarity for all traits/layers & attributes/assets
+  // general rarity metadata for all traits/layers & attributes/assets
   Object.entries(rarityObject).forEach((entry) => {
     const layer = entry[0];
     const assets = entry[1];
@@ -230,16 +227,25 @@ const addRarityMetadata = () => {
       asset[1].traitOccurance = traitOccurances[layer];
       asset[1].traitOccurancePercentage =
         (metadataList.length / asset[1].traitOccurance) * 100;
-      asset[1].traitFrequency = asset[1].traitOccurance > 0 ? 1 : 0;
 
       // attribute/asset related
-      asset[1].attributeFrequency =
-        asset[1].attributeOccurrence / metadataList.length;
-      asset[1].attributeRarity =
-        metadataList.length / asset[1].attributeOccurrence;
-      // ugly fix for the original implementation
-      asset[1].attributeRarityNormed =
-        asset[1].attributeRarity * (avgAttributesPerTrait / totalLayersCnt);
+      asset[1].attributeOccurrencePercentage =
+        (asset[1].attributeOccurrence / metadataList.length) * 100;
+
+      // rarity algorithm specific metadata
+      if (network.metadataType == metadataTypes.rarities_TR) {
+        // logic from https://github.com/xterr/nft-generator/blob/d8992d2bcfa729a6b2ef443f9404ffa28102111b/src/components/RarityResolver.ts
+        // ps: the only difference being that attributeRarityNormed is calculated only once
+        const totalLayersCnt = Object.keys(traitOccurances).length;
+        const avgAttributesPerTrait = totalAttributesCnt / totalLayersCnt;
+        asset[1].attributeFrequency =
+          asset[1].attributeOccurrence / metadataList.length;
+        asset[1].traitFrequency = asset[1].traitOccurance > 0 ? 1 : 0;
+        asset[1].attributeRarity =
+          metadataList.length / asset[1].attributeOccurrence;
+        asset[1].attributeRarityNormed =
+          asset[1].attributeRarity * (avgAttributesPerTrait / totalLayersCnt);
+      }
     });
   });
 
@@ -256,8 +262,6 @@ const addRarityMetadata = () => {
 
       item.attributes.forEach((a) => {
         const attributeData = rarityObject[a.trait_type][a.value];
-        // original buggy implementation (not ok if different nr. of attributes)
-        //attributeData.attributeRarityNormed = attributeData.attributeRarity * avgAttributesPerTrait / item.attributes.length;
         item.rarity.avgRarity += attributeData.attributeFrequency;
         item.rarity.statRarity *= attributeData.attributeFrequency;
         item.rarity.rarityScore += attributeData.attributeRarity;
@@ -310,55 +314,12 @@ const addRarityMetadata = () => {
 
     // add JD rarity data to NFT/item
     for (let i = 0; i < metadataList.length; i++) {
-      metadataList[i].rarityScore = jd[i];
-      metadataList[i].rarityRank = jd.length - jd_asc.indexOf(jd[i]);
-    }
-
-    //console.log("z", z);
-    //console.log("avg", avg);
-    //console.log("avgMax", avgMax);
-    //console.log("avgMin", avgMin);
-    //console.log("jd", jd);
-    //console.log("ranks", ranks);
-  }
-};
-
-const getArrayCommonCnt = (arr1, arr2) => {
-  var cnt = 0;
-  for (var i = 0; i < arr1.length; ++i) {
-    for (var j = 0; j < arr2.length; ++j) {
-      if (arr1[i] == arr2[j]) {
-        cnt++;
-      }
+      metadataList[i].rarity = {
+        score: jd[i],
+        rank: jd.length - jd_asc.indexOf(jd[i]),
+      };
     }
   }
-  return cnt;
-};
-const getArrayUniqueCnt = (arr1, arr2) => {
-  return [...new Set(arr1.concat(arr2))].length;
-};
-
-const getObjectCommonCnt = (obj1, obj2) => {
-  let arr1 = [];
-  let arr2 = [];
-  Object.entries(obj1).forEach((entry) => {
-    arr1.push(JSON.stringify(entry[1]));
-  });
-  Object.entries(obj2).forEach((entry) => {
-    arr2.push(JSON.stringify(entry[1]));
-  });
-  return getArrayCommonCnt(arr1, arr2);
-};
-const getObjectUniqueCnt = (obj1, obj2) => {
-  let arr1 = [];
-  let arr2 = [];
-  Object.entries(obj1).forEach((entry) => {
-    arr1.push(JSON.stringify(entry[1]));
-  });
-  Object.entries(obj2).forEach((entry) => {
-    arr2.push(JSON.stringify(entry[1]));
-  });
-  return getArrayUniqueCnt(arr1, arr2);
 };
 
 const addAttributes = (_element) => {
@@ -500,19 +461,6 @@ const writeMetaData = (_data) => {
   );
 };
 
-/*const saveMetaDataSingleFile = (_editionCount) => {
-  let metadata = metadataList.find((meta) => meta.edition == _editionCount);
-  debugLogs
-    ? console.log(
-        `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
-      )
-    : null;
-  fs.writeFileSync(
-    `${buildDir}/${network.jsonDirPrefix}${_editionCount}.json`,
-    JSON.stringify(metadata, null, 2)
-  );
-};*/
-
 const saveIndividualMetadataFiles = (abstractedIndexes) => {
   let idx = 0;
   metadataList.forEach((item) => {
@@ -643,7 +591,7 @@ const startCreating = async () => {
     layerConfigIndex++;
   }
 
-  // build rarity (if needed)
+  // build rarity
   if (network.metadataType != metadataTypes.basic) {
     addRarityMetadata();
   }
