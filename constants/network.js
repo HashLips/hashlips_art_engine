@@ -1,14 +1,18 @@
 const metadataTypes = {
   // metadata file will contain all individual metadata files (common for eth$, sol$)
-  // no rarities
+  // no rarities at all
   basic: 0,
+  // metadata file will contain only rarity data for traits & attributes (common for egld$)
+  // if rarityAlgorithm provided, individual metadata file will also contain rarity data
+  rarities: 1,
+};
 
-  /// metadata file will contain only rarity data for traits & attributes
-  /// individual metadata file will also contain rarity data
-  // rarities calculated using JaccardDistances (most accurate/recommended)
-  rarities_JD: 1,
-  // rarities calculated using Trait Rarity & Statistical Rarity (not recommended)
-  rarities_Common: 2,
+const rarityAlgorithms = {
+  none: 0,
+  JaccardDistances: 1, // most accurate / recommended
+  TraitRarity: 2,
+  StatisticalRarity: 3,
+  TraitAndStatisticalRarity: 4, // TraitRarity & StatisticalRarity combined
 };
 
 const NETWORK = {
@@ -16,7 +20,9 @@ const NETWORK = {
     name: "egld",
     startIdx: 1,
     metadataFileName: "_metadata.json",
-    metadataType: metadataTypes.rarities_JD,
+    metadataType: metadataTypes.rarities,
+    rarityAlgorithm: rarityAlgorithms.JaccardDistances,
+    includeRank: true
   },
   eth: {
     name: "eth",
@@ -41,4 +47,5 @@ const NETWORK = {
 module.exports = {
   NETWORK,
   metadataTypes,
+  rarityAlgorithms,
 };

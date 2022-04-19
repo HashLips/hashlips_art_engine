@@ -1,5 +1,9 @@
 const basePath = process.cwd();
-const { NETWORK, metadataTypes } = require(`${basePath}/constants/network.js`);
+const {
+  NETWORK,
+  metadataTypes,
+  rarityAlgorithms,
+} = require(`${basePath}/constants/network.js`);
 const fs = require("fs");
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
@@ -232,8 +236,12 @@ const addRarityMetadata = () => {
       asset[1].attributeOccurrencePercentage =
         (asset[1].attributeOccurrence / metadataList.length) * 100;
 
-      // rarity algorithm specific metadata
-      if (network.metadataType == metadataTypes.rarities_Common) {
+      // TR / SR algorithms specific metadata
+      if (
+        network.rarityAlgorithm == rarityAlgorithms.TraitRarity ||
+        network.rarityAlgorithm == rarityAlgorithms.StatisticalRarity ||
+        network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
+      ) {
         // logic from https://github.com/xterr/nft-generator/blob/d8992d2bcfa729a6b2ef443f9404ffa28102111b/src/components/RarityResolver.ts
         // ps: the only difference being that attributeRarityNormed is calculated only once
         const totalLayersCnt = Object.keys(traitOccurances).length;
@@ -250,84 +258,120 @@ const addRarityMetadata = () => {
   });
 
   // calculate rarity for each item/NFT
-  switch (network.metadataType) {
-    case metadataTypes.rarities_JD: {
-      let z = [];
-      let avg = [];
+  if (network.rarityAlgorithm == rarityAlgorithms.none) {
+    return;
+  } else if (network.rarityAlgorithm == rarityAlgorithms.JaccardDistances) {
+    let z = [];
+    let avg = [];
 
-      // calculate z(i,j) and avg(i)
-      for (let i = 0; i < metadataList.length; i++) {
-        for (let j = 0; j < metadataList.length; j++) {
-          if (i == j) continue;
+    // calculate z(i,j) and avg(i)
+    for (let i = 0; i < metadataList.length; i++) {
+      for (let j = 0; j < metadataList.length; j++) {
+        if (i == j) continue;
 
-          if (z[i] == null) {
-            z[i] = [];
-          }
-
-          if (z[i][j] == null || z[j][i] == null) {
-            const commonTraitsCnt = getObjectCommonCnt(
-              metadataList[i].attributes,
-              metadataList[j].attributes
-            );
-            const uniqueTraitsCnt = getObjectUniqueCnt(
-              metadataList[i].attributes,
-              metadataList[j].attributes
-            );
-
-            z[i][j] = commonTraitsCnt / uniqueTraitsCnt;
-          }
+        if (z[i] == null) {
+          z[i] = [];
         }
 
-        // ps: length-1 because there's always an empty cell in matrix, where i == j
-        avg[i] = z[i].reduce((a, b) => a + b, 0) / (z[i].length - 1);
+        if (z[i][j] == null || z[j][i] == null) {
+          const commonTraitsCnt = getObjectCommonCnt(
+            metadataList[i].attributes,
+            metadataList[j].attributes
+          );
+          const uniqueTraitsCnt = getObjectUniqueCnt(
+            metadataList[i].attributes,
+            metadataList[j].attributes
+          );
+
+          z[i][j] = commonTraitsCnt / uniqueTraitsCnt;
+        }
       }
 
-      // calculate z(i)
-      let jd = [];
-      let avgMax = Math.max(...avg);
-      let avgMin = Math.min(...avg);
-
-      for (let i = 0; i < metadataList.length; i++) {
-        jd[i] = ((avg[i] - avgMin) / (avgMax - avgMin)) * 100;
-      }
-
-      const jd_asc = [...jd].sort(function (a, b) {
-        return a - b;
-      });
-
-      // add JD rarity data to NFT/item
-      for (let i = 0; i < metadataList.length; i++) {
-        metadataList[i].rarity = {
-          score: jd[i],
-          rank: jd.length - jd_asc.indexOf(jd[i]),
-        };
-      }
-      break;
+      // ps: length-1 because there's always an empty cell in matrix, where i == j
+      avg[i] = z[i].reduce((a, b) => a + b, 0) / (z[i].length - 1);
     }
 
-    case metadataTypes.rarities_Common: {
-      metadataList.forEach((item) => {
-        item.rarity = {
-          avgRarity: 0,
-          statRarity: 1,
-          rarityScore: 0,
-          rarityScoreNormed: 0,
-          usedTraitsCount: item.attributes.length,
-        };
+    // calculate z(i)
+    let jd = [];
+    let avgMax = Math.max(...avg);
+    let avgMin = Math.min(...avg);
 
-        item.attributes.forEach((a) => {
-          const attributeData = rarityObject[a.trait_type][a.value];
+    for (let i = 0; i < metadataList.length; i++) {
+      jd[i] = ((avg[i] - avgMin) / (avgMax - avgMin)) * 100;
+    }
+
+    const jd_asc = [...jd].sort(function (a, b) {
+      return a - b;
+    });
+
+    // add JD rarity data to NFT/item
+    for (let i = 0; i < metadataList.length; i++) {
+      metadataList[i].rarity = {
+        score: jd[i],
+      };
+      if (network.includeRank) {
+        metadataList[i].rarity.rank = jd.length - jd_asc.indexOf(jd[i]);
+      }
+    }
+  } else if (
+    network.rarityAlgorithm == rarityAlgorithms.TraitRarity ||
+    network.rarityAlgorithm == rarityAlgorithms.StatisticalRarity ||
+    network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
+  ) {
+    metadataList.forEach((item) => {
+      item.rarity = {
+        usedTraitsCount: item.attributes.length,
+      };
+      // TR specific
+      if (
+        network.rarityAlgorithm == rarityAlgorithms.TraitRarity ||
+        network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
+      ) {
+        item.rarity.avgRarity = 0;
+        item.rarity.rarityScore = 0;
+        item.rarity.rarityScoreNormed = 0;
+      }
+      // SR specific
+      if (
+        network.rarityAlgorithm == rarityAlgorithms.StatisticalRarity ||
+        network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
+      ) {
+        item.rarity.statRarity = 1;
+      }
+
+      item.attributes.forEach((a) => {
+        const attributeData = rarityObject[a.trait_type][a.value];
+        if (
+          network.rarityAlgorithm == rarityAlgorithms.TraitRarity ||
+          network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
+        ) {
           item.rarity.avgRarity += attributeData.attributeFrequency;
-          item.rarity.statRarity *= attributeData.attributeFrequency;
           item.rarity.rarityScore += attributeData.attributeRarity;
           item.rarity.rarityScoreNormed += attributeData.attributeRarityNormed;
-        });
+        }
+        // SR specific
+        if (
+          network.rarityAlgorithm == rarityAlgorithms.StatisticalRarity ||
+          network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
+        ) {
+          item.rarity.statRarity *= attributeData.attributeFrequency;
+        }
       });
-      break;
-    }
+    });
 
-    default:
-      break;
+    // add rarity rank
+    if (network.includeRank) {
+      const metadataList_asc = [...metadataList].sort(function (a, b) {
+        return (
+          a.rarity.rarityScore - b.rarity.rarityScore ??
+          b.rarity.statRarity - a.rarity.statRarity
+        );
+      });
+      for (let i = 0; i < metadataList.length; i++) {
+        metadataList[i].rarity.rank =
+          metadataList.length - metadataList_asc.indexOf(metadataList[i]);
+      }
+    }
   }
 };
 
@@ -601,7 +645,7 @@ const startCreating = async () => {
   }
 
   // build rarity
-  if (network.metadataType != metadataTypes.basic) {
+  if (network.metadataType == metadataTypes.rarities) {
     addRarityMetadata();
   }
 
@@ -609,9 +653,9 @@ const startCreating = async () => {
   saveIndividualMetadataFiles(abstractedIndexesBackup);
 
   // save metadata.json
-  if (network.metadataType == metadataTypes.basic)
+  if (network.metadataType == metadataTypes.basic) {
     writeMetaData(JSON.stringify(metadataList, null, 2));
-  else {
+  } else {
     writeMetaData(JSON.stringify(rarityObject, null, 2));
   }
 };
