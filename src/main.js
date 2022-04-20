@@ -86,7 +86,7 @@ const getElements = (path) => {
     });
 };
 
-const layersSetup = (layersOrder) => {
+const layersSetup = (layersOrder, growToSize) => {
   const layers = layersOrder.map((layerObj, index) => ({
     id: index,
     elements: getElements(`${layersDir}/${layerObj.name}/`),
@@ -106,7 +106,36 @@ const layersSetup = (layersOrder) => {
       layerObj.options?.["bypassDNA"] !== undefined
         ? layerObj.options?.["bypassDNA"]
         : false,
+      // FIXME added custom layer weight, mutex values and injection
+    weight:
+      layerObj.custom?.["weight"] !== undefined
+        ? layerObj.custom?.["weight"]
+        : 1000,
+    class:
+      layerObj.custom?.["class"] !== undefined
+        ? layerObj.custom?.["class"]
+        : layerObj.name,
+    mutex:
+    layerObj.custom?.["mutex"] !== undefined
+      ? layerObj.custom?.["mutex"]
+      : [],
+    inject:
+      layerObj.custom?.["inject"] !== undefined
+        ? layerObj.custom?.["inject"]
+        : false,
+    trait:
+    layerObj.custom?.["trait"] !== undefined
+      ? layerObj.custom?.["trait"]
+      : layerObj.name,
   }));
+
+    layers.forEach(x => {
+        x["injectDelta"] = x.inject == true ? 
+          Math.ceil((growToSize - (x.elements.length + 1)) / (x.elements.length + 1)) : 
+          0;
+        x["injectAfter"] = x["injectDelta"];        
+    });
+
   return layers;
 };
 
@@ -173,17 +202,20 @@ const addMetadata = (_dna, _edition) => {
 
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
+  if (_element.layer.trait != null) {
   attributesList.push({
-    trait_type: _element.layer.name,
+      trait_type: _element.layer.trait,
     value: selectedElement.name,
   });
+  }
 };
 
 const loadLayerImg = async (_layer) => {
   try {
     return new Promise(async (resolve) => {
       const image = await loadImage(`${_layer.selectedElement.path}`);
-      resolve({ layer: _layer, loadedImage: image });
+      // added the trait field here
+      resolve({ layer: _layer, loadedImage: image, trait: _layer.trait });
     });
   } catch (error) {
     console.error("Error loading image:", error);
@@ -221,7 +253,9 @@ const drawElement = (_renderObject, _index, _layersLen) => {
 
 const constructLayerToDna = (_dna = "", _layers = []) => {
   let mappedDnaToLayers = _layers.map((layer, index) => {
-    let selectedElement = layer.elements.find(
+
+    let layerDna = _dna.split(DNA_DELIMITER)[index];
+    let selectedElement = layerDna.length == 0 ? null : layer.elements.find(
       (e) => e.id == cleanDna(_dna.split(DNA_DELIMITER)[index])
     );
     return {
@@ -229,6 +263,9 @@ const constructLayerToDna = (_dna = "", _layers = []) => {
       blend: layer.blend,
       opacity: layer.opacity,
       selectedElement: selectedElement,
+      // added this value
+      wasInject: layer.inject,
+      trait: layer.trait,
     };
   });
   return mappedDnaToLayers;
@@ -279,13 +316,61 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
   return !_DnaList.has(_filteredDNA);
 };
 
-const createDna = (_layers) => {
+/**
+ * 
+ * @param {String[]} _layers 
+ * @returns DNA string
+ */
+const createDna = (_layers, outCount) => {
   let randNum = [];
+  let mutex = [];
   _layers.forEach((layer) => {
     var totalWeight = 0;
+
+    // Is this an injection layer?
+    if (layer.inject) {
+
+      // Is it time to inject anoth element from it?
+      if (outCount <= layer.injectAfter || layer.elements.length < 1) {
+        randNum.push("");
+        return;
+      }
+      
+      // We're using the injection layer so increment the delta value
+      layer.injectAfter += layer.injectDelta;
+
+    } else {
+
+      // Is the current layer mutally excluded?
+      if (mutex.includes("*") || mutex.includes(layer.class)) {
+        randNum.push("");
+        return;
+      }
+    
+      // Attempt to select the layer based on a {1,1000} random value
+      let layerTest = Math.floor(Math.random() * 1000);
+      if ( layerTest >= layer.weight ) {
+        randNum.push("");
+        return;
+      }
+
+    }
+
+    // Recompute total weight for the layer
     layer.elements.forEach((element) => {
       totalWeight += element.weight;
     });
+
+    // Apply the selected layer's class to the mutex array
+    if (layer.class.length > 0) {
+      mutex.push(layer.class);
+    }
+
+    // Apply any mutex values of the selected layer to the mutex array 
+    if (layer.mutex.length > 0) {
+      mutex = mutex.concat(layer.mutex);
+    }
+
     // number between 0 - totalWeight
     let random = Math.floor(Math.random() * totalWeight);
     for (var i = 0; i < layer.elements.length; i++) {
@@ -354,17 +439,34 @@ const startCreating = async () => {
     : null;
   while (layerConfigIndex < layerConfigurations.length) {
     const layers = layersSetup(
-      layerConfigurations[layerConfigIndex].layersOrder
+      layerConfigurations[layerConfigIndex].layersOrder, layerConfigurations[layerConfigIndex].growEditionSizeTo
     );
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
-      let newDna = createDna(layers);
+      let newDna = createDna(layers, editionCount);
+      // layers ignored
+      // check for non-zero length dna
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
+
+        // if any of the layers in the results were from injection layers
+        // then those items must be removed from their source layers so they
+        // they cannot be output again.
+        let injected = results.filter(x => x.selectedElement != null && x.wasInject);
+        injected.forEach((element) => {
+          let srcLayer = layers.find(x => x.name == element.name);
+          srcLayer.elements = srcLayer.elements.filter((x) => { 
+            return x.name != element.selectedElement.name
+          });
+          srcLayer.weight = srcLayer.elements.length == 0 ? -1 : 100;
+        });
+
         let loadedElements = [];
 
-        results.forEach((layer) => {
+        // Added a filter here (debugging)
+        let dropped = results.filter( x => x.selectedElement == null);
+        results.filter(x => x.selectedElement != null).forEach((layer) => {
           loadedElements.push(loadLayerImg(layer));
         });
 
@@ -401,6 +503,7 @@ const startCreating = async () => {
           debugLogs
             ? console.log("Editions left to create: ", abstractedIndexes)
             : null;
+          // added image name to output
           saveImage(abstractedIndexes[0]);
           addMetadata(newDna, abstractedIndexes[0]);
           saveMetaDataSingleFile(abstractedIndexes[0]);
@@ -414,7 +517,7 @@ const startCreating = async () => {
         editionCount++;
         abstractedIndexes.shift();
       } else {
-        console.log("DNA exists!");
+        console.log(`DNA exists ${failedCount}!`);
         failedCount++;
         if (failedCount >= uniqueDnaTorrance) {
           console.log(
@@ -426,6 +529,7 @@ const startCreating = async () => {
     }
     layerConfigIndex++;
   }
+  console.log(`There were ${failedCount} DNA sequence duplications.`);
   writeMetaData(JSON.stringify(metadataList, null, 2));
 };
 

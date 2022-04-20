@@ -1,4 +1,4 @@
-# Welcome to HashLips 👄
+# Welcome to my fork of the HashLips 👄 Art Engine 
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/logo.png)
 
