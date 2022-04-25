@@ -24,7 +24,11 @@ const {
   solanaMetadata,
   gif,
 } = require(`${basePath}/src/config.js`);
-const { createMetadataItem } = require(`${basePath}/src/metadata.js`);
+const {
+  createMetadataItem,
+  writeMetaDataFile,
+  saveIndividualMetadataFiles,
+} = require(`${basePath}/src/metadata.js`);
 const {
   getGeneralRarity,
   getItemsRarity,
@@ -267,33 +271,6 @@ const createDna = (_layers) => {
   return randNum.join(DNA_DELIMITER);
 };
 
-const writeMetaData = (_data) => {
-  fs.writeFileSync(
-    `${buildDir}/${network.jsonDirPrefix}${network.metadataFileName}`,
-    _data
-  );
-};
-
-const saveIndividualMetadataFiles = (abstractedIndexes) => {
-  let idx = 0;
-  metadataList.forEach((item) => {
-    debugLogs
-      ? console.log(
-          `Writing metadata for ${
-            item.edition || abstractedIndexes[idx]
-          }: ${JSON.stringify(item)}`
-        )
-      : null;
-    fs.writeFileSync(
-      `${buildDir}/${network.jsonDirPrefix}${
-        item.edition || abstractedIndexes[idx]
-      }.json`,
-      JSON.stringify(item, null, 2)
-    );
-    idx++;
-  });
-};
-
 function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -407,7 +384,7 @@ const startCreating = async () => {
 
   // calculate rarities (if needed) & save _metadata.json file
   if (network.metadataType === METADATA.basic) {
-    writeMetaData(JSON.stringify(metadataList, null, 2));
+    writeMetaDataFile(JSON.stringify(metadataList, null, 2));
   } else if (network.metadataType === METADATA.rarities) {
     // calculate rarity for traits/layers & attributes/assets
     const rarityObject = getGeneralRarity(metadataList);
@@ -415,11 +392,11 @@ const startCreating = async () => {
       // calculate rarity for all items/NFTs
       metadataList = getItemsRarity(metadataList, rarityObject);
     }
-    writeMetaData(JSON.stringify(rarityObject, null, 2));
+    writeMetaDataFile(JSON.stringify(rarityObject, null, 2));
   }
 
   // save individual metadata files
-  saveIndividualMetadataFiles(abstractedIndexesBackup);
+  saveIndividualMetadataFiles(metadataList, abstractedIndexesBackup);
 };
 
 module.exports = { startCreating, buildSetup, getElements };

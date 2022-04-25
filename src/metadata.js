@@ -1,4 +1,5 @@
 const basePath = process.cwd();
+const buildDir = `${basePath}/build`;
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const { METADATA } = require(`${basePath}/constants/metadata.js`);
 const fs = require("fs");
@@ -10,6 +11,7 @@ const {
   namePrefix,
   network,
   solanaMetadata,
+  debugLogs,
 } = require(`${basePath}/src/config.js`);
 
 // create metadata item with the provided data
@@ -93,4 +95,31 @@ const getMetadataItems = () => {
   }
 };
 
-module.exports = { createMetadataItem, getMetadataItems };
+const writeMetaDataFile = (_data) => {
+  fs.writeFileSync(
+    `${buildDir}/${network.jsonDirPrefix}${network.metadataFileName}`,
+    _data
+  );
+};
+
+const saveIndividualMetadataFiles = (metadataList, abstractedIndexes) => {
+  let idx = 0;
+  metadataList.forEach((item) => {
+    debugLogs
+      ? console.log(
+          `Writing metadata for ${
+            item.edition || abstractedIndexes[idx]
+          }: ${JSON.stringify(item)}`
+        )
+      : null;
+    fs.writeFileSync(
+      `${buildDir}/${network.jsonDirPrefix}${
+        item.edition || abstractedIndexes[idx]
+      }.json`,
+      JSON.stringify(item, null, 2)
+    );
+    idx++;
+  });
+};
+
+module.exports = { createMetadataItem, getMetadataItems, writeMetaDataFile, saveIndividualMetadataFiles };
