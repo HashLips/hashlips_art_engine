@@ -33,8 +33,8 @@ const saveProjectPreviewImage = async (_data) => {
   for (let index = 0; index < _data.length; index++) {
     const nft = _data[index];
     await loadImage(
-      `${buildDir}/${network.mediaDirPrefix ?? ""}${
-        network.mediaFilePrefix ?? ""
+      `${buildDir}/${network.mediaDirPrefix}${
+        network.mediaFilePrefix
       }${nft.edition}.png`
     ).then((image) => {
       previewCtx.drawImage(

@@ -14,12 +14,12 @@
   "scripts": {
     "build": "node index.js",
     "generate": "node index.js",
-    "rarity": "node utils/rarity.js",
-    "preview": "node utils/preview.js",
-    "pixelate": "node utils/pixelate.js",
-    "update_info": "node utils/update_info.js",
-    "preview_gif": "node utils/preview_gif.js",
-    "generate_metadata": "node utils/generate_metadata.js"
+    "rarity": "node utils/scripts/rarity.js",
+    "preview": "node utils/scripts/preview.js",
+    "pixelate": "node utils/scripts/pixelate.js",
+    "update_info": "node utils/scripts/update_info.js",
+    "preview_gif": "node utils/scripts/preview_gif.js",
+    "generate_metadata": "node utils/scripts/generate_metadata.js"
   },
   "author": "Daniel Eugene Botha (HashLips)",
   "license": "MIT",

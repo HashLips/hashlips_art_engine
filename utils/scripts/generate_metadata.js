@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { createCanvas, loadImage } = require("canvas");
 const basePath = process.cwd();
+const { network } = require(`${basePath}/src/config.js`);
 const buildDir = `${basePath}/build/${network.jsonDirPath}`;
 const inputDir = `${basePath}/build/${network.jsonDirPath}`;
 const {
@@ -11,7 +12,6 @@ const {
   baseUri,
 } = require(`${basePath}/src/config.js`);
 const console = require("console");
-const { network } = require("../src/config");
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 const metadataList = [];

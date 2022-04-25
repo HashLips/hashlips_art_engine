@@ -2,7 +2,7 @@ const basePath = process.cwd();
 const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 
-const network = NETWORK.egld;
+const network = NETWORK.eth;
 
 // General metadata
 const namePrefix = "Your Collection";
@@ -37,7 +37,7 @@ const layerConfigurations = [
       { name: "Bottom lid" },
       { name: "Top lid" },
     ],
-  },
+  }
 ];
 
 const shuffleLayerConfigurations = false;

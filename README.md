@@ -109,7 +109,7 @@ If you want to have logs to debug and see what is happening when you generate im
 
 If you want to play around with different blending modes, you can add a `blend: MODE.colorBurn` field to the layersOrder `options` object.
 
-If you need a layers to have a different opacity then you can add the `opacity: 0.7` field to the layersOrder `options` object as well.
+If you need a layer to have a different opacity then you can add the `opacity: 0.7` field to the layersOrder `options` object as well.
 
 If you want to have a layer _ignored_ in the DNA uniqueness check, you can set `bypassDNA: true` in the `options` object. This has the effect of making sure the rest of the traits are unique while not considering the `Background` Layers as traits, for example. The layers _are_ included in the final image.
 
@@ -178,7 +178,7 @@ const MODE = {
 };
 ```
 
-When you are ready, run the following command and your outputted art will be in the `build${network.mediaDirPrefix}` directory and the json in the `build${network.jsonDirPrefix}` directory:
+When you are ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
 
 ```sh
 npm run build
@@ -190,7 +190,7 @@ or
 node index.js
 ```
 
-The program will output all the images in the `build${network.mediaDirPrefix}` directory along with the metadata files in the `build${network.jsonDirPrefix}` directory. Each collection will have a `${network.metadataFileName}` file that consists of all the metadata in the collection inside the `build${network.jsonDirPrefix}` directory. The `build${network.jsonDirPrefix}` folder also will contain all the single json files that represent each image file. The single json file of a image will look something like this:
+The program will output all the images in the `build/media` directory along with the metadata files in the `build/json` directory. Each collection will have a `_metadata.json` file that consists of all the metadata in the collection inside the `build/json` directory. The `build/json` folder also will contain all the single json files that represent each image file. The single json file of a image will look something like this:
 
 ```json
 {
@@ -228,6 +228,48 @@ const extraMetadata = {};
 ```
 
 That's it, you're done.
+
+## Output customization
+Depending on the minting process / marketplace you choose, you will need to respect an output folder structure or you may want to include rarity metadata.\
+In order to get your desired output structure / rarity metadata, you can choose from the already created networks/standards that can be found in `network.js` and update the network value in `config.js`
+```
+// config.js
+const network = NETWORK.egld;
+```
+or you can create your own network/standard in `network.js`.
+```
+// network.js
+const NETWORK = {
+  egld: {
+    name: "egld",
+    startIdx: 1,
+    metadataFileName: "_metadata.json",
+    metadataType: METADATA.rarities,
+    rarityAlgorithm: RARITY.JaccardDistances,
+    includeRank: true
+  },
+  ...
+}
+```
+The `metadataType` and `rarityAlgorithm` options can be also found in `network.js`
+```
+const METADATA = {
+  // metadata file will contain all individual metadata files (common for eth$, sol$)
+  // no rarities at all
+  basic: 0,
+  // metadata file will contain only rarity data for traits & attributes (common for egld$)
+  // if rarityAlgorithm provided, individual metadata files will also contain rarity data
+  rarities: 1,
+};
+
+const RARITY = {
+  none: 0,
+  JaccardDistances: 1, // most accurate / recommended
+  TraitRarity: 2,
+  StatisticalRarity: 3,
+  TraitAndStatisticalRarity: 4,
+};
+```
 
 ## Utils
 

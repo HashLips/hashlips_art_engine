@@ -1,9 +1,7 @@
 const basePath = process.cwd();
-const {
-  NETWORK,
-  metadataTypes,
-  rarityAlgorithms,
-} = require(`${basePath}/constants/network.js`);
+const { NETWORK } = require(`${basePath}/constants/network.js`);
+const { METADATA } = require(`${basePath}/constants/metadata.js`);
+const { RARITY } = require(`${basePath}/constants/rarity.js`);
 const fs = require("fs");
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
@@ -26,6 +24,11 @@ const {
   solanaMetadata,
   gif,
 } = require(`${basePath}/src/config.js`);
+const { createMetadataItem } = require(`${basePath}/utils/metadata.js`);
+const {
+  getGeneralRarity,
+  getItemsRarity,
+} = require(`${basePath}/utils/rarity.js`);
 const {
   getObjectCommonCnt,
   getObjectUniqueCnt,
@@ -36,7 +39,6 @@ ctx.imageSmoothingEnabled = format.smoothing;
 var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
-let rarityObject = {};
 const DNA_DELIMITER = "-";
 const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
@@ -49,9 +51,9 @@ const buildSetup = () => {
   fs.mkdirSync(buildDir);
 
   if (network.jsonDirPrefix)
-    fs.mkdirSync(`${buildDir}/${network.jsonDirPrefix ?? ""}`);
+    fs.mkdirSync(`${buildDir}/${network.jsonDirPrefix}`);
   if (network.mediaDirPrefix)
-    fs.mkdirSync(`${buildDir}/${network.mediaDirPrefix ?? ""}`);
+    fs.mkdirSync(`${buildDir}/${network.mediaDirPrefix}`);
 };
 
 const getRarityWeight = (_str) => {
@@ -121,9 +123,7 @@ const layersSetup = (layersOrder) => {
 
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
-    `${buildDir}/${network.mediaDirPrefix ?? ""}${
-      network.mediaFilePrefix ?? ""
-    }${_editionCount}.png`,
+    `${buildDir}/${network.mediaDirPrefix}${network.mediaFilePrefix}${_editionCount}.png`,
     canvas.toBuffer("image/png")
   );
 };
@@ -137,242 +137,6 @@ const genColor = () => {
 const drawBackground = () => {
   ctx.fillStyle = background.static ? background.default : genColor();
   ctx.fillRect(0, 0, format.width, format.height);
-};
-
-const addMetadata = (_dna, _edition) => {
-  let tempMetadata = {};
-
-  switch (network) {
-    case NETWORK.egld: {
-      tempMetadata = {
-        description: description,
-        dna: sha1(_dna),
-        ...extraMetadata,
-        attributes: attributesList,
-        rarities: {},
-        compiler: "HashLips Art Engine",
-      };
-    }
-    case NETWORK.eth: {
-      tempMetadata = {
-        name: `${namePrefix} #${_edition}`,
-        description: description,
-        image: `${baseUri}/${_edition}.png`,
-        dna: sha1(_dna),
-        edition: _edition,
-        date: Date.now(),
-        attributes: attributesList,
-        ...extraMetadata,
-        compiler: "HashLips Art Engine",
-      };
-      break;
-    }
-    case NETWORK.sol: {
-      tempMetadata = {
-        name: `${namePrefix} #${_edition}`,
-        symbol: solanaMetadata.symbol,
-        description: description,
-        seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
-        image: `${_edition}.png`,
-        external_url: solanaMetadata.external_url,
-        edition: _edition,
-        ...extraMetadata,
-        attributes: attributesList,
-        properties: {
-          files: [
-            {
-              uri: `${_edition}.png`,
-              type: "image/png",
-            },
-          ],
-          category: "image",
-          creators: solanaMetadata.creators,
-        },
-      };
-      break;
-    }
-  }
-
-  metadataList.push(tempMetadata);
-  attributesList = [];
-};
-
-const addRarityMetadata = () => {
-  let traitOccurances = [];
-  let totalAttributesCnt = 0;
-
-  // count occurrences for all traits/layers & attributes/assets
-  metadataList.forEach((item) => {
-    item.attributes.forEach((a) => {
-      if (rarityObject[a.trait_type] != null) {
-        if (rarityObject[a.trait_type][a.value] != null) {
-          rarityObject[a.trait_type][a.value].attributeOccurrence++;
-        } else {
-          rarityObject[a.trait_type][a.value] = { attributeOccurrence: 1 };
-          totalAttributesCnt++;
-        }
-
-        traitOccurances[a.trait_type]++;
-      } else {
-        rarityObject[a.trait_type] = { [a.value]: { attributeOccurrence: 1 } };
-        traitOccurances[a.trait_type] = 1;
-        totalAttributesCnt++;
-      }
-    });
-  });
-
-  // general rarity metadata for all traits/layers & attributes/assets
-  Object.entries(rarityObject).forEach((entry) => {
-    const layer = entry[0];
-    const assets = entry[1];
-
-    Object.entries(assets).forEach((asset) => {
-      // trait/layer related
-      asset[1].traitOccurance = traitOccurances[layer];
-      asset[1].traitOccurancePercentage =
-        (metadataList.length / asset[1].traitOccurance) * 100;
-
-      // attribute/asset related
-      asset[1].attributeOccurrencePercentage =
-        (asset[1].attributeOccurrence / metadataList.length) * 100;
-
-      // TR / SR algorithms specific metadata
-      if (
-        network.rarityAlgorithm == rarityAlgorithms.TraitRarity ||
-        network.rarityAlgorithm == rarityAlgorithms.StatisticalRarity ||
-        network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
-      ) {
-        // logic from https://github.com/xterr/nft-generator/blob/d8992d2bcfa729a6b2ef443f9404ffa28102111b/src/components/RarityResolver.ts
-        // ps: the only difference being that attributeRarityNormed is calculated only once
-        const totalLayersCnt = Object.keys(traitOccurances).length;
-        const avgAttributesPerTrait = totalAttributesCnt / totalLayersCnt;
-        asset[1].attributeFrequency =
-          asset[1].attributeOccurrence / metadataList.length;
-        asset[1].traitFrequency = asset[1].traitOccurance > 0 ? 1 : 0;
-        asset[1].attributeRarity =
-          metadataList.length / asset[1].attributeOccurrence;
-        asset[1].attributeRarityNormed =
-          asset[1].attributeRarity * (avgAttributesPerTrait / totalLayersCnt);
-      }
-    });
-  });
-
-  // calculate rarity for each item/NFT
-  if (network.rarityAlgorithm == rarityAlgorithms.none) {
-    return;
-  } else if (network.rarityAlgorithm == rarityAlgorithms.JaccardDistances) {
-    let z = [];
-    let avg = [];
-
-    // calculate z(i,j) and avg(i)
-    for (let i = 0; i < metadataList.length; i++) {
-      for (let j = 0; j < metadataList.length; j++) {
-        if (i == j) continue;
-
-        if (z[i] == null) {
-          z[i] = [];
-        }
-
-        if (z[i][j] == null || z[j][i] == null) {
-          const commonTraitsCnt = getObjectCommonCnt(
-            metadataList[i].attributes,
-            metadataList[j].attributes
-          );
-          const uniqueTraitsCnt = getObjectUniqueCnt(
-            metadataList[i].attributes,
-            metadataList[j].attributes
-          );
-
-          z[i][j] = commonTraitsCnt / uniqueTraitsCnt;
-        }
-      }
-
-      // ps: length-1 because there's always an empty cell in matrix, where i == j
-      avg[i] = z[i].reduce((a, b) => a + b, 0) / (z[i].length - 1);
-    }
-
-    // calculate z(i)
-    let jd = [];
-    let avgMax = Math.max(...avg);
-    let avgMin = Math.min(...avg);
-
-    for (let i = 0; i < metadataList.length; i++) {
-      jd[i] = ((avg[i] - avgMin) / (avgMax - avgMin)) * 100;
-    }
-
-    const jd_asc = [...jd].sort(function (a, b) {
-      return a - b;
-    });
-
-    // add JD rarity data to NFT/item
-    for (let i = 0; i < metadataList.length; i++) {
-      metadataList[i].rarity = {
-        score: jd[i],
-      };
-      if (network.includeRank) {
-        metadataList[i].rarity.rank = jd.length - jd_asc.indexOf(jd[i]);
-      }
-    }
-  } else if (
-    network.rarityAlgorithm == rarityAlgorithms.TraitRarity ||
-    network.rarityAlgorithm == rarityAlgorithms.StatisticalRarity ||
-    network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
-  ) {
-    metadataList.forEach((item) => {
-      item.rarity = {
-        usedTraitsCount: item.attributes.length,
-      };
-      // TR specific
-      if (
-        network.rarityAlgorithm == rarityAlgorithms.TraitRarity ||
-        network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
-      ) {
-        item.rarity.avgRarity = 0;
-        item.rarity.rarityScore = 0;
-        item.rarity.rarityScoreNormed = 0;
-      }
-      // SR specific
-      if (
-        network.rarityAlgorithm == rarityAlgorithms.StatisticalRarity ||
-        network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
-      ) {
-        item.rarity.statRarity = 1;
-      }
-
-      item.attributes.forEach((a) => {
-        const attributeData = rarityObject[a.trait_type][a.value];
-        if (
-          network.rarityAlgorithm == rarityAlgorithms.TraitRarity ||
-          network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
-        ) {
-          item.rarity.avgRarity += attributeData.attributeFrequency;
-          item.rarity.rarityScore += attributeData.attributeRarity;
-          item.rarity.rarityScoreNormed += attributeData.attributeRarityNormed;
-        }
-        // SR specific
-        if (
-          network.rarityAlgorithm == rarityAlgorithms.StatisticalRarity ||
-          network.rarityAlgorithm == rarityAlgorithms.TraitAndStatisticalRarity
-        ) {
-          item.rarity.statRarity *= attributeData.attributeFrequency;
-        }
-      });
-    });
-
-    // add rarity rank
-    if (network.includeRank) {
-      const metadataList_asc = [...metadataList].sort(function (a, b) {
-        return (
-          a.rarity.rarityScore - b.rarity.rarityScore ??
-          b.rarity.statRarity - a.rarity.statRarity
-        );
-      });
-      for (let i = 0; i < metadataList.length; i++) {
-        metadataList[i].rarity.rank =
-          metadataList.length - metadataList_asc.indexOf(metadataList[i]);
-      }
-    }
-  }
 };
 
 const addAttributes = (_element) => {
@@ -509,7 +273,7 @@ const createDna = (_layers) => {
 
 const writeMetaData = (_data) => {
   fs.writeFileSync(
-    `${buildDir}/${network.jsonDirPrefix ?? ""}${network.metadataFileName}`,
+    `${buildDir}/${network.jsonDirPrefix}${network.metadataFileName}`,
     _data
   );
 };
@@ -525,7 +289,7 @@ const saveIndividualMetadataFiles = (abstractedIndexes) => {
         )
       : null;
     fs.writeFileSync(
-      `${buildDir}/${network.jsonDirPrefix ?? ""}${
+      `${buildDir}/${network.jsonDirPrefix}${
         item.edition || abstractedIndexes[idx]
       }.json`,
       JSON.stringify(item, null, 2)
@@ -591,9 +355,7 @@ const startCreating = async () => {
             hashlipsGiffer = new HashlipsGiffer(
               canvas,
               ctx,
-              `${buildDir}/${network.mediaDirPrefix ?? ""}${
-                abstractedIndexes[0]
-              }.gif`,
+              `${buildDir}/${network.mediaDirPrefix}${abstractedIndexes[0]}.gif`,
               gif.repeat,
               gif.quality,
               gif.delay
@@ -620,7 +382,10 @@ const startCreating = async () => {
             ? console.log("Editions left to create: ", abstractedIndexes)
             : null;
           saveImage(abstractedIndexes[0]);
-          addMetadata(newDna, abstractedIndexes[0]);
+          metadataList.push(
+            createMetadataItem(attributesList, newDna, abstractedIndexes[0])
+          );
+          attributesList = [];
           console.log(
             `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
               newDna
@@ -644,20 +409,21 @@ const startCreating = async () => {
     layerConfigIndex++;
   }
 
-  // build rarity
-  if (network.metadataType == metadataTypes.rarities) {
-    addRarityMetadata();
+  // calculate rarities (if needed) & save _metadata.json file
+  if (network.metadataType === METADATA.basic) {
+    writeMetaData(JSON.stringify(metadataList, null, 2));
+  } else if (network.metadataType === METADATA.rarities) {
+    // calculate rarity for traits/layers & attributes/assets
+    const rarityObject = getGeneralRarity(metadataList);
+    if (network.rarityAlgorithm !== RARITY.none) {
+      // calculate rarity for all items/NFTs
+      metadataList = getItemsRarity(metadataList, rarityObject);
+    }
+    writeMetaData(JSON.stringify(rarityObject, null, 2));
   }
 
   // save individual metadata files
   saveIndividualMetadataFiles(abstractedIndexesBackup);
-
-  // save metadata.json
-  if (network.metadataType == metadataTypes.basic) {
-    writeMetaData(JSON.stringify(metadataList, null, 2));
-  } else {
-    writeMetaData(JSON.stringify(rarityObject, null, 2));
-  }
 };
 
 module.exports = { startCreating, buildSetup, getElements };
