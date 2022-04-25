@@ -4,7 +4,7 @@ const { createCanvas, loadImage } = require("canvas");
 const buildDir = `${basePath}/build`;
 
 const { network, preview } = require(`${basePath}/src/config.js`);
-const { getMetadataItems } = require(`${basePath}/utils/common.js`);
+const { getMetadataItems } = require(`${basePath}/src/metadata.js`);
 
 // read json data
 const metadataList = getMetadataItems();

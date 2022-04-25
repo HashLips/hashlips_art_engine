@@ -2,7 +2,7 @@ const basePath = process.cwd();
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const fs = require("fs");
 const { METADATA } = require(`${basePath}/constants/metadata`);
-const { getMetadataItems } = require(`${basePath}/utils/common.js`);
+const { getMetadataItems } = require(`${basePath}/src/metadata.js`);
 
 const {
   baseUri,

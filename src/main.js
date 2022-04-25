@@ -24,15 +24,11 @@ const {
   solanaMetadata,
   gif,
 } = require(`${basePath}/src/config.js`);
-const { createMetadataItem } = require(`${basePath}/utils/metadata.js`);
+const { createMetadataItem } = require(`${basePath}/src/metadata.js`);
 const {
   getGeneralRarity,
   getItemsRarity,
-} = require(`${basePath}/utils/rarity.js`);
-const {
-  getObjectCommonCnt,
-  getObjectUniqueCnt,
-} = require(`${basePath}/utils/common.js`);
+} = require(`${basePath}/src/rarity.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;

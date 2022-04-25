@@ -1,7 +1,7 @@
 const basePath = process.cwd();
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const { METADATA } = require(`${basePath}/constants/metadata.js`);
-const { RARITY } = require(`${basePath}/constants/rarity.js`);
+const fs = require("fs");
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const {
   baseUri,
@@ -70,4 +70,27 @@ const createMetadataItem = (attributesList, _dna, _edition) => {
   return tempMetadata;
 };
 
-module.exports = { createMetadataItem };
+// get metadata of all generated NFTs/items
+const getMetadataItems = () => {
+  if (network.metadataType === METADATA.basic) {
+    // get metadata from the _metadata.json file
+    return JSON.parse(
+      fs.readFileSync(
+        `${basePath}/build/${network.jsonDirPrefix}${network.metadataFileName}`
+      )
+    );
+  } else {
+    // get metadata from the individual metadata files
+    const jsonFilePattern = /^\d+.(json)$/i;
+    const files = fs.readdirSync(`${basePath}/build/${network.jsonDirPrefix}`);
+    return files
+      .filter((file) => file.match(jsonFilePattern))
+      .map((file) =>
+        JSON.parse(
+          fs.readFileSync(`${basePath}/build/${network.jsonDirPrefix}${file}`)
+        )
+      );
+  }
+};
+
+module.exports = { createMetadataItem, getMetadataItems };
