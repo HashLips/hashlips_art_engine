@@ -26,7 +26,7 @@ const {
 } = require(`${basePath}/src/config.js`);
 const {
   createMetadataItem,
-  writeMetaDataFile,
+  writeMetadataFile,
   saveIndividualMetadataFiles,
 } = require(`${basePath}/src/metadata.js`);
 const {
@@ -384,7 +384,7 @@ const startCreating = async () => {
 
   // calculate rarities (if needed) & save _metadata.json file
   if (network.metadataType === METADATA.basic) {
-    writeMetaDataFile(JSON.stringify(metadataList, null, 2));
+    writeMetadataFile(JSON.stringify(metadataList, null, 2));
   } else if (network.metadataType === METADATA.rarities) {
     // calculate rarity for traits/layers & attributes/assets
     const rarityObject = getGeneralRarity(metadataList);
@@ -392,7 +392,7 @@ const startCreating = async () => {
       // calculate rarity for all items/NFTs
       metadataList = getItemsRarity(metadataList, rarityObject);
     }
-    writeMetaDataFile(JSON.stringify(rarityObject, null, 2));
+    writeMetadataFile(JSON.stringify(rarityObject, null, 2));
   }
 
   // save individual metadata files

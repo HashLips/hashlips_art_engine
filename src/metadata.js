@@ -95,7 +95,7 @@ const getMetadataItems = () => {
   }
 };
 
-const writeMetaDataFile = (_data) => {
+const writeMetadataFile = (_data) => {
   fs.writeFileSync(
     `${buildDir}/${network.jsonDirPrefix}${network.metadataFileName}`,
     _data
@@ -122,4 +122,4 @@ const saveIndividualMetadataFiles = (metadataList, abstractedIndexes) => {
   });
 };
 
-module.exports = { createMetadataItem, getMetadataItems, writeMetaDataFile, saveIndividualMetadataFiles };
+module.exports = { createMetadataItem, getMetadataItems, writeMetadataFile, saveIndividualMetadataFiles };
