@@ -47,7 +47,7 @@ const getGeneralRarity = (metadataList) => {
       if (
         network.rarityAlgorithm === RARITY.traitRarity ||
         network.rarityAlgorithm === RARITY.statisticalRarity ||
-        network.rarityAlgorithm === RARITY.traitAndstatisticalRarity
+        network.rarityAlgorithm === RARITY.traitAndStatisticalRarity
       ) {
         // logic from https://github.com/xterr/nft-generator/blob/d8992d2bcfa729a6b2ef443f9404ffa28102111b/src/components/RarityResolver.ts
         // ps: the only difference being that attributeRarityNormed is calculated only once
@@ -78,7 +78,7 @@ const getItemsRarity = (metadataList, rarityObject) => {
     }
     case RARITY.traitRarity:
     case RARITY.statisticalRarity:
-    case RARITY.traitAndstatisticalRarity: {
+    case RARITY.traitAndStatisticalRarity: {
       return getItemsRarity_TSR(metadataList, rarityObject);
     }
     default:
@@ -152,7 +152,7 @@ const getItemsRarity_TSR = (metadataList, rarityObject) => {
     // TR specific
     if (
       network.rarityAlgorithm === RARITY.traitRarity ||
-      network.rarityAlgorithm === RARITY.traitAndstatisticalRarity
+      network.rarityAlgorithm === RARITY.traitAndStatisticalRarity
     ) {
       item.rarity.avgRarity = 0;
       item.rarity.rarityScore = 0;
@@ -161,7 +161,7 @@ const getItemsRarity_TSR = (metadataList, rarityObject) => {
     // SR specific
     if (
       network.rarityAlgorithm === RARITY.statisticalRarity ||
-      network.rarityAlgorithm === RARITY.traitAndstatisticalRarity
+      network.rarityAlgorithm === RARITY.traitAndStatisticalRarity
     ) {
       item.rarity.statRarity = 1;
     }
@@ -170,7 +170,7 @@ const getItemsRarity_TSR = (metadataList, rarityObject) => {
       const attributeData = rarityObject[a.trait_type][a.value];
       if (
         network.rarityAlgorithm === RARITY.traitRarity ||
-        network.rarityAlgorithm === RARITY.traitAndstatisticalRarity
+        network.rarityAlgorithm === RARITY.traitAndStatisticalRarity
       ) {
         item.rarity.avgRarity += attributeData.attributeFrequency;
         item.rarity.rarityScore += attributeData.attributeRarity;
@@ -179,7 +179,7 @@ const getItemsRarity_TSR = (metadataList, rarityObject) => {
       // SR specific
       if (
         network.rarityAlgorithm === RARITY.statisticalRarity ||
-        network.rarityAlgorithm === RARITY.traitAndstatisticalRarity
+        network.rarityAlgorithm === RARITY.traitAndStatisticalRarity
       ) {
         item.rarity.statRarity *= attributeData.attributeFrequency;
       }

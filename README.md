@@ -251,7 +251,7 @@ const NETWORK = {
   ...
 }
 ```
-The `metadataType` and `rarityAlgorithm` options can be also found in `constants/metadata.js` and `constants/rarity.js`.
+The `metadataType` and `rarityAlgorithm` options can be found in `constants/metadata.js` and `constants/rarity.js`.
 ```
 const METADATA = {
   // metadata file will contain all individual metadata files (common for eth, sol)
@@ -267,7 +267,7 @@ const RARITY = {
   jaccardDistances: 1, // most accurate / recommended
   traitRarity: 2,
   statisticalRarity: 3,
-  traitAndstatisticalRarity: 4,
+  traitAndStatisticalRarity: 4,
 };
 ```
 
