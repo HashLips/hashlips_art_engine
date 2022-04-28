@@ -245,16 +245,16 @@ const NETWORK = {
     startIdx: 1,
     metadataFileName: "_metadata.json",
     metadataType: METADATA.rarities,
-    rarityAlgorithm: RARITY.JaccardDistances,
+    rarityAlgorithm: RARITY.jaccardDistances,
     includeRank: true
   },
   ...
 }
 ```
-The `metadataType` and `rarityAlgorithm` options can be also found in `network.js`
+The `metadataType` and `rarityAlgorithm` options can be also found in `constants/metadata.js` and `constants/rarity.js`.
 ```
 const METADATA = {
-  // metadata file will contain all individual metadata files (common for eth$, sol$)
+  // metadata file will contain all individual metadata files (common for eth, sol)
   // no rarities at all
   basic: 0,
   // metadata file will contain only rarity data for traits & attributes (common for egld$)
@@ -264,10 +264,10 @@ const METADATA = {
 
 const RARITY = {
   none: 0,
-  JaccardDistances: 1, // most accurate / recommended
-  TraitRarity: 2,
-  StatisticalRarity: 3,
-  TraitAndStatisticalRarity: 4,
+  jaccardDistances: 1, // most accurate / recommended
+  traitRarity: 2,
+  statisticalRarity: 3,
+  traitAndstatisticalRarity: 4,
 };
 ```
 

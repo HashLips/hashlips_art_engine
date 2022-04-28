@@ -45,9 +45,9 @@ const getGeneralRarity = (metadataList) => {
 
       // TR / SR algorithms specific metadata
       if (
-        network.rarityAlgorithm === RARITY.TraitRarity ||
-        network.rarityAlgorithm === RARITY.StatisticalRarity ||
-        network.rarityAlgorithm === RARITY.TraitAndStatisticalRarity
+        network.rarityAlgorithm === RARITY.traitRarity ||
+        network.rarityAlgorithm === RARITY.statisticalRarity ||
+        network.rarityAlgorithm === RARITY.traitAndstatisticalRarity
       ) {
         // logic from https://github.com/xterr/nft-generator/blob/d8992d2bcfa729a6b2ef443f9404ffa28102111b/src/components/RarityResolver.ts
         // ps: the only difference being that attributeRarityNormed is calculated only once
@@ -73,12 +73,12 @@ const getItemsRarity = (metadataList, rarityObject) => {
     case RARITY.none: {
       return;
     }
-    case RARITY.JaccardDistances: {
-      return getItemsRarity_JaccardDistances(metadataList);
+    case RARITY.jaccardDistances: {
+      return getItemsRarity_jaccardDistances(metadataList);
     }
-    case RARITY.TraitRarity:
-    case RARITY.StatisticalRarity:
-    case RARITY.TraitAndStatisticalRarity: {
+    case RARITY.traitRarity:
+    case RARITY.statisticalRarity:
+    case RARITY.traitAndstatisticalRarity: {
       return getItemsRarity_TSR(metadataList, rarityObject);
     }
     default:
@@ -87,7 +87,7 @@ const getItemsRarity = (metadataList, rarityObject) => {
 };
 
 // calculates rarity for all items/NFT using Jaccard Distances algorithm
-const getItemsRarity_JaccardDistances = (metadataList) => {
+const getItemsRarity_jaccardDistances = (metadataList) => {
   let z = [];
   let avg = [];
 
@@ -151,8 +151,8 @@ const getItemsRarity_TSR = (metadataList, rarityObject) => {
     };
     // TR specific
     if (
-      network.rarityAlgorithm === RARITY.TraitRarity ||
-      network.rarityAlgorithm === RARITY.TraitAndStatisticalRarity
+      network.rarityAlgorithm === RARITY.traitRarity ||
+      network.rarityAlgorithm === RARITY.traitAndstatisticalRarity
     ) {
       item.rarity.avgRarity = 0;
       item.rarity.rarityScore = 0;
@@ -160,8 +160,8 @@ const getItemsRarity_TSR = (metadataList, rarityObject) => {
     }
     // SR specific
     if (
-      network.rarityAlgorithm === RARITY.StatisticalRarity ||
-      network.rarityAlgorithm === RARITY.TraitAndStatisticalRarity
+      network.rarityAlgorithm === RARITY.statisticalRarity ||
+      network.rarityAlgorithm === RARITY.traitAndstatisticalRarity
     ) {
       item.rarity.statRarity = 1;
     }
@@ -169,8 +169,8 @@ const getItemsRarity_TSR = (metadataList, rarityObject) => {
     item.attributes.forEach((a) => {
       const attributeData = rarityObject[a.trait_type][a.value];
       if (
-        network.rarityAlgorithm === RARITY.TraitRarity ||
-        network.rarityAlgorithm === RARITY.TraitAndStatisticalRarity
+        network.rarityAlgorithm === RARITY.traitRarity ||
+        network.rarityAlgorithm === RARITY.traitAndstatisticalRarity
       ) {
         item.rarity.avgRarity += attributeData.attributeFrequency;
         item.rarity.rarityScore += attributeData.attributeRarity;
@@ -178,8 +178,8 @@ const getItemsRarity_TSR = (metadataList, rarityObject) => {
       }
       // SR specific
       if (
-        network.rarityAlgorithm === RARITY.StatisticalRarity ||
-        network.rarityAlgorithm === RARITY.TraitAndStatisticalRarity
+        network.rarityAlgorithm === RARITY.statisticalRarity ||
+        network.rarityAlgorithm === RARITY.traitAndstatisticalRarity
       ) {
         item.rarity.statRarity *= attributeData.attributeFrequency;
       }

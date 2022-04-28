@@ -32,13 +32,9 @@ const NETWORK = {
     ...defaults,
     name: "egld",
     metadataType: METADATA.rarities,
-    rarityAlgorithm: RARITY.JaccardDistances,
+    rarityAlgorithm: RARITY.jaccardDistances,
     includeRank: true,
   },
 };
 
-module.exports = {
-  NETWORK,
-  METADATA,
-  RARITY,
-};
+module.exports = { NETWORK };

@@ -28,6 +28,7 @@ const createMetadataItem = (attributesList, _dna, _edition) => {
         rarities: {},
         compiler: "HashLips Art Engine",
       };
+      return tempMetadata;
     }
     case NETWORK.eth: {
       tempMetadata = {
@@ -41,7 +42,7 @@ const createMetadataItem = (attributesList, _dna, _edition) => {
         ...extraMetadata,
         compiler: "HashLips Art Engine",
       };
-      break;
+      return tempMetadata;
     }
     case NETWORK.sol: {
       tempMetadata = {
@@ -65,11 +66,12 @@ const createMetadataItem = (attributesList, _dna, _edition) => {
           creators: solanaMetadata.creators,
         },
       };
-      break;
+      return tempMetadata;
+    }
+    default: {
+      return tempMetadata;
     }
   }
-
-  return tempMetadata;
 };
 
 // get metadata of all generated NFTs/items
@@ -81,18 +83,17 @@ const getMetadataItems = () => {
         `${basePath}/build/${network.jsonDirPrefix}${network.metadataFileName}`
       )
     );
-  } else {
-    // get metadata from the individual metadata files
-    const jsonFilePattern = /^\d+.(json)$/i;
-    const files = fs.readdirSync(`${basePath}/build/${network.jsonDirPrefix}`);
-    return files
-      .filter((file) => file.match(jsonFilePattern))
-      .map((file) =>
-        JSON.parse(
-          fs.readFileSync(`${basePath}/build/${network.jsonDirPrefix}${file}`)
-        )
-      );
   }
+  // get metadata from the individual metadata files
+  const jsonFilePattern = /^\d+.(json)$/i;
+  const files = fs.readdirSync(`${basePath}/build/${network.jsonDirPrefix}`);
+  return files
+    .filter((file) => file.match(jsonFilePattern))
+    .map((file) =>
+      JSON.parse(
+        fs.readFileSync(`${basePath}/build/${network.jsonDirPrefix}${file}`)
+      )
+    );
 };
 
 const writeMetadataFile = (_data) => {
@@ -103,23 +104,26 @@ const writeMetadataFile = (_data) => {
 };
 
 const saveIndividualMetadataFiles = (metadataList, abstractedIndexes) => {
-  let idx = 0;
-  metadataList.forEach((item) => {
-    debugLogs
-      ? console.log(
-          `Writing metadata for ${
-            item.edition || abstractedIndexes[idx]
-          }: ${JSON.stringify(item)}`
-        )
-      : null;
+  metadataList.forEach((item, index) => {
+    if (debugLogs) {
+      console.log(
+        `Writing metadata for ${
+          item.edition || abstractedIndexes[index]
+        }: ${JSON.stringify(item)}`
+      );
+    }
     fs.writeFileSync(
       `${buildDir}/${network.jsonDirPrefix}${
-        item.edition || abstractedIndexes[idx]
+        item.edition || abstractedIndexes[index]
       }.json`,
       JSON.stringify(item, null, 2)
     );
-    idx++;
   });
 };
 
-module.exports = { createMetadataItem, getMetadataItems, writeMetadataFile, saveIndividualMetadataFiles };
+module.exports = {
+  createMetadataItem,
+  getMetadataItems,
+  writeMetadataFile,
+  saveIndividualMetadataFiles,
+};

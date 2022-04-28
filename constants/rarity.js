@@ -1,9 +1,9 @@
 const RARITY = {
   none: 0,
-  JaccardDistances: 1, // most accurate / recommended
-  TraitRarity: 2,
-  StatisticalRarity: 3,
-  TraitAndStatisticalRarity: 4,
+  jaccardDistances: 1, // most accurate / recommended
+  traitRarity: 2,
+  statisticalRarity: 3,
+  traitAndstatisticalRarity: 4,
 };
 
 module.exports = { RARITY };
