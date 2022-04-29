@@ -718,7 +718,7 @@ const paintLayers = (canvasContext, renderObjectArray, layerData) => {
       drawElement(renderObject, canvasContext),
       0,
       0,
-      format.weight,
+      format.width,
       format.height
     );
   });
