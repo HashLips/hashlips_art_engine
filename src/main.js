@@ -170,10 +170,12 @@ const addMetadata = (_dna, _edition) => {
 
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
+  if (!_element.layer.bypassDNA) { // Will only allow push if byPassDNA is set to false
   attributesList.push({
     trait_type: _element.layer.name,
     value: selectedElement.name,
   });
+ }
 };
 
 const loadLayerImg = async (_layer) => {
@@ -221,6 +223,7 @@ const constructLayerToDna = (_dna = "", _layers = []) => {
       name: layer.name,
       blend: layer.blend,
       opacity: layer.opacity,
+      bypassDNA: layer.bypassDNA, // This applies the fix to hey bypassDNA function if set to true
       selectedElement: selectedElement,
     };
   });

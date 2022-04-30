@@ -31,7 +31,10 @@ const layerConfigurations = [
       { name: "Eye color" },
       { name: "Iris" },
       { name: "Shine" },
-      { name: "Bottom lid" },
+      { name: "Bottom lid" ,
+        options: {
+          bypassDNA: true,
+        }},
       { name: "Top lid" },
     ],
   },
