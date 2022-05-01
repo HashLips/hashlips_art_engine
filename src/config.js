@@ -5,18 +5,18 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
-const baseUri = "ipfs://NewUriToReplace";
+const namePrefix = "TinyAncients";
+const description = "Never fear Greed or Evil";
+const baseUri = "ipfs://QmfBzKrNxetVQ7vLi87dMLGDizCE8QGQSCRJSmQKfZ4hSo";
 
 const solanaMetadata = {
-  symbol: "YC",
-  seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
-  external_url: "https://www.youtube.com/c/hashlipsnft",
+  symbol: "TCA",
+  seller_fee_basis_points: 0, // Define how much % you want from secondary market sales 1000 = 10%
+  external_url: "https://www.cryptoancients.io/",
   creators: [
     {
       address: "7fXNuer5sbZtaTEPhtJ5g5gNtuyRoKkvxdjEjEnPN4mC",
-      share: 100,
+      share: 10,
     },
   ],
 };
@@ -24,15 +24,18 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 500,
     layersOrder: [
       { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "Sun" },
+      { name: "Crypto Ancient" },
+      { name: "Skin" },
+      { name: "Eyes" },
+      { name: "Lips" },
+      { name: "Face" },
+      { name: "Glasses" },
+      { name: "Jewlery" },
+      { name: "Head" }, 
     ],
   },
 ];
@@ -42,8 +45,8 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 69,
+  height: 69,
   smoothing: false,
 };
 
@@ -72,7 +75,7 @@ const pixelFormat = {
 };
 
 const background = {
-  generate: true,
+  generate: false,
   brightness: "80%",
   static: false,
   default: "#000000",
