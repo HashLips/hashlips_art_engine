@@ -81,15 +81,10 @@ for (var layer in rarityData) {
     //console.log(rarityData[layer][trait]);
     console.table(rarityData[layer][trait]);
     let str = rarityData[layer][trait].occurrence;
-    let o = str.slice(
-      str.indexOf('(') + 1,
-      str.lastIndexOf(' %'),
-    );
-    let a = rarityData[layer][trait].trait;
     chances.push({
       trait: layer,
-      occurrence: o,
-      asset: a
+      occurrence: str.slice(str.indexOf('(') + 1, str.lastIndexOf(' %')),
+      asset: rarityData[layer][trait].trait
     })
   }
   console.log();
@@ -110,7 +105,7 @@ data.forEach((element) => {
         image.push({
           trait: element.trait,
           asset: element.asset,
-          value: (1/element.occurrence).toFixed(2)
+          occurrence: element.occurrence + '%'
         })
         score += Number((1/element.occurrence).toFixed(2));
       }
