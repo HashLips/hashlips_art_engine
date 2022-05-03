@@ -1,6 +1,7 @@
 const basePath = process.cwd();
 const fs = require("fs");
 const layersDir = `${basePath}/layers`;
+const buildDir = `${basePath}/build`;
 
 const { layerConfigurations } = require(`${basePath}/src/config.js`);
 
@@ -73,10 +74,57 @@ for (var layer in rarityData) {
 }
 
 // print out rarity data
+let chances = [];
 for (var layer in rarityData) {
   console.log(`Trait type: ${layer}`);
   for (var trait in rarityData[layer]) {
-    console.log(rarityData[layer][trait]);
+    //console.log(rarityData[layer][trait]);
+    console.table(rarityData[layer][trait]);
+    let str = rarityData[layer][trait].occurrence;
+    chances.push({
+      trait: layer,
+      occurrence: str.slice(str.indexOf('(') + 1, str.lastIndexOf(' %')),
+      asset: rarityData[layer][trait].trait
+    })
   }
   console.log();
 }
+
+// calculate each image rarity and rank them
+// higher is the score, rarer is the NFT
+let images = [];
+data.forEach((element) => {
+  let name = element.name;
+  let attributes = element.attributes;
+  let image = [];
+  let score = 0;
+  attributes.forEach((attribute) => {
+    let value = attribute.value;
+    chances.forEach((element) => {
+      if (element.asset == value) {
+        image.push({
+          trait: element.trait,
+          asset: element.asset,
+          occurrence: element.occurrence + '%'
+        })
+        score += Number((1/element.occurrence).toFixed(2));
+      }
+    });
+  });
+  images.push({
+    name: name,
+    rank: '',
+    rarityScore: (score).toFixed(2),
+    attributes: image
+  })
+});
+images.sort((a, b) => parseFloat(b.rarityScore) - parseFloat(a.rarityScore));
+images.forEach((image, index) => {
+  images[index].rank = index+1;
+})
+
+// export rarity scores in /build/json/_rarity.json file
+const writeMetaData = (_data) => {
+  fs.writeFileSync(`${buildDir}/json/_rarity.json`, _data);
+};
+writeMetaData(JSON.stringify(images, null, 2));
