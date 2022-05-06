@@ -61,8 +61,8 @@ const getRarityWeight = (_path) => {
   // check if there is an extension, if not, consider it a directory
   const exp = /#(\d*)/;
   const weight = exp.exec(_path);
-  const weightNumber = weight ? Number(weight[1]) : null;
-  if (!weightNumber || isNaN(weightNumber)) {
+  const weightNumber = weight ? Number(weight[1]) : -1;
+  if (weightNumber < 0 || isNaN(weightNumber)) {
     return "required";
   }
   return weightNumber;
@@ -98,8 +98,12 @@ const parseQueryString = (filename, layer, sublayer) => {
   }, []);
 
   return {
-    blendmode: layerstyles.blend ? layerstyles.blend : getElementOptions(layer,sublayer).blendmode,
-    opacity: layerstyles.opacity ? layerstyles.opacity / 100 : getElementOptions(layer,sublayer).opacity,
+    blendmode: layerstyles.blend
+      ? layerstyles.blend
+      : getElementOptions(layer, sublayer).blendmode,
+    opacity: layerstyles.opacity
+      ? layerstyles.opacity / 100
+      : getElementOptions(layer, sublayer).opacity,
   };
 };
 
@@ -466,6 +470,19 @@ function pickRandomElement(
     debugLogs
       ? console.log(chalk.yellowBright(`Force picking ${forcedPick.name}/n`))
       : null;
+    if (forcedPick.sublayer) {
+      return dnaSequence.concat(
+        pickRandomElement(
+          forcedPick,
+          dnaSequence,
+          `${parentId}.${forcedPick.id}`,
+          incompatibleDNA,
+          forcedDNA,
+          bypassDNA,
+          zIndex
+        )
+      );
+    }
     let dnaString = `${parentId}.${forcedPick.id}:${forcedPick.zindex}${forcedPick.filename}${bypassDNA}`;
     return dnaSequence.push(dnaString);
   }
