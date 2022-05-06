@@ -9,7 +9,6 @@ const program = new Command();
 
 const chalk = require("chalk");
 const jsonDir = `${basePath}/build/json`;
-const metadataFilePath = `${basePath}/build/json/_metadata.json`;
 
 const getIndividualJsonFiles = () => {
   return fs

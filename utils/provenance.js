@@ -4,7 +4,6 @@ const chalk = require("chalk");
 const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
-console.log({ basePath });
 
 const { buildDir } = require(path.join(basePath, "/src/config.js"));
 // Read files from the build folder defined in config.

@@ -6,7 +6,6 @@ const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const fs = require("fs");
 const layersDir = `${basePath}/layers`;
 
-console.log(path.join(basePath, "/src/config.js"));
 const {
   layerConfigurations,
   extraAttributes,
