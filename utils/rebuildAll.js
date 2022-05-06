@@ -20,8 +20,6 @@ const chalk = require("chalk");
 
 const { createCanvas } = require("canvas");
 
-const keccak256 = require("keccak256");
-
 const {
   format,
   layerConfigurations,

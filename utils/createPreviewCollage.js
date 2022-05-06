@@ -7,7 +7,6 @@ const path = require("path");
 const { createCanvas, loadImage } = require("canvas");
 const buildDir = `${basePath}/build`;
 
-console.log(path.join(basePath, "/src/config.js"));
 const { preview } = require(path.join(basePath, "/src/config.js"));
 
 // read json data

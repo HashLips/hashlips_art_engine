@@ -3,7 +3,6 @@
 const path = require("path");
 const isLocal = typeof process.pkg === "undefined";
 const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
-const { MODE } = require(path.join(basePath, "src/blendMode.js"));
 
 const buildDir = path.join(basePath, "/build");
 const layersDir = path.join(basePath, "/layers");

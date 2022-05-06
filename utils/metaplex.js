@@ -8,11 +8,8 @@ const chalk = require("chalk");
 
 const {
   NFTName,
-  collectionName,
-  collectionFamily,
   symbol,
   description,
-  baseUriPrefix,
   external_url,
   royaltyFee,
   creators,
