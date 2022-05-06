@@ -586,6 +586,13 @@ If you have an existing set of generated images and data, **and** you have a con
 node utils/cardano.js
 ```
 
+# GIF compatibility
+
+This tool currently does not support gif layers or outputting gifs. If you want to GIF generative tool, check out 
+[Jalagar's GIF Engine](https://github.com/jalagar/Generative_Gif_Engine). It supports most of the same functionality
+as this repo (if-then, z-index, layering, Tezos, Solana, legendary replace). If you have any questions or issues,
+please create a issue/discussion on Jalagar's repo.
+
 # incompatibilities
 
 ⚠️ This was forked originally from hashlips 1.0.6 and may have different syntax/options. Be sure to read this readme for how to use each feature in _this_ branch.
