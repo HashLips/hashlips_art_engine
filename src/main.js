@@ -793,7 +793,7 @@ const startCreating = async (storedDNA) => {
     let i = startIndex;
     i <=
     startIndex +
-      layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+      layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo - 1;
     i++
   ) {
     abstractedIndexes.push(i);
