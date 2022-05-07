@@ -341,7 +341,7 @@ const startCreating = async () => {
   let abstractedIndexes = [];
   for (
     let i = network == NETWORK.sol ? 0 : 1;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+    i <= (layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo - (network == NETWORK.eth ? 0 : 1));
     i++
   ) {
     abstractedIndexes.push(i);
