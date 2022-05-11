@@ -5,14 +5,16 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
+const namePrefix = "ST_RT_bHYde";
+const description = "Don't blink I'll get you!!";
 const baseUri = "ipfs://NewUriToReplace";
 
 const solanaMetadata = {
   symbol: "YC",
   seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
-  external_url: "https://www.youtube.com/c/hashlipsnft",
+//  external_url: "https://www.youtube.com/c/hashlipsnft",
+  external_url: "https://www.twitch.tv/deedee_lighthouse",
+
   creators: [
     {
       address: "7fXNuer5sbZtaTEPhtJ5g5gNtuyRoKkvxdjEjEnPN4mC",
@@ -24,15 +26,35 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 6,
     layersOrder: [
       { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "Foreground" },
+      { name: "Insig" },
+      { name: "Item" },
+      { name: "Planets" },
+      { name: "Roman" },
+      { name: "SGG" },
+      { name: "bird" },
+    ],
+  },
+  {
+    // Create an Additinal 45 artworks
+    growEditionSizeTo: 45,
+    layersOrder: [
+      { name: "Foreground" },
+      { name: "Insig" },
+      { name: "Planets" },
+      { name: "SGG" },
+    ],
+  },
+  {
+    // (4e@te an Add!t!o2al artw0rk5
+    growEditionSizeTo: 96,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Foreground" },
+      { name: "Item" },
     ],
   },
 ];
@@ -42,8 +64,8 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width:  1500,
+  height: 1500,
   smoothing: false,
 };
 
