@@ -24,7 +24,7 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 6,
     layersOrder: [
       { name: "Background" },
       { name: "Foreground" },
@@ -32,7 +32,26 @@ const layerConfigurations = [
       { name: "Item" },
       { name: "Planets" },
       { name: "Roman" },
-//      { name: "Top lid" },
+      { name: "SGG" },
+      { name: "bird" },
+    ],
+  },
+  {
+    // Create an Additinal 45 artworks
+    growEditionSizeTo: 45,
+    layersOrder: [
+      { name: "Foreground" },
+      { name: "Insig" },
+      { name: "Planets" },
+      { name: "SGG" },
+    ],
+  },
+  {
+    // (4e@te an Add!t!o2al artw0rk5
+    growEditionSizeTo: 96,
+    layersOrder: [
+      { name: "Foreground" },
+      { name: "Item" },
     ],
   },
 ];
@@ -42,8 +61,8 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width:  1500,
+  height: 1500,
   smoothing: false,
 };
 
