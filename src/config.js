@@ -52,6 +52,7 @@ const layerConfigurations = [
     // (4e@te an Add!t!o2al artw0rk5
     growEditionSizeTo: 96,
     layersOrder: [
+      { name: "Background" },
       { name: "Foreground" },
       { name: "Item" },
     ],
