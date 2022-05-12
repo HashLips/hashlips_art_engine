@@ -5,16 +5,15 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "ST_RT_bHYde";
-const description = "Don't blink I'll get you!!";
+const namePrefix = "ST_AA_SDS";
+const description = "I lost the fundamental again...";
 const baseUri = "ipfs://NewUriToReplace";
 
 const solanaMetadata = {
   symbol: "YC",
   seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
-//  external_url: "https://www.youtube.com/c/hashlipsnft",
+//external_url: "https://www.youtube.com/c/hashlipsnft",
   external_url: "https://www.twitch.tv/deedee_lighthouse",
-
   creators: [
     {
       address: "7fXNuer5sbZtaTEPhtJ5g5gNtuyRoKkvxdjEjEnPN4mC",
@@ -23,49 +22,46 @@ const solanaMetadata = {
   ],
 };
 
+
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
     growEditionSizeTo: 6,
     layersOrder: [
-      { name: "Background" },
-      { name: "Foreground" },
-      { name: "Insig" },
-      { name: "Item" },
-      { name: "Planets" },
-      { name: "Roman" },
-      { name: "SGG" },
-      { name: "bird" },
+      { name: "Gradients" },
+      { name: "Spirit" } ,
+      { name: "Vortex" } ,
+      { name: "Spirit Guide" } ,
+      { name: "Birth" } ,
     ],
   },
+  // Next Gen::
   {
-    // Create an Additinal 45 artworks
-    growEditionSizeTo: 45,
+    growEditionSizeTo: 10,
     layersOrder: [
-      { name: "Foreground" },
-      { name: "Insig" },
-      { name: "Planets" },
-      { name: "SGG" },
+      { name: "Gradients" } , 
+      { name: "Spirit" } , 
+      { name: "Birth" } ,
     ],
   },
+  // next Gen::
   {
-    // (4e@te an Add!t!o2al artw0rk5
-    growEditionSizeTo: 96,
+    growEditionSizeTo: 15,
     layersOrder: [
-      { name: "Background" },
-      { name: "Foreground" },
-      { name: "Item" },
+      { name: "Vortex" } ,
+      { name: "Gradients" } , 
     ],
   },
 ];
+
 
 const shuffleLayerConfigurations = false;
 
 const debugLogs = false;
 
 const format = {
-  width:  1500,
-  height: 1500,
+  width:  1920,
+  height: 1080,
   smoothing: false,
 };
 
