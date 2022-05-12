@@ -28,11 +28,13 @@ const layerConfigurations = [
   {
     growEditionSizeTo: 6,
     layersOrder: [
-      { name: "Gradients" },
+      { name: "Gradients" } ,
+      { name: "Background" } ,
       { name: "Spirit" } ,
       { name: "Vortex" } ,
       { name: "Spirit Guide" } ,
       { name: "Birth" } ,
+      { name: "newStructures" } ,
     ],
   },
   // Next Gen::
@@ -42,16 +44,29 @@ const layerConfigurations = [
       { name: "Gradients" } , 
       { name: "Spirit" } , 
       { name: "Birth" } ,
-    ],
+      { name: "newStructures", options: { blend: MODE.overlay, opacity: 0.7 } },
+   ],
   },
   // next Gen::
   {
     growEditionSizeTo: 15,
     layersOrder: [
-      { name: "Vortex" } ,
-      { name: "Gradients" } , 
+      { name: "Vortex" , options: { blend: MODE.overlay, opacity: 0.7 } },
+      { name: "Gradients" , options: { blend: MODE.overlay, opacity: 0.7 } },
+      { name: "newStructures", options: { blend: MODE.overlay, opacity: 0.7 } }, 
     ],
   },
+  // next gen:
+  {
+    growEditionSizeTo: 20,
+    layersOrder: [
+      { name: "Background", options: { blend: MODE.overlay, opacity: 0.7 } },
+      { name: "Gradients", options: { blend: MODE.overlay, opacity: 0.7 } },
+      { name: "newStructures", options: { blend: MODE.overlay, opacity: 0.7 } },
+      { name: "Vortex", options: { blend: MODE.overlay, opacity: 0.7 } }, 
+      { name: "Spirit Guide", options: { blend: MODE.overlay, opacity: 0.7 } },
+      ],
+    },
 ];
 
 
