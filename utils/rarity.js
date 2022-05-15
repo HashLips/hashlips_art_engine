@@ -69,10 +69,16 @@ for (var layer in rarityData) {
     // show two decimal places in percent
     rarityData[layer][attribute].occurrence =
       `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
+    
+    rarityData[layer][attribute].chance = chance / 100;
   }
 }
 
 // print out rarity data
+console.log();
+console.log("Traits Rarity Data ========");
+console.log("===========================");
+console.log();
 for (var layer in rarityData) {
   console.log(`Trait type: ${layer}`);
   for (var trait in rarityData[layer]) {
@@ -80,3 +86,41 @@ for (var layer in rarityData) {
   }
   console.log();
 }
+
+// output a sorted list by NFT rarity score
+NFTrarity = []
+data.forEach((element) => {
+
+  score = 0;
+  element.attributes.forEach((attrib) => {
+    layer = rarityData[attrib["trait_type"]];
+    objIndex = layer.findIndex((meta => meta.trait == attrib["value"]));
+    trait = layer[objIndex];
+
+    score = score + 1 / trait.chance;
+  });
+
+  NFTrarity.push({
+    "edition": element.edition,
+    "score": score
+  });
+});
+
+console.log("NFT Rarity Ranking ========");
+console.log("===========================");
+NFTrarity.sort((a, b) => (a.score > b.score) ? -1 : 1);
+// console.log(NFTrarity);
+
+scoreFile = 'NftItemsRarityScore.log';
+fs.writeFileSync(scoreFile, "NFT Rarity Ranking ======== \n Edition, Score\n");
+NFTrarity.forEach((element) => {
+  line = `${element.edition},${element.score}\n`;
+  fs.appendFile(scoreFile, line, (err) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      console.log(element);
+    }
+  });
+});
