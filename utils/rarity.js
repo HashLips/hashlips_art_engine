@@ -109,4 +109,18 @@ data.forEach((element) => {
 console.log("NFT Rarity Ranking ========");
 console.log("===========================");
 NFTrarity.sort((a, b) => (a.score > b.score) ? -1 : 1);
-console.log(NFTrarity);
+// console.log(NFTrarity);
+
+scoreFile = 'NftItemsRarityScore.log';
+fs.writeFileSync(scoreFile, "NFT Rarity Ranking ======== \n Edition, Score\n");
+NFTrarity.forEach((element) => {
+  line = `${element.edition},${element.score}\n`;
+  fs.appendFile(scoreFile, line, (err) => {
+    if (err) {
+      console.log(err);
+    }
+    else {
+      console.log(element);
+    }
+  });
+});
