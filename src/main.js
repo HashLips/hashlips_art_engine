@@ -1,5 +1,7 @@
 const basePath = process.cwd();
 const { NETWORK } = require(`${basePath}/constants/network.js`);
+const { METADATA } = require(`${basePath}/constants/metadata.js`);
+const { RARITY } = require(`${basePath}/constants/rarity.js`);
 const fs = require("fs");
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
@@ -22,6 +24,15 @@ const {
   solanaMetadata,
   gif,
 } = require(`${basePath}/src/config.js`);
+const {
+  createMetadataItem,
+  writeMetadataFile,
+  saveIndividualMetadataFiles,
+} = require(`${basePath}/src/metadata.js`);
+const {
+  getGeneralRarity,
+  getItemsRarity,
+} = require(`${basePath}/src/rarity.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;
@@ -38,11 +49,11 @@ const buildSetup = () => {
     fs.rmdirSync(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
-  fs.mkdirSync(`${buildDir}/json`);
-  fs.mkdirSync(`${buildDir}/images`);
-  if (gif.export) {
-    fs.mkdirSync(`${buildDir}/gifs`);
-  }
+
+  if (network.jsonDirPrefix)
+    fs.mkdirSync(`${buildDir}/${network.jsonDirPrefix}`);
+  if (network.mediaDirPrefix)
+    fs.mkdirSync(`${buildDir}/${network.mediaDirPrefix}`);
 };
 
 const getRarityWeight = (_str) => {
@@ -112,7 +123,7 @@ const layersSetup = (layersOrder) => {
 
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}.png`,
+    `${buildDir}/${network.mediaDirPrefix}${network.mediaFilePrefix}${_editionCount}.png`,
     canvas.toBuffer("image/png")
   );
 };
@@ -126,49 +137,6 @@ const genColor = () => {
 const drawBackground = () => {
   ctx.fillStyle = background.static ? background.default : genColor();
   ctx.fillRect(0, 0, format.width, format.height);
-};
-
-const addMetadata = (_dna, _edition) => {
-  let dateTime = Date.now();
-  let tempMetadata = {
-    name: `${namePrefix} #${_edition}`,
-    description: description,
-    image: `${baseUri}/${_edition}.png`,
-    dna: sha1(_dna),
-    edition: _edition,
-    date: dateTime,
-    ...extraMetadata,
-    attributes: attributesList,
-    compiler: "HashLips Art Engine",
-  };
-  if (network == NETWORK.sol) {
-    tempMetadata = {
-      //Added metadata for solana
-      name: tempMetadata.name,
-      symbol: solanaMetadata.symbol,
-      description: tempMetadata.description,
-      //Added metadata for solana
-      seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
-      image: `${_edition}.png`,
-      //Added metadata for solana
-      external_url: solanaMetadata.external_url,
-      edition: _edition,
-      ...extraMetadata,
-      attributes: tempMetadata.attributes,
-      properties: {
-        files: [
-          {
-            uri: `${_edition}.png`,
-            type: "image/png",
-          },
-        ],
-        category: "image",
-        creators: solanaMetadata.creators,
-      },
-    };
-  }
-  metadataList.push(tempMetadata);
-  attributesList = [];
 };
 
 const addAttributes = (_element) => {
@@ -303,23 +271,6 @@ const createDna = (_layers) => {
   return randNum.join(DNA_DELIMITER);
 };
 
-const writeMetaData = (_data) => {
-  fs.writeFileSync(`${buildDir}/json/_metadata.json`, _data);
-};
-
-const saveMetaDataSingleFile = (_editionCount) => {
-  let metadata = metadataList.find((meta) => meta.edition == _editionCount);
-  debugLogs
-    ? console.log(
-        `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
-      )
-    : null;
-  fs.writeFileSync(
-    `${buildDir}/json/${_editionCount}.json`,
-    JSON.stringify(metadata, null, 2)
-  );
-};
-
 function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -339,8 +290,9 @@ const startCreating = async () => {
   let editionCount = 1;
   let failedCount = 0;
   let abstractedIndexes = [];
+  let abstractedIndexesBackup = [];
   for (
-    let i = network == NETWORK.sol ? 0 : 1;
+    let i = network.startIdx;
     i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
     i++
   ) {
@@ -349,6 +301,7 @@ const startCreating = async () => {
   if (shuffleLayerConfigurations) {
     abstractedIndexes = shuffle(abstractedIndexes);
   }
+  abstractedIndexesBackup = [...abstractedIndexes];
   debugLogs
     ? console.log("Editions left to create: ", abstractedIndexes)
     : null;
@@ -375,7 +328,7 @@ const startCreating = async () => {
             hashlipsGiffer = new HashlipsGiffer(
               canvas,
               ctx,
-              `${buildDir}/gifs/${abstractedIndexes[0]}.gif`,
+              `${buildDir}/${network.mediaDirPrefix}${abstractedIndexes[0]}.gif`,
               gif.repeat,
               gif.quality,
               gif.delay
@@ -402,8 +355,10 @@ const startCreating = async () => {
             ? console.log("Editions left to create: ", abstractedIndexes)
             : null;
           saveImage(abstractedIndexes[0]);
-          addMetadata(newDna, abstractedIndexes[0]);
-          saveMetaDataSingleFile(abstractedIndexes[0]);
+          metadataList.push(
+            createMetadataItem(attributesList, newDna, abstractedIndexes[0])
+          );
+          attributesList = [];
           console.log(
             `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
               newDna
@@ -426,7 +381,22 @@ const startCreating = async () => {
     }
     layerConfigIndex++;
   }
-  writeMetaData(JSON.stringify(metadataList, null, 2));
+
+  // calculate rarities (if needed) & save _metadata.json file
+  if (network.metadataType === METADATA.basic) {
+    writeMetadataFile(JSON.stringify(metadataList, null, 2));
+  } else if (network.metadataType === METADATA.rarities) {
+    // calculate rarity for traits/layers & attributes/assets
+    const rarityObject = getGeneralRarity(metadataList);
+    if (network.rarityAlgorithm !== RARITY.none) {
+      // calculate rarity for all items/NFTs
+      metadataList = getItemsRarity(metadataList, rarityObject);
+    }
+    writeMetadataFile(JSON.stringify(rarityObject, null, 2));
+  }
+
+  // save individual metadata files
+  saveIndividualMetadataFiles(metadataList, abstractedIndexesBackup);
 };
 
 module.exports = { startCreating, buildSetup, getElements };
