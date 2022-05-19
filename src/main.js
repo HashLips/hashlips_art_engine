@@ -22,6 +22,9 @@ const {
   solanaMetadata,
   gif,
 } = require(`${basePath}/src/config.js`);
+
+const attributeConfig = require(`${basePath}/src/attributes.config.js`);
+
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;
@@ -141,6 +144,9 @@ const addMetadata = (_dna, _edition) => {
     attributes: attributesList,
     compiler: "HashLips Art Engine",
   };
+
+  addCustomMetadata(tempMetadata);
+
   if (network == NETWORK.sol) {
     tempMetadata = {
       //Added metadata for solana
@@ -170,6 +176,24 @@ const addMetadata = (_dna, _edition) => {
   metadataList.push(tempMetadata);
   attributesList = [];
 };
+
+const addCustomMetadata = (tempMetadata) => {
+  attributeConfig.customAttributes.forEach((attribute) => {
+    const { trait_type, range } = attribute;
+    let value;
+    if(range) {
+      value = range[Math.floor(Math.random() * range.length)];
+    }else {
+      value = Math.floor(
+        Math.random() * (attribute.maxValue - attribute.minValue + 1)
+      ) + attribute.minValue
+    }
+    tempMetadata.attributes.push({
+      trait_type,
+      value,
+    });
+  });
+}
 
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
