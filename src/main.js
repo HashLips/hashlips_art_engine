@@ -340,8 +340,7 @@ const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
   if (layerConfigurations.length === 0) {
-    console.error("No layer configurations found");
-    return;
+    throw new Error("No layer configurations found in config.js");
   }
   const editionOffset =
     layerConfigurations[0].editionOffset &&
