@@ -310,4 +310,69 @@ Trait type: Top lid
 }
 ```
 
+### Generate custom random attributes
+
+You can add custom random atributers to your collection.
+
+Open the `src/attribute.config.js` file.
+
+Uncomment the lines below and add your custom attributes, from this
+
+```js
+        // {
+        //     //the name of the attribute
+        //     trait_type: "Height",
+        //     //a range of values for the attribute
+        //     minValue: 140,
+        //     maxValue: 200,
+        // },
+        // {
+        //     //the name of the attribute
+        //     trait_type: "Music Genre",
+        //     //a range of values for the attribute
+        //     range: ["Pop", "Punk", "Rock", "Metal", "Disco", "Jazz", "Classical", "Hip Hop", "Reggae", "Blues", "Soul", "Electronic"],
+        // },
+```
+
+to this 
+
+```js
+        {
+            //the name of the attribute
+            trait_type: "Height",
+            //a range of values for the attribute
+            minValue: 140,
+            maxValue: 200,
+        },
+        {
+            //the name of the attribute
+            trait_type: "Music Genre",
+            //a range of values for the attribute
+            range: ["Pop", "Punk", "Rock", "Metal", "Disco", "Jazz", "Classical", "Hip Hop", "Reggae", "Blues", "Soul", "Electronic"],
+        },
+```
+
+The property `trait_type` is the name of the custom attribute. The value of the attribute can be configured in two ways: 
+
+* The property `minValue` and `maxValue`: are the range of values for the attribute.
+* The property `range`: is a list of values for the attribute.
+
+You have to change the value of the `trait_type` property to the name of the attribute you want to add.
+
+Example: 
+
+```js
+        {
+            //the name of the attribute
+            trait_type: "Intelligence",
+            // or trait_type: "Cleanliness",
+            // or trait_type: "Height",
+            // or trait_type: "Music Genre",
+            
+           
+        },
+
+```
+
+
 Hope you create some awesome artworks with this code 👄
