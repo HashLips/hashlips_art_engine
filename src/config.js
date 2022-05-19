@@ -24,7 +24,8 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    //editionOffset: 11, // You can set this to start numbering from a custom offset other than the default which is 1
+    growEditionSizeTo: 15,
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },

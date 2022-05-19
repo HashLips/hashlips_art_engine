@@ -339,9 +339,19 @@ const startCreating = async () => {
   let editionCount = 1;
   let failedCount = 0;
   let abstractedIndexes = [];
+  if (layerConfigurations.length === 0) {
+    throw new Error("No layer configurations found in config.js");
+  }
+  const editionOffset =
+    layerConfigurations[0].editionOffset &&
+    layerConfigurations[0].editionOffset >= 1
+      ? layerConfigurations[0].editionOffset - 1
+      : 0;
+  const collectionSize =
+    layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
   for (
-    let i = network == NETWORK.sol ? 0 : 1;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+    let i = editionOffset + (network == NETWORK.sol ? 0 : 1);
+    i <= editionOffset + collectionSize;
     i++
   ) {
     abstractedIndexes.push(i);
@@ -405,9 +415,13 @@ const startCreating = async () => {
           addMetadata(newDna, abstractedIndexes[0]);
           saveMetaDataSingleFile(abstractedIndexes[0]);
           console.log(
-            `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
-              newDna
-            )}`
+            `${`${
+              editionOffset > 0
+                ? abstractedIndexes[0] - editionOffset
+                : abstractedIndexes[0]
+            }`.padStart(Math.log(collectionSize), " ")} > Created edition: ${
+              abstractedIndexes[0]
+            }, with DNA: ${sha1(newDna)}`
           );
         });
         dnaList.add(filterDNAOptions(newDna));

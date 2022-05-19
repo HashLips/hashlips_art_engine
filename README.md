@@ -101,9 +101,42 @@ const layerConfigurations = [
 ];
 ```
 
-Update your `format` size, ie the outputted image size, and the `growEditionSizeTo` on each `layerConfigurations` object, which is the amount of variation outputted.
+Update your `format` size, (i.e. the outputted image size, and the `growEditionSizeTo` on each `layerConfigurations` object), which is the amount of variation outputted.
 
 You can mix up the `layerConfigurations` order on how the images are saved by setting the variable `shuffleLayerConfigurations` in the `config.js` file to true. It is false by default and will save all images in numerical order.
+
+If you want a custom edition offset for your layer configuration, you can specify an `editionOffset` in the _first_ `layerConfiguration` object.
+
+_Example:_ You already generated collection of `120` NFTs and want to start generating more NFTs as a continuation of the collection.
+
+```js
+const layerConfigurations = [
+  {
+    editionOffset: 121, // start from 121
+    growEditionSizeTo: 100, // will generate 100 nfts named 121 - 220
+    layersOrder: [
+      { name: "Head" },
+      { name: "Mouth" },
+      { name: "Eyes" },
+      { name: "Eyeswear" },
+      { name: "Headwear" },
+    ],
+  },
+  {
+    // Creates an additional 100 artworks numbered 221 - 370
+    growEditionSizeTo: 150,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Head" },
+      { name: "Eyes" },
+      { name: "Mouth" },
+      { name: "Eyeswear" },
+      { name: "Headwear" },
+      { name: "AlienHeadwear" },
+    ],
+  },
+];
+```
 
 If you want to have logs to debug and see what is happening when you generate images you can set the variable `debugLogs` in the `config.js` file to true. It is false by default, so you will only see general logs.
 
