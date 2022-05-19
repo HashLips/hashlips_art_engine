@@ -181,9 +181,9 @@ const addCustomMetadata = (tempMetadata) => {
   attributeConfig.customAttributes.forEach((attribute) => {
     const { trait_type, range } = attribute;
     let value;
-    if(range) {
+    if (range) {
       value = range[Math.floor(Math.random() * range.length)];
-    }else {
+    } else {
       value = Math.floor(
         Math.random() * (attribute.maxValue - attribute.minValue + 1)
       ) + attribute.minValue
