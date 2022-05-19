@@ -343,9 +343,11 @@ const startCreating = async () => {
     console.error("No layer configurations found");
     return;
   }
-  const editionOffset = layerConfigurations[0].editionOffset
-    ? layerConfigurations[0].editionOffset - 1
-    : 0;
+  const editionOffset =
+    layerConfigurations[0].editionOffset &&
+    layerConfigurations[0].editionOffset >= 1
+      ? layerConfigurations[0].editionOffset - 1
+      : 0;
   const collectionSize =
     layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
   for (
