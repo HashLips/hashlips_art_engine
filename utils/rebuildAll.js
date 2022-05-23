@@ -101,13 +101,15 @@ const regenerate = async (dnaData, options) => {
     if (options.omit) {
       const dnaImages = images.split(DNA_DELIMITER);
       // remove every item whose address index matches the omitIndex
+      let elementsToDelete = [];
       dnaImages.forEach((element, index) => {
         if (element.startsWith(`${options.omit}.`)) {
-          dnaImages.splice(index, 1);
+          elementsToDelete.push(index);
         }
       });
+      const removedDnaImages = dnaImages.filter((el, index) => !elementsToDelete.includes(index));
 
-      images = dnaImages.join(DNA_DELIMITER);
+      images = removedDnaImages.join(DNA_DELIMITER);
     }
 
     let results = constructLayerToDna(images, layers);
