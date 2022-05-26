@@ -138,9 +138,23 @@ const getNoneToRevealElements = (layerObj) => {
 
   // get noneToRevealFiles/overlapRevealFiles by intersecting/differenting allFiles 
   // with/from noneToReveal files specified in the layerObj.options.noneToReveal
-  noneToRevealFiles = allFiles.filter( (val) => { return layerObj.options.noneToReveal.indexOf(val) > -1})
-  overlapRevealFiles = allFiles.filter( (val) => { return layerObj.options.noneToReveal.indexOf(val) === -1})
-  
+  // noneToRevealFiles = allFiles.filter( (val) => { return layerObj.options.noneToReveal.indexOf(val) > -1})
+  // overlapRevealFiles = allFiles.filter( (val) => { return layerObj.options.noneToReveal.indexOf(val) === -1})
+  let noneToRevealFiles = []
+  let overlapRevealFiles = []
+  let pureNoneToReveail = layerObj.options.noneToReveal.map(item=>item.split('.').shift())
+
+  // console.log(pureNoneToReveail)
+
+  allFiles.forEach (fl => {
+    if (pureNoneToReveail.includes(fl.split(rarityDelimiter).shift().split('.').shift())) {
+      noneToRevealFiles.push(fl)
+    }
+    else {
+      overlapRevealFiles.push(fl)
+    }
+  })
+
   // get noneToRevealElements and overlapRevealElements
   noneToRevealElements =
     noneToRevealFiles.map((i, index) => ({
@@ -160,7 +174,7 @@ const getNoneToRevealElements = (layerObj) => {
         weight: getRarityWeight(i),
     }))
   
-    // form a object and return
+  // form a object and return
   return {noneToReveal: noneToRevealElements, overlapReveal:overlapRevealElements}
 }
 
@@ -245,12 +259,12 @@ const addMetadata = (_dna, _edition) => {
     name: `${namePrefix} #${_edition}`,
     description: description,
     image: `${baseUri}/${_edition}.png`,
-    dna: sha1(_dna),
+    // dna: sha1(_dna),
     edition: _edition,
-    date: dateTime,
+    // date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
-    compiler: "HashLips Art Engine",
+    // compiler: "HashLips Art Engine",
   };
   if (network == NETWORK.sol) {
     tempMetadata = {
@@ -284,6 +298,9 @@ const addMetadata = (_dna, _edition) => {
 
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
+  if (selectedElement.name === 'None' | selectedElement.name === 'none' ) {
+    return
+  }
   attributesList.push({
     trait_type: _element.layer.name,
     value: selectedElement.name,
@@ -414,7 +431,8 @@ const createDna = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
     var totalWeight = 0;
-    // if the layer has sub_groups, the elements are nested in the sub_group 
+    // if the layer has sub_groups, the elements are nested in the sub_group
+    randNum[layer.linkLayer]
     cur_elements = 
       layer.subGroup == true
       ? (layer.elements.find(item => 
