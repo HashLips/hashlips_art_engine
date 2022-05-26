@@ -34,32 +34,47 @@ const layerConfigurations = [
       { name: "Bottom lid" },
       { name: "Top lid" },
 
-      // { name: "Fur" },
+      // { name: "Fur",
+      //   options: {
+      //     rarities: [90, [10,12,6,7,21,18]],
+      //   },
+      // },
       // { name: "Hair", 
       //   options: {
-      //     subGroup: true, // existance of sub folder corresponding to each kind of fur
-      //     linkLayer: 7, // layer 7 of Fur
-      //   },
+      //     subGroup: true,  // existance of sub folder corresponding to each kind of fur
+      //     linkLayer: 7,    // layer 7 of Fur
+      //     rarities: [
+      //       [90, []],
+      //     ],
+      //     noResetRarities: false,
+      //   },  
+      // },
+      // { name: "Mouth",
+      //   options: {
+      //     rarities: [80, []],
+      //   }
       // },
       // { name: "Hats",  
       //   options: {
-      //     noneToReveal: ['Hat_type1.png', 'Hat_type2.png'], // list of hats
-      //                                    // revealed only when Hair is None
+      //     noneToReveal: ['Hat_type1.png', 'Hat_type2.png'],  // list of hats
+      //                                      // revealed only when Hair is None
       //     linkLayer: 8, // layer 8 of Hair
+      //     rarities: [100, [], []],
       //   },
       // },  
-
     ],
   },
 ];
+  
+const src_none_file = `${basePath}/utils/None.png`;
 
 const shuffleLayerConfigurations = false;
 
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 2020,
+  height: 2020,
   smoothing: false,
 };
 
@@ -123,6 +138,7 @@ module.exports = {
   background,
   uniqueDnaTorrance,
   layerConfigurations,
+  src_none_file,
   rarityDelimiter,
   preview,
   shuffleLayerConfigurations,
