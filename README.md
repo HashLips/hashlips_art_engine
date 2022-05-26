@@ -145,6 +145,63 @@ const layerConfigurations = [
 ];
 ```
 
+In addtion, a couple of conditional rules of constructing layers to DNA are applied to adapt the situations as follows. An example of layerConfigurations in _src/config.js_ is listed below to explain these situations.
+
+```js
+const layerConfigurations = [
+  {
+    growEditionSizeTo: 5,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Eyeball" },
+      { name: "Eye color" },
+      { name: "Iris" },
+      { name: "Shine" },
+      { name: "Bottom lid" },
+      { name: "Top lid" },
+      { name: "Fur",
+        options: {
+          rarities: [90, [10,12,6,7,21,18]],
+        },
+      },
+      { name: "Hair", 
+        options: {
+          subGroup: true,  // existance of sub folder corresponding to each kind of fur
+          linkLayer: 7,    // layer 7 of Fur
+          rarities: [
+            [90, []],
+          ],
+          noResetRarities: false,
+        },  
+      },
+      { name: "Mouth",
+        options: {
+          rarities: [80, []],
+        }
+      },
+      { name: "Hats",  
+        options: {
+          noneToReveal: ['Hat_type1.png', 'Hat_type2.png'],  // list of hats
+                                           // revealed only when Hair is None
+          linkLayer: 8, // layer 8 of Hair
+          rarities: [100, [], []],
+        },
+      },  
+    ],
+  },
+];
+
+```
+1. If a layer folder has its sub-folders, each sub-folder contains image files which only apply to a certain trait (image file) of another specified layer, e.g. "_Hair_" layer has 'White', 'Yellow,' 'Golden' sub-folders, the hair-style files inside the 'White' sub-folder can only apply to 'White' fur trait (White.png) of "_Fur_" layer. In this case, the config.js file has to specify an object _{options: {subGroup: true, linkeLayer: 7}}_ in the "_Hair_" layer, where _{subGroup: true}_ means that this layer has sub-folders, and _{linkeLayer: 7}_ means that the linked layer is the _7th_ layer (layer index starts from 0) of "_Fur_".  ## Please note that the following conventions must be complied: 1) all the sub-folders must have their corresponding image files in the their linkLayer, and vice versa; 2) each sub-folder name must be exactly the same as its corresponding linkLayer image file name without its extension. e.g. if "_Fur_" layer has three image files: 'White.png', 'Yellow.png' and 'Golden.png', "_Hair_" layer must have and can only have three sub-folders of 'White', 'Yellow' and 'Golden'. 
+2. Some of image files for traits in a layer only apply/reveal when the trait of a specified layer is None (None.png blank image file), and the rest files apply when the trait of the specified layer is not None. This condition is referred to as '**NoneToReveal**' hereafter. As an example shown above, layer "_Hats_" specifies in its options object _{noneToReveal: ['Hat_type1.png', 'Hat_type2.png'], linkLayer: 8}_, which means if the trait of "_Hair_" of the linkLayer 8 (layer index starts from 0) is None, "_Hats_" layer can only choose from the list of _['Hat_type1.png', 'Hat_type2.png']_, else all the rest files under "_Hats_" folder except those in the list.
+
+A util of utils/set_rarities.js can be used to set rarity weights for each trait file automatically by specifying _{rarities: {number, []}_ in its options object of each layer:
+1) If no rarities object specified, all the traits are set the same weight evenly, and None is not allowed; layers "_Background_", "_Eyeball_", "_Eye color_", "_Iris_", "_Shine_", "_Bottom lid_" and "_Top lid_" are the case;
+2) Rarity weights are configured in an object _{rarities: {number, []}_, where _number_% is the sum of percentage weights of all traits except None trait, _(100-number)_% is the percentage weight of None trait; _[]_ after _number_ is a weight list corresponding to its trait files in alphabetical order. As an example shown in the above code, layer "_Fur_" rarities is to be set as _{options: {rarities: [90, [10,12,6,7,21,18]],}_, where 90 means the sum of all traits except None trait is 90%, and _[10,12,6,7,21,18]_ means there are 6 trait files excluding None, and these 6 trait files are assigned weights propotionally as specified in the list. Please note if the list is not empty, the number of the list elements must be the same as the number of trait files. If the list is empty, the available traits are set the same weight evenly, layer "_Mouth_" is the case.
+3) For layers with sub-folders, such a format {rarities: _[[number, []], ...]}_ is applied, one _[number, []]_ is specified for each sub-folder. If only one _[number, []]_ is specified in the format _{rarities: [[numbler,[]],]}_, the specified _[number, []]_ will apply to all the sub-folders, layer _"Hair"_ is the case.
+4) For the '**NoneToReveal**' condition as mentioned above, formart _{rarities: [number, [], []]}_ is applied, where _number_% is the sum of percentage weights of all traits except the noneToReveal list, the two sub lists are sequentially the weight lists for the traits excluding noneToReveal, and those in noneToReveal list. Here again an empty list means that weights are set evenly.
+5) _{options: {noResetRarities: true}}_ may be specified for a layer in the case that rarity weights have already assigned for this layer, and no more update is needed.
+
 Here is a list of the different blending modes that you can optionally use.
 
 ```js
@@ -245,6 +302,14 @@ Create a preview image collage of your collection, run:
 
 ```sh
 npm run preview
+```
+
+### Set specified rarities to image files 
+
+Set rarities specified in src/config.js to image files , run:
+
+```sh
+npm run set_rarities
 ```
 
 ### Generate pixelated images from collection
