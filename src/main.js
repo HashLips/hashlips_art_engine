@@ -21,7 +21,7 @@ const {
   network,
   solanaMetadata,
   gif,
-  startNum,
+  resumeNum,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -34,17 +34,35 @@ const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
 let hashlipsGiffer = null;
 
+// const buildSetup = () => {
+//   if (fs.existsSync(buildDir)) {
+//     // fs.rmdirSync(buildDir, { recursive: true });
+//     fs.rm(buildDir, { recursive: true });
+//     // console.log(`${buildDir} deleted`);
+//   }
+//   fs.mkdirSync(buildDir);
+//   fs.mkdirSync(`${buildDir}/json`);
+//   fs.mkdirSync(`${buildDir}/images`);
+//   if (gif.export) {
+//     fs.mkdirSync(`${buildDir}/gifs`);
+//   }
+// };
+
 const buildSetup = () => {
-  if (fs.existsSync(buildDir)) {
-    fs.rmdirSync(buildDir, { recursive: true });
+  if (!fs.existsSync(buildDir)) {
+    fs.mkdirSync(buildDir);
+    fs.mkdirSync(`${buildDir}/json`);
+    fs.mkdirSync(`${buildDir}/images`);
+  } else {
+    fs.rmdirSync(buildDir, { recursive: true } );
+    fs.mkdirSync(buildDir);
+    fs.mkdirSync(`${buildDir}/json`);
+    fs.mkdirSync(`${buildDir}/images`);
   }
-  fs.mkdirSync(buildDir);
-  fs.mkdirSync(`${buildDir}/json`);
-  fs.mkdirSync(`${buildDir}/images`);
   if (gif.export) {
     fs.mkdirSync(`${buildDir}/gifs`);
   }
-};
+}
 
 const getRarityWeight = (_str) => {
   let nameWithoutExtension = _str.slice(0, -4);
@@ -95,8 +113,6 @@ const layersSetup = (layersOrder) => {
       layerObj.options?.["displayName"] != undefined
         ? layerObj.options?.["displayName"]
         : layerObj.name,
-    // VARIATION
-    layerVariations: layerObj['layerVariations'],
     blend:
       layerObj.options?.["blend"] != undefined
         ? layerObj.options?.["blend"]
@@ -404,11 +420,11 @@ const startCreating = async () => {
           debugLogs
             ? console.log("Editions left to create: ", abstractedIndexes)
             : null;
-          saveImage(abstractedIndexes[0]+startNum);
-          addMetadata(newDna, abstractedIndexes[0]+startNum);
-          saveMetaDataSingleFile(abstractedIndexes[0]+startNum);
+          saveImage(abstractedIndexes[0]+resumeNum);
+          addMetadata(newDna, abstractedIndexes[0]+resumeNum);
+          saveMetaDataSingleFile(abstractedIndexes[0]+resumeNum);
           console.log(
-            `Created edition: ${abstractedIndexes[0]+startNum}, with DNA: ${sha1(
+            `Created edition: ${abstractedIndexes[0]+resumeNum}, with DNA: ${sha1(
               newDna
             )}`
           );

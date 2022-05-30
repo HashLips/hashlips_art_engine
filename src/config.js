@@ -3,23 +3,24 @@ const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 
 // Only use this if 100% necessary! Should regenerate whole collection together. 
-const startNum = 0;
+const resumeNum = 0;
 
 /* ^^ clean this up
--work in toMintNow functionality from fish engine
--work in variation system from fish engine
--work in misc utils from fish engine
+-work in toMintNow functionality
+-work in variation system
+-work in misc utils
+-work in rarity calculations
 -rework weight system to provide option to have either 
-exact counts based on weight (ie, weight of #30 would generate 
-that trait 30 times), or to simply mark the weight as a 
+exact percentages based on weight (ie, weight of #30 would generate 
+that trait 30% of the time), or to simply mark the weight as a 
 rarity name (common, rare, etc.) and have rarity automatic 
--Create incomatible layers system. It's form still needs to be worked
-out, but what makes sense to me is probably something similar to 
-how nftchef worked it out. 
+-Create incompatible layers system. 
+-option to not display none in metadata
+
 */
 
 const TOTAL_MINT = 10000;
-const toMintNow = 5;
+const toMintNow = 10;
 
 const scaleMints = (num) => {
   if (TOTAL_MINT === toMintNow) return num;
@@ -48,7 +49,19 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: scaleMints(5),
+    growEditionSizeTo: scaleMints(50),
+    layersOrder: [
+      { name: "Background" },
+      { name: "Eyeball" },
+      { name: "Eye color" },
+      { name: "Iris" },
+      { name: "Shine" },
+      { name: "Bottom lid" },
+      { name: "Top lid" },
+    ],
+  },
+  {
+    growEditionSizeTo: scaleMints(100),
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
@@ -143,5 +156,5 @@ module.exports = {
   solanaMetadata,
   gif,
   preview_gif,
-  startNum,
+  resumeNum,
 };
