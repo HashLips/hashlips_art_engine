@@ -2,6 +2,30 @@ const basePath = process.cwd();
 const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 
+// Only use this if 100% necessary! Should regenerate whole collection together. 
+const startNum = 0;
+
+/* ^^ clean this up
+-work in toMintNow functionality from fish engine
+-work in variation system from fish engine
+-work in misc utils from fish engine
+-rework weight system to provide option to have either 
+exact counts based on weight (ie, weight of #30 would generate 
+that trait 30 times), or to simply mark the weight as a 
+rarity name (common, rare, etc.) and have rarity automatic 
+-Create incomatible layers system. It's form still needs to be worked
+out, but what makes sense to me is probably something similar to 
+how nftchef worked it out. 
+*/
+
+const TOTAL_MINT = 10000;
+const toMintNow = 5;
+
+const scaleMints = (num) => {
+  if (TOTAL_MINT === toMintNow) return num;
+  return Math.floor((num / TOTAL_MINT) * toMintNow);
+};
+
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
@@ -24,7 +48,7 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: scaleMints(5),
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
@@ -119,4 +143,5 @@ module.exports = {
   solanaMetadata,
   gif,
   preview_gif,
+  startNum,
 };

@@ -21,6 +21,7 @@ const {
   network,
   solanaMetadata,
   gif,
+  startNum,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -94,6 +95,8 @@ const layersSetup = (layersOrder) => {
       layerObj.options?.["displayName"] != undefined
         ? layerObj.options?.["displayName"]
         : layerObj.name,
+    // VARIATION
+    layerVariations: layerObj['layerVariations'],
     blend:
       layerObj.options?.["blend"] != undefined
         ? layerObj.options?.["blend"]
@@ -401,11 +404,11 @@ const startCreating = async () => {
           debugLogs
             ? console.log("Editions left to create: ", abstractedIndexes)
             : null;
-          saveImage(abstractedIndexes[0]);
-          addMetadata(newDna, abstractedIndexes[0]);
-          saveMetaDataSingleFile(abstractedIndexes[0]);
+          saveImage(abstractedIndexes[0]+startNum);
+          addMetadata(newDna, abstractedIndexes[0]+startNum);
+          saveMetaDataSingleFile(abstractedIndexes[0]+startNum);
           console.log(
-            `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
+            `Created edition: ${abstractedIndexes[0]+startNum}, with DNA: ${sha1(
               newDna
             )}`
           );
