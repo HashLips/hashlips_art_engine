@@ -307,6 +307,35 @@ const createDna = (_layers) => {
     });
     // number between 0 - totalWeight
     let random = Math.floor(Math.random() * totalWeight);
+    /* 
+    * Don't want to use random number here. Need to add if 
+    * function that differentiates between exact match vs 
+    * common name weights. 
+    */
+    for (var i = 0; i < layer.elements.length; i++) {
+      // subtract the current weight from the random weight until we reach a sub zero value.
+      random -= layer.elements[i].weight;
+      if (random < 0) {
+        return randNum.push(
+          `${layer.elements[i].id}:${layer.elements[i].filename}${
+            layer.bypassDNA ? "?bypassDNA=true" : ""
+          }`
+        );
+      }
+    }
+  });
+  return randNum.join(DNA_DELIMITER);
+};
+
+const createDnaOLD = (_layers) => {
+  let randNum = [];
+  _layers.forEach((layer) => {
+    var totalWeight = 0;
+    layer.elements.forEach((element) => {
+      totalWeight += element.weight;
+    });
+    // number between 0 - totalWeight
+    let random = Math.floor(Math.random() * totalWeight);
     for (var i = 0; i < layer.elements.length; i++) {
       // subtract the current weight from the random weight until we reach a sub zero value.
       random -= layer.elements[i].weight;

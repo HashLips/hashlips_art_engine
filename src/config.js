@@ -3,9 +3,10 @@ const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 
 // Only use this if 100% necessary! Should regenerate whole collection together. 
+// I don't think this is the right way to do this. requires testing. 
 const resumeNum = 0;
 
-/* ^^ clean this up
+/* ~~^^ clean this up~~
 -work in toMintNow functionality
 -work in variation system
 -work in misc utils
