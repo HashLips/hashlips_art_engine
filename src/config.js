@@ -6,9 +6,10 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 // I don't think this is the right way to do this. requires testing. 
 const resumeNum = 0;
 
-/* ~~^^ clean this up~~
--work in toMintNow functionality
--work in variation system
+/* 
+-~~work in resumeNum functionality~~
+-~~work in toCreateNow functionality~~
+-work in variation functionality
 -work in misc utils
 -work in rarity calculations
 -rework weight system to provide option to have either 
@@ -20,12 +21,12 @@ rarity name (common, rare, etc.) and have rarity automatic
 
 */
 
-const TOTAL_MINT = 10000;
-const toMintNow = 10;
+const collectionSize = 10000;
+const toCreateNow = 20;
 
-const scaleMints = (num) => {
-  if (TOTAL_MINT === toMintNow) return num;
-  return Math.floor((num / TOTAL_MINT) * toMintNow);
+const scaleSize = (num) => {
+  if (collectionSize === toCreateNow) return num;
+  return Math.floor((num / collectionSize) * toCreateNow);
 };
 
 const network = NETWORK.eth;
@@ -50,7 +51,7 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: scaleMints(50),
+    growEditionSizeTo: scaleSize(2500),
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
@@ -62,7 +63,7 @@ const layerConfigurations = [
     ],
   },
   {
-    growEditionSizeTo: scaleMints(100),
+    growEditionSizeTo: scaleSize(10000),
     layersOrder: [
       { name: "Background" },
       { name: "Eyeball" },
