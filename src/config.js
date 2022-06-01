@@ -18,7 +18,7 @@ that trait 30% of the time), or to simply mark the weight as a
 rarity name (common, rare, etc.) and have rarity automatic 
 -Create incompatible layers system. 
 -option to not display none in metadata
-
+-option to include rarity in metadata
 */
 
 const collectionSize = 10000;
@@ -139,6 +139,22 @@ const preview_gif = {
   imageName: "preview.gif",
 };
 
+const namedWeights = false;
+
+/* 
+* Rarity distribution can be adjusted
+* Keep range [0 - 10,000]
+*
+*/
+const rarity_config = {
+  Mythic: { ranks: [0, 100] }, //, fileName: 'Mythic.png' },
+  Legendary: { ranks: [100, 600] }, //, fileName: 'Legendary.png' },
+  Epic: { ranks: [600, 1500] }, //, fileName: 'Epic.png' },
+  Rare: { ranks: [1500, 3100] }, //, fileName: 'Rare.png' },
+  Uncommon: { ranks: [3100, 5600] }, //, fileName: 'Uncommon.png' },
+  Common: { ranks: [5600, 10000] }, //, fileName: 'Common.png' },
+};
+
 module.exports = {
   format,
   baseUri,
@@ -159,4 +175,6 @@ module.exports = {
   gif,
   preview_gif,
   resumeNum,
+  rarity_config,
+  namedWeights,
 };

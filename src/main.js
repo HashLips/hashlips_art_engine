@@ -22,6 +22,8 @@ const {
   solanaMetadata,
   gif,
   resumeNum,
+  rarity_config,
+  namedWeights,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -66,12 +68,13 @@ const buildSetup = () => {
 
 const getRarityWeight = (_str) => {
   let nameWithoutExtension = _str.slice(0, -4);
-  var nameWithoutWeight = Number(
+  // var nameWithoutWeight = Number(
+  var nameWithoutWeight = String(
     nameWithoutExtension.split(rarityDelimiter).pop()
   );
-  if (isNaN(nameWithoutWeight)) {
-    nameWithoutWeight = 1;
-  }
+  // if (isNaN(nameWithoutWeight)) {
+  //   nameWithoutWeight = 1;
+  // }
   return nameWithoutWeight;
 };
 
@@ -301,10 +304,10 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
 const createDna = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
-    var totalWeight = 0;
-    layer.elements.forEach((element) => {
-      totalWeight += element.weight;
-    });
+    var totalWeight = 10000;
+    // layer.elements.forEach((element) => {
+    //   totalWeight += element.weight;
+    // });
     // number between 0 - totalWeight
     let random = Math.floor(Math.random() * totalWeight);
     /* 
@@ -314,18 +317,39 @@ const createDna = (_layers) => {
     */
     for (var i = 0; i < layer.elements.length; i++) {
       // subtract the current weight from the random weight until we reach a sub zero value.
-      random -= layer.elements[i].weight;
-      if (random < 0) {
-        return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}${
-            layer.bypassDNA ? "?bypassDNA=true" : ""
-          }`
-        );
-      }
+      // if (layer.elements[i].weight > 0) {
+        console.log(`New weight: ${layer.elements[i].weight}`);
+        random -= layer.elements[i].weight;
+        console.log(random);
+        if (random < 0) {
+          // console.log(`Layer: ${layer.name} | Name: ${layer.elements[i].name} | Weight: ${layer.elements[i].weight}`);
+          // layer.elements[i].weight--;
+          // console.log(`New weight: ${layer.elements[i].weight}`);
+          return randNum.push(
+            `${layer.elements[i].id}:${layer.elements[i].filename}${
+              layer.bypassDNA ? "?bypassDNA=true" : ""
+            }`
+          );
+        }
+      // }
     }
   });
   return randNum.join(DNA_DELIMITER);
 };
+
+function shuffleTemp(array) {
+  let currentIndex = array.length,
+    randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+  return array;
+}
 
 const createDnaOLD = (_layers) => {
   let randNum = [];
