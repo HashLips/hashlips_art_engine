@@ -347,7 +347,7 @@ const createDna = (_layers) => {
       Uncommon: 0,
       Common: 0
     }
-    console.log(layer.name)
+    // console.log(layer.name)
     // console.log(rarityCount);
     var totalWeight = 10000;
     // Get count of each rarity in layer folders
@@ -380,14 +380,26 @@ const createDna = (_layers) => {
     into rarities that are present. 
     */
     // console.log(rarityCount);
+    let remainder = 0;
     for (const key in rarityCount) {
       let diff = (rarity_config[key]['ranks'][1] - rarity_config[key]['ranks'][0]);
       if (rarityCount[key] !== 0) {
         rarityCount[key] = diff / rarityCount[key]
-      } 
+      } else {
+        remainder += diff;
+        delete rarityCount[key];
+      }
     }
     // console.log(rarityCount);
-
+    // console.log(`Pre-split ${remainder}`);
+    let remainingRarity = Object.keys(rarityCount).length;
+    // console.log(remainingRarity);
+    remainder /= remainingRarity;
+    // console.log(`Post-split ${remainder}`);
+    for (const key in rarityCount) {
+      rarityCount[key] += remainder;
+    }
+    // console.log(rarityCount);
     // number between 0 - totalWeight
     let random = Math.floor(Math.random() * totalWeight);
     for (var i = 0; i < layer.elements.length; i++) {
@@ -396,7 +408,7 @@ const createDna = (_layers) => {
       // console.log(weight);
       // console.log(rarityCount[weight]);
       random -= rarityCount[newWeight];
-      console.log(random);
+      // console.log(random);
       // console.log(rarityCount[weight]);
       // console.log(layer.elements[i].weight);
       if (random < 0) {
