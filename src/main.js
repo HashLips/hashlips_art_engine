@@ -305,6 +305,8 @@ const createDna = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
     var totalWeight = 10000;
+    let rarityNum = [];
+    
     // layer.elements.forEach((element) => {
     //   totalWeight += element.weight;
     // });
@@ -318,9 +320,9 @@ const createDna = (_layers) => {
     for (var i = 0; i < layer.elements.length; i++) {
       // subtract the current weight from the random weight until we reach a sub zero value.
       // if (layer.elements[i].weight > 0) {
-        console.log(`New weight: ${layer.elements[i].weight}`);
+        // console.log(`New weight: ${layer.elements[i].weight}`);
         random -= layer.elements[i].weight;
-        console.log(random);
+        // console.log(random);
         if (random < 0) {
           // console.log(`Layer: ${layer.name} | Name: ${layer.elements[i].name} | Weight: ${layer.elements[i].weight}`);
           // layer.elements[i].weight--;
