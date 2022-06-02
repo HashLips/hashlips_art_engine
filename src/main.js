@@ -24,6 +24,7 @@ const {
   resumeNum,
   rarity_config,
   namedWeights,
+  toCreateNow,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -66,23 +67,57 @@ const buildSetup = () => {
   }
 }
 
+const getRarityWeightOG = (_str) => {
+  let nameWithoutExtension = _str.slice(0, -4);
+  var nameWithoutWeight = Number(
+    nameWithoutExtension.split(rarityDelimiter).pop()
+  );
+  if (isNaN(nameWithoutWeight)) {
+    nameWithoutWeight = 1;
+  }
+  return nameWithoutWeight;
+};
+
 const getRarityWeight = (_str) => {
   let nameWithoutExtension = _str.slice(0, -4);
-  // var nameWithoutWeight = Number(
   var nameWithoutWeight = String(
     nameWithoutExtension.split(rarityDelimiter).pop()
   );
+
+  // switch (String(nameWithoutExtension.split(rarityDelimiter).pop())) {
+  //   case "Mythic":
+  //     nameWithoutWeight = 1;
+  //     break;
+  //   case "Legendary":
+  //     nameWithoutWeight = 2;
+  //     break;
+  //   case "Epic":
+  //     nameWithoutWeight = 3;
+  //     break;
+  //   case "Rare":
+  //     nameWithoutWeight = 4;
+  //     break;
+  //   case "Uncommon":
+  //     nameWithoutWeight = 5;
+  //     break;
+  //   case "common":
+  //     nameWithoutWeight = 5;
+  //     break;
+  //   default:
+  //     nameWithoutWeight = 0;
+  // }
+
   // if (isNaN(nameWithoutWeight)) {
   //   nameWithoutWeight = 1;
   // }
   return nameWithoutWeight;
 };
 
-const cleanDna = (_str) => {
+function cleanDna(_str) {
   const withoutOptions = removeQueryStrings(_str);
   var dna = Number(withoutOptions.split(":").shift());
   return dna;
-};
+}
 
 const cleanName = (_str) => {
   let nameWithoutExtension = _str.slice(0, -4);
@@ -304,38 +339,76 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
 const createDna = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
+    const rarityCount = {
+      Mythic: 0,
+      Legendary: 0,
+      Epic: 0,
+      Rare: 0,
+      Uncommon: 0,
+      Common: 0
+    }
+    console.log(layer.name)
+    // console.log(rarityCount);
     var totalWeight = 10000;
-    let rarityNum = [];
-    
-    // layer.elements.forEach((element) => {
-    //   totalWeight += element.weight;
-    // });
+    // Get count of each rarity in layer folders
+    layer.elements.forEach((element) => {
+      switch (element.weight) {
+        case "Mythic":
+          rarityCount.Mythic++;
+          break;
+        case "Legendary":
+          rarityCount.Legendary++;
+          break;
+        case "Epic":
+          rarityCount.Epic++;
+          break;
+        case "Rare":
+          rarityCount.Rare++;
+          break;
+        case "Uncommon":
+          rarityCount.Uncommon++;
+          break;
+        case "Common":
+          rarityCount.Common++;
+          break;
+        default:
+          rarityCount.Common++;
+      }
+    });
+    /*
+    This is generating weight properly. Now I just need to split any remainder
+    into rarities that are present. 
+    */
+    // console.log(rarityCount);
+    for (const key in rarityCount) {
+      let diff = (rarity_config[key]['ranks'][1] - rarity_config[key]['ranks'][0]);
+      if (rarityCount[key] !== 0) {
+        rarityCount[key] = diff / rarityCount[key]
+      } 
+    }
+    // console.log(rarityCount);
+
     // number between 0 - totalWeight
     let random = Math.floor(Math.random() * totalWeight);
-    /* 
-    * Don't want to use random number here. Need to add if 
-    * function that differentiates between exact match vs 
-    * common name weights. 
-    */
     for (var i = 0; i < layer.elements.length; i++) {
       // subtract the current weight from the random weight until we reach a sub zero value.
-      // if (layer.elements[i].weight > 0) {
-        // console.log(`New weight: ${layer.elements[i].weight}`);
-        random -= layer.elements[i].weight;
-        // console.log(random);
-        if (random < 0) {
-          // console.log(`Layer: ${layer.name} | Name: ${layer.elements[i].name} | Weight: ${layer.elements[i].weight}`);
-          // layer.elements[i].weight--;
-          // console.log(`New weight: ${layer.elements[i].weight}`);
-          return randNum.push(
-            `${layer.elements[i].id}:${layer.elements[i].filename}${
-              layer.bypassDNA ? "?bypassDNA=true" : ""
-            }`
-          );
-        }
-      // }
-    }
+      let newWeight = layer.elements[i].weight;
+      // console.log(weight);
+      // console.log(rarityCount[weight]);
+      random -= rarityCount[newWeight];
+      console.log(random);
+      // console.log(rarityCount[weight]);
+      // console.log(layer.elements[i].weight);
+      if (random < 0) {
+        return randNum.push(
+          `${layer.elements[i].id}:${layer.elements[i].filename}${
+            layer.bypassDNA ? "?bypassDNA=true" : ""
+          }`
+        );
+      } 
+    } 
   });
+  console.log(randNum);
   return randNum.join(DNA_DELIMITER);
 };
 
@@ -353,7 +426,7 @@ function shuffleTemp(array) {
   return array;
 }
 
-const createDnaOLD = (_layers) => {
+const createDnaog = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
     var totalWeight = 0;
