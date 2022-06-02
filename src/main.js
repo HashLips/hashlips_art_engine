@@ -83,33 +83,6 @@ const getRarityWeight = (_str) => {
   var nameWithoutWeight = String(
     nameWithoutExtension.split(rarityDelimiter).pop()
   );
-
-  // switch (String(nameWithoutExtension.split(rarityDelimiter).pop())) {
-  //   case "Mythic":
-  //     nameWithoutWeight = 1;
-  //     break;
-  //   case "Legendary":
-  //     nameWithoutWeight = 2;
-  //     break;
-  //   case "Epic":
-  //     nameWithoutWeight = 3;
-  //     break;
-  //   case "Rare":
-  //     nameWithoutWeight = 4;
-  //     break;
-  //   case "Uncommon":
-  //     nameWithoutWeight = 5;
-  //     break;
-  //   case "common":
-  //     nameWithoutWeight = 5;
-  //     break;
-  //   default:
-  //     nameWithoutWeight = 0;
-  // }
-
-  // if (isNaN(nameWithoutWeight)) {
-  //   nameWithoutWeight = 1;
-  // }
   return nameWithoutWeight;
 };
 
@@ -396,6 +369,12 @@ const createDna = (_layers) => {
     // console.log(remainingRarity);
     remainder /= remainingRarity;
     // console.log(`Post-split ${remainder}`);
+
+    /*
+    Might want to use rarity_config to split rather than doing an even split
+    */
+
+
     for (const key in rarityCount) {
       rarityCount[key] += remainder;
     }
