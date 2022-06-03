@@ -2,7 +2,7 @@ const basePath = process.cwd();
 const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 
-/* DONE
+/* TODO
 -work in variation functionality
 -work in rarity calculations
 -rework weight system to provide option to have either 
@@ -11,9 +11,12 @@ that trait 30% of the time),
 -Create incompatible layers system. 
 -option to not display none in metadata
 -option to include rarity in metadata
+- Continue to build on resumeNum and enable a resumted generation? Maybe pull dna from metadata?
+- Util to 'bring to front'. This will enable people to move X number of tokens to the first # in the
+collection so they can team Mint or whatever without resorting to minting with tokenId.
 */
 
-/* TODO
+/* DONE
 -work in resumeNum functionality
 -work in toCreateNow functionality
 -rework weight system to simply mark the weight as a rarity name (common, rare, etc.) and have rarity automatic
@@ -21,7 +24,7 @@ that trait 30% of the time),
 */
 
 const collectionSize = 10000;
-const toCreateNow = 100;
+const toCreateNow = 20;
 
 const scaleSize = (num) => {
   if (collectionSize === toCreateNow) return num;
@@ -33,7 +36,7 @@ const network = NETWORK.eth;
 // General metadata for Ethereum
 const namePrefix = "Your Collection";
 const description = "Remember to replace this description";
-const baseUri = "ipfs://NewUriToReplace";
+const baseUri = "ipfs://TESTING";
 
 const solanaMetadata = {
   symbol: "YC",
@@ -144,7 +147,7 @@ const preview_gif = {
 */
 const resumeNum = 0;
 
-
+const namedWeight = false;
 /* 
 * Rarity distribution can be adjusted
 * Keep range [0 - 10,000]
@@ -182,4 +185,5 @@ module.exports = {
   rarity_config,
   toCreateNow,
   collectionSize,
+  namedWeight,
 };

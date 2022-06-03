@@ -25,6 +25,7 @@ const {
   rarity_config,
   toCreateNow,
   collectionSize,
+  namedWeight,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -80,9 +81,13 @@ const getRarityWeightOG = (_str) => {
 
 const getRarityWeight = (_str) => {
   let nameWithoutExtension = _str.slice(0, -4);
+  if (namedWeight) {
   var nameWithoutWeight = String(
     nameWithoutExtension.split(rarityDelimiter).pop()
-  );
+  )} else {
+  var nameWithoutWeight = Number(
+    nameWithoutExtension.split(rarityDelimiter).pop()
+  )}
   return nameWithoutWeight;
 };
 
@@ -309,7 +314,7 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
   return !_DnaList.has(_filteredDNA);
 };
 
-const createDnaName = (_layers) => {
+const createDnaNames = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
     const rarityCount = {
@@ -407,14 +412,15 @@ const createDnaName = (_layers) => {
 const createDna = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
-    let traitCount = [];
+    let traitCount = new Object();
     var totalWeight = 0;
     // var scaledWeight = toCreateNow;
     layer.elements.forEach((element) => {
       totalWeight += element.weight;
-      traitCount.push(element.name);
+      traitCount[element.name] = element.weight; 
     });
     console.log(traitCount);
+    // Still need to make sure I account for scaling. Otherwise, test runs will never have accurate rarity. 
     // let weightMatch = (totalWeight != collectionSize) 
     // ? console.log('Layer weight must match collection size! Adjust either the filename weights or the collection size in config.js') 
     // :console.log('Layer weight and collection size match, proceed');
@@ -423,8 +429,13 @@ const createDna = (_layers) => {
     let random = Math.floor(Math.random() * totalWeight);
     for (var i = 0; i < layer.elements.length; i++) {
       // subtract the current weight from the random weight until we reach a sub zero value.
-      random -= layer.elements[i].weight;
+      let newWeight = layer.elements[i].name;
+      if (traitCount[newWeight] !== 0) {
+        random -= traitCount[newWeight];
+      }
+      // console.log(random);
       if (random < 0) {
+        traitCount[newWeight]--;
         return randNum.push(
           `${layer.elements[i].id}:${layer.elements[i].filename}${
             layer.bypassDNA ? "?bypassDNA=true" : ""
@@ -584,6 +595,7 @@ const startCreating = async () => {
     layerConfigIndex++;
   }
   writeMetaData(JSON.stringify(metadataList, null, 2));
+  // console.log(dnaList);
 };
 
 module.exports = { startCreating, buildSetup, getElements };
