@@ -1,0 +1,36 @@
+{
+  "name": "Your Collection #40",
+  "description": "Remember to replace this description",
+  "image": "ipfs://NewUriToReplace/40.png",
+  "attributes": [
+    {
+      "trait_type": "Body",
+      "value": "ScalesLunates"
+    },
+    {
+      "trait_type": "Head",
+      "value": "FishHead"
+    },
+    {
+      "trait_type": "Back",
+      "value": "BetaFins"
+    },
+    {
+      "trait_type": "Legs",
+      "value": "LobsterLegs"
+    },
+    {
+      "trait_type": "Arms",
+      "value": "TentacleArms"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "AnglerMouth"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "EyeScar"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}

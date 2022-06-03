@@ -1,0 +1,36 @@
+{
+  "name": "Your Collection #11",
+  "description": "Remember to replace this description",
+  "image": "ipfs://NewUriToReplace/11.png",
+  "attributes": [
+    {
+      "trait_type": "SkeletalBody",
+      "value": "SkeletalSmoothPointed"
+    },
+    {
+      "trait_type": "Head",
+      "value": "FishHead"
+    },
+    {
+      "trait_type": "Back",
+      "value": "DorsalFins"
+    },
+    {
+      "trait_type": "Legs",
+      "value": "FinLegs"
+    },
+    {
+      "trait_type": "Arms",
+      "value": "NemoFins"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "AnglerMouth"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "AnglerEyes"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}

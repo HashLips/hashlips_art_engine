@@ -2,27 +2,26 @@ const basePath = process.cwd();
 const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 
-// Only use this if 100% necessary! Should regenerate whole collection together. 
-// I don't think this is the right way to do this. requires testing. 
-const resumeNum = 0;
-
-/* 
--~~work in resumeNum functionality~~
--~~work in toCreateNow functionality~~
+/* DONE
 -work in variation functionality
--work in misc utils
 -work in rarity calculations
 -rework weight system to provide option to have either 
 exact percentages based on weight (ie, weight of #30 would generate 
-that trait 30% of the time), or to simply mark the weight as a 
-rarity name (common, rare, etc.) and have rarity automatic 
+that trait 30% of the time), 
 -Create incompatible layers system. 
 -option to not display none in metadata
 -option to include rarity in metadata
 */
 
+/* TODO
+-work in resumeNum functionality
+-work in toCreateNow functionality
+-rework weight system to simply mark the weight as a rarity name (common, rare, etc.) and have rarity automatic
+-work in misc utils
+*/
+
 const collectionSize = 10000;
-const toCreateNow = 20;
+const toCreateNow = 100;
 
 const scaleSize = (num) => {
   if (collectionSize === toCreateNow) return num;
@@ -53,7 +52,7 @@ const layerConfigurations = [
   {
     growEditionSizeTo: scaleSize(2500),
     layersOrder: [
-      { name: "Body" },
+      { name: "SkeletalBody" },
       { name: "Head" },
       { name: "Back" },
       { name: "Legs" },
@@ -139,12 +138,17 @@ const preview_gif = {
   imageName: "preview.gif",
 };
 
-const namedWeights = false;
+/* 
+* Do not use this unless 100% necessary and you understand the risk
+* Generating collection in stages leads to potential duplicates. 
+*/
+const resumeNum = 0;
+
 
 /* 
 * Rarity distribution can be adjusted
 * Keep range [0 - 10,000]
-*
+* DO NOT change the rarity names unless you know what you're doing in main.js
 */
 const rarity_config = {
   Mythic: { ranks: [0, 100] }, //, fileName: 'Mythic.png' },
@@ -176,6 +180,6 @@ module.exports = {
   preview_gif,
   resumeNum,
   rarity_config,
-  namedWeights,
   toCreateNow,
+  collectionSize,
 };

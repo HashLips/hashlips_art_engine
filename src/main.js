@@ -23,8 +23,8 @@ const {
   gif,
   resumeNum,
   rarity_config,
-  namedWeights,
   toCreateNow,
+  collectionSize,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -309,7 +309,7 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
   return !_DnaList.has(_filteredDNA);
 };
 
-const createDna = (_layers) => {
+const createDnaName = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
     const rarityCount = {
@@ -320,8 +320,6 @@ const createDna = (_layers) => {
       Uncommon: 0,
       Common: 0
     }
-    // console.log(layer.name)
-    // console.log(rarityCount);
     var totalWeight = 10000;
     // Get count of each rarity in layer folders
     layer.elements.forEach((element) => {
@@ -348,11 +346,7 @@ const createDna = (_layers) => {
           rarityCount.Common++;
       }
     });
-    /*
-    This is generating weight properly. Now I just need to split any remainder
-    into rarities that are present. 
-    */
-    // console.log(rarityCount);
+    // Find any missing ratings and log the remainder of 10,000
     let remainder = 0;
     for (const key in rarityCount) {
       let diff = (rarity_config[key]['ranks'][1] - rarity_config[key]['ranks'][0]);
@@ -363,33 +357,40 @@ const createDna = (_layers) => {
         delete rarityCount[key];
       }
     }
-    // console.log(rarityCount);
-    // console.log(`Pre-split ${remainder}`);
+    // Split remainder evenly among remaining rarities
     let remainingRarity = Object.keys(rarityCount).length;
-    // console.log(remainingRarity);
     remainder /= remainingRarity;
-    // console.log(`Post-split ${remainder}`);
-
-    /*
-    Might want to use rarity_config to split rather than doing an even split
-    */
-
-
     for (const key in rarityCount) {
       rarityCount[key] += remainder;
     }
-    // console.log(rarityCount);
-    // number between 0 - totalWeight
+    // Check for any where higher rarity has larger weight than lower rarity
+    let uncommonDiff = (rarityCount.Uncommon > rarityCount.Common) 
+      ? Math.floor(rarityCount.Uncommon - rarityCount.Common) : 0;
+    let rareDiff = (rarityCount.Rare > rarityCount.Uncommon) 
+      ? Math.floor(rarityCount.Rare - rarityCount.Uncommon) : 0;
+    let epicDiff = (rarityCount.Epic > rarityCount.Rare) 
+      ? Math.floor(rarityCount.Epic - rarityCount.Rare) : 0;
+    let legendaryDiff = (rarityCount.Legendary > rarityCount.Epic) 
+      ? Math.floor(rarityCount.Legendary - rarityCount.Epic) : 0;
+    let mythicDiff = (rarityCount.Mythic > rarityCount.Legendary) 
+      ? Math.floor(rarityCount.Mythic - rarityCount.Legendary) : 0;
+    // Redistribute weight to ensure weights match rarities      
+    rarityCount.Common += uncommonDiff;
+    rarityCount.Uncommon -= uncommonDiff;
+    rarityCount.Uncommon += rareDiff;
+    rarityCount.Rare -= rareDiff;
+    rarityCount.Rare += epicDiff;
+    rarityCount.Epic -= epicDiff;
+    rarityCount.Epic += legendaryDiff;
+    rarityCount.Legendary -= legendaryDiff;
+    rarityCount.Legendary += mythicDiff;
+    rarityCount.Mythic -= mythicDiff;
+    // Proceed with random generation: number between 0 - totalWeight
     let random = Math.floor(Math.random() * totalWeight);
     for (var i = 0; i < layer.elements.length; i++) {
-      // subtract the current weight from the random weight until we reach a sub zero value.
       let newWeight = layer.elements[i].weight;
-      // console.log(weight);
-      // console.log(rarityCount[weight]);
+      // subtract the current weight from the random weight until we reach a sub zero value.
       random -= rarityCount[newWeight];
-      // console.log(random);
-      // console.log(rarityCount[weight]);
-      // console.log(layer.elements[i].weight);
       if (random < 0) {
         return randNum.push(
           `${layer.elements[i].id}:${layer.elements[i].filename}${
@@ -399,25 +400,43 @@ const createDna = (_layers) => {
       } 
     } 
   });
-  console.log(randNum);
+  // console.log(randNum);
   return randNum.join(DNA_DELIMITER);
 };
 
-function shuffleTemp(array) {
-  let currentIndex = array.length,
-    randomIndex;
-  while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
-  return array;
-}
+const createDna = (_layers) => {
+  let randNum = [];
+  _layers.forEach((layer) => {
+    let traitCount = [];
+    var totalWeight = 0;
+    // var scaledWeight = toCreateNow;
+    layer.elements.forEach((element) => {
+      totalWeight += element.weight;
+      traitCount.push(element.name);
+    });
+    console.log(traitCount);
+    // let weightMatch = (totalWeight != collectionSize) 
+    // ? console.log('Layer weight must match collection size! Adjust either the filename weights or the collection size in config.js') 
+    // :console.log('Layer weight and collection size match, proceed');
+    // console.log(weightMatch);
+    // number between 0 - totalWeight
+    let random = Math.floor(Math.random() * totalWeight);
+    for (var i = 0; i < layer.elements.length; i++) {
+      // subtract the current weight from the random weight until we reach a sub zero value.
+      random -= layer.elements[i].weight;
+      if (random < 0) {
+        return randNum.push(
+          `${layer.elements[i].id}:${layer.elements[i].filename}${
+            layer.bypassDNA ? "?bypassDNA=true" : ""
+          }`
+        );
+      }
+    }
+  });
+  return randNum.join(DNA_DELIMITER);
+};
 
-const createDnaog = (_layers) => {
+const createDnaOG = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
     var totalWeight = 0;

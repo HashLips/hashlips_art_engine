@@ -1,0 +1,36 @@
+{
+  "name": "Your Collection #70",
+  "description": "Remember to replace this description",
+  "image": "ipfs://NewUriToReplace/70.png",
+  "attributes": [
+    {
+      "trait_type": "Body",
+      "value": "ScalesLunate"
+    },
+    {
+      "trait_type": "Head",
+      "value": "FishHead"
+    },
+    {
+      "trait_type": "Back",
+      "value": "Blowhole"
+    },
+    {
+      "trait_type": "Legs",
+      "value": "BetaLegs"
+    },
+    {
+      "trait_type": "Arms",
+      "value": "BetaArms"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "SwordfishMouth"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "AnglerEyes"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}

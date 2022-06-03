@@ -1,0 +1,36 @@
+{
+  "name": "Your Collection #45",
+  "description": "Remember to replace this description",
+  "image": "ipfs://NewUriToReplace/45.png",
+  "attributes": [
+    {
+      "trait_type": "Body",
+      "value": "ScalesLunate"
+    },
+    {
+      "trait_type": "Head",
+      "value": "FishHead"
+    },
+    {
+      "trait_type": "Back",
+      "value": "DolphinFin"
+    },
+    {
+      "trait_type": "Legs",
+      "value": "FinLegs"
+    },
+    {
+      "trait_type": "Arms",
+      "value": "LureArms"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "AnglerMouth"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "BaseEyes"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}

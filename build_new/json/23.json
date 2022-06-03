@@ -1,0 +1,36 @@
+{
+  "name": "Your Collection #23",
+  "description": "Remember to replace this description",
+  "image": "ipfs://NewUriToReplace/23.png",
+  "attributes": [
+    {
+      "trait_type": "SkeletalBody",
+      "value": "SkeletalScalesForked"
+    },
+    {
+      "trait_type": "Head",
+      "value": "FishHead"
+    },
+    {
+      "trait_type": "Back",
+      "value": "Blowhole"
+    },
+    {
+      "trait_type": "Legs",
+      "value": "LureLegs"
+    },
+    {
+      "trait_type": "Arms",
+      "value": "FidlerClaws"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "AnglerMouth"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "AnglerEyes"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}
