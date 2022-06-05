@@ -19,13 +19,20 @@
     "pixelate": "node utils/pixelate.js",
     "update_info": "node utils/update_info.js",
     "preview_gif": "node utils/preview_gif.js",
-    "generate_metadata": "node utils/generate_metadata.js"
+    "generate_metadata": "node utils/generate_metadata.js",
+    "nft_storage": "node -r dotenv/config utils/nft_storage/primary.js",
+    "nft_storage_hidden": "node -r dotenv/config utils/nft_storage/hidden.js"
   },
   "author": "Daniel Eugene Botha (HashLips)",
   "license": "MIT",
   "dependencies": {
     "canvas": "^2.8.0",
+    "dotenv": "^16.0.1",
+    "files-from-path": "^0.2.6",
     "gif-encoder-2": "^1.0.5",
+    "inquirer": "^8.2.4",
+    "lodash.get": "^4.4.2",
+    "nft.storage": "^6.3.0",
     "sha1": "^1.1.1"
   }
 }
