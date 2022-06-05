@@ -144,3 +144,7 @@ dist
 
 # Environment Files
 .env
+
+# Ignore
+yarn.lock
+package-lock.json
