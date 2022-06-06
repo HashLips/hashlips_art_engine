@@ -23,8 +23,8 @@ collection so they can team Mint or whatever without resorting to minting with t
 -work in misc utils
 */
 
-const collectionSize = 10000;
-const toCreateNow = 20;
+const collectionSize = 100;
+const toCreateNow = 100;
 
 const scaleSize = (num) => {
   if (collectionSize === toCreateNow) return num;
@@ -53,7 +53,7 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: scaleSize(2500),
+    growEditionSizeTo: scaleSize(25),
     layersOrder: [
       { name: "SkeletalBody" },
       { name: "Head" },
@@ -65,7 +65,7 @@ const layerConfigurations = [
     ],
   },
   {
-    growEditionSizeTo: scaleSize(10000),
+    growEditionSizeTo: scaleSize(100),
     layersOrder: [
       { name: "Body" },
       { name: "Head" },
@@ -147,7 +147,7 @@ const preview_gif = {
 */
 const resumeNum = 0;
 
-const namedWeight = false;
+const namedWeight = true;
 /* 
 * Rarity distribution can be adjusted
 * Keep range [0 - 10,000]

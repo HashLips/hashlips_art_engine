@@ -409,44 +409,6 @@ const createDnaNames = (_layers) => {
   return randNum.join(DNA_DELIMITER);
 };
 
-const createDna = (_layers) => {
-  let randNum = [];
-  _layers.forEach((layer) => {
-    let traitCount = new Object();
-    var totalWeight = 0;
-    // var scaledWeight = toCreateNow;
-    layer.elements.forEach((element) => {
-      totalWeight += element.weight;
-      traitCount[element.name] = element.weight; 
-    });
-    console.log(traitCount);
-    // Still need to make sure I account for scaling. Otherwise, test runs will never have accurate rarity. 
-    // let weightMatch = (totalWeight != collectionSize) 
-    // ? console.log('Layer weight must match collection size! Adjust either the filename weights or the collection size in config.js') 
-    // :console.log('Layer weight and collection size match, proceed');
-    // console.log(weightMatch);
-    // number between 0 - totalWeight
-    let random = Math.floor(Math.random() * totalWeight);
-    for (var i = 0; i < layer.elements.length; i++) {
-      // subtract the current weight from the random weight until we reach a sub zero value.
-      let newWeight = layer.elements[i].name;
-      if (traitCount[newWeight] !== 0) {
-        random -= traitCount[newWeight];
-      }
-      // console.log(random);
-      if (random < 0) {
-        traitCount[newWeight]--;
-        return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}${
-            layer.bypassDNA ? "?bypassDNA=true" : ""
-          }`
-        );
-      }
-    }
-  });
-  return randNum.join(DNA_DELIMITER);
-};
-
 const createDnaOG = (_layers) => {
   let randNum = [];
   _layers.forEach((layer) => {
@@ -527,7 +489,7 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
-      let newDna = createDna(layers);
+      let newDna = (namedWeight) ? createDna(layers) : createDnaOG(layers);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
         let loadedElements = [];
