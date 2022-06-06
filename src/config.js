@@ -4,11 +4,8 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 
 /* TODO
 -work in variation functionality
+-Create incompatible layers system.
 -work in rarity calculations
--rework weight system to provide option to have either 
-exact percentages based on weight (ie, weight of #30 would generate 
-that trait 30% of the time), 
--Create incompatible layers system. 
 -option to not display none in metadata
 -option to include rarity in metadata
 - Continue to build on resumeNum and enable a resumted generation? Maybe pull dna from metadata?
@@ -21,6 +18,14 @@ collection so they can team Mint or whatever without resorting to minting with t
 -work in toCreateNow functionality
 -rework weight system to simply mark the weight as a rarity name (common, rare, etc.) and have rarity automatic
 -work in misc utils
+*/
+
+/* NOGO
+-rework weight system to provide option to have either 
+exact percentages based on weight (ie, weight of #30 would generate 
+that trait 30% of the time), ~~ This is going to take a lot more than originally anticipated to get working due 
+  to layersOrder. If you restricted it to only allow one layersOrder, I suppose it could work, but that concession
+  isn't worth imo. 
 */
 
 const collectionSize = 100;
@@ -78,7 +83,7 @@ const layerConfigurations = [
   },
 ];
 
-const shuffleLayerConfigurations = false;
+const shuffleLayerConfigurations = true;
 
 const debugLogs = false;
 
