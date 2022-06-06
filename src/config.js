@@ -11,6 +11,7 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 - Continue to build on resumeNum and enable a resumted generation? Maybe pull dna from metadata?
 - Util to 'bring to front'. This will enable people to move X number of tokens to the first # in the
 collection so they can team Mint or whatever without resorting to minting with tokenId.
+-Should I still add a "make this amount" of particular traits if neccessary?
 */
 
 /* DONE
