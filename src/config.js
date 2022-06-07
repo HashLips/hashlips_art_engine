@@ -29,7 +29,7 @@ that trait 30% of the time), ~~ This is going to take a lot more than originally
   isn't worth imo. 
 */
 
-const collectionSize = 100;
+const collectionSize = 10000;
 const toCreateNow = 100;
 
 const scaleSize = (num) => {
@@ -59,7 +59,7 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: scaleSize(25),
+    growEditionSizeTo: scaleSize(2500),
     layersOrder: [
       { name: "SkeletalBody" },
       { name: "Head" },
@@ -71,7 +71,7 @@ const layerConfigurations = [
     ],
   },
   {
-    growEditionSizeTo: scaleSize(100),
+    growEditionSizeTo: scaleSize(10000),
     layersOrder: [
       { name: "Body" },
       { name: "Head" },
