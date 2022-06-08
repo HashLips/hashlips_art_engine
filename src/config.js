@@ -84,6 +84,22 @@ const layerConfigurations = [
   },
 ];
 
+// const layerConfigurations = [
+//   {
+//     growEditionSizeTo: 50,
+//     layersOrder: [
+//       { name: "blueBody", options: {displayName: "Body"} },
+//       { name: "blueHands", options: {displayName: "Hands"} },
+//   },
+//   {
+//     growEditionSizeTo: 100,
+//     layersOrder: [
+//       { name: "yellowBody", options: {displayName: "Body"} },
+//       { name: "yellowHands", options: {displayName: "Hands"} },
+//     ],
+//   },
+// ];
+
 const shuffleLayerConfigurations = true;
 
 const debugLogs = false;

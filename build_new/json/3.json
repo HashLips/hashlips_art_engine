@@ -1,11 +1,12 @@
 {
   "name": "Your Collection #3",
   "description": "Remember to replace this description",
-  "image": "ipfs://NewUriToReplace/3.png",
+  "image": "ipfs://TESTING/3.png",
+  "edition": 3,
   "attributes": [
     {
       "trait_type": "SkeletalBody",
-      "value": "SkeletalScalesForked"
+      "value": "SkeletalScalesTruncate"
     },
     {
       "trait_type": "Head",
@@ -13,15 +14,15 @@
     },
     {
       "trait_type": "Back",
-      "value": "BetaFins"
+      "value": "DolphinFin"
     },
     {
       "trait_type": "Legs",
-      "value": "FinLegs"
+      "value": "LobsterLegs"
     },
     {
       "trait_type": "Arms",
-      "value": "TurtleArms"
+      "value": "NemoFins"
     },
     {
       "trait_type": "Mouth",

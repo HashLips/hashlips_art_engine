@@ -1,11 +1,12 @@
 {
   "name": "Your Collection #19",
   "description": "Remember to replace this description",
-  "image": "ipfs://NewUriToReplace/19.png",
+  "image": "ipfs://TESTING/19.png",
+  "edition": 19,
   "attributes": [
     {
-      "trait_type": "SkeletalBody",
-      "value": "SkeletalScalesPointed"
+      "trait_type": "Body",
+      "value": "ScalesPointed"
     },
     {
       "trait_type": "Head",
@@ -13,15 +14,15 @@
     },
     {
       "trait_type": "Back",
-      "value": "BetaFins"
+      "value": "DorsalFins"
     },
     {
       "trait_type": "Legs",
-      "value": "FinLegs"
+      "value": "BetaLegs"
     },
     {
       "trait_type": "Arms",
-      "value": "FidlerClaws"
+      "value": "FinArms"
     },
     {
       "trait_type": "Mouth",

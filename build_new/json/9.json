@@ -1,11 +1,12 @@
 {
   "name": "Your Collection #9",
   "description": "Remember to replace this description",
-  "image": "ipfs://NewUriToReplace/9.png",
+  "image": "ipfs://TESTING/9.png",
+  "edition": 9,
   "attributes": [
     {
-      "trait_type": "SkeletalBody",
-      "value": "SkeletalScalesRounded"
+      "trait_type": "Body",
+      "value": "ScalesRounded"
     },
     {
       "trait_type": "Head",
@@ -13,11 +14,11 @@
     },
     {
       "trait_type": "Back",
-      "value": "DorsalFins"
+      "value": "DolphinFin"
     },
     {
       "trait_type": "Legs",
-      "value": "LureLegs"
+      "value": "BetaLegs"
     },
     {
       "trait_type": "Arms",
@@ -29,7 +30,7 @@
     },
     {
       "trait_type": "Eyes",
-      "value": "SharkEyes"
+      "value": "AnglerEyes"
     }
   ],
   "compiler": "HashLips Art Engine"

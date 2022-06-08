@@ -1,11 +1,12 @@
 {
   "name": "Your Collection #2",
   "description": "Remember to replace this description",
-  "image": "ipfs://NewUriToReplace/2.png",
+  "image": "ipfs://TESTING/2.png",
+  "edition": 2,
   "attributes": [
     {
       "trait_type": "SkeletalBody",
-      "value": "SkeletalScalesRounded"
+      "value": "SkeletalScalesTruncate"
     },
     {
       "trait_type": "Head",
@@ -13,7 +14,7 @@
     },
     {
       "trait_type": "Back",
-      "value": "DolphinFin"
+      "value": "SharkFin"
     },
     {
       "trait_type": "Legs",
@@ -21,7 +22,7 @@
     },
     {
       "trait_type": "Arms",
-      "value": "FidlerClaws"
+      "value": "LureArms"
     },
     {
       "trait_type": "Mouth",

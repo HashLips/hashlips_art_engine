@@ -2,11 +2,12 @@
   {
     "name": "Your Collection #1",
     "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/1.png",
+    "image": "ipfs://TESTING/1.png",
+    "edition": 1,
     "attributes": [
       {
         "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesLunate"
+        "value": "SkeletalSmoothBeta"
       },
       {
         "trait_type": "Head",
@@ -14,43 +15,7 @@
       },
       {
         "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #2",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/2.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesRounded"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
+        "value": "BetaFins"
       },
       {
         "trait_type": "Legs",
@@ -58,7 +23,44 @@
       },
       {
         "trait_type": "Arms",
-        "value": "FidlerClaws"
+        "value": "BetaArms"
+      },
+      {
+        "trait_type": "Mouth",
+        "value": "AnglerMouth"
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "LobsterEye"
+      }
+    ],
+    "compiler": "HashLips Art Engine"
+  },
+  {
+    "name": "Your Collection #2",
+    "description": "Remember to replace this description",
+    "image": "ipfs://TESTING/2.png",
+    "edition": 2,
+    "attributes": [
+      {
+        "trait_type": "SkeletalBody",
+        "value": "SkeletalScalesTruncate"
+      },
+      {
+        "trait_type": "Head",
+        "value": "FishHead"
+      },
+      {
+        "trait_type": "Back",
+        "value": "SharkFin"
+      },
+      {
+        "trait_type": "Legs",
+        "value": "BetaLegs"
+      },
+      {
+        "trait_type": "Arms",
+        "value": "LureArms"
       },
       {
         "trait_type": "Mouth",
@@ -74,11 +76,12 @@
   {
     "name": "Your Collection #3",
     "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/3.png",
+    "image": "ipfs://TESTING/3.png",
+    "edition": 3,
     "attributes": [
       {
         "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesForked"
+        "value": "SkeletalScalesTruncate"
       },
       {
         "trait_type": "Head",
@@ -86,15 +89,15 @@
       },
       {
         "trait_type": "Back",
-        "value": "BetaFins"
+        "value": "DolphinFin"
       },
       {
         "trait_type": "Legs",
-        "value": "FinLegs"
+        "value": "LobsterLegs"
       },
       {
         "trait_type": "Arms",
-        "value": "TurtleArms"
+        "value": "NemoFins"
       },
       {
         "trait_type": "Mouth",
@@ -110,43 +113,8 @@
   {
     "name": "Your Collection #4",
     "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/4.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesTruncate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "NemoFins"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #5",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/5.png",
+    "image": "ipfs://TESTING/4.png",
+    "edition": 4,
     "attributes": [
       {
         "trait_type": "SkeletalBody",
@@ -158,159 +126,15 @@
       },
       {
         "trait_type": "Back",
-        "value": "Blowhole"
+        "value": "DolphinFin"
       },
       {
         "trait_type": "Legs",
-        "value": "LureLegs"
+        "value": "FinLegs"
       },
       {
         "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #6",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/6.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalSmoothBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #7",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/7.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesTruncate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "TentacleArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "ThreeEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #8",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/8.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "SharkFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "NemoFins"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #9",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/9.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesRounded"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LureLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "TentacleArms"
+        "value": "FinArms"
       },
       {
         "trait_type": "Mouth",
@@ -324,13 +148,51 @@
     "compiler": "HashLips Art Engine"
   },
   {
-    "name": "Your Collection #10",
+    "name": "Your Collection #5",
     "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/10.png",
+    "image": "ipfs://TESTING/5.png",
+    "edition": 5,
     "attributes": [
       {
         "trait_type": "SkeletalBody",
-        "value": "SkeletalSmoothBeta"
+        "value": "SkeletalSmoothLunate"
+      },
+      {
+        "trait_type": "Head",
+        "value": "FishHead"
+      },
+      {
+        "trait_type": "Back",
+        "value": "DolphinFin"
+      },
+      {
+        "trait_type": "Legs",
+        "value": "LobsterLegs"
+      },
+      {
+        "trait_type": "Arms",
+        "value": "FinArms"
+      },
+      {
+        "trait_type": "Mouth",
+        "value": "AnglerMouth"
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "AnglerEyes"
+      }
+    ],
+    "compiler": "HashLips Art Engine"
+  },
+  {
+    "name": "Your Collection #6",
+    "description": "Remember to replace this description",
+    "image": "ipfs://TESTING/6.png",
+    "edition": 6,
+    "attributes": [
+      {
+        "trait_type": "Body",
+        "value": "ScalesBeta"
       },
       {
         "trait_type": "Head",
@@ -350,23 +212,24 @@
       },
       {
         "trait_type": "Mouth",
-        "value": "BaseMouth"
+        "value": "AnglerMouth"
       },
       {
         "trait_type": "Eyes",
-        "value": "AnglerEyes"
+        "value": "EyeScar"
       }
     ],
     "compiler": "HashLips Art Engine"
   },
   {
-    "name": "Your Collection #11",
+    "name": "Your Collection #7",
     "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/11.png",
+    "image": "ipfs://TESTING/7.png",
+    "edition": 7,
     "attributes": [
       {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalSmoothPointed"
+        "trait_type": "Body",
+        "value": "ScalesPointed"
       },
       {
         "trait_type": "Head",
@@ -374,15 +237,52 @@
       },
       {
         "trait_type": "Back",
-        "value": "DorsalFins"
+        "value": "BetaFins"
       },
       {
         "trait_type": "Legs",
-        "value": "FinLegs"
+        "value": "TentacleLegs"
       },
       {
         "trait_type": "Arms",
-        "value": "NemoFins"
+        "value": "BetaArms"
+      },
+      {
+        "trait_type": "Mouth",
+        "value": "AnglerMouth"
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "BaseEyes"
+      }
+    ],
+    "compiler": "HashLips Art Engine"
+  },
+  {
+    "name": "Your Collection #8",
+    "description": "Remember to replace this description",
+    "image": "ipfs://TESTING/8.png",
+    "edition": 8,
+    "attributes": [
+      {
+        "trait_type": "Body",
+        "value": "ScalesLunate"
+      },
+      {
+        "trait_type": "Head",
+        "value": "FishHead"
+      },
+      {
+        "trait_type": "Back",
+        "value": "BetaFins"
+      },
+      {
+        "trait_type": "Legs",
+        "value": "BetaLegs"
+      },
+      {
+        "trait_type": "Arms",
+        "value": "LureArms"
       },
       {
         "trait_type": "Mouth",
@@ -396,13 +296,14 @@
     "compiler": "HashLips Art Engine"
   },
   {
-    "name": "Your Collection #12",
+    "name": "Your Collection #9",
     "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/12.png",
+    "image": "ipfs://TESTING/9.png",
+    "edition": 9,
     "attributes": [
       {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalSmoothRounded"
+        "trait_type": "Body",
+        "value": "ScalesRounded"
       },
       {
         "trait_type": "Head",
@@ -410,7 +311,118 @@
       },
       {
         "trait_type": "Back",
-        "value": "SharkFin"
+        "value": "DolphinFin"
+      },
+      {
+        "trait_type": "Legs",
+        "value": "BetaLegs"
+      },
+      {
+        "trait_type": "Arms",
+        "value": "TentacleArms"
+      },
+      {
+        "trait_type": "Mouth",
+        "value": "AnglerMouth"
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "AnglerEyes"
+      }
+    ],
+    "compiler": "HashLips Art Engine"
+  },
+  {
+    "name": "Your Collection #10",
+    "description": "Remember to replace this description",
+    "image": "ipfs://TESTING/10.png",
+    "edition": 10,
+    "attributes": [
+      {
+        "trait_type": "Body",
+        "value": "ScalesForked"
+      },
+      {
+        "trait_type": "Head",
+        "value": "FishHead"
+      },
+      {
+        "trait_type": "Back",
+        "value": "DorsalFins"
+      },
+      {
+        "trait_type": "Legs",
+        "value": "BetaLegs"
+      },
+      {
+        "trait_type": "Arms",
+        "value": "BetaArms"
+      },
+      {
+        "trait_type": "Mouth",
+        "value": "AnglerMouth"
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "AnglerEyes"
+      }
+    ],
+    "compiler": "HashLips Art Engine"
+  },
+  {
+    "name": "Your Collection #11",
+    "description": "Remember to replace this description",
+    "image": "ipfs://TESTING/11.png",
+    "edition": 11,
+    "attributes": [
+      {
+        "trait_type": "Body",
+        "value": "ScalesLunates"
+      },
+      {
+        "trait_type": "Head",
+        "value": "FishHead"
+      },
+      {
+        "trait_type": "Back",
+        "value": "BetaFins"
+      },
+      {
+        "trait_type": "Legs",
+        "value": "BetaLegs"
+      },
+      {
+        "trait_type": "Arms",
+        "value": "BetaArms"
+      },
+      {
+        "trait_type": "Mouth",
+        "value": "AnglerMouth"
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "BaseEyes"
+      }
+    ],
+    "compiler": "HashLips Art Engine"
+  },
+  {
+    "name": "Your Collection #12",
+    "description": "Remember to replace this description",
+    "image": "ipfs://TESTING/12.png",
+    "edition": 12,
+    "attributes": [
+      {
+        "trait_type": "Body",
+        "value": "ScalesLunates"
+      },
+      {
+        "trait_type": "Head",
+        "value": "FishHead"
+      },
+      {
+        "trait_type": "Back",
+        "value": "Blowhole"
       },
       {
         "trait_type": "Legs",
@@ -418,7 +430,7 @@
       },
       {
         "trait_type": "Arms",
-        "value": "TentacleArms"
+        "value": "FinArms"
       },
       {
         "trait_type": "Mouth",
@@ -434,11 +446,12 @@
   {
     "name": "Your Collection #13",
     "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/13.png",
+    "image": "ipfs://TESTING/13.png",
+    "edition": 13,
     "attributes": [
       {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesRounded"
+        "trait_type": "Body",
+        "value": "SmoothForked"
       },
       {
         "trait_type": "Head",
@@ -446,7 +459,7 @@
       },
       {
         "trait_type": "Back",
-        "value": "Blowhole"
+        "value": "DolphinFin"
       },
       {
         "trait_type": "Legs",
@@ -455,6 +468,43 @@
       {
         "trait_type": "Arms",
         "value": "FidlerClaws"
+      },
+      {
+        "trait_type": "Mouth",
+        "value": "AnglerMouth"
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "AnglerEyes"
+      }
+    ],
+    "compiler": "HashLips Art Engine"
+  },
+  {
+    "name": "Your Collection #14",
+    "description": "Remember to replace this description",
+    "image": "ipfs://TESTING/14.png",
+    "edition": 14,
+    "attributes": [
+      {
+        "trait_type": "Body",
+        "value": "SmoothLunate"
+      },
+      {
+        "trait_type": "Head",
+        "value": "FishHead"
+      },
+      {
+        "trait_type": "Back",
+        "value": "DolphinFin"
+      },
+      {
+        "trait_type": "Legs",
+        "value": "BetaLegs"
+      },
+      {
+        "trait_type": "Arms",
+        "value": "FinArms"
       },
       {
         "trait_type": "Mouth",
@@ -468,49 +518,14 @@
     "compiler": "HashLips Art Engine"
   },
   {
-    "name": "Your Collection #14",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/14.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesPointed"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "SharkFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "SharkEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
     "name": "Your Collection #15",
     "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/15.png",
+    "image": "ipfs://TESTING/15.png",
+    "edition": 15,
     "attributes": [
       {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesPointed"
+        "trait_type": "Body",
+        "value": "ScalesForked"
       },
       {
         "trait_type": "Head",
@@ -518,7 +533,7 @@
       },
       {
         "trait_type": "Back",
-        "value": "Blowhole"
+        "value": "DorsalFins"
       },
       {
         "trait_type": "Legs",
@@ -526,43 +541,7 @@
       },
       {
         "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #16",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/16.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "TentacleArms"
+        "value": "FidlerClaws"
       },
       {
         "trait_type": "Mouth",
@@ -576,13 +555,88 @@
     "compiler": "HashLips Art Engine"
   },
   {
-    "name": "Your Collection #17",
+    "name": "Your Collection #16",
     "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/17.png",
+    "image": "ipfs://TESTING/16.png",
+    "edition": 16,
     "attributes": [
       {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalSmoothRounded"
+        "trait_type": "Body",
+        "value": "ScalesBeta"
+      },
+      {
+        "trait_type": "Head",
+        "value": "FishHead"
+      },
+      {
+        "trait_type": "Back",
+        "value": "DorsalFins"
+      },
+      {
+        "trait_type": "Legs",
+        "value": "LobsterLegs"
+      },
+      {
+        "trait_type": "Arms",
+        "value": "BetaArms"
+      },
+      {
+        "trait_type": "Mouth",
+        "value": "AnglerMouth"
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "AnglerEyes"
+      }
+    ],
+    "compiler": "HashLips Art Engine"
+  },
+  {
+    "name": "Your Collection #17",
+    "description": "Remember to replace this description",
+    "image": "ipfs://TESTING/17.png",
+    "edition": 17,
+    "attributes": [
+      {
+        "trait_type": "Body",
+        "value": "ScalesBeta"
+      },
+      {
+        "trait_type": "Head",
+        "value": "FishHead"
+      },
+      {
+        "trait_type": "Back",
+        "value": "DolphinFin"
+      },
+      {
+        "trait_type": "Legs",
+        "value": "BetaLegs"
+      },
+      {
+        "trait_type": "Arms",
+        "value": "TentacleArms"
+      },
+      {
+        "trait_type": "Mouth",
+        "value": "AnglerMouth"
+      },
+      {
+        "trait_type": "Eyes",
+        "value": "AnglerEyes"
+      }
+    ],
+    "compiler": "HashLips Art Engine"
+  },
+  {
+    "name": "Your Collection #18",
+    "description": "Remember to replace this description",
+    "image": "ipfs://TESTING/18.png",
+    "edition": 18,
+    "attributes": [
+      {
+        "trait_type": "Body",
+        "value": "ScalesLunates"
       },
       {
         "trait_type": "Head",
@@ -598,43 +652,7 @@
       },
       {
         "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #18",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/18.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesRounded"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
+        "value": "FinArms"
       },
       {
         "trait_type": "Mouth",
@@ -650,11 +668,12 @@
   {
     "name": "Your Collection #19",
     "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/19.png",
+    "image": "ipfs://TESTING/19.png",
+    "edition": 19,
     "attributes": [
       {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesPointed"
+        "trait_type": "Body",
+        "value": "ScalesPointed"
       },
       {
         "trait_type": "Head",
@@ -662,15 +681,15 @@
       },
       {
         "trait_type": "Back",
-        "value": "BetaFins"
+        "value": "DorsalFins"
       },
       {
         "trait_type": "Legs",
-        "value": "FinLegs"
+        "value": "BetaLegs"
       },
       {
         "trait_type": "Arms",
-        "value": "FidlerClaws"
+        "value": "FinArms"
       },
       {
         "trait_type": "Mouth",
@@ -686,2599 +705,8 @@
   {
     "name": "Your Collection #20",
     "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/20.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "TurtleBeak"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #21",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/21.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalSmoothBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "TurtleLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #22",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/22.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalSmoothLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #23",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/23.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LureLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #24",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/24.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "NemoFins"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #25",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/25.png",
-    "attributes": [
-      {
-        "trait_type": "SkeletalBody",
-        "value": "SkeletalScalesRounded"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #26",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/26.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunates"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #27",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/27.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesPointed"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #28",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/28.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LureLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #29",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/29.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #30",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/30.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesRounded"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "SharkFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "SwordfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #31",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/31.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "ThreeEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #32",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/32.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "TentacleArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #33",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/33.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #34",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/34.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LureLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "TurtleBeak"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #35",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/35.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesRounded"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "SwordfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #36",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/36.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunates"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "StrapOnShark"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "TurtleLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "SwordfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #37",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/37.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #38",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/38.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #39",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/39.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #40",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/40.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunates"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "TentacleArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #41",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/41.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesTruncate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #42",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/42.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #43",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/43.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "TentacleArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #44",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/44.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "NemoFins"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #45",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/45.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #46",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/46.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesTruncate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "SharkFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #47",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/47.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunates"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "SharkFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "TurtleLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "CatfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #48",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/48.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunates"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "SharkEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #49",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/49.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "TentacleArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #50",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/50.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "SharkEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #51",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/51.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #52",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/52.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #53",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/53.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunates"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #54",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/54.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesRounded"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #55",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/55.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #56",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/56.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "SharkEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #57",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/57.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesTruncate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #58",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/58.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesPointed"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #59",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/59.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesRounded"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "SwordfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #60",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/60.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "StrapOnShark"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "TurtleBeak"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #61",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/61.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "StrapOnShark"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #62",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/62.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "TentacleArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #63",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/63.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #64",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/64.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #65",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/65.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #66",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/66.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "SharkEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #67",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/67.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "TentacleLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "TentacleArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #68",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/68.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunates"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "SharkEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #69",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/69.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #70",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/70.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "SwordfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #71",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/71.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #72",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/72.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "NemoFins"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #73",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/73.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "NemoFins"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "SharkEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #74",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/74.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #75",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/75.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #76",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/76.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "SharkFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "CatfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #77",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/77.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesTruncate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #78",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/78.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "TentacleArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #79",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/79.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LureLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "TurtleBeak"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #80",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/80.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #81",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/81.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesTruncate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "TentacleLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "CatfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "SharkEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #82",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/82.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #83",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/83.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #84",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/84.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "SharkEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #85",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/85.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "NemoFins"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #86",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/86.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "ThreeEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #87",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/87.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "StrapOnShark"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #88",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/88.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "CatfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #89",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/89.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "TentacleLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "CatfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #90",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/90.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #91",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/91.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesRounded"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #92",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/92.png",
+    "image": "ipfs://TESTING/20.png",
+    "edition": 20,
     "attributes": [
       {
         "trait_type": "Body",
@@ -3298,295 +726,7 @@
       },
       {
         "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #93",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/93.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #94",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/94.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DorsalFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "LobsterEye"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #95",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/95.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "BetaArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "SharkEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #96",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/96.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "BetaFins"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "TentacleArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "CatfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "BaseEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #97",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/97.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunates"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "SharkFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LureLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "CatfishMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "SharkEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #98",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/98.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesLunate"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "DolphinFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "FinLegs"
-      },
-      {
-        "trait_type": "Arms",
         "value": "FidlerClaws"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "BaseMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "AnglerEyes"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #99",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/99.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "ScalesForked"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "Blowhole"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "LobsterLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "LureArms"
-      },
-      {
-        "trait_type": "Mouth",
-        "value": "AnglerMouth"
-      },
-      {
-        "trait_type": "Eyes",
-        "value": "EyeScar"
-      }
-    ],
-    "compiler": "HashLips Art Engine"
-  },
-  {
-    "name": "Your Collection #100",
-    "description": "Remember to replace this description",
-    "image": "ipfs://NewUriToReplace/100.png",
-    "attributes": [
-      {
-        "trait_type": "Body",
-        "value": "SmoothBeta"
-      },
-      {
-        "trait_type": "Head",
-        "value": "FishHead"
-      },
-      {
-        "trait_type": "Back",
-        "value": "SharkFin"
-      },
-      {
-        "trait_type": "Legs",
-        "value": "BetaLegs"
-      },
-      {
-        "trait_type": "Arms",
-        "value": "FinArms"
       },
       {
         "trait_type": "Mouth",

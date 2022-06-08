@@ -1,11 +1,12 @@
 {
   "name": "Your Collection #5",
   "description": "Remember to replace this description",
-  "image": "ipfs://NewUriToReplace/5.png",
+  "image": "ipfs://TESTING/5.png",
+  "edition": 5,
   "attributes": [
     {
       "trait_type": "SkeletalBody",
-      "value": "SkeletalScalesPointed"
+      "value": "SkeletalSmoothLunate"
     },
     {
       "trait_type": "Head",
@@ -13,19 +14,19 @@
     },
     {
       "trait_type": "Back",
-      "value": "Blowhole"
+      "value": "DolphinFin"
     },
     {
       "trait_type": "Legs",
-      "value": "LureLegs"
+      "value": "LobsterLegs"
     },
     {
       "trait_type": "Arms",
-      "value": "LureArms"
+      "value": "FinArms"
     },
     {
       "trait_type": "Mouth",
-      "value": "BaseMouth"
+      "value": "AnglerMouth"
     },
     {
       "trait_type": "Eyes",

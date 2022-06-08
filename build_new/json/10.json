@@ -1,11 +1,12 @@
 {
   "name": "Your Collection #10",
   "description": "Remember to replace this description",
-  "image": "ipfs://NewUriToReplace/10.png",
+  "image": "ipfs://TESTING/10.png",
+  "edition": 10,
   "attributes": [
     {
-      "trait_type": "SkeletalBody",
-      "value": "SkeletalSmoothBeta"
+      "trait_type": "Body",
+      "value": "ScalesForked"
     },
     {
       "trait_type": "Head",
@@ -13,7 +14,7 @@
     },
     {
       "trait_type": "Back",
-      "value": "Blowhole"
+      "value": "DorsalFins"
     },
     {
       "trait_type": "Legs",
@@ -21,11 +22,11 @@
     },
     {
       "trait_type": "Arms",
-      "value": "FidlerClaws"
+      "value": "BetaArms"
     },
     {
       "trait_type": "Mouth",
-      "value": "BaseMouth"
+      "value": "AnglerMouth"
     },
     {
       "trait_type": "Eyes",

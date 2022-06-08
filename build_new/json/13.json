@@ -1,11 +1,12 @@
 {
   "name": "Your Collection #13",
   "description": "Remember to replace this description",
-  "image": "ipfs://NewUriToReplace/13.png",
+  "image": "ipfs://TESTING/13.png",
+  "edition": 13,
   "attributes": [
     {
-      "trait_type": "SkeletalBody",
-      "value": "SkeletalScalesRounded"
+      "trait_type": "Body",
+      "value": "SmoothForked"
     },
     {
       "trait_type": "Head",
@@ -13,7 +14,7 @@
     },
     {
       "trait_type": "Back",
-      "value": "Blowhole"
+      "value": "DolphinFin"
     },
     {
       "trait_type": "Legs",
@@ -25,7 +26,7 @@
     },
     {
       "trait_type": "Mouth",
-      "value": "BaseMouth"
+      "value": "AnglerMouth"
     },
     {
       "trait_type": "Eyes",

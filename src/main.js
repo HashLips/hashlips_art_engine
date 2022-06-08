@@ -174,7 +174,7 @@ const addMetadata = (_dna, _edition) => {
     date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
-    compiler: "HashLips Art Engine",
+    compiler: "HashLips Art Engine - datboi's fork",
   };
   if (network == NETWORK.sol) {
     tempMetadata = {

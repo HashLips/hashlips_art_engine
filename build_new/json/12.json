@@ -1,11 +1,12 @@
 {
   "name": "Your Collection #12",
   "description": "Remember to replace this description",
-  "image": "ipfs://NewUriToReplace/12.png",
+  "image": "ipfs://TESTING/12.png",
+  "edition": 12,
   "attributes": [
     {
-      "trait_type": "SkeletalBody",
-      "value": "SkeletalSmoothRounded"
+      "trait_type": "Body",
+      "value": "ScalesLunates"
     },
     {
       "trait_type": "Head",
@@ -13,7 +14,7 @@
     },
     {
       "trait_type": "Back",
-      "value": "SharkFin"
+      "value": "Blowhole"
     },
     {
       "trait_type": "Legs",
@@ -21,7 +22,7 @@
     },
     {
       "trait_type": "Arms",
-      "value": "TentacleArms"
+      "value": "FinArms"
     },
     {
       "trait_type": "Mouth",
