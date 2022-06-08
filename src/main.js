@@ -278,6 +278,7 @@ const constructLayerToDna = (_dna = "", _layers = []) => {
  * @returns new DNA string with any items that should be filtered, removed.
  */
 const filterDNAOptions = (_dna) => {
+  // console.log(_dna);
   const dnaItems = _dna.split(DNA_DELIMITER);
   const filteredDNA = dnaItems.filter((element) => {
     const query = /(\?.*$)/;
@@ -490,6 +491,7 @@ const startCreating = async () => {
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
       let newDna = (namedWeight) ? createDnaNames(layers) : createDna(layers);
+      console.log(newDna);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
         let loadedElements = [];
