@@ -25,10 +25,10 @@ data.forEach((item) => {
       }
     }
   });
-  _dna.join('-');
-  console.log(_dna);
-  return oldDna.push(_dna);
+  return oldDna.push(_dna.join('-'));
 });
+
+console.log(oldDna[0]);
 
 fs.writeFileSync(`${basePath}/build_old/_oldDna.json`, JSON.stringify(oldDna, null, 2));
 

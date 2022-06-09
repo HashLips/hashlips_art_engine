@@ -6,9 +6,7 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 -work in variation functionality
 -Create incompatible layers system.
 -work in rarity calculations
--option to not display none in metadata
 -option to include rarity in metadata
-- Continue to build on resumeNum and enable a resumted generation? Maybe pull dna from metadata?
 - Util to 'bring to front'. This will enable people to move X number of tokens to the first # in the
 collection so they can team Mint or whatever without resorting to minting with tokenId.
 -Should I still add a "make this amount" of particular traits if neccessary?
@@ -19,6 +17,8 @@ collection so they can team Mint or whatever without resorting to minting with t
 -work in toCreateNow functionality
 -rework weight system to simply mark the weight as a rarity name (common, rare, etc.) and have rarity automatic
 -work in misc utils
+- Continue to build on resumeNum and enable a resumted generation? Maybe pull dna from metadata?
+-option to not display none in metadata -- Solution: use removeAttribute
 */
 
 /* NOGO
@@ -36,6 +36,9 @@ const scaleSize = (num) => {
   if (collectionSize === toCreateNow) return num;
   return Math.floor((num / collectionSize) * toCreateNow);
 };
+
+// Set this to true if you want to use named rarity instead of numbers. 
+const namedWeight = true;
 
 const network = NETWORK.eth;
 
@@ -62,7 +65,7 @@ const layerConfigurations = [
     growEditionSizeTo: scaleSize(2500),
     layersOrder: [
       { name: "SkeletalBody" },
-      { name: "Head" },
+      { name: "Head"}, // options: {layerVariations: 'Color'} },
       { name: "Back" },
       { name: "Legs" },
       { name: "Arms" },
@@ -135,7 +138,7 @@ const pixelFormat = {
 };
 
 const background = {
-  generate: true,
+  generate: false,
   brightness: "80%",
   static: false,
   default: "#000000",
@@ -163,18 +166,11 @@ const preview_gif = {
   imageName: "preview.gif",
 };
 
-/* 
-* Do not use this unless 100% necessary and you understand the risk
-* Generating collection in stages leads to potential duplicates. 
-*/
-const resumeNum = 0;
-
-const namedWeight = true;
-/* 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
 * Rarity distribution can be adjusted
 * Keep range [0 - 10,000]
 * DO NOT change the rarity names unless you know what you're doing in main.js
-*/
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 const rarity_config = {
   Mythic: { ranks: [0, 100] }, //, fileName: 'Mythic.png' },
   Legendary: { ranks: [100, 600] }, //, fileName: 'Legendary.png' },
@@ -183,6 +179,35 @@ const rarity_config = {
   Uncommon: { ranks: [3100, 5600] }, //, fileName: 'Uncommon.png' },
   Common: { ranks: [5600, 10000] }, //, fileName: 'Common.png' },
 };
+
+// layer variations:
+const layerVariations = [
+  {
+    variationCount: 1,
+    name: 'Color',
+    variations: [
+      'Blue',
+      'Green',
+      'Purple',
+      'Red',
+    ],
+    Weight: [
+      5950,
+      2950,
+      900,
+      500,
+    ],
+  },
+];
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+* Do not use this unless 100% necessary and you understand the risk
+* Generating collection in stages leads to potential duplicates. 
+* 99% of the time, regenerating is the appropriate option. 
+* This is here for the 1%
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+const resumeNum = 0;
+const importOldDna = false;
 
 module.exports = {
   format,
@@ -208,4 +233,6 @@ module.exports = {
   toCreateNow,
   collectionSize,
   namedWeight,
+  importOldDna,
+  layerVariations,
 };

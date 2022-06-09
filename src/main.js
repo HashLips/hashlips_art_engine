@@ -26,6 +26,7 @@ const {
   toCreateNow,
   collectionSize,
   namedWeight,
+  importOldDna,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -35,6 +36,7 @@ var attributesList = [];
 var dnaList = new Set();
 const DNA_DELIMITER = "-";
 const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
+const oldDna = require(`${basePath}/build_old/_oldDna.json`);
 
 let hashlipsGiffer = null;
 
@@ -66,18 +68,17 @@ const buildSetup = () => {
   if (gif.export) {
     fs.mkdirSync(`${buildDir}/gifs`);
   }
-}
-
-const getRarityWeightOG = (_str) => {
-  let nameWithoutExtension = _str.slice(0, -4);
-  var nameWithoutWeight = Number(
-    nameWithoutExtension.split(rarityDelimiter).pop()
-  );
-  if (isNaN(nameWithoutWeight)) {
-    nameWithoutWeight = 1;
+  if (importOldDna) {
+    if (oldDna.length !== resumeNum) {
+      throw new Error(
+        `resumeNum (${resumeNum}) does not match count in _oldDna file (${oldDna.length}). 
+        Please make sure you have the correct _metadata file in the build_old folder and re-run generateOldDna`);
+    }
+    oldDna.forEach((item) => {
+      dnaList.add(item);
+    });
   }
-  return nameWithoutWeight;
-};
+}
 
 const getRarityWeight = (_str) => {
   let nameWithoutExtension = _str.slice(0, -4);
@@ -141,7 +142,12 @@ const layersSetup = (layersOrder) => {
       layerObj.options?.["bypassDNA"] !== undefined
         ? layerObj.options?.["bypassDNA"]
         : false,
+    layerVariations:
+      layerObj.options?.['layerVariations'] !== undefined
+        ? layerObj.options?.['layerVariations']
+        : "no-variation",
   }));
+  // console.log(layers);
   return layers;
 };
 
@@ -225,6 +231,30 @@ const loadLayerImg = async (_layer) => {
   }
 };
 
+const loadLayerImgVar = (_layer) => {
+  return new Promise((resolve, reject) => {
+    let path = _layer.selectedElement.path;
+    if (_layer.layerVariations != undefined) {
+      console.log(path);
+      path = path.split('#')[0];
+      console.log(path);
+      path = path.concat(_layer.variant.concat('.png'));
+      console.log(path);
+      path = path.replace(_layer.name, _layer.name.concat('/variant'));
+      console.log(path);
+    }
+    console.log('PATH', { path, exists: fs.existsSync(path) });
+    if (debugLogs) console.log('PATH', { path, exists: fs.existsSync(path) });
+    loadImage(`${path}`)
+      .then((image) => {
+        resolve({ layer: _layer, loadedImage: image });
+      })
+      .catch(() => {
+        reject();
+      });
+  });
+};
+
 const addText = (_sig, x, y, size) => {
   ctx.fillStyle = text.color;
   ctx.font = `${text.weight} ${size}pt ${text.family}`;
@@ -264,6 +294,8 @@ const constructLayerToDna = (_dna = "", _layers = []) => {
       blend: layer.blend,
       opacity: layer.opacity,
       selectedElement: selectedElement,
+      // layerVariations: layer.layerVariations,
+      // variant: _dna[index].split('#').pop() != undefined ? _dna[index].split('#').pop() : '',
     };
   });
   return mappedDnaToLayers;
@@ -278,7 +310,6 @@ const constructLayerToDna = (_dna = "", _layers = []) => {
  * @returns new DNA string with any items that should be filtered, removed.
  */
 const filterDNAOptions = (_dna) => {
-  // console.log(_dna);
   const dnaItems = _dna.split(DNA_DELIMITER);
   const filteredDNA = dnaItems.filter((element) => {
     const query = /(\?.*$)/;
@@ -406,7 +437,6 @@ const createDnaNames = (_layers) => {
       } 
     } 
   });
-  // console.log(randNum);
   return randNum.join(DNA_DELIMITER);
 };
 
@@ -491,7 +521,7 @@ const startCreating = async () => {
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
       let newDna = (namedWeight) ? createDnaNames(layers) : createDna(layers);
-      console.log(newDna);
+      // console.log(newDna);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
         let loadedElements = [];
@@ -559,7 +589,6 @@ const startCreating = async () => {
     layerConfigIndex++;
   }
   writeMetaData(JSON.stringify(metadataList, null, 2));
-  // console.log(dnaList);
 };
 
 module.exports = { startCreating, buildSetup, getElements };
