@@ -134,7 +134,7 @@ const getItemsRarity_jaccardDistances = (metadataList) => {
   // add JD rarity data to NFT/item
   for (let i = 0; i < metadataList.length; i++) {
     let scoreIndex = getScoreIndex(jd_asc, jd[i]);
-    jd_asc = markScoreAsUsed(jd_asc, jd[i]);
+    jd_asc = markScoreAsUsed(jd_asc, scoreIndex);
 
     metadataList[i].rarity = {
       score: jd[i],
@@ -150,9 +150,8 @@ const getScoreIndex = (jd_asc, score) => {
   return jd_asc.indexOf(score);
 };
 
-const markScoreAsUsed = (jd_asc, score) => {
-  const jd_i_idx = jd_asc.indexOf(score);
-  jd_asc[jd_i_idx] = -1;
+const markScoreAsUsed = (jd_asc, scoreIndex) => {
+  jd_asc[scoreIndex] = -1;
   return jd_asc;
 };
 
