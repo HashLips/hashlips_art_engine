@@ -133,11 +133,15 @@ const getItemsRarity_jaccardDistances = (metadataList) => {
 
   // add JD rarity data to NFT/item
   for (let i = 0; i < metadataList.length; i++) {
+    // remove score in case of duplicates
+    const jd_i_idx = jd_asc.indexOf(jd[i]);
+    jd_asc[jd_i_idx] = -1;
+
     metadataList[i].rarity = {
       score: jd[i],
     };
     if (network.includeRank) {
-      metadataList[i].rarity.rank = jd.length - jd_asc.indexOf(jd[i]);
+      metadataList[i].rarity.rank = jd.length - jd_i_idx;
     }
   }
   return metadataList;
