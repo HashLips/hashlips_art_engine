@@ -127,20 +127,32 @@ const getItemsRarity_jaccardDistances = (metadataList) => {
     jd[i] = ((avg[i] - avgMin) / (avgMax - avgMin)) * 100;
   }
 
-  const jd_asc = [...jd].sort(function (a, b) {
+  let jd_asc = [...jd].sort(function (a, b) {
     return a - b;
   });
 
   // add JD rarity data to NFT/item
   for (let i = 0; i < metadataList.length; i++) {
+    let scoreIndex = getScoreIndex(jd_asc, jd[i]);
+    jd_asc = markScoreAsUsed(jd_asc, scoreIndex);
+
     metadataList[i].rarity = {
       score: jd[i],
     };
     if (network.includeRank) {
-      metadataList[i].rarity.rank = jd.length - jd_asc.indexOf(jd[i]);
+      metadataList[i].rarity.rank = jd.length - scoreIndex;
     }
   }
   return metadataList;
+};
+
+const getScoreIndex = (jd_asc, score) => {
+  return jd_asc.indexOf(score);
+};
+
+const markScoreAsUsed = (jd_asc, scoreIndex) => {
+  jd_asc[scoreIndex] = -1;
+  return jd_asc;
 };
 
 // calculates rarity for all items/NFT using Trait/Statistical rarity algorithm(s)
