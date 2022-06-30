@@ -42,8 +42,14 @@ Alternatively you can run this command if you have node installed.
 npm install
 ```
 
+
+### Canvas Prerequisites
+Canvas requires Cairo and Pango (which are OS level dependencies) to be installed before
+Please refer to the latest installation instructions for canvas [located here](https://www.npmjs.com/package/canvas)
+_Note: running your generation script in docker will automatically do this for you_
 ## Usage ℹ️
 
+### Configuration
 Create your different layers as folders in the 'layers' directory, and add all the layer assets in these directories. You can name the assets anything as long as it has a rarity weight attached in the file name like so: `example element#70.png`. You can optionally change the delimiter `#` to anything you would like to use in the variable `rarityDelimiter` in the `src/config.js` file.
 
 Once you have all your layers, go into `src/config.js` and update the `layerConfigurations` objects `layersOrder` array to be your layer folders name in order of the back layer to the front layer.
@@ -177,7 +183,7 @@ const MODE = {
   luminosity: "luminosity",
 };
 ```
-
+### NPM Commands
 When you are ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
 
 ```sh
@@ -229,6 +235,17 @@ const extraMetadata = {};
 
 That's it, you're done.
 
+### Docker usage
+You can run all of the above commands in a docker container to speed up installation and execution process
+```sh
+docker build -t generator . 
+docker run -it --name generator generator bash
+# New terminal tab
+# cd to directory you want files to go or add to path at end
+docker cp generator:/app/build ./
+open .
+```
+
 ## Utils
 
 ### Updating baseUri for IPFS and description
@@ -262,7 +279,7 @@ If you want to change the ratio of the pixelation then you can update the ratio 
 
 ```js
 const pixelFormat = {
-  ratio: 5 / 128,
+    ratio: 5 / 128,
 };
 ```
 
@@ -274,10 +291,10 @@ Setting the `repeat: -1` will produce a one time render and `repeat: 0` will loo
 
 ```js
 const gif = {
-  export: true,
-  repeat: 0,
-  quality: 100,
-  delay: 500,
+    export: true,
+    repeat: 0,
+    quality: 100,
+    delay: 500,
 };
 ```
 
