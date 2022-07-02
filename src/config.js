@@ -5,17 +5,17 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
-const baseUri = "ipfs://NewUriToReplace";
+const namePrefix = "Elite Tour Club";
+const description = "A Kenyan PFP NFT project for Travel, Gaming and Entertainment enthusiasts. A new age of Digital flex with 10,000 uniquely generated NFTs. To the Metaverse";
+const baseUri = ""; // TODO ipfs://NewUriToReplace";
 
 const solanaMetadata = {
-  symbol: "YC",
+  symbol: "ETC",
   seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
-  external_url: "https://www.youtube.com/c/hashlipsnft",
+  external_url: "" // TODO "https://www.youtube.com/c/hashlipsnft",
   creators: [
     {
-      address: "7fXNuer5sbZtaTEPhtJ5g5gNtuyRoKkvxdjEjEnPN4mC",
+      address: "0xef3e15f5a73FB9cB6F98c65817396Dc63AA0fEC8",
       share: 100,
     },
   ],
