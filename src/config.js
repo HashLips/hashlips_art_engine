@@ -12,7 +12,7 @@ const baseUri = ""; // TODO ipfs://NewUriToReplace";
 const solanaMetadata = {
   symbol: "ETC",
   seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
-  external_url: "" // TODO "https://www.youtube.com/c/hashlipsnft",
+  external_url: "", // TODO "https://www.youtube.com/c/hashlipsnft",
   creators: [
     {
       address: "0xef3e15f5a73FB9cB6F98c65817396Dc63AA0fEC8",
