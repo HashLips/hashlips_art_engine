@@ -1,5 +1,5 @@
 const basePath = process.cwd();
-const { NETWORK } = require(`${basePath}/constants/network.js`);
+const { NETWORK } = require(`${basePath}/constants/network.ts`);
 const fs = require("fs");
 
 const {
@@ -14,7 +14,7 @@ const {
 let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
 let data = JSON.parse(rawdata);
 
-data.forEach((item) => {
+data.forEach((item: any) => {
   if (network == NETWORK.sol) {
     item.name = `${namePrefix} #${item.edition}`;
     item.description = description;

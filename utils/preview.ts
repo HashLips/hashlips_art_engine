@@ -3,13 +3,13 @@ const fs = require("fs");
 const { createCanvas, loadImage } = require("canvas");
 const buildDir = `${basePath}/build`;
 
-const { preview } = require(`${basePath}/src/config.js`);
+const { preview } = require(`${basePath}/src/config.ts`);
 
 // read json data
 const rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
 const metadataList = JSON.parse(rawdata);
 
-const saveProjectPreviewImage = async (_data) => {
+const saveProjectPreviewImage = async (_data: any) => {
   // Extract from preview config
   const { thumbWidth, thumbPerRow, imageRatio, imageName } = preview;
   // Calculate height on the fly
@@ -32,15 +32,17 @@ const saveProjectPreviewImage = async (_data) => {
   // Don't want to rely on "edition" for assuming index
   for (let index = 0; index < _data.length; index++) {
     const nft = _data[index];
-    await loadImage(`${buildDir}/images/${nft.edition}.png`).then((image) => {
-      previewCtx.drawImage(
-        image,
-        thumbWidth * (index % thumbPerRow),
-        thumbHeight * Math.trunc(index / thumbPerRow),
-        thumbWidth,
-        thumbHeight
-      );
-    });
+    await loadImage(`${buildDir}/images/${nft.edition}.png`).then(
+      (image: any) => {
+        previewCtx.drawImage(
+          image,
+          thumbWidth * (index % thumbPerRow),
+          thumbHeight * Math.trunc(index / thumbPerRow),
+          thumbWidth,
+          thumbHeight
+        );
+      }
+    );
   }
 
   // Write Project Preview to file
@@ -49,3 +51,5 @@ const saveProjectPreviewImage = async (_data) => {
 };
 
 saveProjectPreviewImage(metadataList);
+
+export = {};

@@ -1,0 +1,14 @@
+{
+    "extends": "@tsconfig/node16/tsconfig.json",
+    "compilerOptions": {
+      "target": "es2018",
+      "module": "commonjs",
+      "strict": true,
+      "esModuleInterop": true,
+      "outDir": "dist",
+      "declaration": true
+    },
+    "include": ["**/*"],
+    "exclude": ["node_modules"],
+    "skipLibCheck": true
+}

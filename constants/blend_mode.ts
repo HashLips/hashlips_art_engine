@@ -1,4 +1,4 @@
-const MODE = {
+export = {
   sourceOver: "source-over",
   sourceIn: "source-in",
   sourceOut: "source-out",
@@ -25,8 +25,4 @@ const MODE = {
   saturation: "saturation",
   color: "color",
   luminosity: "luminosity",
-};
-
-module.exports = {
-  MODE,
 };
