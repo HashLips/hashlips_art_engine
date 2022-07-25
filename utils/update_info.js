@@ -14,6 +14,12 @@ const {
 let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
 let data = JSON.parse(rawdata);
 
+// This will force a sort on the _metadata in case shuffleLayerConfigurations was set to true
+data.sort(function (a, b) {
+  return a.edition - b.edition;
+});
+
+
 data.forEach((item) => {
   if (network == NETWORK.sol) {
     item.name = `${namePrefix} #${item.edition}`;
