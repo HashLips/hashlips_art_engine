@@ -112,7 +112,7 @@ const parseQueryString = (filename, layer, sublayer) => {
  * @param {Object} input
  */
 const hash = (input) => {
-  const hashable = typeof input === Buffer ? input : JSON.stringify(input);
+  const hashable = typeof input === "string" ? JSON.stringify(input) : input;
   return keccak256(hashable).toString("hex");
 };
 
