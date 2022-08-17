@@ -43,7 +43,8 @@ ctxMain.imageSmoothingEnabled = format.smoothing;
 let metadataList = [];
 let attributesList = [];
 
-let dnaList = new Set();
+let dnaList = new Set(); // internal+external: list of all files. used for regeneration etc
+let uniqueDNAList = new Set(); // internal: post-filtered dna set for bypassDNA etc.
 const DNA_DELIMITER = "*";
 
 const zflag = /(z-?\d*,)/;
@@ -129,6 +130,8 @@ const getElementOptions = (layer, sublayer) => {
   let opacity = 1;
   if (layer.sublayerOptions?.[sublayer]) {
     const options = layer.sublayerOptions[sublayer];
+
+    options.bypassDNA !== undefined ? (bypassDNA = options.bypassDNA) : null;
     options.blend !== undefined ? (blendmode = options.blend) : null;
     options.opacity !== undefined ? (opacity = options.opacity) : null;
   } else {
@@ -411,12 +414,15 @@ const filterDNAOptions = (_dna) => {
     if (!querystring) {
       return true;
     }
+    // convert the items in the query string to an object
     const options = querystring[1].split("&").reduce((r, setting) => {
       const keyPairs = setting.split("=");
-      return { ...r, [keyPairs[0]]: keyPairs[1] };
+      //   construct the object →       {bypassDNA: bool}
+      return { ...r, [keyPairs[0].replace("?", "")]: keyPairs[1] };
     }, []);
-
-    return options.bypassDNA;
+    // currently, there is only support for the bypassDNA option,
+    // when bypassDNA is true, return false to omit from .filter
+    return options.bypassDNA === "true" ? false : true;
   });
 
   return filteredDNA.join(DNA_DELIMITER);
@@ -435,12 +441,21 @@ const removeQueryStrings = (_dna) => {
   return _dna.replace(query, "");
 };
 
-const isDnaUnique = (_DnaList, _dna = []) => {
-  return !dnaList.has(_dna);
+/**
+ * determine if the sanitized/filtered DNA string is unique or not by comparing
+ * it to the set of all previously generated permutations.
+ *
+ * @param {String} _dna string
+ * @returns isUnique is true if uniqueDNAList does NOT contain a match,
+ *  false if uniqueDANList.has() is true
+ */
+const isDnaUnique = (_dna = []) => {
+  const filtered = filterDNAOptions(_dna);
+  return !uniqueDNAList.has(filterDNAOptions(_dna));
 };
 
 // expecting to return an array of strings for each _layer_ that is picked,
-// should be a flattened list of all things that are picked randomly AND reqiured
+// should be a flattened list of all things that are picked randomly AND required
 /**
  *
  * @param {Object} layer The main layer, defined in config.layerConfigurations
@@ -801,6 +816,7 @@ const startCreating = async (storedDNA) => {
   if (storedDNA) {
     console.log(`using stored dna of ${storedDNA.size}`);
     dnaList = storedDNA;
+    uniqueDNAList = filterDNAOptions(storedDNA);
   }
   let layerConfigIndex = 0;
   let editionCount = 1; //used for the growEditionSize while loop, not edition number
@@ -810,7 +826,8 @@ const startCreating = async (storedDNA) => {
     let i = startIndex;
     i <=
     startIndex +
-      layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo - 1;
+      layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo -
+      1;
     i++
   ) {
     abstractedIndexes.push(i);
@@ -829,7 +846,7 @@ const startCreating = async (storedDNA) => {
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
       let newDna = createDna(layers);
-      if (isDnaUnique(dnaList, newDna)) {
+      if (isDnaUnique(newDna)) {
         let results = constructLayerToDna(newDna, layers);
         debugLogs ? console.log("DNA:", newDna.split(DNA_DELIMITER)) : null;
         let loadedElements = [];
@@ -852,7 +869,8 @@ const startCreating = async (storedDNA) => {
           outputFiles(abstractedIndexes, layerData);
         });
 
-        dnaList.add(filterDNAOptions(newDna));
+        dnaList.add(newDna);
+        uniqueDNAList.add(filterDNAOptions(newDna));
         editionCount++;
         abstractedIndexes.shift();
       } else {
