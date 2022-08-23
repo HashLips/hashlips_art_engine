@@ -1,10 +1,11 @@
 const basePath = process.cwd();
+const project = process.argv[2];
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const fs = require("fs");
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
-const buildDir = `${basePath}/build`;
-const layersDir = `${basePath}/layers`;
+const buildDir = `${basePath}/build-${project}`;
+const layersDir = `${basePath}/layers-${project}`;
 const {
   format,
   baseUri,
@@ -21,14 +22,14 @@ const {
   network,
   solanaMetadata,
   gif,
-} = require(`${basePath}/src/config.js`);
+} = require(`${basePath}/src/config-${project}.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;
 var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
-const DNA_DELIMITER = "-";
+const DNA_DELIMITER = "=";
 const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
 let hashlipsGiffer = null;
@@ -46,7 +47,8 @@ const buildSetup = () => {
 };
 
 const getRarityWeight = (_str) => {
-  let nameWithoutExtension = _str.slice(0, -4);
+  let nameWithoutExtension =
+    _str.indexOf(".") !== -1 ? _str.slice(0, -4) : _str;
   var nameWithoutWeight = Number(
     nameWithoutExtension.split(rarityDelimiter).pop()
   );
@@ -63,7 +65,8 @@ const cleanDna = (_str) => {
 };
 
 const cleanName = (_str) => {
-  let nameWithoutExtension = _str.slice(0, -4);
+  let nameWithoutExtension =
+    _str.indexOf(".") !== -1 ? _str.slice(0, -4) : _str;
   var nameWithoutWeight = nameWithoutExtension.split(rarityDelimiter).shift();
   return nameWithoutWeight;
 };
