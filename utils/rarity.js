@@ -9,7 +9,7 @@ const { getElements } = require("../src/main.js");
 
 // read json data
 let rawdata = fs.readFileSync(
-  `${basePath}/build-${project}/json/_metadata-${layerOptionIndex}.json`
+  `${basePath}/build-${project}/_metadata-${layerOptionIndex}.json`
 );
 let data = JSON.parse(rawdata);
 let editionSize = data.length;

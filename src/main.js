@@ -39,8 +39,7 @@ const buildSetup = () => {
     fs.rmdirSync(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
-  fs.mkdirSync(`${buildDir}/json`);
-  fs.mkdirSync(`${buildDir}/images`);
+  fs.mkdirSync(`${buildDir}/assets-${project}`);
   if (gif.export) {
     fs.mkdirSync(`${buildDir}/gifs`);
   }
@@ -118,7 +117,7 @@ const layerOptionsSetup = (layersOrder) => {
 
 const saveImage = (_editionCount) => {
   fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}.png`,
+    `${buildDir}/assets-${project}/${_editionCount}.png`,
     canvas.toBuffer("image/png")
   );
 };
@@ -313,7 +312,7 @@ const createDna = (_layers) => {
 };
 
 const writeMetaData = (_data) => {
-  fs.writeFileSync(`${buildDir}/json/_metadata.json`, _data);
+  fs.writeFileSync(`${buildDir}/_metadata.json`, _data);
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
@@ -324,7 +323,7 @@ const saveMetaDataSingleFile = (_editionCount) => {
       )
     : null;
   fs.writeFileSync(
-    `${buildDir}/json/${_editionCount}.json`,
+    `${buildDir}/assets-${project}/${_editionCount}.json`,
     JSON.stringify(metadata, null, 2)
   );
 };
@@ -450,7 +449,7 @@ const startCreating = async () => {
     // layerOptionごとのmetadataを出力
     metadataListPerLayerOrder.forEach((metadataList, index) => {
       fs.writeFileSync(
-        `${buildDir}/json/_metadata-${index}.json`,
+        `${buildDir}/_metadata-${index}.json`,
         JSON.stringify(metadataList, null, 2)
       );
     });
