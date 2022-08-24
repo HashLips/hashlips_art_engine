@@ -1,13 +1,16 @@
 const basePath = process.cwd();
+const project = process.argv[2]; // projectを指定
+const layerOptionIndex = process.argv[3]; // rarityを確認したいlayerOptionのindexを指定
 const fs = require("fs");
-const layersDir = `${basePath}/layers`;
 
-const { layerConfigurations } = require(`${basePath}/src/config.js`);
+const { layerConfigurations } = require(`${basePath}/src/config-${project}.js`);
 
 const { getElements } = require("../src/main.js");
 
 // read json data
-let rawdata = fs.readFileSync(`${basePath}/build/json/_metadata.json`);
+let rawdata = fs.readFileSync(
+  `${basePath}/build-${project}/_metadata-${layerOptionIndex}.json`
+);
 let data = JSON.parse(rawdata);
 let editionSize = data.length;
 
@@ -15,12 +18,14 @@ let rarityData = [];
 
 // intialize layers to chart
 layerConfigurations.forEach((config) => {
-  let layers = config.layersOrder;
+  let layers = config.layersOrder[layerOptionIndex].layers;
 
   layers.forEach((layer) => {
     // get elements for each layer
     let elementsForLayer = [];
-    let elements = getElements(`${layersDir}/${layer.name}/`);
+    let elements = getElements(
+      `${config.layersOrder[layerOptionIndex].layersDir}/${layer.name}/`
+    );
     elements.forEach((element) => {
       // just get name and weight for each element
       let rarityDataElement = {
@@ -61,14 +66,28 @@ data.forEach((element) => {
 
 // convert occurrences to occurence string
 for (var layer in rarityData) {
+  const totalWeight = rarityData[layer].reduce(
+    (total, attribute) => total + Number(attribute.weight),
+    0
+  );
+
   for (var attribute in rarityData[layer]) {
-    // get chance
-    let chance =
-      ((rarityData[layer][attribute].occurrence / editionSize) * 100).toFixed(2);
+    // 実際に生成された画像に基づく出現確率
+    const chanceBasedOnGeneratedImages =
+      (rarityData[layer][attribute].occurrence / editionSize) * 100;
 
     // show two decimal places in percent
-    rarityData[layer][attribute].occurrence =
-      `${rarityData[layer][attribute].occurrence} in ${editionSize} editions (${chance} %)`;
+    rarityData[layer][attribute].occurrence = `${
+      rarityData[layer][attribute].occurrence
+    } in ${editionSize} editions (${chanceBasedOnGeneratedImages.toFixed(2)} %)`;
+
+    // weightに基づく出現確率
+    const chanceBasedOnWeight =
+      (Number(rarityData[layer][attribute].weight) / totalWeight) * 100;
+
+    rarityData[layer][attribute].occurrenceBasedOnWeight = `${
+      (editionSize * chanceBasedOnWeight) / 100
+    } in ${editionSize} editions (${chanceBasedOnWeight.toFixed(2)} %)`;
   }
 }
 
