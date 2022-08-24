@@ -1,11 +1,10 @@
 const basePath = process.cwd();
-const project = process.argv[2];
+const project = process.argv[2]; // 引数でproject指定
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const fs = require("fs");
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
 const buildDir = `${basePath}/build-${project}`;
-const layersDir = `${basePath}/layers-${project}`;
 const {
   format,
   baseUri,
@@ -29,7 +28,7 @@ ctx.imageSmoothingEnabled = format.smoothing;
 var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
-const DNA_DELIMITER = "=";
+const DNA_DELIMITER = "="; // もしtrait名に"="が入る場合は考慮が必要
 const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
 let hashlipsGiffer = null;
@@ -76,7 +75,7 @@ const getElements = (path) => {
     .readdirSync(path)
     .filter((item) => !/(^|\/)\.[^\/\.]/g.test(item))
     .map((i, index) => {
-      if (i.includes("-")) {
+      if (i.includes(DNA_DELIMITER)) {
         throw new Error(`layer name can not contain dashes, please fix: ${i}`);
       }
       return {
@@ -89,28 +88,31 @@ const getElements = (path) => {
     });
 };
 
-const layersSetup = (layersOrder) => {
-  const layers = layersOrder.map((layerObj, index) => ({
-    id: index,
-    elements: getElements(`${layersDir}/${layerObj.name}/`),
-    name:
-      layerObj.options?.["displayName"] != undefined
-        ? layerObj.options?.["displayName"]
-        : layerObj.name,
-    blend:
-      layerObj.options?.["blend"] != undefined
-        ? layerObj.options?.["blend"]
-        : "source-over",
-    opacity:
-      layerObj.options?.["opacity"] != undefined
-        ? layerObj.options?.["opacity"]
-        : 1,
-    bypassDNA:
-      layerObj.options?.["bypassDNA"] !== undefined
-        ? layerObj.options?.["bypassDNA"]
-        : false,
-  }));
-  return layers;
+const layerOptionsSetup = (layersOrder) => {
+  // layerOrder数分layersをセットアップして、layersの選択肢配列を作成する。
+  const layerOptions = layersOrder.map((value) =>
+    value.layers.map((layerObj, index) => ({
+      id: index,
+      elements: getElements(`${value.layersDir}/${layerObj.name}/`),
+      name:
+        layerObj.options?.["displayName"] != undefined
+          ? layerObj.options?.["displayName"]
+          : layerObj.name,
+      blend:
+        layerObj.options?.["blend"] != undefined
+          ? layerObj.options?.["blend"]
+          : "source-over",
+      opacity:
+        layerObj.options?.["opacity"] != undefined
+          ? layerObj.options?.["opacity"]
+          : 1,
+      bypassDNA:
+        layerObj.options?.["bypassDNA"] !== undefined
+          ? layerObj.options?.["bypassDNA"]
+          : false,
+    }))
+  );
+  return layerOptions;
 };
 
 const saveImage = (_editionCount) => {
@@ -356,12 +358,18 @@ const startCreating = async () => {
     ? console.log("Editions left to create: ", abstractedIndexes)
     : null;
   while (layerConfigIndex < layerConfigurations.length) {
-    const layers = layersSetup(
+    const layerOptions = layerOptionsSetup(
       layerConfigurations[layerConfigIndex].layersOrder
     );
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
+      // layerOptionsの中からランダムで一つ選ぶ
+      const selectedLayerOptionIndex = Math.floor(
+        Math.random() * layerOptions.length
+      );
+      const layers = layerOptions[selectedLayerOptionIndex];
+
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
         let results = constructLayerToDna(newDna, layers);
@@ -385,9 +393,10 @@ const startCreating = async () => {
             );
             hashlipsGiffer.start();
           }
-          if (background.generate) {
-            drawBackground();
-          }
+          // デフォルトではbackground生成は無し。必要な場合はコメントアウトを外す。
+          // if (background.generate) {
+          //   drawBackground();
+          // }
           renderObjectArray.forEach((renderObject, index) => {
             drawElement(
               renderObject,
