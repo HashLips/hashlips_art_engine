@@ -73,13 +73,13 @@ for (var layer in rarityData) {
 
   for (var attribute in rarityData[layer]) {
     // 実際に生成された画像に基づく出現確率
-    const chanceBasedOnGenerated =
+    const chanceBasedOnGeneratedImages =
       (rarityData[layer][attribute].occurrence / editionSize) * 100;
 
     // show two decimal places in percent
     rarityData[layer][attribute].occurrence = `${
       rarityData[layer][attribute].occurrence
-    } in ${editionSize} editions (${chanceBasedOnGenerated.toFixed(2)} %)`;
+    } in ${editionSize} editions (${chanceBasedOnGeneratedImages.toFixed(2)} %)`;
 
     // weightに基づく出現確率
     const chanceBasedOnWeight =
