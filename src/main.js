@@ -26,6 +26,7 @@ const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;
 var metadataList = [];
+var metadataListPerLayerOrder = []; // LayerOrderごとのmetadataList。rarity.jsで利用する。
 var attributesList = [];
 var dnaList = new Set();
 const DNA_DELIMITER = "="; // もしtrait名に"="が入る場合は考慮が必要
@@ -133,7 +134,7 @@ const drawBackground = () => {
   ctx.fillRect(0, 0, format.width, format.height);
 };
 
-const addMetadata = (_dna, _edition) => {
+const addMetadata = (_dna, _edition, _selectedLayerOptionIndex) => {
   let dateTime = Date.now();
   let tempMetadata = {
     name: `${namePrefix} #${_edition}`,
@@ -158,6 +159,8 @@ const addMetadata = (_dna, _edition) => {
       //Added metadata for solana
       external_url: solanaMetadata.external_url,
       edition: _edition,
+      compiler: solanaMetadata.compiler,
+      collection: solanaMetadata.collection,
       ...extraMetadata,
       attributes: tempMetadata.attributes,
       properties: {
@@ -173,6 +176,7 @@ const addMetadata = (_dna, _edition) => {
     };
   }
   metadataList.push(tempMetadata);
+  metadataListPerLayerOrder[_selectedLayerOptionIndex].push(tempMetadata);
   attributesList = [];
 };
 
@@ -361,6 +365,12 @@ const startCreating = async () => {
     const layerOptions = layerOptionsSetup(
       layerConfigurations[layerConfigIndex].layersOrder
     );
+
+    // layerOptionsの数分空配列で初期化
+    for (let i = 0, l = layerOptions.length; i < l; i++) {
+      metadataListPerLayerOrder[i] = [];
+    }
+
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
@@ -414,7 +424,7 @@ const startCreating = async () => {
             ? console.log("Editions left to create: ", abstractedIndexes)
             : null;
           saveImage(abstractedIndexes[0]);
-          addMetadata(newDna, abstractedIndexes[0]);
+          addMetadata(newDna, abstractedIndexes[0], selectedLayerOptionIndex);
           saveMetaDataSingleFile(abstractedIndexes[0]);
           console.log(
             `Created edition: ${abstractedIndexes[0]}, with DNA: ${sha1(
@@ -436,6 +446,14 @@ const startCreating = async () => {
         }
       }
     }
+
+    metadataListPerLayerOrder.forEach((metadataList, index) => {
+      fs.writeFileSync(
+        `${buildDir}/json/_metadata-${index}.json`,
+        JSON.stringify(metadataList, null, 2)
+      );
+    });
+
     layerConfigIndex++;
   }
   writeMetaData(JSON.stringify(metadataList, null, 2));
