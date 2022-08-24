@@ -29,7 +29,7 @@ var metadataList = [];
 var metadataListPerLayerOrder = []; // LayerOrderごとのmetadataList。rarity.jsで利用する。
 var attributesList = [];
 var dnaList = new Set();
-const DNA_DELIMITER = "="; // もしtrait名に"="が入る場合は考慮が必要
+const DNA_DELIMITER = "="; // もしtrait名に"=" or "."が入る場合は考慮が必要
 const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
 let hashlipsGiffer = null;
@@ -48,7 +48,7 @@ const buildSetup = () => {
 
 const getRarityWeight = (_str) => {
   let nameWithoutExtension =
-    _str.indexOf(".") !== -1 ? _str.slice(0, -4) : _str;
+    _str.indexOf(".") === -1 ? _str : _str.slice(0, -4);
   var nameWithoutWeight = Number(
     nameWithoutExtension.split(rarityDelimiter).pop()
   );
@@ -66,7 +66,7 @@ const cleanDna = (_str) => {
 
 const cleanName = (_str) => {
   let nameWithoutExtension =
-    _str.indexOf(".") !== -1 ? _str.slice(0, -4) : _str;
+    _str.indexOf(".") === -1 ? _str : _str.slice(0, -4);
   var nameWithoutWeight = nameWithoutExtension.split(rarityDelimiter).shift();
   return nameWithoutWeight;
 };
@@ -367,7 +367,7 @@ const startCreating = async () => {
     );
 
     // layerOptionsの数分空配列で初期化
-    for (let i = 0, l = layerOptions.length; i < l; i++) {
+    for (let i = 0; i < layerOptions.length; i++) {
       metadataListPerLayerOrder[i] = [];
     }
 
@@ -447,6 +447,7 @@ const startCreating = async () => {
       }
     }
 
+    // layerOptionごとのmetadataを出力
     metadataListPerLayerOrder.forEach((metadataList, index) => {
       fs.writeFileSync(
         `${buildDir}/json/_metadata-${index}.json`,
