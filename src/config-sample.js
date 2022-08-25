@@ -51,17 +51,17 @@ const layerConfigurations = [
     ],
   },
 ];
+
+const format = { // 元画像の大きさに合わせて修正
+  width: 512,
+  height: 512,
+  smoothing: false, // ピクセルアートの場合に利用する <参考>https://developer.mozilla.org/ja/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled
+};
 ///// ↑修正必要箇所↑ /////
 
 const shuffleLayerConfigurations = false;
 
 const debugLogs = false;
-
-const format = {
-  width: 512,
-  height: 512,
-  smoothing: false,
-};
 
 const gif = {
   export: false,
