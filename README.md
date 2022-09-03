@@ -124,11 +124,11 @@ const layerConfigurations = [
   {
     growEditionSizeTo: 5,
     layersOrder: [
-      { name: "Background" , {
+      { name: "Background" , 
         options: {
           bypassDNA: false;
         }
-      }},
+      },
       { name: "Eyeball" },
       {
         name: "Eye color",
