@@ -90,8 +90,9 @@ const getElements = (path) => {
 
 const layerOptionsSetup = (layersOrder) => {
   // layerOrder数分layersをセットアップして、layersの選択肢配列を作成する。
-  const layerOptions = layersOrder.map((value) =>
-    value.layers.map((layerObj, index) => ({
+  const layerOptions = layersOrder.map((value) => ({
+    weight: value.weight || 1,
+    layers: value.layers.map((layerObj, index) => ({
       id: index,
       elements: getElements(`${value.layersDir}/${layerObj.name}/`),
       name:
@@ -111,8 +112,8 @@ const layerOptionsSetup = (layersOrder) => {
           ? layerObj.options?.["bypassDNA"]
           : false,
       pairLayer: layerObj.options?.["pairLayer"],
-    }))
-  );
+    })),
+  }));
   return layerOptions;
 };
 
@@ -357,6 +358,31 @@ function shuffle(array) {
   return array;
 }
 
+// layerOptionsの中からランダムで一つ選ぶ
+function selectlayerOption(_layerOptions) {
+  const totalWeight = _layerOptions.reduce(
+    (total, layerOption) => total + layerOption.weight,
+    0
+  );
+
+  // number between 0 - totalWeight
+  let selectedLayerOptionIndex;
+  let random = Math.floor(Math.random() * totalWeight);
+  for (var i = 0; i < _layerOptions.length; i++) {
+    // subtract the current weight from the random weight until we reach a sub zero value.
+    random -= _layerOptions[i].weight;
+    if (random < 0) {
+      selectedLayerOptionIndex = i;
+      break;
+    }
+  }
+
+  return {
+    layers: _layerOptions[selectedLayerOptionIndex].layers,
+    selectedLayerOptionIndex,
+  };
+}
+
 const startCreating = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
@@ -388,11 +414,8 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
-      // layerOptionsの中からランダムで一つ選ぶ
-      const selectedLayerOptionIndex = Math.floor(
-        Math.random() * layerOptions.length
-      );
-      const layers = layerOptions[selectedLayerOptionIndex];
+      const { layers, selectedLayerOptionIndex } =
+        selectlayerOption(layerOptions);
 
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
