@@ -1,7 +1,7 @@
 const basePath = process.cwd();
 const project = process.argv[2]; // projectを指定
 const remainingLayer = process.argv[3]; // 統合先のlayer名を指定
-const deletingLayer = process.argv[4]; // 統合したいlayer名をしてい
+const deletingLayer = process.argv[4]; // 統合したいlayer名を指定
 const newLayer = process.argv[5]; // 統合後の新しいlayer名を指定
 const fs = require("fs");
 const buildDir = `${basePath}/build-${project}`;
