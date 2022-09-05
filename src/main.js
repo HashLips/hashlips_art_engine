@@ -110,6 +110,7 @@ const layerOptionsSetup = (layersOrder) => {
         layerObj.options?.["bypassDNA"] !== undefined
           ? layerObj.options?.["bypassDNA"]
           : false,
+      pairLayer: layerObj.options?.["pairLayer"],
     }))
   );
   return layerOptions;
@@ -289,7 +290,16 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
 
 const createDna = (_layers) => {
   let randNum = [];
+  let pairLayerMap = new Map(); // キー: pairLayerのレイヤー名、value: ペアになるtrait名 を保持するマップ
   _layers.forEach((layer) => {
+    // pairLayerに該当するか確認し、該当する場合はペアになるtraitを選択
+    if (pairLayerMap.has(layer.name)) {
+      const element = layer.elements.find(
+        (element) => element.name === pairLayerMap.get(layer.name)
+      );
+      return randNum.push(`${element.id}:${element.filename}`);
+    }
+
     var totalWeight = 0;
     layer.elements.forEach((element) => {
       totalWeight += element.weight;
@@ -300,6 +310,12 @@ const createDna = (_layers) => {
       // subtract the current weight from the random weight until we reach a sub zero value.
       random -= layer.elements[i].weight;
       if (random < 0) {
+        // もしpairLayerが存在する場合はpairLayerMapに格納
+        if (layer.pairLayer) {
+          pairLayerMap.set(layer.pairLayer, layer.elements[i].name);
+          console.log("pairLayerMap", pairLayerMap);
+        }
+
         return randNum.push(
           `${layer.elements[i].id}:${layer.elements[i].filename}${
             layer.bypassDNA ? "?bypassDNA=true" : ""
