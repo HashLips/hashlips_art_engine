@@ -313,7 +313,6 @@ const createDna = (_layers) => {
         // もしpairLayerが存在する場合はpairLayerMapに格納
         if (layer.pairLayer) {
           pairLayerMap.set(layer.pairLayer, layer.elements[i].name);
-          console.log("pairLayerMap", pairLayerMap);
         }
 
         return randNum.push(

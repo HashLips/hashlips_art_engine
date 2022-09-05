@@ -28,7 +28,13 @@ const layerConfigurations = [
         layersDir: `${basePath}/layers-hogehoge`,
         layers: [
           { name: "Background" },
-          { name: "Eyeball", options: { pairLayer: "Iris" } }, // ペアとなるtraitがある場合、pairLayerに該当layer名を指定する。そして、同名のファイル名をそのlayerフォルダに格納する。 },
+          {
+            name: "Eyeball",
+            options: {
+              // ペアとなるlayerがある場合、pairLayerに該当layer名を指定する。ペアlayerフォルダ内にある、同ファイル名同士がペアとなり選択される。また処理順番の関係上、pairLayerはペア内で下の階層になるlayerに指定する必要がある。
+              pairLayer: "Iris",
+            },
+          },
           { name: "Eye color" },
           { name: "Iris" },
           { name: "Shine" },
