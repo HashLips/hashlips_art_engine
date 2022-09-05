@@ -90,8 +90,9 @@ const getElements = (path) => {
 
 const layerOptionsSetup = (layersOrder) => {
   // layerOrder数分layersをセットアップして、layersの選択肢配列を作成する。
-  const layerOptions = layersOrder.map((value) =>
-    value.layers.map((layerObj, index) => ({
+  const layerOptions = layersOrder.map((value) => ({
+    weight: value.weight || 1,
+    layers: value.layers.map((layerObj, index) => ({
       id: index,
       elements: getElements(`${value.layersDir}/${layerObj.name}/`),
       name:
@@ -110,8 +111,9 @@ const layerOptionsSetup = (layersOrder) => {
         layerObj.options?.["bypassDNA"] !== undefined
           ? layerObj.options?.["bypassDNA"]
           : false,
-    }))
-  );
+      pairLayer: layerObj.options?.["pairLayer"],
+    })),
+  }));
   return layerOptions;
 };
 
@@ -289,7 +291,16 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
 
 const createDna = (_layers) => {
   let randNum = [];
+  let pairLayerMap = new Map(); // キー: pairLayerのレイヤー名、value: ペアになるtrait名 を保持するマップ
   _layers.forEach((layer) => {
+    // pairLayerに該当するか確認し、該当する場合はペアになるtraitを選択
+    if (pairLayerMap.has(layer.name)) {
+      const element = layer.elements.find(
+        (element) => element.name === pairLayerMap.get(layer.name)
+      );
+      return randNum.push(`${element.id}:${element.filename}`);
+    }
+
     var totalWeight = 0;
     layer.elements.forEach((element) => {
       totalWeight += element.weight;
@@ -300,6 +311,11 @@ const createDna = (_layers) => {
       // subtract the current weight from the random weight until we reach a sub zero value.
       random -= layer.elements[i].weight;
       if (random < 0) {
+        // もしpairLayerが存在する場合はpairLayerMapに格納
+        if (layer.pairLayer) {
+          pairLayerMap.set(layer.pairLayer, layer.elements[i].name);
+        }
+
         return randNum.push(
           `${layer.elements[i].id}:${layer.elements[i].filename}${
             layer.bypassDNA ? "?bypassDNA=true" : ""
@@ -342,6 +358,31 @@ function shuffle(array) {
   return array;
 }
 
+// layerOptionsの中からランダムで一つ選ぶ
+function selectlayerOption(_layerOptions) {
+  const totalWeight = _layerOptions.reduce(
+    (total, layerOption) => total + layerOption.weight,
+    0
+  );
+
+  // number between 0 - totalWeight
+  let selectedLayerOptionIndex;
+  let random = Math.floor(Math.random() * totalWeight);
+  for (var i = 0; i < _layerOptions.length; i++) {
+    // subtract the current weight from the random weight until we reach a sub zero value.
+    random -= _layerOptions[i].weight;
+    if (random < 0) {
+      selectedLayerOptionIndex = i;
+      break;
+    }
+  }
+
+  return {
+    layers: _layerOptions[selectedLayerOptionIndex].layers,
+    selectedLayerOptionIndex,
+  };
+}
+
 const startCreating = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
@@ -373,11 +414,8 @@ const startCreating = async () => {
     while (
       editionCount <= layerConfigurations[layerConfigIndex].growEditionSizeTo
     ) {
-      // layerOptionsの中からランダムで一つ選ぶ
-      const selectedLayerOptionIndex = Math.floor(
-        Math.random() * layerOptions.length
-      );
-      const layers = layerOptions[selectedLayerOptionIndex];
+      const { layers, selectedLayerOptionIndex } =
+        selectlayerOption(layerOptions);
 
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {

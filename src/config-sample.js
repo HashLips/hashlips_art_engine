@@ -28,7 +28,13 @@ const layerConfigurations = [
         layersDir: `${basePath}/layers-hogehoge`,
         layers: [
           { name: "Background" },
-          { name: "Eyeball" },
+          {
+            name: "Eyeball",
+            options: {
+              // ペアとなるlayerがある場合、pairLayerに該当layer名を指定する。ペアlayerフォルダ内にある、同ファイル名同士がペアとなり選択される。また処理順番の関係上、pairLayerはペア内で下の階層になるlayerに指定する必要がある。
+              pairLayer: "Iris",
+            },
+          },
           { name: "Eye color" },
           { name: "Iris" },
           { name: "Shine" },
@@ -52,7 +58,8 @@ const layerConfigurations = [
   },
 ];
 
-const format = { // 元画像の大きさに合わせて修正
+const format = {
+  // 元画像の大きさに合わせて修正
   width: 512,
   height: 512,
   smoothing: false, // ピクセルアートの場合に利用する <参考>https://developer.mozilla.org/ja/docs/Web/API/CanvasRenderingContext2D/imageSmoothingEnabled
