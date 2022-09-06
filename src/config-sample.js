@@ -26,16 +26,35 @@ const layerConfigurations = [
     layersOrder: [
       {
         layersDir: `${basePath}/layers-hogehoge`,
+        weight: 1, // このlayerOrderの出現率の重さ
         layers: [
           { name: "Background" },
           {
             name: "Eyeball",
             options: {
-              // ペアとなるlayerがある場合、pairLayerに該当layer名を指定する。ペアlayerフォルダ内にある、同ファイル名同士がペアとなり選択される。また処理順番の関係上、pairLayerはペア内で下の階層になるlayerに指定する必要がある。
-              pairLayer: "Iris",
+              pairLayers: [
+                {
+                  // 特定のlayerでtraitを制限したい場合は以下のように指定する。処理順番の関係上、自分よりも下の階層になるlayerは指定することができない。
+                  targetTraits: ["Red"], // 対象となるtrait名
+                  paierLyaerName: "Iris", // 制限したいtraitがあるlayer名
+                  pairTraits: ["Small", "Medium"], // ペアとなるtrait名
+                },
+              ],
             },
           },
-          { name: "Eye color" },
+          {
+            name: "Eye color",
+            options: {
+              pairLayers: [
+                {
+                  // 以下のように除外したいtraitも選ぶことができる
+                  targetTraits: ["Yellow", "Red"], // 対象となるtrait名
+                  paierLyaerName: "Top lid", // 制限したいtraitがあるlayer名
+                  excludedTraits: ["Middle"], // 除外したいtrait名
+                },
+              ],
+            },
+          },
           { name: "Iris" },
           { name: "Shine" },
           { name: "Bottom lid" },
@@ -44,6 +63,7 @@ const layerConfigurations = [
       },
       {
         layersDir: `${basePath}/layers-hugahuga`,
+        weight: 2,
         layers: [
           { name: "Background" },
           { name: "Eyeball" },
