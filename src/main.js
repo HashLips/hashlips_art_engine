@@ -49,7 +49,9 @@ const getRarityWeight = (_str) => {
   let nameWithoutExtension =
     _str.indexOf(".") === -1 ? _str : _str.slice(0, -4);
   var nameWithoutWeight = Number(
-    nameWithoutExtension.split(rarityDelimiter).pop()
+    nameWithoutExtension.indexOf(rarityDelimiter) === -1
+      ? NaN
+      : nameWithoutExtension.split(rarityDelimiter).pop()
   );
   if (isNaN(nameWithoutWeight)) {
     nameWithoutWeight = 1;
@@ -111,7 +113,7 @@ const layerOptionsSetup = (layersOrder) => {
         layerObj.options?.["bypassDNA"] !== undefined
           ? layerObj.options?.["bypassDNA"]
           : false,
-      pairLayer: layerObj.options?.["pairLayer"],
+      pairLayers: layerObj.options?.["pairLayers"],
     })),
   }));
   return layerOptions;
@@ -291,33 +293,66 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
 
 const createDna = (_layers) => {
   let randNum = [];
-  let pairLayerMap = new Map(); // キー: pairLayerのレイヤー名、value: ペアになるtrait名 を保持するマップ
+  let pairLayerMap = new Map(); // キー: pairLayerのレイヤー名、value: { pairTraits: ペアになるtrait配列, excludedTraits: 除外するtrait配列 } を保持するマップ
   _layers.forEach((layer) => {
-    // pairLayerに該当するか確認し、該当する場合はペアになるtraitを選択
+    let elements = layer.elements;
+
+    // pairLayerに該当するか確認し、該当する場合はペアになるtraitsを抽出
     if (pairLayerMap.has(layer.name)) {
-      const element = layer.elements.find(
-        (element) => element.name === pairLayerMap.get(layer.name)
-      );
-      return randNum.push(`${element.id}:${element.filename}`);
+      elements = elements.filter((element) => {
+        const pairTraits = pairLayerMap.get(layer.name).pairTraits;
+        const excludedTraits = pairLayerMap.get(layer.name).excludedTraits;
+        return (
+          (pairTraits.length > 0 ? pairTraits.includes(element.name) : true) && // pairTraitsが定義されている場合は配列に含まれるtraitsを取得
+          (excludedTraits.length > 0 // excludedTraitsが定義されている場合は配列に含まれないtraitsを取得
+            ? !excludedTraits.includes(element.name)
+            : true)
+        );
+      });
     }
 
-    var totalWeight = 0;
-    layer.elements.forEach((element) => {
+    let totalWeight = 0;
+    elements.forEach((element) => {
       totalWeight += element.weight;
     });
     // number between 0 - totalWeight
     let random = Math.floor(Math.random() * totalWeight);
-    for (var i = 0; i < layer.elements.length; i++) {
+    for (let i = 0; i < elements.length; i++) {
       // subtract the current weight from the random weight until we reach a sub zero value.
-      random -= layer.elements[i].weight;
+      random -= elements[i].weight;
       if (random < 0) {
         // もしpairLayerが存在する場合はpairLayerMapに格納
-        if (layer.pairLayer) {
-          pairLayerMap.set(layer.pairLayer, layer.elements[i].name);
+        if (layer.pairLayers) {
+          layer.pairLayers
+            .filter(
+              (pairLayer) => pairLayer.targetTraits.includes(elements[i].name) // pairLayers指定のあるtraitsかどうか確認
+            )
+            .forEach((pairLayer) => {
+              if (pairLayerMap.has(pairLayer.paierLyaerName)) {
+                // すでにmap内にpairLayerが存在する場合は、pairTraitsとexcludedTraitsを追加
+                const existValue = pairLayerMap.get(pairLayer.paierLyaerName);
+                pairLayerMap.set(pairLayer.paierLyaerName, {
+                  pairTraits: [
+                    ...existValue.pairTraits,
+                    ...(pairLayer.pairTraits || []),
+                  ],
+                  excludedTraits: [
+                    ...existValue.excludedTraits,
+                    ...(pairLayer.excludedTraits || []),
+                  ],
+                });
+              } else {
+                // map内にpairLayerが存在しない場合は、pairTraitsとexcludedTraitsを初期化
+                pairLayerMap.set(pairLayer.paierLyaerName, {
+                  pairTraits: pairLayer.pairTraits || [],
+                  excludedTraits: pairLayer.excludedTraits || [],
+                });
+              }
+            });
         }
 
         return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}${
+          `${elements[i].id}:${elements[i].filename}${
             layer.bypassDNA ? "?bypassDNA=true" : ""
           }`
         );
