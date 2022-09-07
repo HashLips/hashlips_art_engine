@@ -27,34 +27,28 @@ const layerConfigurations = [
       {
         layersDir: `${basePath}/layers-hogehoge`,
         weight: 1, // このlayerOrderの出現率の重さ
+        pairLayers: {
+          // 特定のlayerでtraitを制限したい場合は以下のように指定する。処理順番の関係上、自分よりも下の階層になるlayerは指定することができない。
+          Eyeball: [
+            {
+              targetTraits: ["Red"], // 対象となるtrait名
+              paierLyaerName: "Iris", // 制限したいtraitがあるlayer名
+              pairTraits: ["Small", "Medium"], // ペアとなるtrait名
+            },
+          ],
+          "Eye color": [
+            {
+              // 以下のように除外したいtraitも選ぶことができる
+              targetTraits: ["Yellow", "Red"], // 対象となるtrait名
+              paierLyaerName: "Top lid", // 制限したいtraitがあるlayer名
+              excludedTraits: ["Middle"], // 除外したいtrait名
+            },
+          ],
+        },
         layers: [
           { name: "Background" },
-          {
-            name: "Eyeball",
-            options: {
-              pairLayers: [
-                {
-                  // 特定のlayerでtraitを制限したい場合は以下のように指定する。処理順番の関係上、自分よりも下の階層になるlayerは指定することができない。
-                  targetTraits: ["Red"], // 対象となるtrait名
-                  paierLyaerName: "Iris", // 制限したいtraitがあるlayer名
-                  pairTraits: ["Small", "Medium"], // ペアとなるtrait名
-                },
-              ],
-            },
-          },
-          {
-            name: "Eye color",
-            options: {
-              pairLayers: [
-                {
-                  // 以下のように除外したいtraitも選ぶことができる
-                  targetTraits: ["Yellow", "Red"], // 対象となるtrait名
-                  paierLyaerName: "Top lid", // 制限したいtraitがあるlayer名
-                  excludedTraits: ["Middle"], // 除外したいtrait名
-                },
-              ],
-            },
-          },
+          { name: "Eyeball" },
+          { name: "Eye color" },
           { name: "Iris" },
           { name: "Shine" },
           { name: "Bottom lid" },

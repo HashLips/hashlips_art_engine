@@ -1,8 +1,10 @@
 const basePath = process.cwd();
 const project = process.argv[2]; // projectを指定
-const remainingLayer = process.argv[3]; // 統合先のlayer名を指定
-const deletingLayer = process.argv[4]; // 統合したいlayer名を指定
-const newLayer = process.argv[5]; // 統合後の新しいlayer名を指定
+const integrationLayer1 = process.argv[3]; // 統合したいlayer名1を指定
+const integrationLayer2 = process.argv[4]; // 統合したいlayer名2を指定
+const deletingTraitName = process.argv[5]; // integrationLayerの内、このTraitを含むLayerを削除する
+const newLayer = process.argv[6]; // 統合後の新しいlayer名を指定
+const deletingLayer = process.argv[7]; // deletingTraitNameにかかわらず削除したいLayerを指定
 const fs = require("fs");
 const buildDir = `${basePath}/build-${project}`;
 const { layerConfigurations } = require(`${basePath}/src/config-${project}.js`);
@@ -18,10 +20,22 @@ for (let i = 0; i < layerConfigurations[0].layersOrder.length; i++) {
 
 data.forEach((item) => {
   const newAttributes = item.attributes
-    .filter((attribute) => attribute.trait_type !== deletingLayer) // deleteLayerを削除
+    .filter((attribute) => {
+      if (attribute.trait_type !== integrationLayer1 && attribute.trait_type !== integrationLayer2) {
+        return true;
+      }
+
+      // deletingLayerに一致する場合は削除
+      if (attribute.trait_type === deletingLayer) {
+        return false;
+      }
+
+      // integrationLayerかつ、trait名がdeletingTraitNameと一致する場合Layerを削除
+      return attribute.value !== deletingTraitName;
+    })
     .map((attribute) => {
-      if (attribute.trait_type === remainingLayer) {
-        // remainLayerをnewLayerにrename
+      if (attribute.trait_type === integrationLayer1 || attribute.trait_type === integrationLayer2) {
+        // newLayerにrename
         attribute.trait_type = newLayer;
       }
       return attribute;
@@ -37,20 +51,14 @@ data.forEach((item) => {
     });
   }
 
-  fs.writeFileSync(
-    `${buildDir}/assets-${project}/${item.edition}.json`,
-    JSON.stringify(item, null, 2)
-  );
+  fs.writeFileSync(`${buildDir}/assets-${project}/${item.edition}.json`, JSON.stringify(item, null, 2));
 });
 
 fs.writeFileSync(`${buildDir}/_metadata.json`, JSON.stringify(data, null, 2));
 
 dataPerLayerOrder.forEach((metadataList, index) => {
-  fs.writeFileSync(
-    `${buildDir}/_metadata-${index}.json`,
-    JSON.stringify(metadataList, null, 2)
-  );
+  fs.writeFileSync(`${buildDir}/_metadata-${index}.json`, JSON.stringify(metadataList, null, 2));
 });
 
 console.log(`Deleted ${deletingLayer}`);
-console.log(`Updated ${remainingLayer} to ===> ${newLayer}`);
+console.log(`Updated to ${newLayer}`);

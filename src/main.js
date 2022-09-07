@@ -97,7 +97,7 @@ const layerOptionsSetup = (layersOrder) => {
       blend: layerObj.options?.["blend"] != undefined ? layerObj.options?.["blend"] : "source-over",
       opacity: layerObj.options?.["opacity"] != undefined ? layerObj.options?.["opacity"] : 1,
       bypassDNA: layerObj.options?.["bypassDNA"] !== undefined ? layerObj.options?.["bypassDNA"] : false,
-      pairLayers: layerObj.options?.["pairLayers"],
+      pairLayers: value.pairLayers?.[layerObj.name],
     })),
   }));
   return layerOptions;
@@ -272,16 +272,18 @@ const createDna = (_layers) => {
 
     // pairLayerに該当するか確認し、該当する場合はペアになるtraitsを抽出
     if (pairLayerMap.has(layer.name)) {
+      const pairTraits = pairLayerMap.get(layer.name).pairTraits;
+      const excludedTraits = pairLayerMap.get(layer.name).excludedTraits;
       elements = elements.filter((element) => {
-        const pairTraits = pairLayerMap.get(layer.name).pairTraits;
-        const excludedTraits = pairLayerMap.get(layer.name).excludedTraits;
         return (
           (pairTraits.length > 0 ? pairTraits.includes(element.name) : true) && // pairTraitsが定義されている場合は配列に含まれるtraitsを取得
-          (excludedTraits.length > 0 // excludedTraitsが定義されている場合は配列に含まれないtraitsを取得
-            ? !excludedTraits.includes(element.name)
-            : true)
+          (excludedTraits.length > 0 ? !excludedTraits.includes(element.name) : true) // excludedTraitsが定義されている場合は配列に含まれないtraitsを取得
         );
       });
+    }
+
+    if (elements.length === 0) {
+      throw new Error(`Can't select trait for ${layer.name}`);
     }
 
     let totalWeight = 0;
@@ -304,6 +306,19 @@ const createDna = (_layers) => {
               if (pairLayerMap.has(pairLayer.paierLyaerName)) {
                 // すでにmap内にpairLayerが存在する場合は、pairTraitsとexcludedTraitsを追加
                 const existValue = pairLayerMap.get(pairLayer.paierLyaerName);
+
+                // 同じLayerに対して複数のpairTraitsを設定すると矛盾が生じるのでエラーを返す
+                if (
+                  pairLayer.pairTraits &&
+                  existValue.pairTraits.length > 0 &&
+                  (existValue.pairTraits.length !== pairLayer.pairTraits.length ||
+                    existValue.pairTraits.some((trait) => pairLayer.pairTraits.indexOf(trait) === -1))
+                ) {
+                  throw new Error(
+                    `The pairTrait for ${pairLayer.paierLyaerName} is duplicated. layer: ${layer.name}, trait: ${elements[i].name}`
+                  );
+                }
+
                 pairLayerMap.set(pairLayer.paierLyaerName, {
                   pairTraits: [...existValue.pairTraits, ...(pairLayer.pairTraits || [])],
                   excludedTraits: [...existValue.excludedTraits, ...(pairLayer.excludedTraits || [])],
