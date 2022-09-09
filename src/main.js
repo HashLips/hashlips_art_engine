@@ -303,9 +303,9 @@ const createDna = (_layers) => {
               (pairLayer) => pairLayer.targetTraits.includes(elements[i].name) // pairLayers指定のあるtraitsかどうか確認
             )
             .forEach((pairLayer) => {
-              if (pairLayerMap.has(pairLayer.paierLyaerName)) {
+              if (pairLayerMap.has(pairLayer.pairLayerName)) {
                 // すでにmap内にpairLayerが存在する場合は、pairTraitsとexcludedTraitsを追加
-                const existValue = pairLayerMap.get(pairLayer.paierLyaerName);
+                const existValue = pairLayerMap.get(pairLayer.pairLayerName);
 
                 // 同じLayerに対して複数のpairTraitsを設定すると矛盾が生じるのでエラーを返す
                 if (
@@ -315,17 +315,17 @@ const createDna = (_layers) => {
                     existValue.pairTraits.some((trait) => pairLayer.pairTraits.indexOf(trait) === -1))
                 ) {
                   throw new Error(
-                    `The pairTrait for ${pairLayer.paierLyaerName} is duplicated. layer: ${layer.name}, trait: ${elements[i].name}`
+                    `The pairTrait for ${pairLayer.pairLayerName} is duplicated. layer: ${layer.name}, trait: ${elements[i].name}`
                   );
                 }
 
-                pairLayerMap.set(pairLayer.paierLyaerName, {
+                pairLayerMap.set(pairLayer.pairLayerName, {
                   pairTraits: [...existValue.pairTraits, ...(pairLayer.pairTraits || [])],
                   excludedTraits: [...existValue.excludedTraits, ...(pairLayer.excludedTraits || [])],
                 });
               } else {
                 // map内にpairLayerが存在しない場合は、pairTraitsとexcludedTraitsを初期化
-                pairLayerMap.set(pairLayer.paierLyaerName, {
+                pairLayerMap.set(pairLayer.pairLayerName, {
                   pairTraits: pairLayer.pairTraits || [],
                   excludedTraits: pairLayer.excludedTraits || [],
                 });

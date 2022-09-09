@@ -32,7 +32,7 @@ const layerConfigurations = [
           Eyeball: [
             {
               targetTraits: ["Red"], // 対象となるtrait名
-              paierLyaerName: "Iris", // 制限したいtraitがあるlayer名
+              pairLayerName: "Iris", // 制限したいtraitがあるlayer名
               pairTraits: ["Small", "Medium"], // ペアとなるtrait名
             },
           ],
@@ -40,7 +40,7 @@ const layerConfigurations = [
             {
               // 以下のように除外したいtraitも選ぶことができる
               targetTraits: ["Yellow", "Red"], // 対象となるtrait名
-              paierLyaerName: "Top lid", // 制限したいtraitがあるlayer名
+              pairLayerName: "Top lid", // 制限したいtraitがあるlayer名
               excludedTraits: ["Middle"], // 除外したいtrait名
             },
           ],
