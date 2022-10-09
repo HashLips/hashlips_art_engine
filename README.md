@@ -43,7 +43,11 @@ If set to `true` the output would be...
 
 ### ✅ Case Sensitivity
 
-Use only this option if you want to make your layer image filename to case sensitive as trait value or case insentive and make your layer image filename to capitalize instead.
+Use only this option if you want to make your layer image filename to case sensitive as trait value or case insentive and make your layer image filename to capitalize instead. By default, set to `false`.
+
+```js
+const isLayerNameFileNameAsIs = false;
+```
 
 **Case Sensitive Example**
 > input: "**AWESOME**#1.png" as layer image filename.
