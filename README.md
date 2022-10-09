@@ -4,9 +4,11 @@
 
 The forked version of [HashLips Art Engine](https://github.com/HashLips/hashlips_art_engine) with better features and compatibility with [thirdweb](https://thirdweb.com).
 
-## What's New
+## 🤔 What's New
 
-### Start Count From
+These are the few important improvements to the forked version of art engine that will work 100% with thirdweb NFT project deployments.
+
+### ✅ Start Count From
 
 You can define your own start count upon generation. Default count is 0. This is to match the default minting token ID with thirdweb.
 
@@ -16,7 +18,7 @@ By default it is `0`.
 const startCountFrom = 0;
 ```
 
-### Local File Mapping
+### ✅ Local File Mapping
 
 You can define your own file mapping, you can choose between local file mapping or use the existing pre-uploaded file on IPFS. Make sure to make the `hasBaseUri` to `true` so that the engine will use the defined `baseUri` in the config file.
 
@@ -27,7 +29,19 @@ const hasBaseUri = false;
 const baseUri = "ipfs://cid-here";
 ```
 
-### Case Sensitivity
+If set to `false` the output would be...
+
+```json
+"image": "0.png",
+```
+
+If set to `true` the output would be...
+
+```json
+"image": "ipfs://<cid-here>/0.png",
+```
+
+### ✅ Case Sensitivity
 
 Use only this option if you want to make your layer image filename to case sensitive as trait value or case insentive and make your layer image filename to capitalize instead.
 
@@ -39,7 +53,7 @@ Use only this option if you want to make your layer image filename to case sensi
 > input: "**AWESOME**#1.png" as layer image filename.
 > output: "_Awesome_" as trait value.
 
-### Dummy Layers
+### ✅ Dummy Layers
 
 New dummy layers for this version of art engine. (will share the repo here.)
 
