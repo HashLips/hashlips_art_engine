@@ -8,6 +8,24 @@ The forked version of [HashLips Art Engine](https://github.com/HashLips/hashlips
 
 These are the few important improvements to the forked version of art engine that will work 100% with thirdweb NFT project deployments.
 
+### ✅ Generate thirdweb Folder
+
+You can now generate a folder where you can use to drag and drop it to the thirdweb dashboard. You can only run this after you generated your arts via `yarn generate` command. Use the command below to generate a folder for you to use in thirdweb dashboard.
+
+```bash
+$ yarn generate_thirdweb
+```
+
+If you want to generate the art and create a folder for thirdweb at the same time follow the command below.
+
+```bash
+$ yarn generate && yarn generate_thirdweb
+```
+
+> **Why not add this to script command?**
+> For some reason it is not working on my end, need to update this and bind it on the `yarn generate` script.
+> For now, you can use the command above. ✌️
+
 ### ✅ Start Count From
 
 You can define your own start count upon generation. Default count is 0. This is to match the default minting token ID with thirdweb.
