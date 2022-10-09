@@ -57,9 +57,9 @@ const isLayerNameFileNameAsIs = false;
 > input: "**AWESOME**#1.png" as layer image filename.
 > output: "_Awesome_" as trait value.
 
-### ✅ Dummy Layers
+### ✅ NFT Dummy Assets
 
-New dummy layers for this version of art engine. (will share the repo here.)
+New NFT dummy assets to play with, you can use my **[NFT dummy assets here](https://github.com/warengonzaga/nft-dummy-assets)**.
 
 ## 🐛 Issues
 
