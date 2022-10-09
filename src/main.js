@@ -22,9 +22,6 @@ const {
   solanaMetadata,
   gif,
 } = require(`${basePath}/src/config.js`);
-const canvas = createCanvas(format.width, format.height);
-const ctx = canvas.getContext("2d");
-ctx.imageSmoothingEnabled = format.smoothing;
 var metadataList = [];
 var attributesList = [];
 var dnaList = new Set();
@@ -35,7 +32,7 @@ let hashlipsGiffer = null;
 
 const buildSetup = () => {
   if (fs.existsSync(buildDir)) {
-    fs.rmdirSync(buildDir, { recursive: true });
+    fs.rmSync(buildDir, { recursive: true });
   }
   fs.mkdirSync(buildDir);
   fs.mkdirSync(`${buildDir}/json`);
@@ -110,22 +107,10 @@ const layersSetup = (layersOrder) => {
   return layers;
 };
 
-const saveImage = (_editionCount) => {
-  fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}.png`,
-    canvas.toBuffer("image/png")
-  );
-};
-
 const genColor = () => {
   let hue = Math.floor(Math.random() * 360);
   let pastel = `hsl(${hue}, 100%, ${background.brightness})`;
   return pastel;
-};
-
-const drawBackground = () => {
-  ctx.fillStyle = background.static ? background.default : genColor();
-  ctx.fillRect(0, 0, format.width, format.height);
 };
 
 const addMetadata = (_dna, _edition) => {
@@ -188,35 +173,6 @@ const loadLayerImg = async (_layer) => {
   } catch (error) {
     console.error("Error loading image:", error);
   }
-};
-
-const addText = (_sig, x, y, size) => {
-  ctx.fillStyle = text.color;
-  ctx.font = `${text.weight} ${size}pt ${text.family}`;
-  ctx.textBaseline = text.baseline;
-  ctx.textAlign = text.align;
-  ctx.fillText(_sig, x, y);
-};
-
-const drawElement = (_renderObject, _index, _layersLen) => {
-  ctx.globalAlpha = _renderObject.layer.opacity;
-  ctx.globalCompositeOperation = _renderObject.layer.blend;
-  text.only
-    ? addText(
-        `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
-        text.xGap,
-        text.yGap * (_index + 1),
-        text.size
-      )
-    : ctx.drawImage(
-        _renderObject.loadedImage,
-        0,
-        0,
-        format.width,
-        format.height
-      );
-
-  addAttributes(_renderObject);
 };
 
 const constructLayerToDna = (_dna = "", _layers = []) => {
@@ -361,6 +317,57 @@ const startCreating = async () => {
     ) {
       let newDna = createDna(layers);
       if (isDnaUnique(dnaList, newDna)) {
+        const canvas = createCanvas(format.width, format.height);
+        const ctx = canvas.getContext("2d");
+        ctx.imageSmoothingEnabled = format.smoothing;
+
+        const saveImage = (_editionCount) => {
+          return new Promise((resolve, reject) =>
+            canvas.toBuffer((err, buf) =>
+              fs.writeFile(
+                `${buildDir}/images/${_editionCount}.png`,
+                buf,
+                (err, data) => 
+                  err ? reject(err) : resolve(),
+              ),
+            )
+          );
+        };
+
+        const drawBackground = () => {
+          ctx.fillStyle = background.static ? background.default : genColor();
+          ctx.fillRect(0, 0, format.width, format.height);
+        };
+
+        const addText = (_sig, x, y, size) => {
+          ctx.fillStyle = text.color;
+          ctx.font = `${text.weight} ${size}pt ${text.family}`;
+          ctx.textBaseline = text.baseline;
+          ctx.textAlign = text.align;
+          ctx.fillText(_sig, x, y);
+        };
+        
+        const drawElement = (_renderObject, _index, _layersLen) => {
+          ctx.globalAlpha = _renderObject.layer.opacity;
+          ctx.globalCompositeOperation = _renderObject.layer.blend;
+          text.only
+            ? addText(
+                `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
+                text.xGap,
+                text.yGap * (_index + 1),
+                text.size
+              )
+            : ctx.drawImage(
+                _renderObject.loadedImage,
+                0,
+                0,
+                format.width,
+                format.height
+              );
+        
+          addAttributes(_renderObject);
+        };
+
         let results = constructLayerToDna(newDna, layers);
         let loadedElements = [];
 
