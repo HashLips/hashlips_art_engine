@@ -67,7 +67,7 @@ If you're facing a problem in using The thirdweb Art Engine please let me know b
 
 ## 📋 Code of Conduct
 
-Read the project's [code of conduct](./CODE_OF_CONDUCT.md).
+Read the project's [code of conduct](./code_of_conduct.md).
 
 ## 📃 License
 

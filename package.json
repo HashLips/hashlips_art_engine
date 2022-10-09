@@ -1,7 +1,7 @@
 {
-  "name": "hashlips_art_engine",
-  "version": "1.1.1",
-  "description": "HashLips Art Engine is a tool used to create multiple different instances of artworks based on provided layers.",
+  "name": "thirdweb-art-engine",
+  "version": "1.0.0",
+  "description": "The forked version of HashLips Art Engine with better features and compatibility with thirdweb.",
   "main": "index.js",
   "bin": "index.js",
   "pkg": {
@@ -21,7 +21,14 @@
     "preview_gif": "node utils/preview_gif.js",
     "generate_metadata": "node utils/generate_metadata.js"
   },
-  "author": "Daniel Eugene Botha (HashLips)",
+  "contributors": [
+    {
+      "name": "Daniel Eugene Botha (HashLips)"
+    },
+    {
+      "name": "Waren Gonzaga"
+    }
+  ],
   "license": "MIT",
   "dependencies": {
     "canvas": "^2.8.0",
