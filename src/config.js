@@ -11,6 +11,9 @@ const startCountFrom = 0;
 // Optional, change hasBaseUri to true if your  images pre-uploaded to IPFS
 const hasBaseUri = false;
 const baseUri = "ipfs://cid-here";
+// Optional, is image filename case sensitive? 
+// Default: false, meaning your file name will be capitalized e.g. "Awesome" instead of "awesome"
+const isLayerNameFileNameAsIs = false;
 
 const solanaMetadata = {
   symbol: "YC",
@@ -29,13 +32,11 @@ const layerConfigurations = [
   {
     growEditionSizeTo: 5,
     layersOrder: [
-      { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "background", options: { displayName: "Background" } },
+      { name: "eyeball", options: { displayName: "Eyeball" } },
+      { name: "eyecolor", options: { displayName: "Eye Color" } },
+      { name: "iris", options: { displayName: "Iris" } },
+      { name: "shine", options: { displayName: "Shine" } }
     ],
   },
 ];
@@ -125,5 +126,6 @@ module.exports = {
   solanaMetadata,
   gif,
   startEditionFrom,
+  isLayerNameFileNameAsIs,
   preview_gif,
 };

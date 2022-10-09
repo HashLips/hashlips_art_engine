@@ -22,6 +22,7 @@ const {
   network,
   solanaMetadata,
   startEditionFrom,
+  isLayerNameFileNameAsIs,
   gif,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
@@ -141,7 +142,7 @@ const addMetadata = (_dna, _edition) => {
     date: dateTime,
     ...extraMetadata,
     attributes: attributesList,
-    compiler: "HashLips Art Engine",
+    compiler: "The thirdweb Art Engine",
   };
   if (network == NETWORK.sol) {
     tempMetadata = {
@@ -173,11 +174,13 @@ const addMetadata = (_dna, _edition) => {
   attributesList = [];
 };
 
+const capitalize = x => x && x[0].toUpperCase() + x.slice(1);
+
 const addAttributes = (_element) => {
   let selectedElement = _element.layer.selectedElement;
   attributesList.push({
     trait_type: _element.layer.name,
-    value: selectedElement.name,
+    value: `${isLayerNameFileNameAsIs ? selectedElement.name : capitalize(selectedElement.name.toLowerCase()) }`,
   });
 };
 
