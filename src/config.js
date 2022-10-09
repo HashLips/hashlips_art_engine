@@ -7,7 +7,10 @@ const network = NETWORK.eth;
 // General metadata for Ethereum
 const namePrefix = "Your Collection";
 const description = "Remember to replace this description";
-const baseUri = "ipfs://NewUriToReplace";
+const startCountFrom = 0;
+// Optional, change hasBaseUri to true if your  images pre-uploaded to IPFS
+const hasBaseUri = false;
+const baseUri = "ipfs://cid-here";
 
 const solanaMetadata = {
   symbol: "YC",
@@ -37,13 +40,15 @@ const layerConfigurations = [
   },
 ];
 
+const startEditionFrom = startCountFrom;
+
 const shuffleLayerConfigurations = false;
 
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 1024,
+  height: 1024,
   smoothing: false,
 };
 
@@ -102,6 +107,7 @@ const preview_gif = {
 
 module.exports = {
   format,
+  hasBaseUri,
   baseUri,
   description,
   background,
@@ -118,5 +124,6 @@ module.exports = {
   network,
   solanaMetadata,
   gif,
+  startEditionFrom,
   preview_gif,
 };

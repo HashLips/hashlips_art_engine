@@ -7,6 +7,7 @@ const buildDir = `${basePath}/build`;
 const layersDir = `${basePath}/layers`;
 const {
   format,
+  hasBaseUri,
   baseUri,
   description,
   background,
@@ -20,6 +21,7 @@ const {
   namePrefix,
   network,
   solanaMetadata,
+  startEditionFrom,
   gif,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
@@ -133,7 +135,7 @@ const addMetadata = (_dna, _edition) => {
   let tempMetadata = {
     name: `${namePrefix} #${_edition}`,
     description: description,
-    image: `${baseUri}/${_edition}.png`,
+    image: `${hasBaseUri ? baseUri+"/": ""}${_edition}.png`,
     dna: sha1(_dna),
     edition: _edition,
     date: dateTime,
@@ -340,8 +342,15 @@ const startCreating = async () => {
   let failedCount = 0;
   let abstractedIndexes = [];
   for (
-    let i = network == NETWORK.sol ? 0 : 1;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
+    let i =
+      network == NETWORK.sol
+        ? startEditionFrom > 1
+          ? startEditionFrom
+          : 0
+        : startEditionFrom;
+    i <=
+    layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo +
+      (startEditionFrom > 1 && startEditionFrom);
     i++
   ) {
     abstractedIndexes.push(i);
