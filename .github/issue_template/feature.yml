@@ -1,0 +1,47 @@
+name: 🚀 Feature Request
+description: Have a feature request? Let us know!
+labels: ["feature","pending"]
+assignees:
+  - warengonzaga
+body:
+
+  # new feature request block
+  - type: checkboxes
+    id: feature-confirm-notexist
+    attributes:
+      label: 🤔 Not Existing Feature Request?
+      description: Please search to see if your feature request already exist.
+      options:
+      - label: Yes, I'm sure, this is a new requested feature!
+        required: true
+
+  # not idea or suggestion block
+  - type: checkboxes
+    id: feature-confirm-notsuggestion
+    attributes:
+      label: 🤔 Not an Idea or Suggestion?
+      description: |
+        Please make sure that you're submitting a request not just an idea or suggestion.
+      options:
+      - label: Yes, I'm sure, this is not idea or suggestion!
+        required: true
+
+  # details block
+  - type: textarea
+    id: feature-details
+    attributes:
+      label: 📋 Request Details
+      description: A concise description of your feature request.
+      placeholder: Add some rainbows and unicorns to it! 🌈🦄
+    validations:
+      required: true
+
+  # terms block
+  - type: checkboxes
+    id: feature-terms
+    attributes:
+      label: 📜 Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/warengonzaga/thirdweb-art-engine/blob/main/code_of_conduct.md).
+      options:
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/warengonzaga/thirdweb-art-engine/blob/main/code_of_conduct.md).
+          required: true

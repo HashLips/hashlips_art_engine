@@ -1,0 +1,60 @@
+name: 🐛 Bug Report
+description: Found a bug? Let us know!
+labels: ["bug","pending"]
+assignees:
+  - warengonzaga
+body:
+
+  # not existing bug block
+  - type: checkboxes
+    id: bug-confirm
+    attributes:
+      label: 🤔 Not Existing Bug?
+      description: Please search to see if an issue already exists for the bug you encountered.
+      options:
+      - label: Yes, I'm sure that this is a bug!
+        required: true
+
+  # current results block
+  - type: textarea
+    id: bug-current-behavior
+    attributes:
+      label: 👀 Current Behavior
+      description: A concise description of what you're experiencing.
+      placeholder: I see bugs flying around ewww... please help! 😭
+    validations:
+      required: true
+
+  # expected behavior block
+  - type: textarea
+    id: bug-expected-behavior
+    attributes:
+      label: 🎯 Expected Behavior
+      description: A concise description of what you expected to happen.
+      placeholder: Bugs supposed to crawl not fly... peaceful life! 🥰
+    validations:
+      required: true
+
+  # steps to reproduce block
+  - type: textarea
+    id: bug-steps-to-reproduce
+    attributes:
+      label: 📋 Steps To Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. I go outside and see a bug. 😁
+        2. The bug starts to crawl and fly, like wtf! 😱
+        3. Run!!! 🏃
+        4. Bugs chasing me while flying! 😫
+    validations:
+      required: false
+
+  # terms block
+  - type: checkboxes
+    id: bug-terms
+    attributes:
+      label: 📜 Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/warengonzaga/thirdweb-art-engine/blob/main/code_of_conduct.md).
+      options:
+        - label: I agree to follow this project's [Code of Conduct](https://github.com/warengonzaga/thirdweb-art-engine/blob/main/code_of_conduct.md).
+          required: true
