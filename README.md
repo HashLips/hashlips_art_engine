@@ -6,6 +6,18 @@
 
 The forked version of [HashLips Art Engine](https://github.com/HashLips/hashlips_art_engine) with better features and compatibility with [thirdweb](https://thirdweb.com).
 
+## ⚡ Instant Setup
+
+Let's get started with the instant setup and build. Proceed to the requirements below.
+
+### 📋 Requirements
+
+- A [GitHub Account](https://github.com/signup).
+- A [Gitpod Account](https://gitpod.io). (sign up with GitHub)
+- Image layers for your NFTs.
+
+[![open in gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#github.com/warengonzaga/thirdweb-art-engine)
+
 ## 🤔 What's New
 
 These are the few important improvements to the forked version of art engine that will work 100% with thirdweb NFT project deployments.
