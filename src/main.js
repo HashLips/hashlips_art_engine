@@ -1,10 +1,11 @@
 const basePath = process.cwd();
+const assetPath = process.argv.length === 3 ? process.cwd() + '/' + process.argv[2] : process.cwd() + '/src/';
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 const fs = require("fs");
 const sha1 = require(`${basePath}/node_modules/sha1`);
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`);
-const buildDir = `${basePath}/build`;
-const layersDir = `${basePath}/layers`;
+const buildDir = `${assetPath}/build`;
+const layersDir = `${assetPath}/layers`;
 const {
   format,
   baseUri,
@@ -21,7 +22,7 @@ const {
   network,
   solanaMetadata,
   gif,
-} = require(`${basePath}/src/config.js`);
+} = require(`${assetPath}/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = format.smoothing;
