@@ -118,7 +118,17 @@ const regenerate = async (dnaData, options) => {
     // reduce the stacked and nested layer into a single array
     const allImages = results.reduce((images, layer) => {
       return [...images, ...layer.selectedElements];
-    }, []);
+    }, []).sort((a, b) => {
+      let zA = 0;
+      if (a.zindex && a.zindex.length > 0) {
+        zA = parseInt(a.zindex.split('z')[1], 10);
+      }
+      let zB = 0;
+      if (b.zindex && b.zindex.length > 0) {
+        zB = parseInt(b.zindex.split('z')[1], 10);
+      }
+      return zA - zB;
+    });
 
     allImages.forEach((layer) => {
       loadedElements.push(loadLayerImg(layer));
