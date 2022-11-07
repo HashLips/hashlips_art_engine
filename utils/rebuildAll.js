@@ -95,8 +95,13 @@ const regenerate = async (dnaData, options) => {
       ? console.log(`DNA for index ${drawIndex}: \n`, dnaStrand)
       : null;
 
+    // clean dna of edition num
+    const editionExp = /\d+\//;
+    const edition = Number(editionExp.exec(dnaStrand)[0].replace("/", ""));
     let images =
-      typeof dnaStrand === "object" ? dnaStrand.join(DNA_DELIMITER) : dnaStrand;
+      typeof dnaStrand === "object"
+        ? dnaStrand.replace(editionExp, "").join(DNA_DELIMITER)
+        : dnaStrand.replace(editionExp, "");
 
     options.debug ? console.log("Rebuilding DNA:", images) : null;
     if (options.omit) {
@@ -140,11 +145,8 @@ const regenerate = async (dnaData, options) => {
       };
       paintLayers(ctxMain, renderObjectArray, layerData);
 
-      const editionCount = options.startIndex
-        ? Number(drawIndex) + Number(options.startIndex)
-        : drawIndex;
       fs.writeFileSync(
-        `${outputDir}/${editionCount}${outputJPEG ? ".jpg" : ".png"}`,
+        `${outputDir}/${edition}${outputJPEG ? ".jpg" : ".png"}`,
         canvas.toBuffer(`${outputJPEG ? "image/jpeg" : "image/png"}`)
       );
 

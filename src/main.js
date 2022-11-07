@@ -815,7 +815,11 @@ const startCreating = async (storedDNA) => {
   if (storedDNA) {
     console.log(`using stored dna of ${storedDNA.size}`);
     dnaList = storedDNA;
-    uniqueDNAList = filterDNAOptions(storedDNA);
+    dnaList.forEach((dna) => {
+      const editionExp = /\d+\//;
+      const dnaWithoutEditionNum = dna.replace(editionExp, "");
+      uniqueDNAList.add(filterDNAOptions(dnaWithoutEditionNum));
+    });
   }
   let layerConfigIndex = 0;
   let editionCount = 1; //used for the growEditionSize while loop, not edition number
@@ -868,7 +872,9 @@ const startCreating = async (storedDNA) => {
           outputFiles(abstractedIndexes, layerData);
         });
 
-        dnaList.add(newDna);
+        // prepend the same output num (abstractedIndexes[0])
+        // to the DNA as the saved files.
+        dnaList.add(`${abstractedIndexes[0]}/${newDna}`);
         uniqueDNAList.add(filterDNAOptions(newDna));
         editionCount++;
         abstractedIndexes.shift();
