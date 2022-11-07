@@ -905,4 +905,5 @@ module.exports = {
   parseQueryString,
   postProcessMetadata,
   startCreating,
+  sortZIndex,
 };

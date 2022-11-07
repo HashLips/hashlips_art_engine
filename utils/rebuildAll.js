@@ -32,6 +32,7 @@ const {
   constructLayerToDna,
   loadLayerImg,
   paintLayers,
+  sortZIndex,
 } = require("../src/main");
 
 const dnaFilePath = `${basePath}/build/_dna.json`;
@@ -107,7 +108,9 @@ const regenerate = async (dnaData, options) => {
           elementsToDelete.push(index);
         }
       });
-      const removedDnaImages = dnaImages.filter((el, index) => !elementsToDelete.includes(index));
+      const removedDnaImages = dnaImages.filter(
+        (el, index) => !elementsToDelete.includes(index)
+      );
 
       images = removedDnaImages.join(DNA_DELIMITER);
     }
@@ -118,19 +121,10 @@ const regenerate = async (dnaData, options) => {
     // reduce the stacked and nested layer into a single array
     const allImages = results.reduce((images, layer) => {
       return [...images, ...layer.selectedElements];
-    }, []).sort((a, b) => {
-      let zA = 0;
-      if (a.zindex && a.zindex.length > 0) {
-        zA = parseInt(a.zindex.split('z')[1], 10);
-      }
-      let zB = 0;
-      if (b.zindex && b.zindex.length > 0) {
-        zB = parseInt(b.zindex.split('z')[1], 10);
-      }
-      return zA - zB;
-    });
+    }, []);
 
-    allImages.forEach((layer) => {
+    // sort by z-index.
+    sortZIndex(allImages).forEach((layer) => {
       loadedElements.push(loadLayerImg(layer));
     });
 
