@@ -340,7 +340,7 @@ const loadLayerImg = async (_layer) => {
   });
 };
 
-const drawElement = (_renderObject, mainCanvas) => {
+const drawElement = (_renderObject) => {
   const layerCanvas = createCanvas(format.width, format.height);
   const layerctx = layerCanvas.getContext("2d");
   layerctx.imageSmoothingEnabled = format.smoothing;
@@ -354,7 +354,6 @@ const drawElement = (_renderObject, mainCanvas) => {
   );
 
   addAttributes(_renderObject);
-  mainCanvas.drawImage(layerCanvas, 0, 0, format.width, format.height);
   return layerCanvas;
 };
 
@@ -747,7 +746,7 @@ const paintLayers = (canvasContext, renderObjectArray, layerData) => {
     canvasContext.globalAlpha = renderObject.layer.opacity;
     canvasContext.globalCompositeOperation = renderObject.layer.blendmode;
     canvasContext.drawImage(
-      drawElement(renderObject, canvasContext),
+      drawElement(renderObject),
       0,
       0,
       format.width,
