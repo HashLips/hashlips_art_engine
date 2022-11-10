@@ -2,17 +2,16 @@
  * If you are exporting your project for Solana:
  * 1. Read the Readme section for more info
  * 2. Enter your metadata information in this file, more on the Slana Metadata
- *    standards here, https://docs.metaplex.com/nft-standard
+ *    standards here, https://docs.metaplex.com/programs/token-metadata/token-standard
  * 3. Run the generate for Solana script, yarn generate:solana (or npm run generate:solana)
  * 4. If you forgot to do step 3, do step 3 OR run the solana util
  *    `node utils/metaplex.js`
  *
  * Credits:
- * Metaplex.js util by https://github.com/DawidAbram
+ * Original Metaplex.js util by https://github.com/DawidAbram
  */
-const NFTName = "NameOfNFT" //This is the name there will be showen on your NFTs !!! Name can at max be 32 characters !!!
-const collectionName = "PROJECT_NAME"; //This is used if mutiple collection is needed
-const collectionFamily = "PROJECT_FAMILY"; // Many projects can belong to one family
+
+const NFTName = "NameOfNFT"; //This is the name there will be showen on your NFTs !!! Name can at max be 32 characters !!!
 const symbol = "PRJSMBL"; // !!! Symbol can at max be 10 characters !!!
 
 const baseUriPrefix = ""; // OPTIONAL, if you need to prefix your image#.png with a baseURI
