@@ -43,6 +43,9 @@ ctxMain.imageSmoothingEnabled = format.smoothing;
 let metadataList = [];
 let attributesList = [];
 
+// when generating a random background used to add to DNA
+let generatedBackground;
+
 let dnaList = new Set(); // internal+external: list of all files. used for regeneration etc
 let uniqueDNAList = new Set(); // internal: post-filtered dna set for bypassDNA etc.
 const DNA_DELIMITER = "*";
@@ -266,21 +269,24 @@ const layersSetup = (layersOrder) => {
   return layers;
 };
 
-const saveImage = (_editionCount) => {
+const saveImage = (_editionCount, _buildDir, _canvas) => {
   fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}${outputJPEG ? ".jpg" : ".png"}`,
-    canvas.toBuffer(`${outputJPEG ? "image/jpeg" : "image/png"}`)
+    `${_buildDir}/images/${_editionCount}${outputJPEG ? ".jpg" : ".png"}`,
+    _canvas.toBuffer(`${outputJPEG ? "image/jpeg" : "image/png"}`)
   );
 };
 
 const genColor = () => {
   let hue = Math.floor(Math.random() * 360);
   let pastel = `hsl(${hue}, 100%, ${background.brightness})`;
+  // store the background color in the dna
+  generatedBackground = pastel; //TODO: storing in a global var is brittle. could be improved.
   return pastel;
 };
 
-const drawBackground = (canvasContext) => {
-  canvasContext.fillStyle = genColor();
+const drawBackground = (canvasContext, background) => {
+  canvasContext.fillStyle = background.HSL ?? genColor();
+
   canvasContext.fillRect(0, 0, format.width, format.height);
 };
 
@@ -299,7 +305,6 @@ const addMetadata = (_dna, _edition, _prefixData) => {
   }, []);
 
   let tempMetadata = {
-    dna: hash(_dna),
     name: `${_prefix ? _prefix + " " : ""}#${_edition - _offset}`,
     description: description,
     image: `${baseUri}/${_edition}${outputJPEG ? ".jpg" : ".png"}`,
@@ -694,6 +699,7 @@ const createDna = (_layers) => {
   });
   const zSortDNA = sortByZ(dnaSequence.flat(2));
   const dnaStrand = zSortDNA.join(DNA_DELIMITER);
+
   return dnaStrand;
 };
 
@@ -705,7 +711,7 @@ const writeDnaLog = (_data) => {
   fs.writeFileSync(`${buildDir}/_dna.json`, _data);
 };
 
-const saveMetaDataSingleFile = (_editionCount) => {
+const saveMetaDataSingleFile = (_editionCount, _buildDir) => {
   let metadata = metadataList.find((meta) => meta.edition == _editionCount);
   debugLogs
     ? console.log(
@@ -713,7 +719,7 @@ const saveMetaDataSingleFile = (_editionCount) => {
       )
     : null;
   fs.writeFileSync(
-    `${buildDir}/json/${_editionCount}.json`,
+    `${_buildDir}/json/${_editionCount}.json`,
     JSON.stringify(metadata, null, 2)
   );
 };
@@ -762,7 +768,7 @@ const paintLayers = (canvasContext, renderObjectArray, layerData) => {
 
   if (_background.generate) {
     canvasContext.globalCompositeOperation = "destination-over";
-    drawBackground(canvasContext);
+    drawBackground(canvasContext, background);
   }
   debugLogs
     ? console.log("Editions left to create: ", abstractedIndexes)
@@ -796,10 +802,15 @@ const postProcessMetadata = (layerData) => {
   };
 };
 
-const outputFiles = (abstractedIndexes, layerData) => {
+const outputFiles = (
+  abstractedIndexes,
+  layerData,
+  _buildDir = buildDir,
+  _canvas = canvas
+) => {
   const { newDna, layerConfigIndex } = layerData;
   // Save the canvas buffer to file
-  saveImage(abstractedIndexes[0]);
+  saveImage(abstractedIndexes[0], _buildDir, _canvas);
 
   const { _imageHash, _prefix, _offset } = postProcessMetadata(layerData);
 
@@ -809,12 +820,8 @@ const outputFiles = (abstractedIndexes, layerData) => {
     _imageHash,
   });
 
-  saveMetaDataSingleFile(abstractedIndexes[0]);
-  console.log(
-    chalk.cyan(
-      `Created edition: ${abstractedIndexes[0]}, with DNA: ${hash(newDna)}`
-    )
-  );
+  saveMetaDataSingleFile(abstractedIndexes[0], _buildDir);
+  console.log(chalk.cyan(`Created edition: ${abstractedIndexes[0]}`));
 };
 
 const startCreating = async (storedDNA) => {
@@ -880,7 +887,11 @@ const startCreating = async (storedDNA) => {
 
         // prepend the same output num (abstractedIndexes[0])
         // to the DNA as the saved files.
-        dnaList.add(`${abstractedIndexes[0]}/${newDna}`);
+        dnaList.add(
+          `${abstractedIndexes[0]}/${newDna}${
+            generatedBackground ? "___" + generatedBackground : ""
+          }`
+        );
         uniqueDNAList.add(filterDNAOptions(newDna));
         editionCount++;
         abstractedIndexes.shift();
@@ -913,9 +924,11 @@ module.exports = {
   isDnaUnique,
   layersSetup,
   loadLayerImg,
+  outputFiles,
   paintLayers,
   parseQueryString,
   postProcessMetadata,
-  startCreating,
   sortZIndex,
+  startCreating,
+  writeMetaData,
 };

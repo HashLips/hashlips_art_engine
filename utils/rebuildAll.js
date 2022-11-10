@@ -27,12 +27,15 @@ const {
   outputJPEG,
 } = require("../src/config");
 const {
+  addMetadata,
+  constructLayerToDna,
   DNA_DELIMITER,
   layersSetup,
-  constructLayerToDna,
   loadLayerImg,
+  outputFiles,
   paintLayers,
   sortZIndex,
+  writeMetaData,
 } = require("../src/main");
 
 const dnaFilePath = `${basePath}/build/_dna.json`;
@@ -45,8 +48,33 @@ const setup = () => {
     });
   }
   fs.mkdirSync(outputDir);
+  fs.mkdirSync(path.join(outputDir, "/json"));
+  fs.mkdirSync(path.join(outputDir, "/images"));
   // fs.mkdirSync(path.join(metadataBuildPath, "/json"));
 };
+
+function parseEditionNumFromDNA(dnaStrand) {
+  // clean dna of edition num
+  const editionExp = /\d+\//;
+  return Number(editionExp.exec(dnaStrand)[0].replace("/", ""));
+}
+
+function regenerateSingleMetadataFile() {
+  const metadata = [];
+  const metadatafiles = fs.readdirSync(path.join(outputDir, "/json"));
+
+  console.log("\nBuilding _metadata.json");
+
+  metadatafiles.forEach((file) => {
+    const data = fs.readFileSync(path.join(outputDir, "/json", file));
+    metadata.push(JSON.parse(data));
+  });
+
+  fs.writeFileSync(
+    path.join(outputDir, "json", "_metadata.json"),
+    JSON.stringify(metadata, null, 2)
+  );
+}
 /**
  * Randomly selects a number within the range of built images.
  * Since images and json files in the build folder are assumed to be identical,
@@ -74,12 +102,11 @@ const regenerate = async (dnaData, options) => {
   let layerConfigIndex = 0;
   let abstractedIndexes = [];
   let drawIndex = 0;
-  for (
-    let i = 1;
-    i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
-    i++
-  ) {
-    abstractedIndexes.push(i);
+  for (let i = 0; i <= dnaData.length - 1; i++) {
+    // set abstractedIndexes from DNA
+
+    const edition = parseEditionNumFromDNA(dnaData[i]);
+    abstractedIndexes.push(edition);
   }
 
   const layers = layersSetup(layerConfigurations[layerConfigIndex].layersOrder);
@@ -97,7 +124,7 @@ const regenerate = async (dnaData, options) => {
 
     // clean dna of edition num
     const editionExp = /\d+\//;
-    const edition = Number(editionExp.exec(dnaStrand)[0].replace("/", ""));
+
     let images =
       typeof dnaStrand === "object"
         ? dnaStrand.replace(editionExp, "").join(DNA_DELIMITER)
@@ -134,8 +161,14 @@ const regenerate = async (dnaData, options) => {
     });
 
     await Promise.all(loadedElements).then(async (renderObjectArray) => {
-      if (options.background) {
-        background.generate = options.background === "true";
+      // has background information?
+      const bgHSL = dnaStrand.match(/(___.*)/);
+      const generateBG = eval(options.background?.replace(/\s+/g, ""));
+      if (generateBG != false && bgHSL) {
+        background.HSL = bgHSL[0].replace("___", "");
+      }
+      if (!generateBG) {
+        background.generate = false;
       }
       const layerData = {
         dnaStrand,
@@ -145,12 +178,9 @@ const regenerate = async (dnaData, options) => {
       };
       paintLayers(ctxMain, renderObjectArray, layerData);
 
-      fs.writeFileSync(
-        `${outputDir}/${edition}${outputJPEG ? ".jpg" : ".png"}`,
-        canvas.toBuffer(`${outputJPEG ? "image/jpeg" : "image/png"}`)
-      );
-
+      outputFiles(abstractedIndexes, layerData, outputDir, canvas);
       drawIndex++;
+      abstractedIndexes.shift();
     });
   }
 };
@@ -169,7 +199,7 @@ program
   .option("-s, --source <source>", "Optional source path of _dna.json")
   .option("-d, --debug", "display additional logging")
   .option("-v, --verbose", "display even more additional logging")
-  .action((options, command) => {
+  .action(async (options, command) => {
     const dnaData = options.source
       ? require(path.join(basePath, options.source))
       : require(dnaFilePath);
@@ -190,7 +220,9 @@ program
       : null;
 
     setup();
-    regenerate(dnaData, options);
+    await regenerate(dnaData, options);
+    regenerateSingleMetadataFile();
+    console.log(chalk.green("DONE"));
   });
 
 program.parse();
