@@ -25,7 +25,8 @@
     "update:metadata": "node utils/updateInfo.js",
     "update_info:tezos": "node tezos/updateInfo.js",
     "resize": "node utils/resize.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "rarity": "node utils/rarity.js",
+    "preview": "node utils/createPreviewCollage.js"
   },
   "author": "Daniel Eugene Botha (HashLips), NFTChef",
   "license": "MIT",
@@ -33,6 +34,7 @@
     "canvas": "^2.8.0",
     "chalk": "^4.1.2",
     "commander": "^8.2.0",
+    "csv-writer": "^1.6.0",
     "eslint-plugin-node": "^11.1.0",
     "keccak256": "^1.0.3",
     "sharp": "^0.30.2",
