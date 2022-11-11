@@ -4,7 +4,7 @@ description: Understanding and setting up conditional branching  with nested fol
 
 # Branching (IF/Then)
 
-![Diagram provided by @juanicarmesi](<../.gitbook/assets/Branching with nested folders (1).png>)
+![Diagram provided by @juanicarmesi](<../.gitbook/assets/Branching with nested folders (1) (1) (1).png>)
 
 ![Diagram provided by @juanicarmesi](<../.gitbook/assets/Branching result.png>)
 
