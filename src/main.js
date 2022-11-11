@@ -917,6 +917,7 @@ module.exports = {
   addMetadata,
   buildSetup,
   constructLayerToDna,
+  cleanName,
   createDna,
   DNA_DELIMITER,
   getElements,

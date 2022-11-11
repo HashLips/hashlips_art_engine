@@ -25,7 +25,6 @@
     "update:metadata": "node utils/updateInfo.js",
     "update_info:tezos": "node tezos/updateInfo.js",
     "resize": "node utils/resize.js",
-    "stats": "node utils/usageStats.js",
     "rarity": "node utils/rarity.js",
     "preview": "node utils/createPreviewCollage.js"
   },
