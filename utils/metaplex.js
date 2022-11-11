@@ -7,14 +7,17 @@ const basePath = isLocal ? process.cwd() : path.dirname(process.execPath);
 const chalk = require("chalk");
 
 const {
-  NFTName,
-  symbol,
+  creators,
   description,
   external_url,
+  NFTName,
   royaltyFee,
-  creators,
+  symbol,
 } = require(path.join(basePath, "/Solana/solana_config.js"));
-const { startIndex } = require(path.join(basePath, "/src/config.js"));
+const { startIndex, outputJPEG } = require(path.join(
+  basePath,
+  "/src/config.js"
+));
 const imagesDir = `${basePath}/build/images`;
 const jsonDir = `${basePath}/build/json`;
 
@@ -29,13 +32,13 @@ const setup = () => {
   }
   fs.mkdirSync(metaplexFilePath);
   fs.mkdirSync(path.join(metaplexFilePath, "/json"));
-  fs.mkdirSync(path.join(metaplexFilePath, "/images"));
+  if (startIndex != 0) {
+    fs.mkdirSync(path.join(metaplexFilePath, "/images"));
+  }
 };
 
 const getIndividualImageFiles = () => {
-  return fs
-    .readdirSync(imagesDir)
-    .filter((item) => /^[0-9]{1,6}.png/g.test(item));
+  return fs.readdirSync(imagesDir);
 };
 
 const getIndividualJsonFiles = () => {
@@ -46,26 +49,33 @@ const getIndividualJsonFiles = () => {
 
 setup();
 console.log(chalk.bgGreenBright.black("Beginning Solana/Metaplex conversion"));
-console.log({ startIndex });
 console.log(
   chalk.green(
     `\nExtracting metaplex-ready files.\nWriting to folder: ${metaplexFilePath}`
   )
 );
 
+const outputFormat = outputJPEG ? "jpg" : "png";
+// copy & rename images IF needed
 // Rename all image files to n-1.png (to be zero indexed "start at zero") and store in solana/images
-const imageFiles = getIndividualImageFiles();
-imageFiles.forEach((file) => {
-  let nameWithoutExtension = file.slice(0, -4);
-  let editionCountFromFileName = Number(nameWithoutExtension);
-  let newEditionCount = editionCountFromFileName - startIndex;
-  fs.copyFile(
-    `${imagesDir}/${file}`,
-    path.join(`${metaplexDir}`, "images", `${newEditionCount}.png`),
-    () => {}
-  );
-});
-console.log(`\nFinished converting images to being metaplex-ready.\n`);
+if (startIndex != 0) {
+  const imageFiles = getIndividualImageFiles();
+  imageFiles.forEach((file) => {
+    let nameWithoutExtension = file.slice(0, -4);
+    let editionCountFromFileName = Number(nameWithoutExtension);
+    let newEditionCount = editionCountFromFileName - startIndex;
+    fs.copyFile(
+      `${imagesDir}/${file}`,
+      path.join(
+        `${metaplexDir}`,
+        "images",
+        `${newEditionCount}.${outputFormat}`
+      ),
+      () => {}
+    );
+  });
+  console.log(`\nFinished converting images to being metaplex-ready.\n`);
+}
 
 // Identify json files
 const jsonFiles = getIndividualJsonFiles();
@@ -87,15 +97,15 @@ jsonFiles.forEach((file) => {
     symbol: symbol,
     description: description,
     seller_fee_basis_points: royaltyFee,
-    image: `${newEditionCount}.png`,
+    image: `${newEditionCount}.${outputFormat}`,
     ...(external_url !== "" && { external_url }),
     attributes: jsonData.attributes,
     properties: {
       edition: jsonData.edition,
       files: [
         {
-          uri: `${newEditionCount}.png`,
-          type: "image/png",
+          uri: `${newEditionCount}.${outputFormat}`,
+          type: `image/${outputFormat}`,
         },
       ],
       category: "image",

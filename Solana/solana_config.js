@@ -44,8 +44,6 @@ const propertyCategory = "image";
 module.exports = {
   symbol,
   NFTName,
-  collectionName,
-  collectionFamily,
   description,
   royaltyFee,
   creators,
