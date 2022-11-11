@@ -151,6 +151,7 @@ module.exports = {
   namePrefix,
   network,
   solanaMetadata,
+  chiaMetadata,
   gif,
   preview_gif,
 };
