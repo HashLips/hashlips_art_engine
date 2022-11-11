@@ -63,11 +63,9 @@ const buildSetup = () => {
 
 const getRarityWeight = (_path) => {
   // check if there is an extension, if not, consider it a directory
-  const exp = /(\d*)/;
-  // use the delimiter from config
-  const parts = _path.split(rarityDelimiter);
-  const weight = exp.exec(parts[parts.length - 1]);
-  const weightNumber = weight[0] ? Number(weight[0]) : -1;
+  const exp = new RegExp(`${rarityDelimiter}(\\d*)`, "g");
+  const weight = exp.exec(_path);
+  const weightNumber = weight ? Number(weight[1]) : -1;
 
   if (weightNumber < 0 || isNaN(weightNumber)) {
     return "required";
