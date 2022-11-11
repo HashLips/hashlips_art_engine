@@ -1,9 +1,23 @@
-For general questions and help, please check and/or open a discussion in
-https://github.com/nftchef/art-engine/discussions
+# DOCUMENTATION https://generator.nftchef.dev/
 
-This repository is a fork from the original Hashlips generator and makes a couple of **fundamental changes** to how layers are expected to be named and organized. Please read this README's Nesting Structure section and the related Advanced options for a better understanding of how things should be named and organized.
+# FAQ, general questions, and help
 
-# Additional Features in this fork
+Please check the discussions for similar issues or open a new discussion.
+
+## https://github.com/nftchef/art-engine/discussions
+
+#### You can find me on twitter or Discord,
+
+- Twitter: https://twitter.com/nftchef
+- Discord genkihagata#3074
+
+## ❤️ Support This generator ❤️
+
+Eth address: `0xeB23ecf1fa9911fca08ecAbe83d426b6bd525bB0`
+
+# Features
+
+_This repository is a hard-fork from the original Hashlips generator (c.2021) and makes a couple of **fundamental changes** to how layers are expected to be named and organized. Please read this README's Nesting Structure section and the related Advanced options for a better understanding of how things should be named and organized._
 
 ## Nested Structures
 
@@ -39,21 +53,6 @@ This repository is a fork from the original Hashlips generator and makes a coupl
 ### Notes
 
 - [Incompatibilities with original Hashlips](#incompatibilities)
-
-<br/>
-<br/>
-<br/>
-
-# 🙇🙇🙇
-
-## You can find me on twitter or Discord,
-
-- Twitter: https://twitter.com/nftchef
-- Discord genkihagata#3074
-- Support my Current project: https://twitter.com/0n10nDivision
-
-❤️ no need to send anything, however, many of you asked for my wallet address 🙇:
-`0xeB23ecf1fa9911fca08ecAbe83d426b6bd525bB0`
 
 <hr/>
 <br/>
@@ -588,7 +587,7 @@ node utils/cardano.js
 
 # GIF compatibility
 
-This tool currently does not support gif layers or outputting gifs. If you want to GIF generative tool, check out 
+This tool currently does not support gif layers or outputting gifs. If you want to GIF generative tool, check out
 [Jalagar's GIF Engine](https://github.com/jalagar/Generative_Gif_Engine). It supports most of the same functionality
 as this repo (if-then, z-index, layering, Tezos, Solana, legendary replace). If you have any questions or issues,
 please create a issue/discussion on Jalagar's repo.
