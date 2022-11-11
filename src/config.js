@@ -24,7 +24,6 @@ const solanaMetadata = {
 const chiaMetadata = {
   format: "CHIP-0007",
   sensitive_content: false,
-  minting_tool: "minting tool",
   collection: {
     id: "4fa5e6b1-231a-7bae-b18e-c86dced47f52",
     name: "collection name",
