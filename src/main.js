@@ -148,7 +148,7 @@ const addMetadata = (_dna, _edition) => {
       format: chiaMetadata.format,
       name: tempMetadata.name,
       description: tempMetadata.description,
-      minting_tool:  chiaMetadata.minting_tool || tempMetadata.compiler,
+      minting_tool:  tempMetadata.compiler,
       sensitive_content: chiaMetadata.sensitive_content,
       series_number: _edition,
       series_total: layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo,
