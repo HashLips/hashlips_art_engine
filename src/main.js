@@ -129,7 +129,7 @@ const hash = (input) => {
  *
  * @param {Object} layer the parent layer object
  * @param {String} sublayer Clean name of the current layer
- * @returns {blendmode, opaticty} options object
+ * @returns {blendmode, opacity} options object
  */
 const getElementOptions = (layer, sublayer) => {
   let blendmode = "source-over";

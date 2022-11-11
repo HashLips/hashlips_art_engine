@@ -27,8 +27,7 @@
     "resize": "node utils/resize.js",
     "stats": "node utils/usageStats.js",
     "rarity": "node utils/rarity.js",
-    "preview": "node utils/createPreviewCollage.js",
-    "update_info": "node utils/updateInfo.js"
+    "preview": "node utils/createPreviewCollage.js"
   },
   "author": "Daniel Eugene Botha (HashLips), NFTChef",
   "license": "MIT",

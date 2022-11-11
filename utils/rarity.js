@@ -9,7 +9,6 @@ const fs = require("fs");
 // const layersDir = `${basePath}/layers`;
 const layersDir = path.join(basePath, "../", "genkiFiles");
 
-console.log(path.join(basePath, "/src/config.js"));
 const {
   layerConfigurations,
   extraAttributes,
@@ -36,7 +35,6 @@ function calculate(options = {}) {
       (attr) => attr.value !== ""
     );
 
-    console.log(`how many attributes: ${metadata.attributes.length}`);
     // add a count to the attribue counts
     attributeCounts[metadata.attributes.length] = attributeCounts[
       metadata.attributes.length
@@ -188,4 +186,4 @@ function outputRankingCSV(ranking) {
   csvWriter.writeRecords(ranking);
 }
 
-calculate();
+calculate({ outputRanking: true });
