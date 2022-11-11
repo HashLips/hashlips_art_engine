@@ -20,6 +20,7 @@ const {
   namePrefix,
   network,
   solanaMetadata,
+  chiaMetadata,
   gif,
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
@@ -141,6 +142,21 @@ const addMetadata = (_dna, _edition) => {
     attributes: attributesList,
     compiler: "HashLips Art Engine",
   };
+
+  if (network == NETWORK.chia) {
+    tempMetadata = {
+      format: chiaMetadata.format,
+      name: tempMetadata.name,
+      description: tempMetadata.description,
+      minting_tool:  chiaMetadata.minting_tool || tempMetadata.compiler,
+      sensitive_content: chiaMetadata.sensitive_content,
+      series_number: _edition,
+      series_total: layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo,
+      attributes: tempMetadata.attributes,
+      collection: chiaMetadata.collection
+    };
+  }
+
   if (network == NETWORK.sol) {
     tempMetadata = {
       //Added metadata for solana
@@ -308,7 +324,11 @@ const writeMetaData = (_data) => {
 };
 
 const saveMetaDataSingleFile = (_editionCount) => {
-  let metadata = metadataList.find((meta) => meta.edition == _editionCount);
+  let findFunction = (meta) => meta.edition == _editionCount;
+  if (network == NETWORK.chia){
+    findFunction = (meta) => meta.series_number == _editionCount;
+  }
+  let metadata = metadataList.find(findFunction);
   debugLogs
     ? console.log(
         `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
