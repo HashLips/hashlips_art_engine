@@ -21,6 +21,36 @@ const solanaMetadata = {
   ],
 };
 
+const chiaMetadata = {
+  format: "CHIP-0007",
+  sensitive_content: false,
+  collection: {
+    id: "4fa5e6b1-231a-7bae-b18e-c86dced47f52",
+    name: "collection name",
+    attributes: [
+      {
+        type: "description",
+        value: "A NFT collection which only purpose is to test minting. Be ready for the testnet to be flooded with this collection :D! (Love to the Chia community <3)"
+      },
+      {
+        "type": "twitter",
+        "value": "@twitterAccount"
+      },
+      {
+        "type": "website",
+        "value": "https://mywebsite.com"
+      },
+      {
+        "type": "icon",
+        "value": "https://mywebsite.com/icon"
+      },
+      {
+        "type": "banner",
+        "value": "https://mywebsite.com/banner"
+      }
+    ]
+  }
+};
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
@@ -117,6 +147,7 @@ module.exports = {
   namePrefix,
   network,
   solanaMetadata,
+  chiaMetadata,
   gif,
   preview_gif,
 };
