@@ -47,10 +47,6 @@ const chiaMetadata = {
       {
         "type": "banner",
         "value": "https://mywebsite.com/banner"
-      },
-      {
-        "type": "art_generator",
-        "value": "HashLips Art Engine"
       }
     ]
   }
