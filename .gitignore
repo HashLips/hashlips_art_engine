@@ -140,3 +140,4 @@ dist
 # OSX
 
 .DS_Store
+layers/
