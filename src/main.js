@@ -156,11 +156,22 @@ const addMetadata = (_dna, _edition) => {
   attributesList = [];
 };
 
-const addAttributes = (_element) => {
+const addAttributes = (_element, _index, _layersLen) => {
   let selectedElement = _element.layer.selectedElement;
+  const traitArray = _element.layer.name.split("/");
+  const trait = traitArray[1];
+  const cast = traitArray[0];
+
+  if (_index === 0) {
+    attributesList.push({
+      trait_type: 'Cast',
+      value: cast,
+    });
+  }
+
   attributesList.push({
-    trait_type: _element.layer.name,
-    value: selectedElement.name,
+    trait_type: trait,
+    value: selectedElement.name.trim(),
   });
 };
 
@@ -364,8 +375,8 @@ const startCreating = async () => {
                 format.width,
                 format.height
               );
-        
-          addAttributes(_renderObject);
+            
+          addAttributes(_renderObject, _index, _layersLen);
         };
 
         let results = constructLayerToDna(newDna, layers);

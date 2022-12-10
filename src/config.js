@@ -5,12 +5,12 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
+const namePrefix = "Meltdown";
+const description = "Be a part of the post-apocalyptic Meltdown world. Choose your side! Will you be a Survivor and try to get inside the Safezone? Or be a Bandit and try to stop them?";
 const baseUri = "ipfs://NewUriToReplace";
 
 const solanaMetadata = {
-  symbol: "YC",
+  symbol: "MELTDOWN",
   seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
   external_url: "https://www.youtube.com/c/hashlipsnft",
   creators: [
@@ -26,24 +26,75 @@ const layerConfigurations = [
   {
     growEditionSizeTo: 5,
     layersOrder: [
-      { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "Bandit Female/Background" },
+      { name: "Bandit Female/Ground" },
+      { name: "Bandit Female/Beast" },
+      { name: "Bandit Female/Body" },
+      { name: "Bandit Female/Bottom Wear" },
+      { name: "Bandit Female/Upper Wear" },
+      { name: "Bandit Female/Right Hand Gear" },
+      { name: "Bandit Female/Left Hand Gear" },
+      { name: "Bandit Female/Head" },
+      { name: "Bandit Female/Atmosphere Effect" },
+    ],
+  },
+  {
+    growEditionSizeTo: 10,
+    layersOrder: [
+      { name: "Bandit Male/Background" },
+      { name: "Bandit Male/Ground" },
+      { name: "Bandit Male/Beast" },
+      { name: "Bandit Male/Body" },
+      { name: "Bandit Male/Bottom Wear" },
+      { name: "Bandit Male/Upper Wear" },
+      { name: "Bandit Male/Right Hand Gear" },
+      { name: "Bandit Male/Left Hand Gear" },
+      { name: "Bandit Male/Head" },
+      { name: "Bandit Male/Atmosphere Effect" },
+    ],
+  },
+  {
+    growEditionSizeTo: 15,
+    layersOrder: [
+      { name: "Survivor Female/Background" },
+      { name: "Survivor Female/Ground" },
+      { name: "Survivor Female/Dog" },
+      { name: "Survivor Female/Body" },
+      { name: "Survivor Female/Right Hand Gear" },
+      { name: "Survivor Female/Left Hand Gear" },
+      { name: "Survivor Female/Bottom Wear" },
+      { name: "Survivor Female/Upper Wear" },
+      { name: "Survivor Female/Full Body Wear" },
+      { name: "Survivor Female/Sunglasses" },
+      { name: "Survivor Female/Head" },
+      { name: "Survivor Female/Atmosphere Effect" },
+    ],
+  },
+  {
+    growEditionSizeTo: 20,
+    layersOrder: [
+      { name: "Survivor Male/Background" },
+      { name: "Survivor Male/Ground" },
+      { name: "Survivor Male/Dog" },
+      { name: "Survivor Male/Body" },
+      { name: "Survivor Male/Right Hand Gear" },
+      { name: "Survivor Male/Left Hand Gear" },
+      { name: "Survivor Male/Bottom Wear" },
+      { name: "Survivor Male/Upper Wear" },
+      { name: "Survivor Male/Full Body Wear" },
+      { name: "Survivor Male/Head" },
+      { name: "Survivor Male/Atmosphere Effect" },
     ],
   },
 ];
 
 const shuffleLayerConfigurations = false;
 
-const debugLogs = false;
+const debugLogs = true;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 2544,
+  height: 3200,
   smoothing: false,
 };
 
