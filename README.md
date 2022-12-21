@@ -81,11 +81,13 @@ Use only this option if you want to make your layer image filename to case sensi
 const isLayerNameFileNameAsIs = false;
 ```
 
-**Case Sensitive Example**
+#### Case Sensitive Example
+
 > input: "**AWESOME**#1.png" as layer image filename.
 > output: "_AWESOME_" as trait value.
 
-**Case Insensitive Example**
+#### Case Insensitive Example
+
 > input: "**AWESOME**#1.png" as layer image filename.
 > output: "_Awesome_" as trait value.
 
