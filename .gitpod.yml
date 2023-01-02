@@ -1,0 +1,3 @@
+tasks:
+  - name: Setup
+    init: yarn install
