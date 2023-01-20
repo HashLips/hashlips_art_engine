@@ -339,7 +339,7 @@ function shuffle(array) {
   return array;
 }
 
-const startCreating = async () => {
+const startGeneration = async () => {
   let layerConfigIndex = 0;
   let editionCount = 1;
   let failedCount = 0;
@@ -441,4 +441,4 @@ const startCreating = async () => {
   writeMetaData(JSON.stringify(metadataList, null, 2));
 };
 
-module.exports = { startCreating, buildSetup, getElements };
+module.exports = { startGeneration, buildSetup, getElements };

@@ -1,31 +1,16 @@
 const basePath = process.cwd();
 const { MODE } = require(`${basePath}/constants/blend_mode.js`);
-const { NETWORK } = require(`${basePath}/constants/network.js`);
 
-const network = NETWORK.eth;
-
-// General metadata for Ethereum
+// general metadata for EVMs
 const namePrefix = "Your Collection";
 const description = "Remember to replace this description";
 const startCountFrom = 0;
-// Optional, change hasBaseUri to true if your  images pre-uploaded to IPFS
+// optional, change hasBaseUri to true if your  images pre-uploaded to IPFS
 const hasBaseUri = false;
 const baseUri = "ipfs://cid-here";
-// Optional, is image filename case sensitive? 
-// Default: false, meaning your file name will be capitalized e.g. "Awesome" instead of "awesome"
+// optional, is the image filename case sensitive? 
+// default: false, meaning your file name will be capitalized e.g. "Awesome" instead of "awesome"
 const isLayerNameFileNameAsIs = false;
-
-const solanaMetadata = {
-  symbol: "YC",
-  seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
-  external_url: "https://www.youtube.com/c/hashlipsnft",
-  creators: [
-    {
-      address: "7fXNuer5sbZtaTEPhtJ5g5gNtuyRoKkvxdjEjEnPN4mC",
-      share: 100,
-    },
-  ],
-};
 
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
@@ -122,8 +107,6 @@ module.exports = {
   pixelFormat,
   text,
   namePrefix,
-  network,
-  solanaMetadata,
   gif,
   startEditionFrom,
   isLayerNameFileNameAsIs,
