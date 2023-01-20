@@ -1,10 +1,10 @@
 # The thirdweb Art Engine [![Mentioned in Awesome thirdweb](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/warengonzaga/awesome-thirdweb)
 
-[![maintained by](https://img.shields.io/badge/maintained%20by-Waren%20Gonzaga-blue.svg?longCache=true&style=flat-square)](https://github.com/warengonzaga) [![release](https://img.shields.io/github/release/warengonzaga/thirdweb-art-engine.svg?style=flat-square)](https://github.com/warengonzaga/thirdweb-art-engine/releases) [![star](https://img.shields.io/github/stars/warengonzaga/thirdweb-art-engine.svg?style=flat-square)](https://github.com/warengonzaga/thirdweb-art-engine/stargazers) [![license](https://img.shields.io/github/license/warengonzaga/thirdweb-art-engine.svg?style=flat-square)](https://github.com/warengonzaga/thirdweb-art-engine/blob/main/license)
+[![creator](https://img.shields.io/badge/by-Waren%20Gonzaga-blue.svg?longCache=true&style=flat-square)](https://github.com/warengonzaga) [![release](https://img.shields.io/github/release/warengonzaga/thirdweb-art-engine.svg?style=flat-square)](https://github.com/warengonzaga/thirdweb-art-engine/releases) [![star](https://img.shields.io/github/stars/warengonzaga/thirdweb-art-engine.svg?style=flat-square)](https://github.com/warengonzaga/thirdweb-art-engine/stargazers) [![license](https://img.shields.io/github/license/warengonzaga/thirdweb-art-engine.svg?style=flat-square)](https://github.com/warengonzaga/thirdweb-art-engine/blob/main/license)
 
 [![repo banner](.github/img/repo_banner.jpg)](https://github.com/warengonzaga/thirdweb-art-engine)
 
-The forked version of [HashLips Art Engine](https://github.com/HashLips/hashlips_art_engine) with better features and compatibility with [thirdweb](https://thirdweb.com).
+The forked version of [HashLips Art Engine](https://github.com/HashLips/hashlips_art_engine) ([v1.1.2-patch-6](https://github.com/HashLips/hashlips_art_engine/commits/v1.1.2_patch_v6)) with better features and compatibility with [thirdweb](https://thirdweb.com).
 
 ## ⚡ Instant Setup
 
