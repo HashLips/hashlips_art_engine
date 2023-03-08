@@ -5,9 +5,9 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
-const baseUri = "ipfs://NewUriToReplace";
+const namePrefix = "Cyber Norse Warriors";
+const description = "Experimental NFT Generative Collection";
+const baseUri = "https://gateway.pinata.cloud/ipfs/QmeBFQ7PJFSRCgx6u9JAc1gJFRj6AaDyPP72eFA9NLesgJ";
 
 const solanaMetadata = {
   symbol: "YC",
@@ -78,7 +78,9 @@ const background = {
   default: "#000000",
 };
 
-const extraMetadata = {};
+const extraMetadata = {
+  creator: "Sergio Azevedo"
+};
 
 const rarityDelimiter = "#";
 
