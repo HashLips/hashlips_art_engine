@@ -203,18 +203,18 @@ const drawElement = (_renderObject, _index, _layersLen) => {
   ctx.globalCompositeOperation = _renderObject.layer.blend;
   text.only
     ? addText(
-        `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
-        text.xGap,
-        text.yGap * (_index + 1),
-        text.size
-      )
+      `${_renderObject.layer.name}${text.spacer}${_renderObject.layer.selectedElement.name}`,
+      text.xGap,
+      text.yGap * (_index + 1),
+      text.size
+    )
     : ctx.drawImage(
-        _renderObject.loadedImage,
-        0,
-        0,
-        format.width,
-        format.height
-      );
+      _renderObject.loadedImage,
+      0,
+      0,
+      format.width,
+      format.height
+    );
 
   addAttributes(_renderObject);
 };
@@ -279,30 +279,55 @@ const isDnaUnique = (_DnaList = new Set(), _dna = "") => {
   return !_DnaList.has(_filteredDNA);
 };
 
+const findElement = (_layers, layerName, elementName) => {
+  const foundLayer = _layers.filter(layer => layer.name == layerName)[0];
+  const foundElement = foundLayer.elements.filter(element => element.name == elementName)[0];
+  return foundElement;
+}
+
 const createDna = (_layers) => {
   let randNum = [];
+  let layerMap = new Map()
   _layers.forEach((layer) => {
     var totalWeight = 0;
     layer.elements.forEach((element) => {
       totalWeight += element.weight;
     });
-    // number between 0 - totalWeight
-    let random = Math.floor(Math.random() * totalWeight);
-    for (var i = 0; i < layer.elements.length; i++) {
-      // subtract the current weight from the random weight until we reach a sub zero value.
-      random -= layer.elements[i].weight;
-      if (random < 0) {
-        return randNum.push(
-          `${layer.elements[i].id}:${layer.elements[i].filename}${
-            layer.bypassDNA ? "?bypassDNA=true" : ""
-          }`
-        );
+    let done = false;
+    while (!done) {
+      done = true;
+      // number between 0 - totalWeight
+      let random = Math.floor(Math.random() * totalWeight);
+      for (var i = 0; i < layer.elements.length; i++) {
+        // subtract the current weight from the random weight until we reach a sub zero value.
+        random -= layer.elements[i].weight;
+        if (random < 0) {
+          const name = layer.elements[i].name;
+
+          // when we have something that dont go to gether move on to the next
+          if (layerMap.get('Iris').name === 'Large#20' || layerMap.get('Iris').name === 'Medium#20') {
+            done = false;
+            console.log("found re run");
+          }
+
+          layerMap.set(layer.name, layer.elements[i]);
+          break;
+        }
       }
     }
   });
+
+  //console.log(layerMap);
+  _layers.forEach((layer) => {
+    const element = layerMap.get(layer.name);
+    randNum.push(
+      `${element.id}:${element.filename}${layer.bypassDNA ? "?bypassDNA=true" : ""
+      }`
+    );
+  });
+  //console.log(randNum.join(DNA_DELIMITER));
   return randNum.join(DNA_DELIMITER);
 };
-
 const writeMetaData = (_data) => {
   fs.writeFileSync(`${buildDir}/json/_metadata.json`, _data);
 };
@@ -311,8 +336,8 @@ const saveMetaDataSingleFile = (_editionCount) => {
   let metadata = metadataList.find((meta) => meta.edition == _editionCount);
   debugLogs
     ? console.log(
-        `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
-      )
+      `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
+    )
     : null;
   fs.writeFileSync(
     `${buildDir}/json/${_editionCount}.json`,
