@@ -61,6 +61,10 @@ const layerConfigurations = [
       { name: "Eyeswear" },
       { name: "Headwear" },
     ],
+    skipLayerMatch: [
+      ["Black", "Green"],
+      ["Middle", "Purple"],
+    ]
   },
 ];
 ```
@@ -84,6 +88,10 @@ const layerConfigurations = [
       { name: "Eyeswear" },
       { name: "Headwear" },
     ],
+    skipLayerMatch: [
+      ["Black", "Green"],
+      ["Middle", "Purple"],
+    ]
   },
   {
     // Creates an additional 100 artworks
@@ -97,6 +105,10 @@ const layerConfigurations = [
       { name: "Headwear" },
       { name: "AlienHeadwear" },
     ],
+    skipLayerMatch: [
+      ["Black", "Green"],
+      ["Middle", "Purple"],
+    ]
   },
 ];
 ```
@@ -141,6 +153,10 @@ const layerConfigurations = [
       { name: "Bottom lid", options: { blend: MODE.overlay, opacity: 0.7 } },
       { name: "Top lid" },
     ],
+    skipLayerMatch: [
+      ["Black", "Green"],
+      ["Middle", "Purple"],
+    ]
   },
 ];
 ```

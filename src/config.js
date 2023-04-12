@@ -34,6 +34,10 @@ const layerConfigurations = [
       { name: "Bottom lid" },
       { name: "Top lid" },
     ],
+    skipLayerMatch: [
+      ["Black", "Green"],
+      ["Middle", "Purple"],
+    ]
   },
 ];
 
