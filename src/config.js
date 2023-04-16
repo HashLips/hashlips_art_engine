@@ -25,13 +25,17 @@ const solanaMetadata = {
 const layerConfigurations = [
   {
     growEditionSizeTo: 50,
-    layersOrder: [{ name: "Frame" }, { name: "Lense" }],
+    layersOrder: [{ name: "Frame1" }, { name: "Lense1" }],
+  },
+  {
+    growEditionSizeTo: 100,
+    layersOrder: [{ name: "Frame2" }, { name: "Lense2" }],
   },
 ];
 
 const shuffleLayerConfigurations = false;
 
-const debugLogs = false;
+const debugLogs = true;
 
 const format = {
   width: 1080,
