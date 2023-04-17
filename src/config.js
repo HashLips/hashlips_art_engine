@@ -31,11 +31,37 @@ const layerConfigurations = [
     growEditionSizeTo: 100,
     layersOrder: [{ name: "Frame2" }, { name: "Lense2" }],
   },
+  {
+    growEditionSizeTo: 150,
+    layersOrder: [{ name: "Frame3" }, { name: "Lense3" }],
+  },
+  {
+    growEditionSizeTo: 200,
+    layersOrder: [{ name: "Frame4" }, { name: "Lense4" }],
+  },
+  {
+    growEditionSizeTo: 250,
+    layersOrder: [{ name: "Frame5" }, { name: "Lense5" }],
+  },
+  {
+    growEditionSizeTo: 300,
+    layersOrder: [{ name: "Frame6" }, { name: "Lense6" }],
+  },
+  {
+    growEditionSizeTo: 350,
+    layersOrder: [{ name: "Frame7" }, { name: "Lense7" }],
+  },
+  {
+    growEditionSizeTo: 400,
+    layersOrder: [{ name: "Frame8" }, { name: "Lense8" }],
+  },
+  
+
 ];
 
 const shuffleLayerConfigurations = false;
 
-const debugLogs = true;
+const debugLogs = false;
 
 const format = {
   width: 1080,
