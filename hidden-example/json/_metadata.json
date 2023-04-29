@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Your Collection",
+    "description": "Remember to replace this description",
+    "image": "ipfs://NewUriToReplace/hidden.png",
+    "compiler": "HashLips Art Engine",
+    "edition": "hidden"
+  }
+]

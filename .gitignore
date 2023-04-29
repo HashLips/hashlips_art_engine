@@ -50,6 +50,7 @@ build/Release
 # Dependency directories
 
 build/
+hidden/
 dist/
 node_modules/
 jspm_packages/
@@ -140,3 +141,10 @@ dist
 # OSX
 
 .DS_Store
+
+# Environment Files
+.env
+
+# Ignore
+yarn.lock
+package-lock.json
