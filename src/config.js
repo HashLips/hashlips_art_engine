@@ -5,8 +5,8 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
+const namePrefix = "Sunglasses ";
+const description = "Description of the collection";
 const baseUri = "ipfs://NewUriToReplace";
 
 const solanaMetadata = {
@@ -24,26 +24,53 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 40,
+    layersOrder: [{ name: "LensAviator" }, { name: "FrameAviator" }],
+  },
+  {
+    growEditionSizeTo: 80,
     layersOrder: [
-      { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "LensAviatorFlatTop" },
+      { name: "FrameAviatorFlatTop" },
     ],
+  },
+  {
+    growEditionSizeTo: 120,
+    layersOrder: [{ name: "LensBox" }, { name: "FrameBox" }],
+  },
+  {
+    growEditionSizeTo: 160,
+    layersOrder: [{ name: "LensCatsEye" }, { name: "FrameCatsEye" }],
+  },
+  {
+    growEditionSizeTo: 200,
+    layersOrder: [{ name: "LensOvel" }, { name: "FrameOvel" }],
+  },
+  {
+    growEditionSizeTo: 240,
+    layersOrder: [{ name: "LensOversized" }, { name: "FrameOversized" }],
+  },
+  {
+    growEditionSizeTo: 280,
+    layersOrder: [{ name: "LensRetro" }, { name: "FrameRetro" }],
+  },
+  {
+    growEditionSizeTo: 320,
+    layersOrder: [{ name: "LensSquare" }, { name: "FrameSquare" }],
+  },
+  {
+    growEditionSizeTo: 360,
+    layersOrder: [{ name: "LensWayfarer" }, { name: "FrameWayfarer" }],
   },
 ];
 
-const shuffleLayerConfigurations = false;
+const shuffleLayerConfigurations = true;
 
 const debugLogs = false;
 
 const format = {
-  width: 512,
-  height: 512,
+  width: 2160,
+  height: 2160,
   smoothing: false,
 };
 
@@ -72,7 +99,7 @@ const pixelFormat = {
 };
 
 const background = {
-  generate: true,
+  generate: false,
   brightness: "80%",
   static: false,
   default: "#000000",
@@ -92,7 +119,7 @@ const preview = {
 };
 
 const preview_gif = {
-  numberOfImages: 5,
+  numberOfImages: 10,
   order: "ASC", // ASC, DESC, MIXED
   repeat: 0,
   quality: 100,
