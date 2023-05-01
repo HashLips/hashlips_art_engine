@@ -111,6 +111,7 @@ const layersSetup = (layersOrder) => {
 };
 
 const saveImage = (_editionCount) => {
+  console.log(metadataList);
   fs.writeFileSync(
     `${buildDir}/images/${_editionCount}.png`,
     canvas.toBuffer("image/png")

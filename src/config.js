@@ -5,8 +5,8 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
+const namePrefix = "Sunglasses ";
+const description = "Description of the collection";
 const baseUri = "ipfs://NewUriToReplace";
 
 const solanaMetadata = {
@@ -24,39 +24,9 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 50,
-    layersOrder: [{ name: "Frame1" }, { name: "Lense1" }],
+    growEditionSizeTo: 40,
+    layersOrder: [{ name: "FrameAviator" }, { name: "LensAviator" }],
   },
-  {
-    growEditionSizeTo: 100,
-    layersOrder: [{ name: "Frame2" }, { name: "Lense2" }],
-  },
-  {
-    growEditionSizeTo: 150,
-    layersOrder: [{ name: "Frame3" }, { name: "Lense3" }],
-  },
-  {
-    growEditionSizeTo: 200,
-    layersOrder: [{ name: "Frame4" }, { name: "Lense4" }],
-  },
-  {
-    growEditionSizeTo: 250,
-    layersOrder: [{ name: "Frame5" }, { name: "Lense5" }],
-  },
-  {
-    growEditionSizeTo: 300,
-    layersOrder: [{ name: "Frame6" }, { name: "Lense6" }],
-  },
-  {
-    growEditionSizeTo: 350,
-    layersOrder: [{ name: "Frame7" }, { name: "Lense7" }],
-  },
-  {
-    growEditionSizeTo: 400,
-    layersOrder: [{ name: "Frame8" }, { name: "Lense8" }],
-  },
-  
-
 ];
 
 const shuffleLayerConfigurations = false;
@@ -64,8 +34,8 @@ const shuffleLayerConfigurations = false;
 const debugLogs = false;
 
 const format = {
-  width: 1080,
-  height: 1080,
+  width: 2160,
+  height: 2160,
   smoothing: false,
 };
 
@@ -114,7 +84,7 @@ const preview = {
 };
 
 const preview_gif = {
-  numberOfImages: 5,
+  numberOfImages: 10,
   order: "ASC", // ASC, DESC, MIXED
   repeat: 0,
   quality: 100,
