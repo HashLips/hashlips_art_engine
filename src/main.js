@@ -111,9 +111,10 @@ const layersSetup = (layersOrder) => {
 };
 
 const saveImage = (_editionCount) => {
-  console.log(metadataList);
+  var frame = attributesList[0].value;
+  var lens = attributesList[1].value;
   fs.writeFileSync(
-    `${buildDir}/images/${_editionCount}.png`,
+    `${buildDir}/images/${frame} ${lens}#1.png`,
     canvas.toBuffer("image/png")
   );
 };

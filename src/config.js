@@ -25,11 +25,46 @@ const solanaMetadata = {
 const layerConfigurations = [
   {
     growEditionSizeTo: 40,
-    layersOrder: [{ name: "FrameAviator" }, { name: "LensAviator" }],
+    layersOrder: [{ name: "LensAviator" }, { name: "FrameAviator" }],
+  },
+  {
+    growEditionSizeTo: 80,
+    layersOrder: [
+      { name: "LensAviatorFlatTop" },
+      { name: "FrameAviatorFlatTop" },
+    ],
+  },
+  {
+    growEditionSizeTo: 120,
+    layersOrder: [{ name: "LensBox" }, { name: "FrameBox" }],
+  },
+  {
+    growEditionSizeTo: 160,
+    layersOrder: [{ name: "LensCatsEye" }, { name: "FrameCatsEye" }],
+  },
+  {
+    growEditionSizeTo: 200,
+    layersOrder: [{ name: "LensOvel" }, { name: "FrameOvel" }],
+  },
+  {
+    growEditionSizeTo: 240,
+    layersOrder: [{ name: "LensOversized" }, { name: "FrameOversized" }],
+  },
+  {
+    growEditionSizeTo: 280,
+    layersOrder: [{ name: "LensRetro" }, { name: "FrameRetro" }],
+  },
+  {
+    growEditionSizeTo: 320,
+    layersOrder: [{ name: "LensSquare" }, { name: "FrameSquare" }],
+  },
+  {
+    growEditionSizeTo: 360,
+    layersOrder: [{ name: "LensWayfarer" }, { name: "FrameWayfarer" }],
   },
 ];
 
-const shuffleLayerConfigurations = false;
+const shuffleLayerConfigurations = true;
 
 const debugLogs = false;
 
