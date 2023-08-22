@@ -5,17 +5,17 @@ const { NETWORK } = require(`${basePath}/constants/network.js`);
 const network = NETWORK.eth;
 
 // General metadata for Ethereum
-const namePrefix = "Your Collection";
-const description = "Remember to replace this description";
+const namePrefix = "Polkadot Punks";
+const description = "Polkadot Punks are the first ever nft collection to be Minted on Polkadot Network over 10,000 items will be minted in the collection";
 const baseUri = "ipfs://NewUriToReplace";
 
 const solanaMetadata = {
-  symbol: "YC",
+  symbol: "PDP",
   seller_fee_basis_points: 1000, // Define how much % you want from secondary market sales 1000 = 10%
-  external_url: "https://www.youtube.com/c/hashlipsnft",
+  external_url: "https://twitter.com/polkadot_punks",
   creators: [
     {
-      address: "7fXNuer5sbZtaTEPhtJ5g5gNtuyRoKkvxdjEjEnPN4mC",
+      address: "5CMhnzVJR8oDBypYgDxBwbFu3WiH5RdxPr4A1HaFPPA34EKa",
       share: 100,
     },
   ],
@@ -24,17 +24,191 @@ const solanaMetadata = {
 // If you have selected Solana then the collection starts from 0 automatically
 const layerConfigurations = [
   {
-    growEditionSizeTo: 5,
+    growEditionSizeTo: 2000,
     layersOrder: [
       { name: "Background" },
-      { name: "Eyeball" },
-      { name: "Eye color" },
-      { name: "Iris" },
-      { name: "Shine" },
-      { name: "Bottom lid" },
-      { name: "Top lid" },
+      { name: "Males" },
+      { name: "Mouth" },
+      { name: "Cap" },
+      { name: "Glasses" },
     ],
   },
+  {
+    // Creates an additional 100 artworks
+    growEditionSizeTo: 4000,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Males" },
+      { name: "Hair" },
+      { name: "Glasses" },
+      { name: "Mouth" },
+      { name: "Mouth wearable" },
+      { name: "Ear" },
+      { name: "Chain" },
+    ],
+  },
+  {
+    // Creates an additional 100 artworks
+    growEditionSizeTo: 6000,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Males" },
+      {name: "Mouth"},
+      { name: "Beard" },
+      { name: "Mouth wearable" },
+      { name: "Chain" },
+      {name: "Ear"},
+      {name: "Face"}
+ 
+    ],
+  },
+  {
+    // Creates an additional 100 artworks
+    growEditionSizeTo: 7000,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Females" },
+      { name: "lipstick" },
+      { name: "Female Ear" },
+      { name: "Female Mouth wearable" },
+      { name: "Female Glasses" },
+      { name: "Female Chain" },
+    ],
+  },
+  {
+    // Creates an additional 100 artworks
+    growEditionSizeTo: 7500,
+    layersOrder: [
+      { name: "Background" },
+      { name: "Females" },
+      { name: "Female Hair" },
+      { name: "Female spots" },
+      { name: "Female Mouth wearable" },
+      
+    ],
+  },
+  {
+    // Creates an additional 100 artworks
+    growEditionSizeTo: 8500,
+    layersOrder: [
+      { name: "Background" },
+      {name: "Females"},
+      { name: "Female Cap" },
+      { name: "Female Chain" },
+      { name: "Female Glasses" },
+    ],
+  },
+  {
+    growEditionSizeTo: 9000,
+    layersOrder: [
+{name: "Background"},
+{name: "Cloth"},
+{name: "Males"},
+{name: "Glasses"},
+{name: "Ear"},
+{name: "Chain"},
+{name: "Mouth"},
+{name: "Mouth wearable"}
+    ],
+  },
+  {
+    growEditionSizeTo: 9300,
+    layersOrder: [
+{name: "Background"},
+{name: "Cloth"},
+{name: "Males"},
+{name: "Glasses"},
+{name: "Ear"},
+{name: "Chain"},
+{name: "Beard"},
+    ],
+  },
+  {
+    growEditionSizeTo: 9200,
+    layersOrder:[
+      {name: "Background"},
+      {name: "Alien"},
+      {name: "Cap"},
+      {name: "Chain"},
+      {name: "Ear"},
+      {name: "Glasses"},
+      {name: "Beard"},
+
+    ],
+  },
+  {
+    growEditionSizeTo: 9400,
+    layersOrder:[
+      {name: "Background"},
+      {name: "Alien"},
+      {name: "Cap"},
+      {name: "Chain"},
+      {name: "Ear"},
+      {name: "Glasses"},
+      {name: "Mouth"},
+    ],
+  },
+  {
+    growEditionSizeTo: 9500,
+    layersOrder:[
+      {name: "Background"},
+      {name: "Alien"},
+      {name: "Hair"},
+      {name: "Chain"},
+      {name: "Ear"},
+      {name: "Mouth wearable"},
+      {name: "Glasses"},
+    ],
+  },
+  {
+    growEditionSizeTo: 9600,
+    layersOrder:[
+      {name: "Background"},
+      {name: "Ape"},
+      {name: "Cap"},
+      {name: "Mouth"},
+      {name: "Chain"},
+      {name: "Ear"},
+      {name: "Glasses"},
+    ],
+  },
+  {
+    growEditionSizeTo: 9700,
+    layersOrder:[
+      {name: "Background"},
+      {name: "Ape"},
+      {name: "Cap"},
+      {name: "Chain"},
+      {name: "Ear"},
+      {name: "Mouth wearable"},
+      {name: "Glasses"},
+    ],
+  },
+  {
+    growEditionSizeTo: 9800,
+    layersOrder:[
+      {name: "Background"},
+      {name: "Zombie"},
+      {name: "Cap"},
+      {name: "Chain"},
+      {name: "Ear"},
+      {name: "Mouth"},
+      {name: "Glasses"},
+    ],
+  },
+  {
+    growEditionSizeTo: 10000,
+    layersOrder:[
+      {name: "Background"},
+      {name: "Zombie"},
+      {name: "Hair"},
+      {name: "Chain"},
+      {name: "Ear"},
+      {name: "Mouth wearable"},
+      {name: "Glasses"},
+    ],
+  },
+  
 ];
 
 const shuffleLayerConfigurations = false;
