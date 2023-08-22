@@ -53,13 +53,13 @@ const layerConfigurations = [
     layersOrder: [
       { name: "Background" },
       { name: "Males" },
-      { name: "Mouth" },
-      { name: "Mouth wearable" },
+      {name: "Mouth"},
       { name: "Beard" },
-      { name: "Face" },
-      { name: "Mask" },
+      { name: "Mouth wearable" },
       { name: "Chain" },
-
+      {name: "Ear"},
+      {name: "Face"}
+ 
     ],
   },
   {
@@ -69,6 +69,7 @@ const layerConfigurations = [
       { name: "Background" },
       { name: "Females" },
       { name: "lipstick" },
+      { name: "Female Ear" },
       { name: "Female Mouth wearable" },
       { name: "Female Glasses" },
       { name: "Female Chain" },
@@ -81,9 +82,8 @@ const layerConfigurations = [
       { name: "Background" },
       { name: "Females" },
       { name: "Female Hair" },
-      { name: "Female Mouth wearable" },
-      { name: "Female Ear" },
       { name: "Female spots" },
+      { name: "Female Mouth wearable" },
       
     ],
   },
@@ -99,6 +99,19 @@ const layerConfigurations = [
     ],
   },
   {
+    growEditionSizeTo: 9000,
+    layersOrder: [
+{name: "Background"},
+{name: "Cloth"},
+{name: "Males"},
+{name: "Glasses"},
+{name: "Ear"},
+{name: "Chain"},
+{name: "Mouth"},
+{name: "Mouth wearable"}
+    ],
+  },
+  {
     growEditionSizeTo: 9300,
     layersOrder: [
 {name: "Background"},
@@ -108,7 +121,19 @@ const layerConfigurations = [
 {name: "Ear"},
 {name: "Chain"},
 {name: "Beard"},
-{name: "Mouth"},
+    ],
+  },
+  {
+    growEditionSizeTo: 9200,
+    layersOrder:[
+      {name: "Background"},
+      {name: "Alien"},
+      {name: "Cap"},
+      {name: "Chain"},
+      {name: "Ear"},
+      {name: "Glasses"},
+      {name: "Beard"},
+
     ],
   },
   {
@@ -120,7 +145,6 @@ const layerConfigurations = [
       {name: "Chain"},
       {name: "Ear"},
       {name: "Glasses"},
-      {name: "Beard"},
       {name: "Mouth"},
     ],
   },
@@ -142,11 +166,10 @@ const layerConfigurations = [
       {name: "Background"},
       {name: "Ape"},
       {name: "Cap"},
+      {name: "Mouth"},
       {name: "Chain"},
       {name: "Ear"},
-      {name: "Mouth"},
       {name: "Glasses"},
-      {name: "Beard"},
     ],
   },
   {
@@ -171,7 +194,6 @@ const layerConfigurations = [
       {name: "Ear"},
       {name: "Mouth"},
       {name: "Glasses"},
-      {name: "Beard"},
     ],
   },
   {
