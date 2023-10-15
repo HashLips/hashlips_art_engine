@@ -310,7 +310,7 @@ const saveMetaDataSingleFile = (_editionCount) => {
       )
     : null;
   
-  delete metadata.edition;
+  if(network === NETWORK.sol) delete metadata.edition;
   fs.writeFileSync(
     `${buildDir}/json/${_editionCount}.json`,
     JSON.stringify(metadata, null, 2)
