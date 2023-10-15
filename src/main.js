@@ -148,10 +148,7 @@ const addMetadata = (_dna, _edition) => {
       symbol: solanaMetadata.symbol,
       description: tempMetadata.description,
       //Added metadata for solana
-      seller_fee_basis_points: solanaMetadata.seller_fee_basis_points,
       image: `${_edition}.png`,
-      //Added metadata for solana
-      external_url: solanaMetadata.external_url,
       edition: _edition,
       ...extraMetadata,
       attributes: tempMetadata.attributes,
@@ -161,9 +158,7 @@ const addMetadata = (_dna, _edition) => {
             uri: `${_edition}.png`,
             type: "image/png",
           },
-        ],
-        category: "image",
-        creators: solanaMetadata.creators,
+        ]
       },
     };
   }
@@ -314,6 +309,8 @@ const saveMetaDataSingleFile = (_editionCount) => {
         `Writing metadata for ${_editionCount}: ${JSON.stringify(metadata)}`
       )
     : null;
+  
+  if(network === NETWORK.sol) delete metadata.edition;
   fs.writeFileSync(
     `${buildDir}/json/${_editionCount}.json`,
     JSON.stringify(metadata, null, 2)
