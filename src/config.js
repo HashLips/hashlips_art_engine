@@ -2,7 +2,7 @@ const basePath = process.cwd();
 const { MODE } = require(`${basePath}/constants/blend_mode.js`);
 const { NETWORK } = require(`${basePath}/constants/network.js`);
 
-const network = NETWORK.sol;
+const network = NETWORK.eth;
 
 // General metadata for Ethereum
 const namePrefix = "Your Collection";
