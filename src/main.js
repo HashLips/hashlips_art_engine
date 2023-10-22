@@ -163,7 +163,7 @@ const addMetadata = (_dna, _edition) => {
           },
         ],
         category: "image",
-        creators: solanaMetadata.creators,
+        // creators: solanaMetadata.creators,
       },
     };
   }
