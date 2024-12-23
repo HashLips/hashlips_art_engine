@@ -1,0 +1,11 @@
+{
+  "name": "Demon NFT #1",
+  "description": "A unique demon character from the Demon Collection.",
+  "image": "ipfs://YOUR_IMAGE_HASH",
+  "attributes": [
+    { "trait_type": "Background", "value": "Red" },
+    { "trait_type": "Skin", "value": "Gray" },
+    { "trait_type": "Suit", "value": "Green" },
+    { "trait_type": "Horns", "value": "Curved" }
+  ]
+}
