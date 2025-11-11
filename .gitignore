@@ -140,3 +140,23 @@ dist
 # OSX
 
 .DS_Store
+.idea/
+.vs/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# virtual envs / tooling
+.venv/
+venv/
+.python-version
+
+# local data and artifacts
+*.iml
+*.local
+*.swp
+*.swo
+*.orig
+tmp/
+temp/
+*.log

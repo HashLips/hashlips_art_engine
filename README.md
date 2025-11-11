@@ -1,3 +1,82 @@
+# HashLips Art Engine (GoblinVerse Bazaar fork)
+
+[![CI](https://github.com/HashLips/hashlips_art_engine/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/HashLips/hashlips_art_engine/actions/workflows/ci.yml)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&ref=main&repo=HashLips%2Fhashlips_art_engine)
+
+Generates layered NFT art for the DIKPIK Bazaar while hosting the Wix/Velo wallet + bidding flows. This fork is now fully Codespaces-ready with automated linting, tests, and guarded merges.
+
+## Quick start
+
+1. **Clone or open in Codespaces** (button above) - Codespaces provisions Node 20, Python 3.11, Cairo libs for `canvas`, and installs dependencies automatically.
+2. **Install locally** (if not using Codespaces): `npm install` (requires build tools + Cairo).
+3. **Run the generator**: `npm run dev` (same as `npm run build`), assets go to `build/`.
+4. **Validate before pushing**: `npm run check` (runs lint ? typecheck ? tests).
+5. **Format**: `npm run format:fix`.
+
+## Development environments
+
+| Scenario | Steps |
+| --- | --- |
+| **Codespaces / devcontainer** | Open in Codespaces ? wait for post-create to run `npm install` + `pre-commit install` ? `npm run dev` or `npm run check`. |
+| **Local (no container)** | Install Node 20+ & Python 3.11, then `npm install`, `python -m pip install pre-commit`, `pre-commit install && pre-commit install --hook-type commit-msg`. Use `npm run dev` for generation, `npm run check` for QA. |
+
+Recommended VS Code extensions are auto-installed in `.vscode/extensions.json` and the devcontainer.
+
+## Quality gates & scripts
+
+Command | What it does
+--- | ---
+`npm run lint` | ESLint (Node/Promise/Import rules) with `--max-warnings=0`.
+`npm run typecheck` | `tsc --noEmit` with `checkJs` for legacy JS.
+`npm test` | Vitest + V8 coverage (artifacts uploaded in CI).
+`npm run format` / `format:fix` | Prettier verification or write.
+`npm run preview`, `npm run rarity`, etc. | Existing art-engine utilities (unchanged).
+
+`pre-commit` runs lint + typecheck + prettier; `commitlint` enforces Conventional Commits (and PR titles are checked via CI).
+
+## Continuous Integration
+
+`.github/workflows/ci.yml` runs on push + PR:
+
+1. Node matrix **18.x / 20.x** with dependency caching.
+2. `npm ci`.
+3. `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`.
+4. Uploads `coverage/` + `vitest-results.xml` artifacts.
+
+`pr-title-check.yml` blocks non-Conventional PR titles and `.github/dependabot.yml` keeps Actions + npm dependencies fresh (weekly).
+
+## Deploy previews
+
+This repository doesn’t ship a deployable frontend bundle, so previews are disabled by default. To enable Vercel previews for a future Next.js/React UI:
+
+1. Create a workflow similar to Vercel’s [Deploy Hooks template](https://vercel.com/docs/integrations/git/vercel-for-github#deploy-hooks) that runs `vercel pull`, `vercel build`, and `vercel deploy --prebuilt`.
+2. Add repo secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`.
+3. Document the preview URL in PRs (the existing template already has a slot).
+
+## Environment variables
+
+Copy `.env.example` to `.env` (local only) to mirror Velo secrets:
+
+```
+APP_DOMAIN=
+SUPPORTED_CHAIN_ID=
+WIX_SECRET_JWT_KEY=
+```
+
+In Wix, keep those values in the Secrets Manager (`APP_DOMAIN`, `SUPPORTED_CHAIN_ID`, `WIX_SECRET_JWT_KEY`).
+
+## Conventional commits & PR workflow
+
+- Use prefixes like `feat:`, `fix:`, `chore:` etc.
+- Run `pre-commit` locally (auto-installed inside Codespaces) or `pre-commit run --all-files` before pushing.
+- New PRs use `.github/pull_request_template.md` for screenshots, tests, and preview links.
+- Release note grouping is handled via `.github/semantic.yml`.
+
+---
+
+# Legacy HashLips instructions
+
+The historical README from the upstream project is preserved below for reference.
 # Welcome to HashLips ðŸ‘„
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/logo.png)
@@ -311,3 +390,36 @@ Trait type: Top lid
 ```
 
 Hope you create some awesome artworks with this code ðŸ‘„
+
+## DIKPIK Bazaar Integration
+
+This fork powers the GoblinVerse Bazaar/Wanted marketplace with the following capabilities:
+
+- HTTP and web module services for auctions (Import2) and bids (Import3), including quick increments, withdrawals, buy-now, and admin finalization.
+- Email notifications via SendGrid (set the `SENDGRID_API_KEY` secret) for bid confirmations, outbid alerts, winners, and Buy Now purchases.
+- Frontend bridge updates for auth-token forwarding, neon bid success toasts, and restricted public data (highest bid, bid count, countdown).
+- New REST endpoints:
+  - `POST /_functions/bids` place bid, `/bids/quick`, `/bids/withdraw`
+  - `GET /_functions/auctions/{id}` public snapshot, `/admin` for admins
+  - `POST /_functions/auctions/{id}/buy-now`, `/finalize`
+- Web module helpers (`backend/wantedPosts.jsw`) wrap the auction service for Wix client code.
+
+### Secrets & Configuration
+
+1. In Velo Secrets Manager set `SENDGRID_API_KEY` with your SendGrid API key.
+2. Publish the Import2, Import3, and Import4 collections to Live and ensure backend code has write permissions (`suppressAuth: true`).
+3. Optional configuration lives in `backend/wantedUtils.js` via `AUCTION_CONFIG` (increment defaults, email identity, FX provider stub).
+
+### Testing Checklist
+
+- Place a bid (regular and quick increment) and confirm the neon popup and HTTP 201 response.
+- Outbid the previous bid and confirm a single outbid email.
+- Withdraw a bid and verify the highest bid recalculates.
+- Finalize an auction as an admin and confirm the winner email.
+- Trigger Buy Now and confirm the purchase email.
+- Confirm `/_functions/auctions/{id}` exposes only public fields while `/admin` requires admin roles.
+- Verify Import3 records mark `isHighest` correctly and `bidCount` updates on the auction record.
+
+
+
+

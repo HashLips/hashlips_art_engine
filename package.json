@@ -13,13 +13,21 @@
   },
   "scripts": {
     "build": "node index.js",
+    "dev": "node index.js",
     "generate": "node index.js",
-    "rarity": "node utils/rarity.js",
+    "lint": "eslint \"src/healthcheck.js\" \"__tests__\" \"vitest.config.mjs\" \"commitlint.config.js\" --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest watch",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
     "preview": "node utils/preview.js",
     "pixelate": "node utils/pixelate.js",
+    "rarity": "node utils/rarity.js",
     "update_info": "node utils/update_info.js",
     "preview_gif": "node utils/preview_gif.js",
-    "generate_metadata": "node utils/generate_metadata.js"
+    "generate_metadata": "node utils/generate_metadata.js",
+    "check": "npm run lint && npm run typecheck && npm test"
   },
   "author": "Daniel Eugene Botha (HashLips)",
   "license": "MIT",
@@ -27,5 +35,19 @@
     "canvas": "^2.8.0",
     "gif-encoder-2": "^1.0.5",
     "sha1": "^1.1.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.4.1",
+    "@commitlint/config-conventional": "^19.4.1",
+    "@types/node": "^20.16.5",
+    "@vitest/coverage-v8": "^0.34.6",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^17.9.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4",
+    "vitest": "^0.34.6"
   }
 }

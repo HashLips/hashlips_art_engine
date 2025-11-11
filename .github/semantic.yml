@@ -1,0 +1,14 @@
+titleOnly: false
+types:
+  - feat
+  - fix
+  - chore
+  - docs
+  - refactor
+  - test
+  - ci
+  - build
+scopes: []
+allowCustomScopes: true
+ignoreLabels: []
+allowEmptyScope: true

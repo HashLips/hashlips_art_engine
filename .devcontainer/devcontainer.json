@@ -1,0 +1,44 @@
+{
+  "name": "hashlips-art-engine",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "lts",
+      "pnpm": "true",
+      "yarn": "true"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": "false",
+      "installOhMyZsh": "false"
+    }
+  },
+  "remoteUser": "vscode",
+  "runArgs": ["--init"],
+  "containerEnv": {
+    "PLAYWRIGHT_BROWSERS_PATH": "0"
+  },
+  "onCreateCommand": "sudo apt-get update && sudo apt-get install -y build-essential git jq ripgrep libcairo2-dev libjpeg-dev libpango1.0-dev libgif-dev librsvg2-dev",
+  "postCreateCommand": "python3 -m pip install --user pre-commit && npm install && python3 -m pre_commit install && python3 -m pre_commit install --hook-type commit-msg && echo 'Devcontainer ready. Run npm run dev to start the generator or npm run check to validate the toolkit.'",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "visualstudioexptteam.vscodeintellicode",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "files.trimTrailingWhitespace": true,
+        "javascript.validate.enable": false
+      }
+    }
+  }
+}

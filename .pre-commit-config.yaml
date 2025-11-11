@@ -1,0 +1,34 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: local
+    hooks:
+      - id: lint
+        name: lint
+        entry: npm run lint
+        language: system
+        pass_filenames: false
+      - id: typecheck
+        name: typecheck
+        entry: npm run typecheck
+        language: system
+        pass_filenames: false
+      - id: format
+        name: prettier check
+        entry: npm run format
+        language: system
+        pass_filenames: false
+  - repo: local
+    hooks:
+      - id: commitlint
+        name: commitlint
+        entry: npx commitlint --edit "$1"
+        language: system
+        pass_filenames: false
+        stages: [commit-msg]
