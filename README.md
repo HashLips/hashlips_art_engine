@@ -1,10 +1,10 @@
-# Welcome to HashLips 👄
+# HashLips에 오신 것을 환영합니다 👄
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/logo.png)
 
-All the code in these repos was created and explained by HashLips on the main YouTube channel.
+이 저장소의 모든 코드는 HashLips의 메인 YouTube 채널에서 생성되고 설명되었습니다.
 
-To find out more please visit:
+자세한 내용은 다음을 방문하세요:
 
 [📺 YouTube](https://www.youtube.com/channel/UC1LV4_VQGBJHTJjEWUmy8nA)
 
@@ -20,35 +20,35 @@ To find out more please visit:
 
 ![](https://github.com/HashLips/hashlips_art_engine/blob/main/banner.png)
 
-Create generative art by using the canvas api and node js. Before you use the generation engine, make sure you have node.js(v10.18.0) installed.
+Canvas API와 Node.js를 사용하여 생성형 아트를 만들어보세요. 생성 엔진을 사용하기 전에 node.js(v10.18.0)가 설치되어 있는지 확인하세요.
 
-## Installation 🛠️
+## 설치 🛠️
 
-If you are cloning the project then run this first, otherwise you can download the source code on the release page and skip this step.
+프로젝트를 클론하는 경우 먼저 다음 명령을 실행하세요. 릴리스 페이지에서 소스 코드를 다운로드하는 경우 이 단계를 건너뛸 수 있습니다.
 
 ```sh
 git clone https://github.com/HashLips/hashlips_art_engine.git
 ```
 
-Go to the root of your folder and run this command if you have yarn installed.
+폴더의 루트로 이동하여 yarn이 설치되어 있는 경우 다음 명령을 실행하세요.
 
 ```sh
 yarn install
 ```
 
-Alternatively you can run this command if you have node installed.
+또는 node가 설치되어 있는 경우 다음 명령을 실행할 수 있습니다.
 
 ```sh
 npm install
 ```
 
-## Usage ℹ️
+## 사용법 ℹ️
 
-Create your different layers as folders in the 'layers' directory, and add all the layer assets in these directories. You can name the assets anything as long as it has a rarity weight attached in the file name like so: `example element#70.png`. You can optionally change the delimiter `#` to anything you would like to use in the variable `rarityDelimiter` in the `src/config.js` file.
+'layers' 디렉토리에 각 레이어를 폴더로 생성하고, 이 디렉토리에 모든 레이어 에셋을 추가하세요. 파일 이름에 `example element#70.png`처럼 희귀도 가중치가 포함되어 있다면 에셋 이름은 자유롭게 지정할 수 있습니다. 원하는 경우 `src/config.js` 파일의 `rarityDelimiter` 변수에서 구분 기호 `#`를 다른 것으로 변경할 수 있습니다.
 
-Once you have all your layers, go into `src/config.js` and update the `layerConfigurations` objects `layersOrder` array to be your layer folders name in order of the back layer to the front layer.
+모든 레이어가 준비되면 `src/config.js`로 이동하여 `layerConfigurations` 객체의 `layersOrder` 배열을 뒤쪽 레이어부터 앞쪽 레이어 순서로 레이어 폴더 이름으로 업데이트하세요.
 
-_Example:_ If you were creating a portrait design, you might have a background, then a head, a mouth, eyes, eyewear, and then headwear, so your `layersOrder` would look something like this:
+_예시:_ 초상화 디자인을 만드는 경우, 배경, 머리, 입, 눈, 안경, 그리고 모자 순서로 레이어가 있을 수 있으므로 `layersOrder`는 다음과 같이 보일 것입니다:
 
 ```js
 const layerConfigurations = [
@@ -65,16 +65,16 @@ const layerConfigurations = [
 ];
 ```
 
-The `name` of each layer object represents the name of the folder (in `/layers/`) that the images reside in.
+각 레이어 객체의 `name`은 이미지가 있는 폴더(`/layers/` 내)의 이름을 나타냅니다.
 
-Optionally you can now add multiple different `layerConfigurations` to your collection. Each configuration can be unique and have different layer orders, use the same layers or introduce new ones. This gives the artist flexibility when it comes to fine tuning their collections to their needs.
+이제 선택적으로 컬렉션에 여러 개의 다른 `layerConfigurations`를 추가할 수 있습니다. 각 구성은 고유할 수 있으며 서로 다른 레이어 순서를 가지거나, 동일한 레이어를 사용하거나, 새로운 레이어를 도입할 수 있습니다. 이를 통해 아티스트는 자신의 필요에 맞게 컬렉션을 세밀하게 조정할 수 있는 유연성을 가집니다.
 
-_Example:_ If you were creating a portrait design, you might have a background, then a head, a mouth, eyes, eyewear, and then headwear and you want to create a new race or just simple re-order the layers or even introduce new layers, then you're `layerConfigurations` and `layersOrder` would look something like this:
+_예시:_ 초상화 디자인을 만들 때 배경, 머리, 입, 눈, 안경, 모자가 있고 새로운 종족을 만들거나 레이어 순서를 바꾸거나 새로운 레이어를 도입하고 싶다면, `layerConfigurations`와 `layersOrder`는 다음과 같이 보일 것입니다:
 
 ```js
 const layerConfigurations = [
   {
-    // Creates up to 50 artworks
+    // 최대 50개의 작품 생성
     growEditionSizeTo: 50,
     layersOrder: [
       { name: "Background" },
@@ -86,7 +86,7 @@ const layerConfigurations = [
     ],
   },
   {
-    // Creates an additional 100 artworks
+    // 추가로 100개의 작품 생성
     growEditionSizeTo: 150,
     layersOrder: [
       { name: "Background" },
@@ -101,21 +101,21 @@ const layerConfigurations = [
 ];
 ```
 
-Update your `format` size, ie the outputted image size, and the `growEditionSizeTo` on each `layerConfigurations` object, which is the amount of variation outputted.
+각 `layerConfigurations` 객체의 `format` 크기(출력된 이미지 크기)와 `growEditionSizeTo`(출력되는 변형의 양)를 업데이트하세요.
 
-You can mix up the `layerConfigurations` order on how the images are saved by setting the variable `shuffleLayerConfigurations` in the `config.js` file to true. It is false by default and will save all images in numerical order.
+`config.js` 파일의 `shuffleLayerConfigurations` 변수를 true로 설정하여 이미지 저장 방식의 `layerConfigurations` 순서를 섞을 수 있습니다. 기본값은 false이며 모든 이미지를 숫자 순서로 저장합니다.
 
-If you want to have logs to debug and see what is happening when you generate images you can set the variable `debugLogs` in the `config.js` file to true. It is false by default, so you will only see general logs.
+이미지를 생성할 때 무슨 일이 일어나는지 디버그하고 확인하기 위해 로그를 원하는 경우 `config.js` 파일의 `debugLogs` 변수를 true로 설정할 수 있습니다. 기본값은 false이므로 일반 로그만 표시됩니다.
 
-If you want to play around with different blending modes, you can add a `blend: MODE.colorBurn` field to the layersOrder `options` object.
+다양한 블렌딩 모드를 실험하고 싶다면 layersOrder `options` 객체에 `blend: MODE.colorBurn` 필드를 추가할 수 있습니다.
 
-If you need a layers to have a different opacity then you can add the `opacity: 0.7` field to the layersOrder `options` object as well.
+레이어에 다른 불투명도가 필요한 경우 layersOrder `options` 객체에 `opacity: 0.7` 필드를 추가할 수도 있습니다.
 
-If you want to have a layer _ignored_ in the DNA uniqueness check, you can set `bypassDNA: true` in the `options` object. This has the effect of making sure the rest of the traits are unique while not considering the `Background` Layers as traits, for example. The layers _are_ included in the final image.
+DNA 고유성 검사에서 레이어를 _무시_하고 싶다면 `options` 객체에 `bypassDNA: true`를 설정할 수 있습니다. 이렇게 하면 나머지 특성은 고유하게 유지하면서 예를 들어 `Background` 레이어를 특성으로 간주하지 않습니다. 레이어는 최종 이미지에 _포함됩니다_.
 
-To use a different metadata attribute name you can add the `displayName: "Awesome Eye Color"` to the `options` object. All options are optional and can be addes on the same layer if you want to.
+다른 메타데이터 속성 이름을 사용하려면 `options` 객체에 `displayName: "Awesome Eye Color"`를 추가할 수 있습니다. 모든 옵션은 선택 사항이며 원하는 경우 동일한 레이어에 추가할 수 있습니다.
 
-Here is an example on how you can play around with both filter fields:
+다음은 두 필터 필드를 모두 사용하는 예시입니다:
 
 ```js
 const layerConfigurations = [
@@ -145,7 +145,7 @@ const layerConfigurations = [
 ];
 ```
 
-Here is a list of the different blending modes that you can optionally use.
+다음은 선택적으로 사용할 수 있는 다양한 블렌딩 모드 목록입니다.
 
 ```js
 const MODE = {
@@ -178,19 +178,19 @@ const MODE = {
 };
 ```
 
-When you are ready, run the following command and your outputted art will be in the `build/images` directory and the json in the `build/json` directory:
+준비가 되면 다음 명령을 실행하면 출력된 아트는 `build/images` 디렉토리에, json은 `build/json` 디렉토리에 생성됩니다:
 
 ```sh
 npm run build
 ```
 
-or
+또는
 
 ```sh
 node index.js
 ```
 
-The program will output all the images in the `build/images` directory along with the metadata files in the `build/json` directory. Each collection will have a `_metadata.json` file that consists of all the metadata in the collection inside the `build/json` directory. The `build/json` folder also will contain all the single json files that represent each image file. The single json file of a image will look something like this:
+프로그램은 `build/images` 디렉토리에 모든 이미지를 출력하고 `build/json` 디렉토리에 메타데이터 파일을 출력합니다. 각 컬렉션에는 `build/json` 디렉토리 내에 컬렉션의 모든 메타데이터로 구성된 `_metadata.json` 파일이 있습니다. `build/json` 폴더에는 각 이미지 파일을 나타내는 모든 개별 json 파일도 포함됩니다. 이미지의 개별 json 파일은 다음과 같습니다:
 
 ```json
 {
@@ -213,7 +213,7 @@ The program will output all the images in the `build/images` directory along wit
 }
 ```
 
-You can also add extra metadata to each metadata file by adding your extra items, (key: value) pairs to the `extraMetadata` object variable in the `config.js` file.
+`config.js` 파일의 `extraMetadata` 객체 변수에 추가 항목(키: 값) 쌍을 추가하여 각 메타데이터 파일에 추가 메타데이터를 추가할 수도 있습니다.
 
 ```js
 const extraMetadata = {
@@ -221,44 +221,44 @@ const extraMetadata = {
 };
 ```
 
-If you don't need extra metadata, simply leave the object empty. It is empty by default.
+추가 메타데이터가 필요하지 않은 경우 객체를 비워두면 됩니다. 기본값은 비어 있습니다.
 
 ```js
 const extraMetadata = {};
 ```
 
-That's it, you're done.
+완료되었습니다.
 
-## Utils
+## 유틸리티
 
-### Updating baseUri for IPFS and description
+### IPFS 및 설명을 위한 baseUri 업데이트
 
-You might possibly want to update the baseUri and description after you have ran your collection. To update the baseUri and description simply run:
+컬렉션을 실행한 후 baseUri와 설명을 업데이트하고 싶을 수 있습니다. baseUri와 설명을 업데이트하려면 다음을 실행하세요:
 
 ```sh
 npm run update_info
 ```
 
-### Generate a preview image
+### 미리보기 이미지 생성
 
-Create a preview image collage of your collection, run:
+컬렉션의 미리보기 이미지 콜라주를 만들려면 다음을 실행하세요:
 
 ```sh
 npm run preview
 ```
 
-### Generate pixelated images from collection
+### 컬렉션에서 픽셀화된 이미지 생성
 
-In order to convert images into pixelated images you would need a list of images that you want to convert. So run the generator first.
+이미지를 픽셀화된 이미지로 변환하려면 변환하려는 이미지 목록이 필요합니다. 따라서 먼저 생성기를 실행하세요.
 
-Then simply run this command:
+그런 다음 다음 명령을 실행하세요:
 
 ```sh
 npm run pixelate
 ```
 
-All your images will be outputted in the `/build/pixel_images` directory.
-If you want to change the ratio of the pixelation then you can update the ratio property on the `pixelFormat` object in the `src/config.js` file. The lower the number on the left, the more pixelated the image will be.
+모든 이미지는 `/build/pixel_images` 디렉토리에 출력됩니다.
+픽셀화 비율을 변경하려면 `src/config.js` 파일의 `pixelFormat` 객체에 있는 ratio 속성을 업데이트할 수 있습니다. 왼쪽의 숫자가 낮을수록 이미지가 더 픽셀화됩니다.
 
 ```js
 const pixelFormat = {
@@ -266,11 +266,11 @@ const pixelFormat = {
 };
 ```
 
-### Generate GIF images from collection
+### 컬렉션에서 GIF 이미지 생성
 
-In order to export gifs based on the layers created, you just need to set the export on the `gif` object in the `src/config.js` file to `true`. You can also play around with the `repeat`, `quality` and the `delay` of the exported gif.
+생성된 레이어를 기반으로 gif를 내보내려면 `src/config.js` 파일의 `gif` 객체에서 export를 `true`로 설정하기만 하면 됩니다. 내보낸 gif의 `repeat`, `quality` 및 `delay`를 조정할 수도 있습니다.
 
-Setting the `repeat: -1` will produce a one time render and `repeat: 0` will loop forever.
+`repeat: -1`로 설정하면 한 번만 렌더링되고 `repeat: 0`으로 설정하면 무한 반복됩니다.
 
 ```js
 const gif = {
@@ -281,15 +281,15 @@ const gif = {
 };
 ```
 
-### Printing rarity data (Experimental feature)
+### 희귀도 데이터 출력 (실험적 기능)
 
-To see the percentages of each attribute across your collection, run:
+컬렉션 전체에서 각 속성의 백분율을 보려면 다음을 실행하세요:
 
 ```sh
 npm run rarity
 ```
 
-The output will look something like this:
+출력은 다음과 같습니다:
 
 ```sh
 Trait type: Top lid
@@ -310,4 +310,4 @@ Trait type: Top lid
 }
 ```
 
-Hope you create some awesome artworks with this code 👄
+이 코드로 멋진 작품을 만들어보세요 👄
