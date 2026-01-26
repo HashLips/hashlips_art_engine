@@ -21,6 +21,7 @@
     "test:watch": "vitest watch",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
+    "smoke:worker": "node worker/tools/smoke.js",
     "preview": "node utils/preview.js",
     "pixelate": "node utils/pixelate.js",
     "rarity": "node utils/rarity.js",

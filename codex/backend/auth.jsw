@@ -1,0 +1,90 @@
+import wixData from 'wix-data';
+import wixUsersBackend from 'wix-users-backend';
+import { getSecret } from 'wix-secrets-backend';
+import { sign } from 'backend/jwt.jsw';
+
+const NONCE_COLLECTION = 'AuthNonces';
+const WALLETS_COLLECTION = 'MembersWallets';
+
+const domainPromise = getSecret('APP_DOMAIN');
+const chainPromise = getSecret('SUPPORTED_CHAIN_ID').then((id) =>
+  Number(id || 1)
+);
+
+export async function getWalletConfig() {
+  return {
+    chainId: await chainPromise,
+    domain: await domainPromise,
+    uri: await domainPromise
+  };
+}
+
+export async function getNonce(memberId) {
+  const user = wixUsersBackend.currentUser;
+  if (!user.loggedIn) throw new Error('LOGIN_REQUIRED');
+  if (memberId && memberId !== user.id)
+    throw new Error('MEMBER_MISMATCH');
+  const nonce = require('crypto').randomBytes(16).toString('hex');
+  await wixData.save(NONCE_COLLECTION, {
+    memberId: user.id,
+    nonce,
+    createdAt: new Date()
+  });
+  return nonce;
+}
+
+export async function verifySiwe({ address, signature, nonce }) {
+  const user = wixUsersBackend.currentUser;
+  if (!user.loggedIn) throw new Error('LOGIN_REQUIRED');
+  const chainId = await chainPromise;
+  const domain = await domainPromise;
+  const message = [
+    `${domain} wants you to sign in with your Ethereum account:`,
+    address,
+    '',
+    'Sign-in with Ethereum to DIKPIK Bazaar.',
+    '',
+    `URI: ${domain}`,
+    'Version: 1',
+    `Chain ID: ${chainId}`,
+    `Nonce: ${nonce}`
+  ].join('\n');
+  const ethers = require('ethers');
+  const recovered = ethers.verifyMessage(message, signature).toLowerCase();
+  if (recovered !== address.toLowerCase()) throw new Error('BAD_SIGNATURE');
+
+  const nonceResult = await wixData
+    .query(NONCE_COLLECTION)
+    .eq('memberId', user.id)
+    .eq('nonce', nonce)
+    .limit(1)
+    .find();
+  if (!nonceResult.items.length) throw new Error('NONCE_NOT_FOUND');
+  await wixData.remove(NONCE_COLLECTION, nonceResult.items[0]._id);
+
+  await upsertWallet(user.id, address.toLowerCase(), chainId);
+
+  return await sign(
+    {
+      sub: user.id,
+      address: address.toLowerCase(),
+      chainId
+    },
+    900
+  );
+}
+
+async function upsertWallet(memberId, address, chainId) {
+  const exists = await wixData
+    .query(WALLETS_COLLECTION)
+    .eq('address', address)
+    .limit(1)
+    .find();
+  if (exists.items.length) return exists.items[0];
+  return wixData.insert(WALLETS_COLLECTION, {
+    memberId,
+    address,
+    chainId,
+    createdAt: new Date()
+  });
+}

@@ -1,0 +1,80 @@
+}
+
+async function promptLogin() {
+  try {
+    await bridgeLogin();
+    await hydrateMemberState();
+    await refreshWantedPosts();
+    showNotice('You are now logged in.', { title: 'Login successful', variant: 'success', autoCloseMs: 2200 });
+    return true;
+  } catch (error) {
+    if (error?.message === 'Canceled' || error?.status === 401) {
+      return false;
+    }
+    console.error('promptLogin error', error);
+    showNotice(error?.message || 'Unable to log in right now.', {
+      title: 'Login failed',
+      variant: 'error',
+      autoCloseMs: 2600,
+    });
+    return false;
+  }
+}
+
+async function performLogout() {
+  try {
+    await bridgeLogout();
+  } catch (error) {
+    console.warn('logout error', error);
+  } finally {
+    await hydrateMemberState();
+    await refreshWantedPosts();
+    showNotice('You have been logged out.', { title: 'Logged out', variant: 'info', autoCloseMs: 2000 });
+  }
+}
+
+// === Neon Notice helpers ===
+const neonRoot    = $('neonNotice');
+const neonTitleEl = $('neonTitle');
+const neonMsgEl   = $('neonMessage');
+const neonOkBtn   = $('neonOk');
+if (neonOkBtn) neonOkBtn.addEventListener('click', hideNotice);
+const IS_DEV = true; // TEMP: surface errors in dev
+
+function showNotice(message, opts = {}) {
+  const { title = 'Success', variant = 'success', autoCloseMs = 0, anchor = null } = opts;
+  if (!neonRoot) return console.warn('neonNotice element not found');
+  const box = neonRoot.querySelector('.neon-box');
+
+  // Reset box state + apply variant
+  if (box) {
+    box.setAttribute('data-variant', variant);
+    box.classList.remove('is-anchored');
+    box.style.top = '';
+    box.style.left = '';
+    box.style.width = '';
+  }
+  if (neonTitleEl) neonTitleEl.textContent = title;
+  if (neonMsgEl)   neonMsgEl.textContent   = message;
+
+  if (anchor) {
+    // Local (anchored) mode next to a target element
+    neonRoot.classList.add('is-open', 'is-local');
+    const target = (typeof anchor === 'string') ? document.querySelector(anchor) : anchor;
+
+    const place = () => {
+      if (!box) return;
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const margin = 16;
+      const bw = Math.min(560, Math.round(vw * 0.92));
+      box.style.width = bw + 'px';
+
+      const rect = target && target.getBoundingClientRect ? target.getBoundingClientRect() : null;
+
+      // Prefer right of anchor; fallback left; otherwise center horizontally
+      let left = Math.round((vw - bw) / 2);
+      if (rect) {
+        const tryRight = rect.right + margin;
+        if (tryRight + bw + margin <= vw) {
+          left = tryRight;
+        } else {

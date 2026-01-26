@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <script>
+    // Cache-bust for this scaffold
+    (function enforceVersion(){
+      const REQUIRED_VERSION = "2025-12-02-03-cybercity-step1";
+      const url = new URL(window.location.href);
+      if (url.searchParams.get("v") !== REQUIRED_VERSION) {
+        url.searchParams.set("v", REQUIRED_VERSION);
+        window.location.replace(url.toString());
+      }
+      window.DIKPIK_BUILD = REQUIRED_VERSION;
+    })();
+  </script>
+  <title>DIKPIK Cybercity</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white" style="font-family: 'Share Tech Mono', ui-monospace, Menlo, Consolas, monospace;">
+  <div class="max-w-6xl mx-auto px-4 py-6 space-y-4">
+    <header class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div>
+        <p class="text-xs uppercase tracking-[0.2em] text-cyan-200/80">DIKPIK // CYBERCITY</p>
+        <h1 class="text-3xl font-semibold bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">Goblin Verse Cybercity Dashboard</h1>
+        <p class="text-sm text-white/70">Step 1 scaffold - architecture & page shell. No 3D scene yet (gated).</p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <a href="./index.html" class="border border-white/15 bg-white/10 hover:bg-white/15 rounded px-3 py-2 text-sm">Return to Bazaar</a>
+        <a href="#roadmap" class="border border-cyan-500/40 text-cyan-200 hover:bg-cyan-500/10 rounded px-3 py-2 text-sm">Step Roadmap</a>
+      </div>
+    </header>
+
+    <section class="rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/70 via-slate-900/40 to-slate-900/70 p-4 shadow-[0_0_40px_-14px_rgba(0,255,255,0.35)]">
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <h2 class="text-xl font-semibold">Cybercity Preview Panel</h2>
+          <p class="text-sm text-white/60">Canvas reserved for the Neon Isometric Blocks scene. Interaction and data wiring land after Step 3-5.</p>
+        </div>
+        <span class="text-xs px-2 py-1 rounded bg-white/10 border border-white/10">Gated: waiting for STEP 2/3</span>
+      </div>
+      <div class="mt-3 border border-dashed border-white/15 rounded-xl bg-black/40 h-[420px] flex items-center justify-center text-white/40 text-sm text-center">
+        Three.js scene placeholder. Will host districts, faction glow, billboards, and "Coming Soon" zones.
+      </div>
+    </section>
+
+    <section class="rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/70 via-slate-900/40 to-slate-900/70 p-4 shadow-[0_0_40px_-14px_rgba(0,255,255,0.35)] space-y-3">
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <h2 class="text-xl font-semibold">Step 2: Wallet + NFT Verification</h2>
+          <p class="text-sm text-white/60">Connect MetaMask (WalletConnect placeholder) and verify Goblin NFTs (ERC-721/1155). Uses config from <code>frontend/data/contracts.json</code>.</p>
+        </div>
+        <span class="text-xs px-2 py-1 rounded bg-white/10 border border-white/10">Active: Step 2</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <div class="space-y-2">
+          <button id="cc_connect" class="w-full h-10 rounded border border-emerald-400/50 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-100 text-sm">Connect MetaMask</button>
+          <button id="cc_verify" class="w-full h-10 rounded border border-cyan-400/50 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-100 text-sm">Verify Goblin NFTs</button>
+          <div class="text-[11px] text-white/60">WalletConnect coming next iteration.</div>
+        </div>
+        <div class="md:col-span-2 space-y-2">
+          <div id="cc_status" class="text-sm text-white/70">Waiting to connect...</div>
+          <div id="cc_results" class="rounded border border-white/10 bg-black/40 p-3 text-sm text-white/80 h-40 overflow-auto">No results yet.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap" class="rounded-2xl border border-white/10 bg-black/60 p-4">
+      <h3 class="text-lg font-semibold mb-2">Step-by-step gate</h3>
+      <ol class="list-decimal list-inside text-sm space-y-1 text-white/80">
+        <li><strong>STEP 1 (now):</strong> Page scaffold, data/config placeholders, shared styling.</li>
+        <li><strong>STEP 2:</strong> Wallet login + NFT verification wiring. <span class="text-cyan-200">(in progress)</span></li>
+        <li><strong>STEP 3:</strong> District schema (names, areas, control, lore, expansion zones).</li>
+        <li><strong>STEP 4:</strong> Three.js scene bootstrapping.</li>
+        <li><strong>STEP 5:</strong> District visualization + sponsor billboards + "Coming Soon" zones.</li>
+        <li><strong>STEP 6:</strong> Faction wars + ranking logic (tier multipliers, mythic bonuses).</li>
+        <li><strong>STEP 7:</strong> DIKPIK Token presale integration.</li>
+        <li><strong>STEP 8:</strong> DIKPIK Coin hooks.</li>
+        <li><strong>STEP 9+:</strong> Bazaar/Auction, sponsorships, merch, AI lore, testing/deploy.</li>
+      </ol>
+    </section>
+
+    <section class="rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/60 via-slate-900/30 to-slate-900/60 p-4 space-y-3">
+      <h3 class="text-lg font-semibold">Config & Data</h3>
+      <p class="text-sm text-white/60">Districts, factions, sponsors, and lore snippets live in separate JSON/config files for easy edits.</p>
+      <ul class="text-sm text-white/80 space-y-1">
+        <li><code>frontend/data/districts.json</code> - name, area, faction, tier, lore, comingSoon, sponsor slot.</li>
+        <li><code>frontend/data/factions.json</code> - faction colors, badges, lore tags.</li>
+        <li><code>frontend/js/cybercity.js</code> - scene controller (stubbed until Step 4/5).</li>
+      </ul>
+    </section>
+  </div>
+
+  <script type="module" src="./frontend/js/cybercity.js"></script>
+</body>
+</html>

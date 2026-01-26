@@ -1,0 +1,455 @@
+[
+  {
+    "id": "corebreakers-root-spire",
+    "city": "Neo Goblintown",
+    "name": "Corebreakers Root Spire",
+    "areaSqKm": 2,
+    "faction": "Corebreakers",
+    "tier": "Boss",
+    "control": "Corebreakers",
+    "lore": "Root clearance command spire for Corebreakers, where high-tier clearances govern the grid.",
+    "sponsor": "Cloudflare",
+    "comingSoon": false,
+    "subDistricts": [
+      {
+        "id": "root-clearance",
+        "name": "Root Clearance Deck",
+        "tier": "Boss",
+        "lore": "Grid Clearance: Root. Boss-level overrides and uplinks.",
+        "areaSqKm": 0.45
+      },
+      {
+        "id": "admin-node",
+        "name": "Admin Node",
+        "tier": "Underboss",
+        "lore": "Grid Clearance: Admin. Underboss crews manage control planes.",
+        "areaSqKm": 0.35
+      },
+      {
+        "id": "core-consig-relay",
+        "name": "Consigliere Relay",
+        "tier": "Consigliere",
+        "lore": "Consiglieres broker clearances across the spire.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "poweruser-tier",
+        "name": "Power-User Tier",
+        "tier": "Caporegime",
+        "lore": "Grid Clearance: Power-User. Capos keep the edge nodes alive.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "core-soldier-outpost",
+        "name": "Soldier Outposts",
+        "tier": "Soldier",
+        "lore": "Soldiers guard node rooms and cabling.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "user-commons",
+        "name": "User Commons",
+        "tier": "Associate",
+        "lore": "Grid Clearance: User. Associates handle front-line support and routing.",
+        "areaSqKm": 0.3
+      }
+    ]
+  },
+  {
+    "id": "scrapshamans-burn-yards",
+    "city": "Neo Goblintown",
+    "name": "Scrapshamans Burn Yards",
+    "areaSqKm": 2,
+    "faction": "Scrapshamans",
+    "tier": "Boss",
+    "control": "Scrapshamans",
+    "lore": "Burn yards fueled by Trash-Burner and Battery-Siphon rigs, run by Scrapshaman bosses.",
+    "sponsor": "Red Bull",
+    "comingSoon": false,
+    "subDistricts": [
+      {
+        "id": "trash-burner-yard",
+        "name": "Trash-Burner Yard",
+        "tier": "Boss",
+        "lore": "Power Source: Trash-Burner. Bosses command the burn pits.",
+        "areaSqKm": 0.45
+      },
+      {
+        "id": "battery-siphon-row",
+        "name": "Battery-Siphon Row",
+        "tier": "Underboss",
+        "lore": "Power Source: Battery-Siphon. Underboss siphon crews.",
+        "areaSqKm": 0.35
+      },
+      {
+        "id": "scrap-consig-runes",
+        "name": "Consigliere Runes",
+        "tier": "Consigliere",
+        "lore": "Consiglieres adjudicate trade and rune disputes.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "kinetic-looms",
+        "name": "Kinetic Looms",
+        "tier": "Caporegime",
+        "lore": "Power Source: Kinetic. Capos harvest kinetic lines.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "scrap-soldier-lines",
+        "name": "Soldier Lines",
+        "tier": "Soldier",
+        "lore": "Soldiers haul scrap and defend stalls.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "upcycle-commons",
+        "name": "Upcycle Commons",
+        "tier": "Associate",
+        "lore": "Associates sort scrap and keep the markets humming.",
+        "areaSqKm": 0.3
+      }
+    ]
+  },
+  {
+    "id": "gutterborns-alignment-lanes",
+    "city": "Neo Goblintown",
+    "name": "Gutterborns Alignment Lanes",
+    "areaSqKm": 2,
+    "faction": "Gutterborns",
+    "tier": "Underboss",
+    "control": "Gutterborns",
+    "lore": "Alignment-tagged lanes where Gutterborn crews flex Horny, Chaotic, and Greedy codes.",
+    "sponsor": "Pepsi",
+    "comingSoon": false,
+    "subDistricts": [
+      {
+        "id": "gutter-boss-tagspire",
+        "name": "Boss Tagspire",
+        "tier": "Boss",
+        "lore": "Boss perch above the tagged skyline.",
+        "areaSqKm": 0.45
+      },
+      {
+        "id": "horny-lanes",
+        "name": "Horny Lanes",
+        "tier": "Underboss",
+        "lore": "Alignment: Horny. Underboss turf for hungry crews.",
+        "areaSqKm": 0.35
+      },
+      {
+        "id": "gutter-consig-council",
+        "name": "Consigliere Council",
+        "tier": "Consigliere",
+        "lore": "Consiglieres settle turf disputes.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "gutter-capo-junction",
+        "name": "Caporegime Junction",
+        "tier": "Caporegime",
+        "lore": "Capos route runners through junctions.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "chaotic-runs",
+        "name": "Chaotic Runs",
+        "tier": "Soldier",
+        "lore": "Alignment: Chaotic. Soldiers sprint these backroads.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "greedy-corners",
+        "name": "Greedy Corners",
+        "tier": "Associate",
+        "lore": "Alignment: Greedy. Associates hustle the corners.",
+        "areaSqKm": 0.3
+      }
+    ]
+  },
+  {
+    "id": "hydrohackers-power-docks",
+    "city": "Neo Goblintown",
+    "name": "Hydrohackers Power Docks",
+    "areaSqKm": 2,
+    "faction": "Hydrohackers",
+    "tier": "Boss",
+    "control": "Hydrohackers",
+    "lore": "Dockside rigs powered by battery-siphons, kinetic pumps, and solar arrays.",
+    "sponsor": "Monster",
+    "comingSoon": false,
+    "subDistricts": [
+      {
+        "id": "battery-docks",
+        "name": "Battery-Siphon Docks",
+        "tier": "Boss",
+        "lore": "Power Source: Battery-Siphon. Boss rigs dominate the docks.",
+        "areaSqKm": 0.45
+      },
+      {
+        "id": "kinetic-pumps",
+        "name": "Kinetic Pumps",
+        "tier": "Underboss",
+        "lore": "Power Source: Kinetic. Underboss lines on pump control.",
+        "areaSqKm": 0.35
+      },
+      {
+        "id": "hydro-consig-piers",
+        "name": "Consigliere Piers",
+        "tier": "Consigliere",
+        "lore": "Consiglieres arbitrate dock flows.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "solar-arrays",
+        "name": "Solar Arrays",
+        "tier": "Caporegime",
+        "lore": "Power Source: Solar. Capos keep arrays humming.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "hydro-soldier-bays",
+        "name": "Soldier Bays",
+        "tier": "Soldier",
+        "lore": "Soldiers secure pump bays.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "guest-jetties",
+        "name": "Guest Jetties",
+        "tier": "Associate",
+        "lore": "Grid Clearance: Guest. Associates handle day-pass traffic at the docks.",
+        "areaSqKm": 0.3
+      }
+    ]
+  },
+  {
+    "id": "cloudjackers-clearance-row",
+    "city": "Neo Goblintown",
+    "name": "Cloudjackers Clearance Row",
+    "areaSqKm": 2,
+    "faction": "Cloudjackers",
+    "tier": "Boss",
+    "control": "Cloudjackers",
+    "lore": "Clearance-tier corridors where Cloudjackers staff Guest, User, and Power-User gates.",
+    "sponsor": "Coinbase",
+    "comingSoon": false,
+    "subDistricts": [
+      {
+        "id": "guest-gate",
+        "name": "Guest Gate",
+        "tier": "Boss",
+        "lore": "Grid Clearance: Guest. Bosses watch the entry gate.",
+        "areaSqKm": 0.45
+      },
+      {
+        "id": "user-hub",
+        "name": "User Hub",
+        "tier": "Underboss",
+        "lore": "Grid Clearance: User. Underboss crews manage user flow.",
+        "areaSqKm": 0.35
+      },
+      {
+        "id": "cloud-consig-bridge",
+        "name": "Consigliere Bridge",
+        "tier": "Consigliere",
+        "lore": "Consiglieres monitor clearance policies.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "poweruser-bridge",
+        "name": "Power-User Bridge",
+        "tier": "Caporegime",
+        "lore": "Grid Clearance: Power-User. Capos keep the bridge stable.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "cloud-soldier-gates",
+        "name": "Soldier Gates",
+        "tier": "Soldier",
+        "lore": "Soldiers man the access gates.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "guest-commons",
+        "name": "Guest Commons",
+        "tier": "Associate",
+        "lore": "Grid Clearance: Guest/User. Associates onboard newcomers.",
+        "areaSqKm": 0.3
+      }
+    ]
+  },
+  {
+    "id": "bassfiends-subsonic-depths",
+    "city": "Neo Goblintown",
+    "name": "Bassfiends Subsonic Depths",
+    "areaSqKm": 2,
+    "faction": "Bassfiends",
+    "tier": "Underboss",
+    "control": "Bassfiends",
+    "lore": "Deep channels where Bassfiends ride Subsonic and Infrared currents, pulling lightning when storms hit.",
+    "sponsor": "Adidas",
+    "comingSoon": false,
+    "subDistricts": [
+      {
+        "id": "bass-boss-vault",
+        "name": "Boss Vault",
+        "tier": "Boss",
+        "lore": "Bassfiend bosses rumble in the vault.",
+        "areaSqKm": 0.45
+      },
+      {
+        "id": "subsonic-trenches",
+        "name": "Subsonic Trenches",
+        "tier": "Underboss",
+        "lore": "Signal Affinity: Subsonic. Underboss trenches rumble.",
+        "areaSqKm": 0.35
+      },
+      {
+        "id": "bass-consig-cavern",
+        "name": "Consigliere Cavern",
+        "tier": "Consigliere",
+        "lore": "Consiglieres manage subsonic treaties.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "bass-capo-steps",
+        "name": "Caporegime Steps",
+        "tier": "Caporegime",
+        "lore": "Capos control ascent to the depths.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "infrared-coves",
+        "name": "Infrared Coves",
+        "tier": "Soldier",
+        "lore": "Signal Affinity: Infrared. Soldiers guard hot caches.",
+        "areaSqKm": 0.3
+      },
+      {
+        "id": "lightning-rod-vault",
+        "name": "Lightning-Rod Vault",
+        "tier": "Associate",
+        "lore": "Power Source: Lightning-Rod. Associates harness storms.",
+        "areaSqKm": 0.3
+      }
+    ]
+  },
+  {
+    "id": "expansion-02",
+    "city": "City 02",
+    "name": "Coming Soon Zone 02",
+    "areaSqKm": 3,
+    "faction": null,
+    "tier": null,
+    "control": null,
+    "lore": "Reserved for future Goblin Verse city drop.",
+    "sponsor": "Coming Soon",
+    "comingSoon": true,
+    "subDistricts": []
+  },
+  {
+    "id": "expansion-03",
+    "city": "City 03",
+    "name": "Coming Soon Zone 03",
+    "areaSqKm": 3,
+    "faction": null,
+    "tier": null,
+    "control": null,
+    "lore": "Reserved for future Goblin Verse city drop.",
+    "sponsor": "Coming Soon",
+    "comingSoon": true,
+    "subDistricts": []
+  },
+  {
+    "id": "expansion-04",
+    "city": "City 04",
+    "name": "Coming Soon Zone 04",
+    "areaSqKm": 3,
+    "faction": null,
+    "tier": null,
+    "control": null,
+    "lore": "Reserved for future Goblin Verse city drop.",
+    "sponsor": "Coming Soon",
+    "comingSoon": true,
+    "subDistricts": []
+  },
+  {
+    "id": "expansion-05",
+    "city": "City 05",
+    "name": "Coming Soon Zone 05",
+    "areaSqKm": 3,
+    "faction": null,
+    "tier": null,
+    "control": null,
+    "lore": "Reserved for future Goblin Verse city drop.",
+    "sponsor": "Coming Soon",
+    "comingSoon": true,
+    "subDistricts": []
+  },
+  {
+    "id": "expansion-06",
+    "city": "City 06",
+    "name": "Coming Soon Zone 06",
+    "areaSqKm": 3,
+    "faction": null,
+    "tier": null,
+    "control": null,
+    "lore": "Reserved for future Goblin Verse city drop.",
+    "sponsor": "Coming Soon",
+    "comingSoon": true,
+    "subDistricts": []
+  },
+  {
+    "id": "expansion-07",
+    "city": "City 07",
+    "name": "Coming Soon Zone 07",
+    "areaSqKm": 3,
+    "faction": null,
+    "tier": null,
+    "control": null,
+    "lore": "Reserved for future Goblin Verse city drop.",
+    "sponsor": "Coming Soon",
+    "comingSoon": true,
+    "subDistricts": []
+  },
+  {
+    "id": "expansion-08",
+    "city": "City 08",
+    "name": "Coming Soon Zone 08",
+    "areaSqKm": 3,
+    "faction": null,
+    "tier": null,
+    "control": null,
+    "lore": "Reserved for future Goblin Verse city drop.",
+    "sponsor": "Coming Soon",
+    "comingSoon": true,
+    "subDistricts": []
+  },
+  {
+    "id": "expansion-09",
+    "city": "City 09",
+    "name": "Coming Soon Zone 09",
+    "areaSqKm": 3,
+    "faction": null,
+    "tier": null,
+    "control": null,
+    "lore": "Reserved for future Goblin Verse city drop.",
+    "sponsor": "Coming Soon",
+    "comingSoon": true,
+    "subDistricts": []
+  },
+  {
+    "id": "expansion-10",
+    "city": "City 10",
+    "name": "Coming Soon Zone 10",
+    "areaSqKm": 3,
+    "faction": null,
+    "tier": null,
+    "control": null,
+    "lore": "Reserved for future Goblin Verse city drop.",
+    "sponsor": "Coming Soon",
+    "comingSoon": true,
+    "subDistricts": []
+  }
+]

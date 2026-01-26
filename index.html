@@ -1,0 +1,2814 @@
+<!--
+Integration Suggestions (for site owner/dev):
+1) Ownership verification for escrow gating:
+   - Alchemy NFT API or Moralis: lookup contract/tokenId owners and compare to wallet.
+   - OpenSea API (asset owner) where available.
+2) Deposit verification for bids:
+   - Etherscan/Blockscout/Alchemy: confirm tx hash amount >= REQUIRED_DEPOSIT_ETH to platform deposit address; mark bid "verified".
+3) Auth provider:
+   - Email OTP (Members/Auth) for WANTED posts.
+   - Wallet-signature login (SIWE or simple message signing) for AUCTIONS; bind to member profile.
+4) Rate limiting & anti-abuse:
+   - Per-IP/hour quotas on /_functions/listings and /_functions/bids plus invisible reCAPTCHA.
+5) Config & secrets:
+   - Store chain, escrow contract, and fee bps in environment secrets; never hardcode private keys.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <script>
+    // Cache-bust to force newest build in production embeds.
+    (function enforceVersion(){
+      const REQUIRED_VERSION = "2025-12-02-02";
+      const url = new URL(window.location.href);
+      if (url.searchParams.get("v") !== REQUIRED_VERSION) {
+        url.searchParams.set("v", REQUIRED_VERSION);
+        window.location.replace(url.toString());
+      }
+      window.DIKPIK_BUILD = REQUIRED_VERSION;
+    })();
+  </script>
+  <title>THE DIKPIK BAZAAR</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <script>
+  (function(){
+    window.DIKPIK_MEMBER = window.DIKPIK_MEMBER || null;
+    const bridge = {
+      setMemberState(payload){
+        window.DIKPIK_MEMBER = payload || null;
+        document.dispatchEvent(new CustomEvent('dikpik:member', { detail: window.DIKPIK_MEMBER }));
+      },
+      requestMember(){
+        document.dispatchEvent(new Event('dikpik:request-member'));
+      }
+    };
+    window.WixBridge = Object.assign(window.WixBridge || {}, bridge);
+  })();
+  </script>
+  <script>
+  (function ensurePreloadMetadata(){
+    const detectors = [
+      { test: /\.(css)(\?|#|$)/i, Value</script>
+  <style>
+body.iframe-wallet-disabled #connectMetaMaskBtn,
+body.iframe-wallet-disabled #connectBinanceBtn,
+body.iframe-wallet-disabled #connectPhantomBtn,
+body.iframe-wallet-disabled #connectWalletConnectBtn,
+body.iframe-wallet-disabled #connectCoinbaseBtn,
+body.iframe-wallet-disabled #walletConnect,
+body.iframe-wallet-disabled #auctionOverlayWalletBtn,
+body.iframe-wallet-disabled #bm_submit,
+body.iframe-wallet-disabled #walletManualBtn,
+body.iframe-wallet-disabled #auctionOverlayManualBtn,
+body.iframe-wallet-disabled #connectManualBtn {
+  pointer-events: none;
+  opacity: 0.3;
+}
+body.iframe-wallet-disabled #iframeWalletNotice {
+  display: block;
+}
+/* --- Neon Notice --- */
+.neon-overlay{
+  position:fixed; inset:0;
+  display:grid; place-items:center;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(2px);
+  z-index:2147483647;
+  opacity:0; visibility:hidden;
+  pointer-events:none;              /* cannot block clicks when hidden */
+  transition:opacity .15s ease, visibility .15s ease;
+}
+.neon-overlay.is-open{
+  opacity:1; visibility:visible;
+  pointer-events:auto;              /* only clickable when open */
+}
+
+/* Base box */
+.neon-box{
+  pointer-events:auto;
+  width:min(560px,92vw);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:14px;
+  padding:16px 18px;
+  background:linear-gradient(180deg,rgba(0,0,0,.75),rgba(0,0,0,.55));
+  box-shadow:0 16px 48px rgba(0,0,0,.6), 0 0 28px var(--neon-glow, rgba(0,255,255,.35));
+}
+
+/* Variants set the glow token */
+.neon-box[data-variant="success"]{ --neon-glow: rgba(0,255,170,.45); border-color: rgba(0,255,170,.35); }
+.neon-box[data-variant="error"]{   --neon-glow: rgba(255,85,120,.50); border-color: rgba(255,85,120,.35); }
+.neon-box[data-variant="info"]{    --neon-glow: rgba(100,180,255,.50); border-color: rgba(100,180,255,.35); }
+.neon-box[data-variant="warn"],
+.neon-box[data-variant="warning"]{ --neon-glow: rgba(255,200,0,.50);  border-color: rgba(255,200,0,.35); }
+
+/* --- Neon Notice --- */
+.neon-title{
+  font-family:"Share Tech Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:13px;
+  color:#bffcff;
+  margin-bottom:6px;
+  text-shadow:0 0 8px var(--neon-glow, rgba(0,255,255,.45));
+}
+.neon-ok{
+  border:1px solid rgba(255,255,255,.2);
+  background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(255,255,255,.06));
+  color:#fff;
+  border-radius:10px;
+  padding:6px 12px;
+  font-size:13px;
+  line-height:1;
+  transition:transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+  box-shadow:0 0 0 0 var(--neon-glow, transparent);
+  cursor:pointer;
+}
+.neon-ok:hover{
+  transform:translateY(-1px);
+  border-color:var(--neon-glow, rgba(0,255,255,.4));
+  box-shadow:0 0 18px -6px var(--neon-glow, rgba(0,255,255,.4));
+}
+.neon-ok:active{ transform:translateY(0); }
+.neon-ok:focus{
+  outline:none;
+  box-shadow:0 0 0 2px rgba(255,255,255,.15), 0 0 24px -6px var(--neon-glow, rgba(0,255,255,.5));
+}
+/* --- Anchored Neon Notice (next to "New Wanted Post") --- */
+/* --- Anchored Neon Notice (next to "New Wanted Post") --- */
+.neon-overlay.is-local{
+  background: transparent;    /* no dark backdrop when anchored */
+  backdrop-filter: none;
+  pointer-events: none;       /* do not block page below; only the box is interactive */
+}
+.neon-box.is-anchored{
+  position: fixed;            /* we compute top/left in JS */
+  top: 0; left: 0;
+  transform: translate(0,0);
+  width: min(560px, 92vw);
+}
+
+/* --- Make Bazaar listing panels scroll so the page is shorter --- */
+.list-panel{
+  max-height: min(68vh, 900px);
+  overflow: auto;
+}
+
+
+    @keyframes borderScroll{0%{background-position:0 0,0 0}100%{background-position:200% 0,-200% 0}}
+    .tree-tier-title{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+    .tree-row{display:grid;gap:.75rem;justify-content:center}
+    .tree-row--boss{grid-template-columns:repeat(1,minmax(140px,1fr))}
+    .tree-row--duo{grid-template-columns:repeat(2,minmax(140px,1fr))}
+    .tree-row--capos{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+    .tree-row--wide{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
+    .mini-badges{display:flex;gap:.35rem;flex-wrap:wrap}
+    .mini-badge{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.22rem .5rem;border-radius:999px;font-size:10px;line-height:1.1;
+  border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.6);
+  max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+    .mb-rank{border-color:rgba(255,0,255,.45);box-shadow:0 0 12px -6px rgba(255,0,255,.6)}
+    .mb-faction{border-color:rgba(0,255,255,.45);box-shadow:0 0 12px -6px rgba(0,255,255,.6)}
+    .mb-role{border-color:rgba(0,255,85,.45);box-shadow:0 0 12px -6px rgba(0,255,85,.6)}
+    .mb-k{opacity:.75;text-transform:uppercase;letter-spacing:.08em}.mb-v{font-weight:700}.mb-p{opacity:.7}
+    .trait-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+    @media (min-width:1024px){.trait-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+    .trait-card{border:1px solid rgba(255,255,255,.14);background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.35));border-radius:10px;padding:.5rem .55rem}
+    .trait-name{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+    .trait-Value</style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const disableIframe =
+        typeof DISABLE_IFRAME_WALLET === 'undefined' ? true : !!DISABLE_IFRAME_WALLET;
+      if (document.body) {
+        document.body.classList.toggle('iframe-wallet-disabled', disableIframe);
+      }
+    });
+  </script>
+</head>
+<body class="min-h-screen bg-black text-white relative">
+  <div class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute -top-40 -left-40 h-96 w-96 rounded-full blur-3xl opacity-40" style="background:radial-gradient(circle at 30% 30%,#06f,transparent 60%)"></div>
+    <div class="absolute -bottom-40 -right-40 h-96 w-96 rounded-full blur-3xl opacity-40" style="background:radial-gradient(circle at 70% 70%,#f0f,transparent 60%)"></div>
+  </div>
+
+  <header class="sticky top-0 z-20 backdrop-blur bg-black/40 border-b border-white/10">
+    <div class="mx-auto max-w-7xl px-4 py-4">
+      <div class="flex items-center justify-between gap-4">
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">
+          <span class="bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-cyan-400 bg-clip-text text-transparent">THE DIKPIK BAZAAR</span>
+        </h1>
+        <div class="flex items-center gap-2">
+          <a href="./plots.html" class="border border-fuchsia-500/40 rounded-md px-3 py-1.5 text-sm text-fuchsia-200 hover:bg-fuchsia-500/10">Plots</a>
+          <a href="./cybercity.html" class="border border-cyan-500/40 rounded-md px-3 py-1.5 text-sm text-cyan-200 hover:bg-cyan-500/10">Cybercity</a>
+          <button id="exportCanonBtn" class="border border-white/10 rounded-md px-3 py-1.5 text-sm hover:bg-white/10">Export Canon Ranks CSV</button>
+          <button id="exportCsvBtn" class="border border-white/10 rounded-md px-3 py-1.5 text-sm hover:bg-white/10">Export Bazaar CSV</button>
+          <button id="reloadBtn" class="border border-white/10 rounded-md px-3 py-1.5 text-sm hover:bg-white/10">Reload Data</button>
+
+          <label for="traitsFileInput" class="cursor-pointer border border-white/10 rounded-md px-3 py-1.5 text-sm hover:bg-white/10">Load JSON File</label>
+          <input id="traitsFileInput" type="file" accept=".json,application/json" class="hidden" />
+        </div>
+      </div>
+      <p class="mt-1 text-xs text-white/70">Family Tree • Auctions • Wanted</p>
+    </div>
+  </header>
+
+  <!-- Filters (hidden on Bazaar tab) -->
+  <div id="filtersBar" class="mx-auto max-w-7xl px-4 py-4">
+    <div class="bg-black/40 border border-cyan-500/30 rounded-xl p-4 shadow-[0_0_40px_-10px_rgba(0,255,255,0.3)]">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3">
+        <input id="searchInput" class="pl-3 bg-black/60 border border-white/10 rounded-md h-9" placeholder="Search token, trait, canon rank..."/>
+        <select id="factionSelect" class="bg-black/60 border border-white/10 rounded-md h-9"><option Value</option></select>
+        <select id="rankSelect" class="bg-black/60 border border-white/10 rounded-md h-9">
+          <option Value</option>
+          <option>Boss (Don)</option><option>Boss -> Underboss -> Consigliere -> Caporegime -> Soldier -> Associate</option>
+        </select>
+        <select id="minScoreSel" class="bg-black/60 border border-white/10 rounded-md h-9">
+          <option Value</option>
+        </select>
+        <select id="maxScoreSel" class="bg-black/60 border border-white/10 rounded-md h-9">
+          <option Value</option>
+        </select>
+        <select id="sortSelect" class="bg-black/60 border border-white/10 rounded-md h-9">
+          <option Value</option>
+          <option Value</option>
+          <option Value</option>
+          <option Value</option>
+        </select>
+      </div>
+
+      <div class="mt-3">
+        <div class="flex items-center justify-between">
+          <div class="text-xs text-white/70">Filter by Traits</div>
+          <div class="flex gap-2">
+            <button id="addTraitFilter" class="border border-white/10 rounded px-2 h-8 text-xs hover:bg-white/10">Add Trait Filter</button>
+            <button id="clearTraitFilters" class="border border-white/10 rounded px-2 h-8 text-xs hover:bg-white/10">Clear</button>
+          </div>
+        </div>
+        <div id="traitFilters" class="mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="mx-auto max-w-7xl px-4 pb-24">
+    <div class="grid w-full grid-cols-2 bg-black/40 border border-white/10 rounded-md overflow-hidden">
+      <button id="tabTree" class="py-2 text-center bg-white/10">Family Tree & Goals</button>
+      <button id="tabBazaar" class="py-2 text-center">Bazaar: Auctions & Wanted</button>
+    </div>
+
+    <!-- Family Tree -->
+    <section id="treeSection" class="mt-6">
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-black/60 via-black/40 to-black/60 p-5">
+        <div class="mb-3 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-3">
+          <div class="lg:max-w-sm">
+            <h2 class="text-lg font-semibold tracking-wide">
+              <span class="bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">DIKPIK Family Tree</span>
+            </h2>
+            <p id="treeSubtitle" class="mt-1 text-xs text-white/70">Loading...</p>
+          </div>
+          <div class="text-[12px] leading-relaxed text-white/70 lg:max-w-xl lg:mx-auto text-center">
+            The Family Tree auto-assigns each NFT to a classic mafia hierarchy (Boss -> Underboss -> Consigliere -> Caporegime -> Soldier -> Associate)
+            per <em>faction</em>. Choose a faction above to see its crew arranged in a centered pyramid by rank. Rarity and trait percentages are shown
+            on each token; click any token for the full trait breakdown in neon boxes with collection-wide rarity % (to 2 decimals).
+          </div>
+        </div>
+        <div id="factionGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      </div>
+
+      <div class="mt-8 rounded-2xl border border-white/10 bg-gradient-to-br from-black/60 via-black/40 to-black/60 p-5">
+        <div class="flex items-center justify-between gap-3">
+          <h2 class="text-lg font-semibold tracking-wide">
+            <span class="bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">All Tokens (Filtered View)</span>
+          </h2>
+          <div class="flex items-center gap-2 text-xs" id="pagerTop">
+            <button id="pageFirst" class="pager-btn"><< First</button>
+            <button id="pagePrev" class="pager-btn">< Prev</button>
+            <span id="pageInfo" class="px-2 text-white/70">Page 1 / 1</span>
+            <button id="pageNext" class="pager-btn">Next ></button>
+            <button id="pageLast" class="pager-btn">Last >></button>
+            <div class="ml-3 flex items-center gap-1">
+              <span class="text-white/60">Per page</span>
+              <select id="perPage" class="bg-black/60 border border-white/10 rounded h-8 px-2">
+                <option Value</option><option Value</option><option Value</option><option Value</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="tokenGrid" class="mt-4"></div>
+        <p id="tokenEmpty" class="hidden mt-2 text-white/60">No tokens match the current filters.</p>
+
+        <div class="mt-4 flex items-center justify-between text-xs" id="pagerBottom">
+          <div class="text-white/60" id="totalInfo"></div>
+          <div class="flex items-center gap-2">
+            <button id="pageFirstB" class="pager-btn"><< First</button>
+            <button id="pagePrevB" class="pager-btn">< Prev</button>
+            <span id="pageInfoB" class="px-2 text-white/70">Page 1 / 1</span>
+            <button id="pageNextB" class="pager-btn">Next ></button>
+            <button id="pageLastB" class="pager-btn">Last >></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bazaar -->
+    <section id="bazaarSection" class="mt-6 hidden">
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-black/60 via-black/40 to-black/60 p-5">
+        <div class="mb-4">
+          <div class="flex items-center justify-between gap-3">
+            <h2 class="text-lg font-semibold tracking-wide">
+              <span class="bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">DIKPIK Bazaar (OpenSea Relay)</span>
+            </h2>
+            <button id="logoutBtn" class="hidden text-xs px-3 h-8 rounded border border-white/15 bg-white/10 hover:bg-white/15">Log out</button>
+          </div>
+          <p class="mt-1 text-xs text-white/70">Relay to OpenSea for custody & settlement. Bids masked; deposit required.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="space-y-6" id="postBoxes">
+            <div class="bg-black/40 border border-white/10 rounded-xl p-4">
+              <div class="font-semibold text-white mb-2">OpenSea Relay Settings</div>
+              <div class="grid grid-cols-1 gap-2 text-sm">
+                <label class="text-xs text-white/70">Chain</label>
+                <select id="os_chain" class="bg-black/60 border border-white/10 rounded h-9 px-2">
+                  <option Value</option><option Value</option>
+                  <option Value</option><option Value</option>
+                </select>
+                <label class="text-xs text-white/70 mt-2">Contract address</label>
+                <input id="os_contract" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="0x..."/>
+                <p class="text-[11px] text-white/50">OpenSea: <code>opensea.io/assets/[chain]/[contract]/[tokenId]</code></p>
+                <button id="os_save" class="w-full bg-white/10 hover:bg-white/15 rounded h-9 mt-1">Save</button>
+              </div>
+            </div>
+
+            <div id="bazaarLoginGate" class="mb-4 rounded-xl border border-white/10 bg-white/5 p-3 text-xs text-white/70">
+              <div class="font-semibold text-white/80 mb-1">Members only</div>
+              <p>Log in to post auctions, create wanted requests, or view contact details. Use the site header login and retry after signing in.</p>
+            </div>
+
+            <!-- Auction post -->
+            <div class="relative bg-black/40 border border-fuchsia-500/40 rounded-xl p-4" id="postAuctionBox">
+              <div id="auctionWalletOverlay" class="hidden absolute inset-0 z-10 rounded-xl bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center text-center px-6">
+                <div class="text-sm font-semibold text-white">Wallet login required to post auctions</div>
+                <button id="auctionOverlayWalletBtn" class="mt-3 h-9 px-4 rounded bg-white/15 hover:bg-white/25 text-sm">Connect Wallet</button>
+              </div>
+              <div class="font-semibold text-fuchsia-300 mb-2">New Auction</div>
+              <div class="space-y-2 text-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <input id="a_token" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Token ID"/>
+                  <div class="flex items-center gap-2"><button id="a_chooseToken" class="h-9 px-3 rounded bg-fuchsia-600/80 hover:bg-fuchsia-600">Choose Token</button></div>
+                </div>
+                <div id="a_preview" class="hidden mt-1 flex items-center gap-3 rounded-lg border border-white/10 bg-black/40 p-2 cursor-zoom-in" title="Click to view details">
+                  <div class="h-16 w-16 rounded bg-black/60 overflow-hidden flex items-center justify-center">
+                    <img id="a_preview_img" class="h-full w-full object-contain hidden" alt="Selected token"/>
+                    <div id="a_preview_fallback" class="text-[10px] text-white/40">No Image</div>
+                  </div>
+                  <div class="text-xs flex-1 min-w-0">
+                    <div id="a_preview_title" class="text-white/80"></div>
+                    <div id="a_preview_meta" class="text-white/60"></div>
+                    <div id="a_preview_pills" class="mini-badges mt-1"></div>
+                    <a id="a_preview_os" target="_blank" rel="noreferrer" class="text-cyan-300 underline hidden">Open on OpenSea</a>
+                  </div>
+                  <div class="ml-auto flex items-center gap-2">
+                    <span id="a_escrowBadge" class="hidden text-[11px] text-emerald-300 border border-emerald-400/50 rounded px-2 py-0.5">Escrow Ready</span>
+                    <button id="a_clearToken" class="text-rose-300 hover:text-rose-200 text-xs">Clear</button>
+                  </div>
+                </div>
+
+                <!-- Seller wallet + escrow actions -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
+                  <button id="walletConnect" class="h-9 px-3 rounded bg-white/10 hover:bg-white/15">Connect Wallet</button>
+                  <div class="h-9 px-3 rounded border border-white/10 flex items-center text-xs text-white/70">
+                    <span class="mr-1">Wallet:</span>
+                    <span id="walletAddr" class="truncate">Not connected</span>
+                  </div>
+                </div>
+                <div id="iframeWalletNotice" class="hidden text-[11px] text-white/60 mt-1">
+                  Wallet actions now run via the DIKPIK site controls above. Use those buttons to connect and bid.
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <button id="a_moveEscrow" class="h-9 px-3 rounded bg-emerald-600/80 hover:bg-emerald-600">Move to Escrow</button>
+                  <button id="a_viewTerms" class="h-9 px-3 rounded bg-white/10 hover:bg-white/15">View Terms</button>
+                  <span id="a_escrowStatus" class="text-[12px] text-white/70">Not escrowed</span>
+                </div>
+                <p class="text-[11px] text-white/60 -mb-1">Settlement is handled by the DIKPIK Escrow. <strong>DIKPIK auction fees (7%)</strong> are enforced on-chain at settlement.</p>
+
+                <input id="a_title" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Title"/>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div class="flex gap-2">
+                    <input id="a_min" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Minimum acceptable price"/>
+                    <select id="a_min_ccy" class="bg-black/60 border border-white/10 rounded h-9 px-2"><option>ETH</option><option>SOL</option><option>USDC</option></select>
+                  </div>
+                  <div class="flex gap-2">
+                    <input id="a_price" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Buy-it-now (optional)"/>
+                    <select id="a_ccy" class="bg-black/60 border border-white/10 rounded h-9 px-2"><option>ETH</option><option>SOL</option><option>USDC</option></select>
+                  </div>
+                </div>
+                <label class="block text-xs text-white/70 mt-1">Auction end (required):</label>
+                <input id="a_expires" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" type="datetime-local" required/>
+                <div class="text-[11px] text-white/60 mt-2">Bidders deposit <span id="depositInfo"></span> (masked bids; verified by tx hash).</div>
+                <button id="a_submit" type="button" class="w-full mt-1 bg-fuchsia-600/80 hover:bg-fuchsia-600 rounded h-9">List Auction</button>
+
+              </div>
+            </div>
+
+            <!-- Wanted post -->
+            <div class="bg-black/40 border border-cyan-500/40 rounded-xl p-4" id="postWantedBox">
+              <div class="font-semibold text-cyan-300 mb-2">New Wanted Post</div>
+              <div class="space-y-2 text-sm">
+                <input id="w_title" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Title (e.g., 'Looking for Caporegime in Hydrohackers')"/>
+                <div class="flex items-center gap-2">
+                  <button id="w_chooseToken" class="h-9 px-3 rounded bg-cyan-600/80 hover:bg-cyan-600">Choose Token</button>
+                  <div id="w_chosenBadge" class="text-xs text-white/70"></div>
+                </div>
+                <div id="w_preview" class="hidden mt-1 flex items-center gap-3 rounded-lg border border-white/10 bg-black/40 p-2 cursor-zoom-in" title="Click to view details">
+                  <div class="h-16 w-16 rounded bg-black/60 overflow-hidden flex items-center justify-center">
+                    <img id="w_preview_img" class="h-full w-full object-contain hidden" alt="Selected token"/>
+                    <div id="w_preview_fallback" class="text-[10px] text-white/40">No Image</div>
+                  </div>
+                  <div class="text-xs">
+                    <div id="w_preview_title" class="text-white/80"></div>
+                    <div id="w_preview_meta" class="text-white/60"></div>
+                    <div id="w_preview_pills" class="mini-badges mt-1"></div>
+                    <a id="w_preview_os" target="_blank" rel="noreferrer" class="text-cyan-300 underline hidden">Open on OpenSea</a>
+                  </div>
+                  <button id="w_clearToken" class="ml-auto text-rose-300 hover:text-rose-200 text-xs">Clear</button>
+                </div>
+
+                <input id="w_postId" type="hidden"/>
+                <input id="w_tokenid" class="hidden"/>
+                <input id="w_query" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Trait query (optional, e.g., Faction=Hydrohackers)"/>
+                <div class="flex gap-2">
+                  <input id="w_offer" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Offer"/>
+                  <select id="w_ccy" class="bg-black/60 border border-white/10 rounded h-9 px-2"><option>ETH</option><option>SOL</option><option>USDC</option></select>
+                </div>
+                <textarea id="w_description" class="w-full bg-black/60 border border-white/10 rounded px-2 py-2 h-24" placeholder="Describe what you are looking for (supports plain text / markdown-lite)"></textarea>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <input id="w_contact_line" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Line (optional)"/>
+                  <input id="w_contact_whatsapp" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="WhatsApp (optional)"/>
+                  <input id="w_contact_telegram" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Telegram (optional)"/>
+                  <input id="w_contact_email" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Email (optional)"/>
+                </div>
+                <input id="w_contact_phone" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Phone (optional)"/>
+                <textarea id="w_contact_message" class="w-full bg-black/60 border border-white/10 rounded px-2 py-2 h-20" placeholder="Private message to responders (optional)"></textarea>
+                <select id="w_status" class="w-full bg-black/60 border border-white/10 rounded h-9 px-2">
+                  <option Value</option>
+                  <option Value</option>
+                  <option Value</option>
+                </select>
+                <div class="flex flex-col sm:flex-row gap-2">
+                  <button id="w_submit" type="button" class="flex-1 bg-cyan-600/80 hover:bg-cyan-600 rounded h-9">Post Wanted</button>
+                  <button id="w_cancelEdit" type="button" class="hidden flex-1 bg-white/10 hover:bg-white/15 rounded h-9 text-sm">Cancel edit</button>
+                </div>
+
+              </div>
+            </div>
+
+            <button id="loginToPostBtn" class="hidden w-full bg-white/10 hover:bg-white/15 h-10 rounded">Log in to post</button>
+          </div>
+
+          <!-- listings -->
+          <div class="lg:col-span-2 space-y-6">
+            <div class="bg-black/50 border border-white/10 rounded-xl p-4 list-panel">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="font-medium">Live Auctions</div>
+              </div>
+              <div id="auctionsGrid" class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+              <p id="auctionsEmpty" class="hidden text-white/60 text-sm">No auctions yet. List one on the left.</p>
+            </div>
+
+            <div class="bg-black/50 border border-white/10 rounded-xl p-4 list-panel">
+             <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="font-medium">Wanted Posts</div>
+              </div>
+              <div id="wantedGrid" class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+              <p id="wantedEmpty" class="hidden text-white/60 text-sm">No wanted posts yet. Create one on the left.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div aria-hidden class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute inset-6 rounded-3xl" style="padding:2px;background:linear-gradient(90deg,rgba(0,255,255,.4),rgba(255,0,255,.4)) 0 0/200% 100% no-repeat,linear-gradient(90deg,rgba(255,0,255,.4),rgba(0,255,255,.4)) 0 0/200% 100% no-repeat;animation:borderScroll 12s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;">
+      <div class="h-full w-full rounded-[calc(24px-2px)] bg-black/60"></div>
+    </div>
+  </div>
+
+  <!-- Token Picker -->
+  <div id="tokenPicker" class="hidden fixed inset-0 z-40 bg-black/60 backdrop-blur">
+    <!-- removed 'max-height-[85vh]' -->
+    <div class="mx-auto mt-14 w-[min(1100px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/70 via-black/60 to-black/70 p-5">
+      <div class="flex items-center justify-between gap-3">
+        <div class="text-lg font-semibold" id="tp_title">Choose a Token</div>
+        <button id="tp_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+      </div>
+      <p id="tp_hint" class="mt-1 text-xs text-white/60 hidden"></p>
+      <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <input id="tp_search" class="bg-black/60 border border-white/10 rounded h-9 px-3" placeholder="Search token #, faction, rank, trait..."/>
+        <select id="tp_faction" class="bg-black/60 border border-white/10 rounded h-9 px-3"><option Value</option></select>
+        <select id="tp_rank" class="bg-black/60 border border-white/10 rounded h-9 px-3">
+          <option Value</option>
+          <option>Boss (Don)</option><option>Boss -> Underboss -> Consigliere -> Caporegime -> Soldier -> Associate</option>
+        </select>
+      </div>
+      <div id="tp_grid" class="mt-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3"></div>
+      <p id="tp_empty" class="hidden text-white/60 text-sm mt-2">No tokens match.</p>
+    </div>
+  </div>
+
+  <!-- Bid Modal -->
+  <div id="bidModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur">
+    <div class="mx-auto mt-14 w-[min(1100px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/70 via-black/60 to-black/70 p-5">
+      <div class="flex items-center justify-between gap-3">
+        <div class="text-lg font-semibold">Place a Bid</div>
+        <button id="bm_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+      </div>
+      <div id="bm_meta" class="mt-2 text-xs text-white/70"></div>
+      <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+        <div><label class="text-xs text-white/70">Your wallet (EVM):</label><input id="bm_wallet" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="0x..."/></div>
+        <div><label class="text-xs text-white/70">Your bid amount (hidden publicly):</label><input id="bm_amount" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="e.g. 0.15"/></div>
+        <div class="sm:col-span-2"><div class="text-xs text-white/70">Deposit required: <span id="bm_deposit_req"></span></div><div class="text-[11px] text-white/50 mt-1">Paste the tx hash below. Bids without a verified deposit may be ignored.</div></div>
+        <div class="sm:col-span-2"><label class="text-xs text-white/70">Deposit tx hash (0x...):</label><input id="bm_txhash" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="0x..."/></div>
+        <div class="sm:col-span-2"><button id="bm_submit" class="w-full h-10 rounded bg-fuchsia-600/80 hover:bg-fuchsia-600">Submit Bid</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur" role="dialog" aria-modal="true">
+    <div class="mx-auto mt-16 w-[min(500px,92vw)] rounded-2xl border border-white/10 bg-gradient-to-br from-black/80 via-black/70 to-black/80 p-5 focus:outline-none">
+      <div class="flex items-center justify-between gap-3">
+        <div class="text-lg font-semibold">Log in to post</div>
+        <button id="loginClose" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+      </div>
+      <div class="mt-4 space-y-6 text-sm">
+        <div class="space-y-3">
+          <div>
+            <div class="text-xs uppercase tracking-wide text-white/60">Email login</div>
+            <p class="text-xs text-white/60">Enter your email to receive a one-time code. The same email can be used across auctions, bids, and wanted posts.</p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input id="loginEmailInput" type="email" class="flex-1 rounded border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/40" placeholder="you@email.com"/>
+            <button id="loginSendCodeBtn" class="h-10 px-4 rounded bg-white/15 hover:bg-white/20 text-sm">Send login code</button>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-2">
+            <div class="space-y-1">
+              <label class="text-[11px] uppercase tracking-wide text-white/60">Verification code</label>
+              <input id="loginCodeInput" class="w-full rounded border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/40" placeholder="6-digit code"/>
+            </div>
+            <div class="space-y-1">
+              <label class="text-[11px] uppercase tracking-wide text-white/60">Display name (optional)</label>
+              <input id="loginNameInput" class="w-full rounded border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/40" placeholder="Public display name"/>
+            </div>
+            <div class="space-y-1 sm:col-span-2">
+              <label class="text-[11px] uppercase tracking-wide text-white/60">Phone (optional)</label>
+              <input id="loginPhoneInput" class="w-full rounded border border-white/10 bg-black/40 px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/40" placeholder="+1 555-123-4567"/>
+            </div>
+          </div>
+          <label class="flex items-center gap-2 text-[11px] text-white/60">
+            <input id="loginMarketingOptIn" type="checkbox" class="h-4 w-4 rounded border-white/20 bg-black/40"/>
+            <span>I'd like to receive DIKPIK Bazaar email alerts.</span>
+          </label>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button id="loginVerifyBtn" class="h-10 px-4 rounded bg-emerald-600/80 hover:bg-emerald-600 text-sm">Verify &amp; sign in</button>
+            <button id="logoutMembersBtn" class="hidden h-10 px-4 rounded bg-white/10 hover:bg-white/15 text-sm">Log out</button>
+          </div>
+          <div id="loginStatus" class="text-[11px] text-white/50"></div>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <div class="text-xs uppercase tracking-wide text-white/60">Wallet connections</div>
+            <p class="text-xs text-white/60">Connect one or more wallets. MetaMask, Binance Web3 Wallet, and Phantom are supported. WalletConnect and Coinbase wallet hooks are prepared for later enablement.</p>
+          </div>
+          <div class="grid grid-cols-1 gap-2">
+            <button id="connectMetaMaskBtn" class="h-10 rounded bg-emerald-600/80 hover:bg-emerald-600 text-sm">Connect MetaMask</button>
+            <button id="connectBinanceBtn" class="h-10 rounded bg-yellow-500/80 hover:bg-yellow-500 text-sm text-black">Connect Binance Wallet</button>
+            <button id="connectPhantomBtn" class="h-10 rounded bg-purple-600/80 hover:bg-purple-600 text-sm">Connect Phantom</button>
+            <button id="connectWalletConnectBtn" class="h-10 rounded bg-white/10 hover:bg-white/15 text-sm">Use WalletConnect (hook)</button>
+            <button id="connectCoinbaseBtn" class="h-10 rounded bg-white/10 hover:bg-white/15 text-sm">Connect Coinbase Wallet (hook)</button>
+          </div>
+          <div class="rounded border border-white/10 bg-black/40 p-3 text-xs text-white/60">
+            <div class="font-semibold text-white/70">Connected wallets</div>
+            <ul id="connectedWalletList" class="mt-2 space-y-1 text-white/70"></ul>
+            <p class="mt-2 text-[11px] text-white/50">We request an off-chain signature to verify ownership. Wallet metadata is stored with each Wanted post.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Token Detail Modal -->
+  <div id="detailModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur">
+    <div class="mx-auto mt-10 w-[min(1100px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/75 via-black/65 to-black/75 p-5">
+      <div class="flex items-center justify-between gap-3">
+        <div class="text-lg font-semibold" id="dm_title">Token</div>
+        <button id="dm_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+      </div>
+      <div id="dm_badges" class="mt-2 flex flex-wrap gap-2 text-xs text-white/80"></div>
+      <div id="dm_lore" class="mt-1 text-sm text-white/70 hidden"></div>
+      <div class="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="rounded-xl border border-white/10 bg-black/50 p-3 flex items-center justify-center">
+          <img id="dm_img" class="max-h-[60vh] w-full object-contain" alt="Token image"/>
+        </div>
+        <div>
+          <div class="text-sm text-white/70" id="dm_meta"></div>
+          <a id="dm_os" target="_blank" rel="noreferrer" class="mt-2 inline-block text-cyan-300 underline text-sm hidden">Open on OpenSea</a>
+          <div class="mt-4">
+            <div class="text-xs uppercase tracking-wide text-white/60">Traits</div>
+            <div id="dm_traits" class="trait-grid mt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seller Terms Modal (Escrow) -->
+  <div id="sellerTermsModal" class="hidden fixed inset-0 z-[60] bg-black/70 backdrop-blur">
+    <div class="mx-auto mt-10 w-[min(900px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/80 via-black/70 to-black/80 p-5">
+      <div class="flex items-center justify-between gap-3">
+        <div class="text-lg font-semibold">Seller Agreement (Escrow)</div>
+        <button id="stm_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+      </div>
+      <p class="mt-2 text-xs text-white/70">To list via DIKPIK Escrow (escrow-only settlement), please confirm each item:</p>
+      <div class="mt-3 space-y-2 text-sm">
+        <label class="flex items-start gap-2"><input id="stm_ck1" type="checkbox" class="mt-0.5">
+          <span>I confirm I am the lawful owner of the NFT I am moving into escrow, and I authorize DIKPIK Escrow to transfer it to the winning bidder at settlement.</span>
+        </label>
+       <label class="flex items-start gap-2">
+  <input id="stm_ck2" type="checkbox" class="mt-0.5">
+  <span>
+    I accept the
+    <a id="link_tos" href="#" role="button" class="text-cyan-300 underline">Terms of Service</a>
+    and
+    <a id="link_ap" href="#" role="button" class="text-cyan-300 underline">Auction Policy</a>,
+    including <strong>no cancellation after a verified bid</strong> unless policy allows a penalty path.
+  </span>
+</label>
+
+        <label class="flex items-start gap-2"><input id="stm_ck3" type="checkbox" class="mt-0.5">
+          <span>I understand bidders place a small refundable deposit and pay their own network fees to withdraw; DIKPIK does not push refunds. Seller-caused cancellations may result in penalties.</span>
+        </label>
+        <label class="flex items-start gap-2"><input id="stm_ck4" type="checkbox" class="mt-0.5">
+          <span>I understand settlement is performed by DIKPIK Escrow and that <strong>DIKPIK auction fees (7%)</strong> and any platform fee are automatically deducted from the sale proceeds before I am paid.</span>
+        </label>
+        <label class="flex items-start gap-2"><input id="stm_ck5" type="checkbox" class="mt-0.5">
+          <span>If I violate policy (e.g., attempt to sell elsewhere during the auction or abuse cancellations), I may lose my listing privileges and any posted bonds; in extreme cases the NFT may be retained until disputes are resolved as per policy.</span>
+        </label>
+      </div>
+      <div class="mt-4 flex items-center justify-between gap-3 text-xs text-white/70">
+        <div>Wallet: <span id="stm_wallet" class="font-mono">Not connected</span></div>
+        <div class="flex items-center gap-2">
+          <button id="stm_connect" class="h-9 px-3 rounded bg-white/10 hover:bg-white/15">Connect Wallet</button>
+          <button id="stm_agree" class="h-9 px-3 rounded bg-emerald-600/80 hover:bg-emerald-600 disabled:opacity-50" disabled>I Agree</button>
+        </div>
+      </div>
+      <p class="mt-2 text-xs text-emerald-300">DIKPIK auction fees (7%) are taken at settlement.</p>
+      <p class="mt-2 text-[11px] text-white/50">Your acceptance is recorded locally for your wallet and shown in the listing flow. On-chain escrow transfer still requires a wallet transaction when enabled.</p>
+    </div>
+  </div>
+<!-- Terms of Service Modal -->
+<div id="tosModal" class="hidden fixed inset-0 z-[70] bg-black/70 backdrop-blur" role="dialog" aria-modal="true" aria-labelledby="tos_title">
+  <div class="mx-auto mt-10 w-[min(900px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/80 via-black/70 to-black/80 p-5">
+    <div class="flex items-center justify-between gap-3">
+      <div class="text-lg font-semibold" id="tos_title">Terms of Service (DIKPIK Bazaar)</div>
+      <button id="tos_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+    </div>
+
+    <div class="mt-3 text-sm space-y-4 text-white/75">
+      <p class="text-xs text-white/60">Last updated: 31 Oct 2025</p>
+      <p>1) Overview. DIKPIK Bazaar ("Bazaar") enables users to discover, list, bid on, and purchase NFTs via a relay and escrow workflow. Bazaar is not a broker, financial institution, or exchange; it provides software and facilitation only.</p>
+      <p>2) Eligibility. You must be of legal age and authority to enter binding agreements. By using Bazaar you represent that you are not prohibited by applicable sanctions or laws.</p>
+      <p>3) Accounts &amp; Login. You may access posting features via (a) email-based login or (b) wallet-based login. Auctions and escrow actions require wallet login and on-chain authorization.</p>
+      <p>4) Listings &amp; Content. You are solely responsible for the accuracy of your listings, metadata, prices, and communications. Do not post infringing, fraudulent, deceptive, or unlawful content.</p>
+      <p>5) Ownership &amp; Authenticity. You warrant that you have the right to list and transfer any NFT you place into escrow. We may request evidence of ownership and may suspend or remove listings that appear non-compliant.</p>
+      <p>6) Escrow &amp; Settlement. When enabled, escrow holds the NFT until settlement, at which point the NFT is transferred to the winning bidder and the seller is paid net proceeds.</p>
+      <p>7) Fees. "DIKPIK auction fees (7%)" are deducted at settlement from the gross sale amount, in addition to any network fees. You authorize deduction of these fees.</p>
+      <p>8) Bids &amp; Deposits. Bids may require a refundable deposit. Deposits are verified by transaction hash; failed verification may void the bid. Losing bidders may withdraw deposits subject to network fees.</p>
+      <p>9) Cancellations. There is <strong>no seller cancellation after a verified bid</strong> unless the Auction Policy's penalty path applies. We may cancel or pause listings to protect users or comply with law.</p>
+      <p>10) Taxes. You are responsible for your own taxes arising from use of Bazaar.</p>
+      <p>11) Prohibited Conduct. No wash trading, market manipulation, spam, scams, malware, or attempts to circumvent escrow, fees, or platform safeguards.</p>
+      <p>12) Disclaimers. Bazaar is provided "as is" without warranties. Digital assets are volatile and risky; you assume all risk.</p>
+      <p>13) Limitation of Liability. To the maximum extent permitted by law, DIKPIK is not liable for indirect, incidental, or consequential damages, nor for amounts exceeding fees paid by you in the preceding 12 months.</p>
+      <p>14) Indemnity. You will defend and hold DIKPIK harmless from claims arising from your listings, bids, misuse, or law violations.</p>
+      <p>15) Disputes. Good-faith negotiation first. If unresolved, binding arbitration where permitted. Nothing limits either party's ability to seek injunctive relief.</p>
+      <p>16) Changes. We may update these terms; continued use after notice indicates acceptance.</p>
+      <p>17) Contact. info@dikpik.io.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Auction Policy Modal -->
+<div id="auctionPolicyModal" class="hidden fixed inset-0 z-[70] bg-black/70 backdrop-blur" role="dialog" aria-modal="true" aria-labelledby="ap_title">
+  <div class="mx-auto mt-10 w-[min(900px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/80 via-black/70 to-black/80 p-5">
+    <div class="flex items-center justify-between gap-3">
+      <div class="text-lg font-semibold" id="ap_title">Auction Policy (DIKPIK Bazaar)</div>
+      <button id="ap_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+    </div>
+
+    <div class="mt-3 text-sm space-y-4 text-white/75">
+      <p class="text-xs text-white/60">Last updated: 31 Oct 2025</p>
+      <div>
+        <p class="font-semibold text-white/80">A) Listing Requirements.</p>
+        <p class="mt-1">1) Wallet login and ownership verification are required for auctions.</p>
+        <p>2) The NFT must be transferred to escrow before an auction can be published.</p>
+        <p>3) Title, minimum acceptable price, currency, and end time are required.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">B) Bidding.</p>
+        <p class="mt-1">1) Bids may be masked privately; public UI may show only status.</p>
+        <p>2) Each bid may require a refundable deposit to a platform-controlled address.</p>
+        <p>3) DIKPIK may verify deposit transactions and reject unverified bids.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">C) Settlement.</p>
+        <p class="mt-1">1) At auction end, the highest eligible bid that meets minimums wins.</p>
+        <p>2) Upon settlement, the NFT is transferred from escrow to the winner.</p>
+        <p>3) DIKPIK deducts <strong>DIKPIK auction fees (7%)</strong> from gross proceeds; network fees are borne by users.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">D) Non-Payment / Failed Settlement (Buyer).</p>
+        <p class="mt-1">1) If the winner fails to complete payment within the stated window, the bid may be voided.</p>
+        <p>2) The buyer's deposit may be forfeited per platform rules; the seller may relist.</p>
+        <p>3) Repeated failures may lead to account restrictions.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">E) Seller Cancellation &amp; Penalty Path.</p>
+        <p class="mt-1">1) <strong>No seller cancellation after a verified bid</strong>, except via this penalty path.</p>
+        <p>2) To cancel after a verified bid, the seller must:</p>
+        <p class="pl-4 mt-1">(i) reimburse/cover the top bidder's deposit and reasonable network fees; and</p>
+        <p class="pl-4">(ii) pay a cancellation penalty <strong>up to</strong> the platform's auction fee amount (7% of the winning bid) to DIKPIK; and</p>
+        <p class="pl-4">(iii) accept temporary suspension of auction privileges at DIKPIK's discretion.</p>
+        <p>3) If the NFT is already in escrow, DIKPIK may hold it until disputes are resolved or obligations satisfied.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">F) Compliance &amp; Safety.</p>
+        <p class="mt-1">1) DIKPIK may pause or remove auctions for fraud risk, IP claims, legal requests, or policy violations.</p>
+        <p>2) Prohibited: wash trading, bid shilling, self-dealing to evade fees, misrepresenting ownership.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">G) Records &amp; Audit.</p>
+        <p class="mt-1">1) DIKPIK may keep anonymized records of bids, deposits, and settlements to detect abuse and comply with law.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">H) Changes.</p>
+        <p class="mt-1">1) DIKPIK may update this policy; continued use after notice indicates acceptance.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Neon Notice -->
+<div id="neonNotice" class="neon-overlay" role="dialog" aria-modal="true" aria-labelledby="neonTitle" aria-live="polite">
+  <div class="neon-box" data-variant="success">
+    <div id="neonTitle" class="neon-title">Success</div>
+    <div id="neonMessage" class="text-sm text-white/80">Done.</div>
+    <div class="mt-3 flex justify-end">
+      <button id="neonOk" class="neon-ok">OK</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+const DP_BRIDGE_TIMEOUT_MS = 20000;
+let DP_TARGET_ORIGIN = '*';
+let DP_REQUEST_SEQ = 0;
+const DP_PENDING = new Map();
+let DP_BRIDGE_AVAILABLE = true;
+let DP_BRIDGE_FAILURE_REASON = '';
+let DP_BRIDGE_NOTICE_SHOWN = false;
+const DEFAULT_ORIGIN = (() => {
+  try {
+    const origin = window?.location?.origin;
+    if (origin && origin !== 'null') {
+      const sanitized = origin.replace(/\/+$/, '');
+      try {
+        const { hostname } = new URL(sanitized);
+        if (/\.filesusr\.com$/i.test(hostname) || hostname.endsWith('.wixsite.com')) {
+          console.info('[bazaar] Preview host detected; routing API calls to production origin.');
+          return 'https://www.dikpik.io';
+        }
+      } catch (_err2) {}
+      return sanitized;
+    }
+  } catch (_err) {}
+  return 'https://www.dikpik.io';
+})();
+
+function markBridgeUnavailable(reason){
+  if (!DP_BRIDGE_AVAILABLE) return;
+  DP_BRIDGE_AVAILABLE = false;
+  DP_BRIDGE_FAILURE_REASON = reason || 'Parent bridge unavailable.';
+  try{
+    document.body && document.body.classList.add('dp-bridge-disabled');
+  }catch{}
+  console.warn('[bazaar] DP bridge disabled:', DP_BRIDGE_FAILURE_REASON);
+}
+
+function ensureBridgeWarning(){
+  if (DP_BRIDGE_NOTICE_SHOWN) return;
+  if (!window.parent || window.parent === window) return;
+  DP_BRIDGE_NOTICE_SHOWN = true;
+  setTimeout(() => {
+    if (typeof showNotice === 'function'){
+      showNotice('Account-only actions require the full dikpik.io site. This embed is running in read-only mode.', {
+        title: 'Login unavailable',
+        variant: 'warning',
+        autoCloseMs: 3600
+      });
+    } else {
+      console.warn('[bazaar] showNotice unavailable to display bridge warning.');
+    }
+  }, 0);
+}
+
+function disableParentBridge(reason){
+  markBridgeUnavailable(reason);
+  ensureBridgeWarning();
+}
+
+function bridgeUnavailableError(){
+  const err = new Error(DP_BRIDGE_FAILURE_REASON || 'Parent bridge unavailable.');
+  err.code = 'BRIDGE_UNAVAILABLE';
+  return err;
+}
+
+// If not embedded, disable bridge quietly
+if (!window.parent || window.parent === window) {
+  DP_BRIDGE_AVAILABLE = false;
+  DP_BRIDGE_FAILURE_REASON = 'Standalone mode';
+}
+
+const OFFLINE_FLAGS = { backend: false, relay: false };
+let HAS_LISTINGS_API = false;
+let HAS_BIDS_API = false;
+let HAS_RELAY_API = false;
+
+const MEMBER_SUBSCRIBERS = new Set();
+let WANTED_LOGIN_PROMPTED = false;
+
+function applyDpConfig(payload = {}, origin) {
+  if (origin && DP_TARGET_ORIGIN === '*') {
+    DP_TARGET_ORIGIN = origin;
+  }
+  const merged = { ...DP_CONFIG, ...payload };
+  const currentEndpoints = DP_CONFIG.endpoints || {};
+  if (payload.apiBase && !payload.endpoints) {
+    const base = String(payload.apiBase || DP_CONFIG.apiBase || '').replace(/\/+$/, '');
+    merged.endpoints = {
+      listings: `${base}/listings`,
+      wanted: `${base}/wanted`,
+      bids: `${base}/bids`,
+      relay: `${base}/relay`
+    };
+  } else {
+    const endpoints = payload.endpoints || {};
+    merged.endpoints = {
+      listings:
+        endpoints.listings ||
+        currentEndpoints.listings ||
+        `${BACKEND_API_BASE}/listings` ||
+        `${DEFAULT_FUNCTIONS_BASE}/listings`,
+      wanted:
+        endpoints.wanted ||
+        currentEndpoints.wanted ||
+        `${BACKEND_API_BASE}/wanted` ||
+        `${DEFAULT_FUNCTIONS_BASE}/wanted`,
+      bids:
+        endpoints.bids ||
+        currentEndpoints.bids ||
+        `${BACKEND_API_BASE}/bids` ||
+        `${DEFAULT_FUNCTIONS_BASE}/bids`,
+      relay:
+        endpoints.relay ||
+        currentEndpoints.relay ||
+        `${BACKEND_API_BASE}/relay` ||
+        `${DEFAULT_FUNCTIONS_BASE}/relay`
+    };
+  }
+  DP_CONFIG = merged;
+  window.DIKPIK_BAZAAR = { apiBase: DP_CONFIG.apiBase, endpoints: { ...DP_CONFIG.endpoints } };
+  API_LISTINGS = DP_CONFIG.endpoints.listings;
+  API_WANTED = DP_CONFIG.endpoints.wanted;
+  API_BIDS = DP_CONFIG.endpoints.bids;
+  API_RELAY = DP_CONFIG.endpoints.relay;
+}
+
+function sendToParent(message) {
+  if (!window.parent || window.parent === window) return;
+  try {
+    window.parent.postMessage(message, DP_TARGET_ORIGIN);
+  } catch (err) {
+    console.warn('postMessage to parent failed', err);
+  }
+}
+
+function notifyParent(type, payload) {
+  sendToParent({ type, payload });
+}
+
+function requestParent(type, payload) {
+  if (!DP_BRIDGE_AVAILABLE) {
+    ensureBridgeWarning();
+    return Promise.reject(bridgeUnavailableError());
+  }
+  if (!window.parent || window.parent === window) {
+    disableParentBridge('Parent bridge unavailable (no parent window).');
+    return Promise.reject(bridgeUnavailableError());
+  }
+  const nonce = `dp_${Date.now()}_${++DP_REQUEST_SEQ}`;
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      if (DP_PENDING.has(nonce)) {
+        DP_PENDING.delete(nonce);
+        disableParentBridge(`${type} timed out`);
+        reject(bridgeUnavailableError());
+      }
+    }, DP_BRIDGE_TIMEOUT_MS);
+    DP_PENDING.set(nonce, { resolve, reject, timer, type });
+    sendToParent({ type, payload, nonce });
+  });
+}
+
+function setMemberSnapshot(snapshot) {
+  window.DIKPIK_MEMBER = snapshot || null;
+  AUTH_TOKEN = snapshot?.authToken || null;
+  document.dispatchEvent(new CustomEvent('dikpik:member', { detail: window.DIKPIK_MEMBER }));
+  MEMBER_SUBSCRIBERS.forEach((handler) => {
+    try {
+      handler(window.DIKPIK_MEMBER);
+    } catch (err) {
+      console.warn('member handler failed', err);
+    }
+  });
+}
+
+function handleParentMessage(event) {
+  const msg = event?.data;
+  if (!msg || typeof msg !== 'object' || typeof msg.type !== 'string' || !msg.type.startsWith('DP:')) {
+    return;
+  }
+  if (DP_TARGET_ORIGIN === '*' && event.origin) {
+    DP_TARGET_ORIGIN = event.origin;
+  }
+  switch (msg.type) {
+    case 'DP:PARENT_READY':
+      notifyParent('DP:REQUEST_CONFIG');
+      notifyParent('DP:REQUEST_MEMBER');
+      break;
+    case 'DP:CONFIG':
+      applyDpConfig(msg.payload || {}, event.origin);
+      break;
+    case 'DP:MEMBER:SET':
+      setMemberSnapshot(msg.payload || null);
+      break;
+    default: {
+      const { nonce } = msg;
+      if (nonce && DP_PENDING.has(nonce)) {
+        const pending = DP_PENDING.get(nonce);
+        DP_PENDING.delete(nonce);
+        clearTimeout(pending.timer);
+        if (msg.type.endsWith(':OK')) {
+          pending.resolve(msg.payload);
+        } else if (msg.type.endsWith(':ERR')) {
+          const error = new Error(msg.error || 'Request failed');
+          if (msg.status) error.status = msg.status;
+          if (msg.details) error.details = msg.details;
+          const disableStatuses = [404, 405, 500, 501, 503];
+          const shouldDisable =
+            disableStatuses.includes(msg.status) ||
+            /Unable to handle the request/i.test(msg.error || '') ||
+            msg.error === 'NotImplemented';
+          if (shouldDisable) {
+            disableParentBridge(msg.error || `${pending.type} unsupported`);
+            error.code = 'BRIDGE_UNAVAILABLE';
+          }
+          pending.reject(error);
+        } else {
+          pending.resolve(msg.payload);
+        }
+      }
+      break;
+    }
+  }
+}
+
+window.addEventListener('message', handleParentMessage, false);
+
+function requestMemberSnapshot() {
+  const stored = loadSessionFromStorage();
+  if (stored) {
+    applySession(stored, { silent: true });
+  }
+}
+
+function subscribeMember(handler) {
+  if (typeof handler === 'function') {
+    MEMBER_SUBSCRIBERS.add(handler);
+    return () => MEMBER_SUBSCRIBERS.delete(handler);
+  }
+  return () => {};
+}
+
+function getAuthToken() {
+  return AUTH_TOKEN || null;
+}
+
+function buildAuthHeaders(baseHeaders = {}) {
+  const headers = { ...(baseHeaders || {}) };
+  const token = getAuthToken();
+  if (token && !headers.Authorization && !headers.authorization) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return headers;
+}
+
+function withAuthPayload(payload) {
+  const token = getAuthToken();
+  if (!token) return payload || {};
+  if (payload && typeof payload === 'object' && payload.authToken) {
+    return payload;
+  }
+  return { ...(payload || {}), authToken: token };
+}
+
+function fetchWithAuth(url, options = {}) {
+  const headers = buildAuthHeaders(options.headers || {});
+  return fetch(url, { ...options, headers });
+}
+
+async function bridgeLogin() {
+  if (!DP_BRIDGE_AVAILABLE) {
+    ensureBridgeWarning();
+    throw bridgeUnavailableError();
+  }
+  await requestParent('DP:LOGIN', { source: 'bazaar-embed' });
+}
+
+async function bridgeLogout() {
+  if (!DP_BRIDGE_AVAILABLE) {
+    ensureBridgeWarning();
+    throw bridgeUnavailableError();
+  }
+  await requestParent('DP:LOGOUT', { source: 'bazaar-embed' });
+}
+
+async function fetchWantedFromApi({ mine } = {}){
+  const target = mine ? `${API_LISTINGS}?mine=true&type=wanted` : API_WANTED;
+  const res = await fetchWithAuth(target, { cache: 'no-store', credentials: 'include' });
+  if (!res?.ok) throw new Error(`wanted fetch failed (${res?.status})`);
+  const body = await res.json().catch(() => ({}));
+  const items = Array.isArray(body?.items) ? body.items : (Array.isArray(body?.auctions) ? body.auctions : []);
+  return items.map(normalizeListingFromApi).filter((item) => item && item.kind === 'wanted');
+}
+
+function listWantedPosts() {
+  const apiPromise = fetchWantedFromApi({ mine: false }).catch(() => []);
+  if (!DP_BRIDGE_AVAILABLE) {
+    return apiPromise;
+  }
+  const bridgePromise = requestParent('DP:WANTED:LIST', {}).catch((err) => {
+    if (err?.code === 'BRIDGE_UNAVAILABLE') {
+      ensureBridgeWarning();
+      return [];
+    }
+    throw err;
+  });
+  return Promise.all([apiPromise, bridgePromise]).then(([apiDocs, bridgeDocs]) => {
+    return dedupeWanted([...(apiDocs || []), ...(bridgeDocs || [])]);
+  });
+}
+
+async function getMyWantedPosts() {
+  const apiPromise = fetchWantedFromApi({ mine: true }).catch(() => []);
+  if (!DP_BRIDGE_AVAILABLE) {
+    return apiPromise;
+  }
+  try {
+    const bridgeDocs = await requestParent('DP:WANTED:MINE', {});
+    return dedupeWanted([...(await apiPromise), ...(bridgeDocs || [])]);
+  } catch (err) {
+    if (err?.status === 401) {
+      if (!WANTED_LOGIN_PROMPTED) {
+        WANTED_LOGIN_PROMPTED = true;
+        showNotice('Log in to manage your wanted posts.', {
+          title: 'Login required',
+          variant: 'warning',
+          autoCloseMs: 2800
+        });
+        openLoginModal();
+      }
+      return [];
+    }
+    if (err?.code === 'BRIDGE_UNAVAILABLE') {
+      ensureBridgeWarning();
+      return apiPromise;
+    }
+    throw err;
+  }
+}
+
+function createWantedPost(data) {
+  if (!DP_BRIDGE_AVAILABLE) {
+    return API.listings.create({ kind: 'wanted', ...data });
+  }
+  return requestParent('DP:WANTED:CREATE', data || {});
+}
+
+function updateWantedPost(id, data) {
+  if (!DP_BRIDGE_AVAILABLE) {
+    return API.listings.create({ kind: 'wanted', id, ...data });
+  }
+  return requestParent('DP:WANTED:UPDATE', { id, data });
+}
+
+function dedupeWanted(list){
+  const seen = new Set();
+  const out = [];
+  for (const item of list || []){
+    const id = item && (item.id || item._id);
+    const key = id ? String(id) : JSON.stringify(item);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(item);
+  }
+  return out;
+}
+
+if (window.parent && window.parent !== window) {
+  notifyParent('DP:READY', { version: '2024-11-01' });
+  notifyParent('DP:REQUEST_CONFIG');
+  notifyParent('DP:REQUEST_MEMBER');
+}
+
+document.addEventListener('dikpik:request-member', requestMemberSnapshot);
+
+/* ================== Minimal safe DOM helpers ================== */const $ = (id) => document.getElementById(id);
+const on = (id, ev, fn) => { const el = $(id); if (el) el.addEventListener(ev, fn); };
+
+const INTEGRATION_SUGGESTIONS = [
+  "Integration Suggestions (for site owner/dev):",
+  "1) Ownership verification for escrow gating:",
+  "   - Alchemy NFT API or Moralis: lookup contract/tokenId owners and compare to wallet.",
+  "   - OpenSea API (asset owner) where available.",
+  "2) Deposit verification for bids:",
+  "   - Etherscan/Blockscout/Alchemy: confirm tx hash amount >= REQUIRED_DEPOSIT_ETH to platform deposit address; mark bid \"verified\".",
+  "3) Auth provider:",
+  "   - Email OTP (Members/Auth) for WANTED posts.",
+  "   - Wallet-signature login (SIWE or simple message signing) for AUCTIONS; bind to member profile.",
+  "4) Rate limiting & anti-abuse:",
+  "   - Per-IP/hour quotas on /_functions/listings and /_functions/bids plus invisible reCAPTCHA.",
+  "5) Config & secrets:",
+  "   - Store chain, escrow contract, and fee bps in environment secrets; never hardcode private keys."
+].join('\n');
+console.info(INTEGRATION_SUGGESTIONS);
+
+/* ================== Config ================== */
+const TRAITS_URL  = "https://res.cloudinary.com/dcnf47tla/raw/upload/dikpik_realigned_smenrw.json";
+const CLOUDINARY_CLOUD_NAME = "dcnf47tla";
+const MAPPING_URL = "https://res.cloudinary.com/dcnf47tla/raw/upload/mapping_pfyomj.json";
+const API_BASE = window.DIKPIK_API_BASE || "https://dikpik-backend.morning-voice-68dc.workers.dev";
+const REQUIRED_DEPOSIT_USD = 100;
+let REQUIRED_DEPOSIT_ETH = 0.0078;
+const DISABLE_IFRAME_WALLET = false;
+const LISTINGS_KEY = 'dikpik_local_listings';
+const WANTED_KEY = 'dikpik_local_wanted';
+const BACKEND_API_BASE = `${API_BASE.replace(/\/+$/, '')}/api`;
+const DEFAULT_FUNCTIONS_BASE = `${DEFAULT_ORIGIN}/_functions`;
+const PROD_FUNCTIONS_BASE = 'https://www.dikpik.io/_functions';
+let DP_CONFIG = {
+  apiBase: BACKEND_API_BASE,
+  endpoints: {
+    listings: `${BACKEND_API_BASE}/listings`,
+    wanted: `${BACKEND_API_BASE}/wanted`,
+    bids: `${BACKEND_API_BASE}/bids`,
+    relay: `${BACKEND_API_BASE}/relay`
+  }
+};
+let API_LISTINGS = DP_CONFIG.endpoints.listings;
+let API_WANTED = DP_CONFIG.endpoints.wanted;
+let API_BIDS = DP_CONFIG.endpoints.bids;
+let API_RELAY = DP_CONFIG.endpoints.relay;
+
+const BACKEND_STATE = {
+  wallets: {
+    eth: {
+      deposit: "0xc641e5626f9974c1a53b49ab85db718fa5c04393",
+      escrow: "0x5bc39f724cdd1bd861a0425fcd9919ba1298cf2e",
+      fee: "0x03d49719fa607edab2218e8f6604b13e0cbd855f"
+    },
+    tron: {
+      usdt: "TAGVESQt1ArtWeoETk8QnbacUmnm3A2MNE"
+    }
+  }
+};
+
+const COINGECKO_PRICE_URL = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd";
+const SESSION_STORAGE_KEY = 'dikpik_session_v1';
+let ACTIVE_SESSION = null;
+
+function loadSessionFromStorage(){
+  try{
+    const raw = localStorage.getItem(SESSION_STORAGE_KEY);
+    if(!raw) return null;
+    const parsed = JSON.parse(raw);
+    if(!parsed?.sessionToken || !parsed?.member) return null;
+    if(parsed?.expiresAt && Number(parsed.expiresAt) * 1000 < Date.now()){
+      localStorage.removeItem(SESSION_STORAGE_KEY);
+      return null;
+    }
+    return parsed;
+  }catch(_err){
+    return null;
+  }
+}
+
+function persistSession(session){
+  ACTIVE_SESSION = session;
+  try{
+    localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+  }catch(_err){}
+}
+
+function applySession(session, opts = {}){
+  if(!session?.sessionToken || !session?.member) return;
+  persistSession(session);
+  AUTH_TOKEN = session.sessionToken;
+  window.DIKPIK_MEMBER = session.member;
+  document.dispatchEvent(new CustomEvent('dikpik:member', { detail: session.member }));
+  memberState.loggedIn = true;
+  memberState.id = session.member.id || null;
+  memberState.email = session.member.email || '';
+  memberState.roles = Array.isArray(session.member.roles) ? session.member.roles : [];
+  memberState.displayName = session.member.name || session.member.email || '';
+  MEMBER_LOADED = true;
+  syncAuthState();
+  if (!opts.silent){
+    refreshAuthUI();
+  }
+}
+
+function clearStoredSession(){
+  ACTIVE_SESSION = null;
+  AUTH_TOKEN = null;
+  try{
+    localStorage.removeItem(SESSION_STORAGE_KEY);
+  }catch(_err){}
+  window.DIKPIK_MEMBER = null;
+  document.dispatchEvent(new CustomEvent('dikpik:member', { detail: null }));
+  memberState.loggedIn = false;
+  memberState.id = null;
+  memberState.email = '';
+  memberState.roles = [];
+  memberState.displayName = '';
+  MEMBER_LOADED = true;
+  syncAuthState();
+  refreshAuthUI();
+}
+
+async function apiPost(path, payload){
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(payload || {})
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok){
+    throw new Error(data?.error || `HTTP ${res.status}`);
+  }
+  return data;
+}
+
+function updateLoginStatus(message, tone = 'info'){
+  const el = $('loginStatus');
+  if (!el) return;
+  el.textContent = message || '';
+  ['text-white/50','text-white/60','text-red-300','text-emerald-300'].forEach(cls => el.classList.remove(cls));
+  if (!message) {
+    el.classList.add('text-white/50');
+    return;
+  }
+  if (tone === 'error') el.classList.add('text-red-300');
+  else if (tone === 'success') el.classList.add('text-emerald-300');
+  else el.classList.add('text-white/60');
+}
+
+async function syncBackendHealth(){
+  try{
+    const res = await fetch(`${API_BASE}/api/health`, { cache: 'no-store' });
+    if(!res.ok) return;
+    const data = await res.json();
+    if (data?.depositUsd){
+      const usd = Number(data.depositUsd);
+      if (Number.isFinite(usd) && usd > 0){
+        BACKEND_STATE.depositUsd = usd;
+      }
+    }
+    if (data?.wallets){
+      BACKEND_STATE.wallets = data.wallets;
+    }
+  }catch(err){
+    console.warn('backend health fetch failed', err);
+  }
+}
+
+async function refreshDepositRequirements(){
+  const targetUsd = BACKEND_STATE.depositUsd || REQUIRED_DEPOSIT_USD;
+  try{
+    const res = await fetch(COINGECKO_PRICE_URL, { cache:'no-store' });
+    if(!res.ok) throw new Error(`HTTP ${res.status}`);
+    const priceJson = await res.json();
+    const ethUsd = priceJson?.ethereum?.usd;
+    if(Number.isFinite(ethUsd) && ethUsd > 0){
+      REQUIRED_DEPOSIT_ETH = +(targetUsd / ethUsd).toFixed(5);
+    }
+  }catch(err){
+    console.warn('Unable to fetch ETH price', err);
+  }finally{
+    updateDepositUi();
+  }
+}
+
+function updateDepositUi(){
+  const depositLabel = $('depositInfo');
+  const modalLabel = $('bm_deposit_req');
+  const usd = BACKEND_STATE.depositUsd || REQUIRED_DEPOSIT_USD;
+  const eth = REQUIRED_DEPOSIT_ETH || 0;
+  const text = `${eth} ETH (~$${usd})`;
+  if(depositLabel) depositLabel.textContent = text;
+  if(modalLabel) modalLabel.textContent = text;
+}
+
+// === Escrow mode (Option A) ===
+const ESCROW_MODE = true;                 // Escrow-only settlement flow
+const ROYALTY_BPS = 700;                  // AUCTION FEE BPS (DIKPIK auction fees), currently 7%
+const SELLER_TERMS_VERSION = 'escrow-v1-rb700';
+const SELLER_TERMS_KEY = 'dikpik_seller_terms';
+const ESCROWED_TOKENS_KEY = 'dikpik_escrowed_tokens'; // local stub until on-chain
+
+let CURRENT_WALLET = null;                // cached connected wallet (EVM)
+let SELLER_TERMS = {};                    // { [version]: { [wallet]: isoString } }
+let ESCROWED_TOKENS = {};                 // { [tokenId]: { by: wallet, at: ts } }
+try { SELLER_TERMS = JSON.parse(localStorage.getItem(SELLER_TERMS_KEY) || '{}'); } catch {}
+try { ESCROWED_TOKENS = JSON.parse(localStorage.getItem(ESCROWED_TOKENS_KEY) || '{}'); } catch {}
+const saveSellerTerms = ()=> localStorage.setItem(SELLER_TERMS_KEY, JSON.stringify(SELLER_TERMS));
+const saveEscrowedTokens = ()=> localStorage.setItem(ESCROWED_TOKENS_KEY, JSON.stringify(ESCROWED_TOKENS));
+
+const memberState = {
+  loggedIn: false,
+  id: null,
+  email: '',
+  roles: [],
+  displayName: '',
+};
+let AUTH_TOKEN = null;
+let MEMBER_LOADED = false;
+
+let AUTH = {
+  isLoggedIn: false,
+  method: 'anonymous',
+  wallet: null,
+  userId: null,
+  wallets: []
+};
+const walletConnections = [];
+
+function listWalletConnections(){
+  return walletConnections.map(entry => ({ ...entry }));
+}
+
+function clearWalletConnections(){
+  walletConnections.length = 0;
+  AUTH.wallet = null;
+  AUTH.wallets = [];
+  CURRENT_WALLET = null;
+  renderConnectedWallets();
+}
+
+function getPrimaryEvmWallet(){
+  const evm = walletConnections.find(w => (w.chain || 'evm') === 'evm');
+  return evm ? evm.address : null;
+}
+
+function hasEvmWallet(){
+  return Boolean(getPrimaryEvmWallet());
+}
+
+function upsertWalletConnection(entry){
+  if (!entry || !entry.address) return null;
+  const normalizedAddress = entry.chain === 'solana'
+    ? String(entry.address)
+    : String(entry.address).toLowerCase();
+  const normalized = {
+    type: entry.type || 'wallet',
+    chain: entry.chain || 'evm',
+    address: normalizedAddress,
+    verified: Boolean(entry.verified),
+    signature: entry.signature || null,
+    message: entry.message || null,
+    connectedAt: entry.connectedAt || new Date().toISOString()
+  };
+  const idx = walletConnections.findIndex(
+    (w) => w.type === normalized.type && w.address === normalized.address
+  );
+  if (idx >= 0){
+    walletConnections[idx] = { ...walletConnections[idx], ...normalized };
+  } else {
+    walletConnections.push(normalized);
+  }
+  AUTH.wallets = listWalletConnections();
+  if (normalized.chain === 'evm'){
+    AUTH.wallet = normalized.address;
+    CURRENT_WALLET = normalized.address;
+    AUTH.method = 'wallet';
+  }
+  renderConnectedWallets();
+  return normalized;
+}
+
+function syncAuthState(){
+  AUTH.isLoggedIn = memberState.loggedIn;
+  AUTH.userId = memberState.id || memberState.email || null;
+  if (!AUTH.isLoggedIn){
+    AUTH.method = 'anonymous';
+    clearWalletConnections();
+  } else if (hasEvmWallet()){
+    AUTH.method = 'wallet';
+    AUTH.wallet = getPrimaryEvmWallet();
+  } else {
+    AUTH.method = 'member';
+  }
+}
+
+async function hydrateMemberState({ silent } = {}) {
+  if (!MEMBER_LOADED) {
+    requestMemberSnapshot();
+  }
+
+  const session = ACTIVE_SESSION || loadSessionFromStorage();
+  const snapshot = session?.member || null;
+  memberState.loggedIn = Boolean(snapshot && session?.sessionToken);
+  memberState.id = snapshot?.id || null;
+  memberState.email = snapshot?.email || '';
+  memberState.roles = Array.isArray(snapshot?.roles) ? snapshot.roles : [];
+  memberState.displayName =
+    snapshot?.name ||
+    snapshot?.displayName ||
+    snapshot?.email ||
+    '';
+
+  if (memberState.loggedIn) {
+    WANTED_LOGIN_PROMPTED = false;
+  }
+  AUTH_TOKEN = session?.sessionToken || null;
+  MEMBER_LOADED = true;
+  syncAuthState();
+
+  if (!silent) {
+    renderConnectedWallets();
+    refreshAuthUI();
+    renderWantedListings();
+  }
+  return { ...memberState };
+}
+
+function isAuthorized() {
+  return Boolean(memberState.loggedIn && memberState.id);
+}
+
+async function promptLogin() {
+  if (AUTH.isLoggedIn) return true;
+  openLoginModal();
+  const emailInput = $('loginEmailInput');
+  if (emailInput) emailInput.focus();
+  updateLoginStatus('Enter your email and send a login code to continue.', 'info');
+  return false;
+}
+
+async function performLogout() {
+  clearStoredSession();
+  await hydrateMemberState({ silent: true });
+  await refreshWantedPosts();
+  updateLoginStatus('You have been logged out.', 'info');
+  showNotice('You have been logged out.', { title: 'Logged out', variant: 'info', autoCloseMs: 2000 });
+}
+
+// === Neon Notice helpers ===
+const neonRoot    = $('neonNotice');
+const neonTitleEl = $('neonTitle');
+const neonMsgEl   = $('neonMessage');
+const neonOkBtn   = $('neonOk');
+if (neonOkBtn) neonOkBtn.addEventListener('click', hideNotice);
+const IS_DEV = true; // TEMP: surface errors in dev
+
+function showNotice(message, opts = {}) {
+  const { title = 'Success', variant = 'success', autoCloseMs = 0, anchor = null } = opts;
+  if (!neonRoot) return console.warn('neonNotice element not found');
+  const box = neonRoot.querySelector('.neon-box');
+
+  // Reset box state + apply variant
+  if (box) {
+    box.setAttribute('data-variant', variant);
+    box.classList.remove('is-anchored');
+    box.style.top = '';
+    box.style.left = '';
+    box.style.width = '';
+  }
+  if (neonTitleEl) neonTitleEl.textContent = title;
+  if (neonMsgEl)   neonMsgEl.textContent   = message;
+
+  if (anchor) {
+    // Local (anchored) mode next to a target element
+    neonRoot.classList.add('is-open', 'is-local');
+    const target = (typeof anchor === 'string') ? document.querySelector(anchor) : anchor;
+
+    const place = () => {
+      if (!box) return;
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const margin = 16;
+      const bw = Math.min(560, Math.round(vw * 0.92));
+      box.style.width = bw + 'px';
+
+      const rect = target && target.getBoundingClientRect ? target.getBoundingClientRect() : null;
+
+      // Prefer right of anchor; fallback left; otherwise center horizontally
+      let left = Math.round((vw - bw) / 2);
+      if (rect) {
+        const tryRight = rect.right + margin;
+        if (tryRight + bw + margin <= vw) {
+          left = tryRight;
+        } else {
+          const tryLeft = rect.left - bw - margin;
+          left = Math.max(margin, tryLeft);
+          if (left + bw + margin > vw) left = Math.round((vw - bw) / 2);
+        }
+      }
+// Vertical position: align near anchor's mid, but bias a bit higher
+const bhGuess = box.offsetHeight || 260;
+let top;
+if (rect) {
+  const anchorMid = rect.top + rect.height / 2;
+  top = Math.round(anchorMid - bhGuess / 2 - 40); // nudge up ~40px
+} else {
+  top = Math.round(vh * 0.28); // fallback: upper third of the viewport
+}
+top = Math.max(margin, Math.min(top, vh - bhGuess - margin));
+
+      box.classList.add('is-anchored');
+      box.style.left = left + 'px';
+      box.style.top  = top  + 'px';
+    };
+
+    requestAnimationFrame(place);
+    showNotice._reposition = () => requestAnimationFrame(place);
+    window.addEventListener('resize', showNotice._reposition);
+    window.addEventListener('scroll', showNotice._reposition, { passive: true });
+  } else {
+    // Default centered overlay mode
+    neonRoot.classList.add('is-open');
+    neonRoot.classList.remove('is-local');
+  }
+
+  if (autoCloseMs > 0) {
+    clearTimeout(showNotice._t);
+    showNotice._t = setTimeout(hideNotice, autoCloseMs);
+  }
+}
+
+function hideNotice() {
+  if (!neonRoot) return;
+  neonRoot.classList.remove('is-open', 'is-local');
+  const box = neonRoot.querySelector('.neon-box');
+  if (box) {
+    box.classList.remove('is-anchored');
+    box.style.top = '';
+    box.style.left = '';
+    box.style.width = '';
+  }
+  if (showNotice._reposition) {
+    window.removeEventListener('resize', showNotice._reposition);
+    window.removeEventListener('scroll', showNotice._reposition);
+    showNotice._reposition = null;
+  }
+}
+on('neonOk','click', hideNotice);
+
+let LAST_FOCUSED_ELEMENT = null;
+function openModalEl(modal, focusSelector){
+  const node = typeof modal === 'string' ? $(modal) : modal;
+  if(!node) return;
+  LAST_FOCUSED_ELEMENT = document.activeElement;
+  node.classList.remove('hidden');
+  const activeId = LAST_FOCUSED_ELEMENT && LAST_FOCUSED_ELEMENT.id ? LAST_FOCUSED_ELEMENT.id : '';
+  node.setAttribute('data-prev-focus', activeId);
+  document.body.classList.add('overflow-hidden');
+  const focusTarget = focusSelector
+    ? node.querySelector(focusSelector)
+    : node.querySelector('[data-modal-focus]') || node.querySelector('button, [href], input, select, textarea');
+  if (focusTarget) focusTarget.focus();
+}
+function closeModalEl(modal){
+  const node = typeof modal === 'string' ? $(modal) : modal;
+  if(!node) return;
+  node.classList.add('hidden');
+  document.body.classList.remove('overflow-hidden');
+  const prevId = node.getAttribute('data-prev-focus');
+  let target = prevId ? document.getElementById(prevId) : null;
+  if (!target && LAST_FOCUSED_ELEMENT && document.contains(LAST_FOCUSED_ELEMENT)) {
+    target = LAST_FOCUSED_ELEMENT;
+  }
+  if (target) target.focus();
+  node.removeAttribute('data-prev-focus');
+}
+function bindModalDismiss(modalId){
+  const modal = $(modalId);
+  if(!modal) return;
+  modal.addEventListener('click', (e) => {
+    if(e.target.id === modalId){
+      closeModalEl(modalId);
+    }
+  });
+}
+
+/* Global error surface to neon when in dev */
+window.addEventListener('error', (e) => {
+  if (IS_DEV) {
+    showNotice(e?.message || 'Script error', { title: 'Script error', variant: 'error', autoCloseMs: 3500 });
+  } else {
+    console.error('Script error:', e?.message || e);
+  }
+});
+window.addEventListener('unhandledrejection', (e) => {
+  const msg = (e?.reason && (e.reason.message || e.reason)) || 'Request failed';
+  if (IS_DEV) {
+    showNotice(String(msg), { title: 'Request failed', variant: 'error', autoCloseMs: 3500 });
+  } else {
+    console.error('Unhandled rejection:', msg);
+  }
+});
+
+/* Escape helper */
+const h = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+
+/* Minimal utilities */
+const uid = () => Math.random().toString(36).slice(2);
+const safeNum = (n)=>{ const v = typeof n === "string" ? parseFloat(n) : typeof n === "number" ? n : NaN; return Number.isFinite(v) ? v : undefined; };
+function parseLenientJSON(text){ return JSON.parse(text.trim().replace(/\bNaN\b/gi,"null").replace(/\b-?Infinity\b/gi,"null").replace(/,\s*(?=[}\]])/g,"")); }
+function safeParseJson(text){ if(!text) return {}; try { return JSON.parse(text); } catch { return {}; } }
+function csvEscape(v){ const s = String(v ?? ""); return (s.includes(",")||s.includes("\n")||s.includes('"')) ? '"' + s.replaceAll('"','""') + '"' : s; }
+function downloadText(filename,text){ const blob=new Blob([text],{type:"text/csv;charset=utf-8;"}); const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download=filename; a.click(); URL.revokeObjectURL(url); }
+const fmt2 = (v) => Number.isFinite(v) ? Number(v).toFixed(2) : "";
+const collectionSize = () => (Array.isArray(TOKENS) && TOKENS.length) ? TOKENS.length : 1003;
+function tierFromRank(rank){
+  const total = collectionSize();
+  if (!Number.isFinite(rank) || rank <= 0) return "Base";
+  const t1 = Math.max(10, Math.ceil(total * 0.01));
+  const t5 = Math.max(50, Math.ceil(total * 0.05));
+  const t20 = Math.max(200, Math.ceil(total * 0.20));
+  if (rank <= t1) return "Ultra";
+  if (rank <= t5) return "Rare";
+  if (rank <= t20) return "Mid";
+  return "Base";
+}
+function tierBadge(tier, rank, score){
+  const cls = tier==="Ultra"?"badge-ultra":tier==="Rare"?"badge-rare":tier==="Mid"?"badge-mid":"badge-base";
+  const rankTxt = Number.isFinite(rank) ? `Rank ${rank}` : "Unranked";
+  const scoreTxt = Number.isFinite(score) ? `• Score ${fmt2(score)}` : "";
+  return `<span class="badge-tier ${cls}">${tier} • ${rankTxt} ${scoreTxt}</span>`;
+}
+function frameClass(tier){
+  if (tier==="Ultra") return "frame-ultra";
+  if (tier==="Rare") return "frame-rare";
+  if (tier==="Mid") return "frame-mid";
+  return "";
+}
+function accentClass(tier){
+  if (tier==="Ultra") return "accent-ultra";
+  if (tier==="Rare") return "accent-rare";
+  if (tier==="Mid") return "accent-mid";
+  return "";
+}
+function chaseTags(token){
+  const traits = token?.traits || {};
+  const tags = [];
+  const role = String(traits.Role||"");
+  const rank = String(traits.Rank||"");
+  const blessing = String(traits["Glitch Blessing"]||traits.Blessing||"");
+  const mythic = String(traits["Mythic Status"]||"");
+  const clearance = String(traits["Grid Clearance"]||"");
+  const rep = String(traits["Net Reputation"]||"");
+  const patch = String(traits["Patch Channel"]||"");
+  if (/double agent/i.test(role)) tags.push("Double Agent");
+  if (/boss|underboss/i.test(rank)) tags.push(rank);
+  if (/legendary/i.test(blessing)) tags.push("Glitch Legendary");
+  else if (/major/i.test(blessing)) tags.push("Glitch Major");
+  if (/legendary/i.test(mythic)) tags.push("Mythic Legendary");
+  if (/root/i.test(clearance)) tags.push("Root Clearance");
+  else if (/power-user/i.test(clearance)) tags.push("Power-User Clearance");
+  if (/icon|ghost|notorious/i.test(rep)) tags.push(rep);
+  if (/black-market|beta|nightly/i.test(patch)) tags.push(`${patch} Patch`);
+  return tags.slice(0,3);
+}
+const loreMap = {
+  106: "Corebreakers boss who hijacked the reactor mesh - rumor says it hears every packet.",
+  716: "Scrapshamans kingpin, double-running Root credentials for SOKE GOBEM.",
+  838: "Graffiti Gulch underboss, hunted but never caught.",
+  800: "Gutterborn icon, kiting kinetic rigs with ghosted IDs.",
+  438: "Toxic Alley tactician, solar-powered exploits and major glitches.",
+  7160: "Mythic runner with Root clearance - burns silent channels at will.",
+  9001: "Legendary packet diver rumored to have cracked Black-Market patch streams."
+};
+function loreForToken(t){
+  const rank = t?.rarityRank;
+  const id = Number(t?.tokenId);
+  if (loreMap[id]) return loreMap[id];
+  if (Number.isFinite(rank) && rank <= 50){
+    const faction = t?.traits?.Faction || "Unknown faction";
+    const role = t?.traits?.Role || "Operator";
+    return `Top-50 operative from ${faction}, notorious for ${role.toLowerCase()}.`;
+  }
+  return "";
+}
+
+const sanitizePlain = (Value<>]/g, '').trim();
+const sanitizeRich = (Value<script[\s\S]*?>[\s\S]*?<\/script>/gi, '').trim();
+const sanitizeEmail = (Value<k.length;i++){ h=(h*31 + k.charCodeAt(i))>>>0; } return h%5; }
+function getImageUrl(t){ if(t?.image && String(t.image).trim()) return String(t.image).trim(); if(t?._publicId) return toCloudinaryUrl(t._publicId); const id = t?.tokenId ?? "NFT"; return `https://placehold.co/600x600/png?text=Goblin%20%23${encodeURIComponent(id)}`; }
+function placeholderForToken(id){ const label = id != null ? encodeURIComponent(String(id)) : "NFT"; return `https://placehold.co/600x600/png?text=Token%20%23${label}`; }
+
+/* ================== Wallet (minimal) ================== */
+const short = (a)=> a ? a.slice(0,6)+"..."+a.slice(-4) : '';
+
+function walletSignatureMessage(address, chain){
+  return `DIKPIK Bazaar wallet verification\nChain: ${chain}\nAddress: ${address}\nTimestamp: ${new Date().toISOString()}`;
+}
+
+async function requestEvmSignature(provider, address){
+  const message = walletSignatureMessage(address, 'evm');
+  try{
+    if (!provider?.request) throw new Error('Missing provider interface');
+    const signature = await provider.request({
+      method: 'personal_sign',
+      params: [message, address]
+    });
+    return { signature, message };
+  } catch (err){
+    if (err?.code === 4001){
+      showNotice('Signature request was cancelled. You can retry later from Wallets.', { title:'Signature skipped', variant:'warn', autoCloseMs:2400 });
+    } else {
+      console.warn('requestEvmSignature error', err);
+    }
+    return { signature: null, message };
+  }
+}
+
+function uint8ArrayToBase64(bytes){
+  if (!bytes) return null;
+  const view = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+  let binary = '';
+  for (let i = 0; i < view.length; i++){
+    binary += String.fromCharCode(view[i]);
+  }
+  if (typeof btoa === 'function') return btoa(binary);
+  if (typeof Buffer !== 'undefined') return Buffer.from(binary, 'binary').toString('base64');
+  return null;
+}
+
+async function requestPhantomSignature(provider, address){
+  const message = walletSignatureMessage(address, 'solana');
+  try{
+    if (!provider?.signMessage){
+      return { signature: null, message };
+    }
+    const encoded = new TextEncoder().encode(message);
+    const res = await provider.signMessage(encoded, 'utf8');
+    const signature = uint8ArrayToBase64(res?.signature);
+    return { signature, message };
+  } catch (err){
+    if (err?.code === 4001){
+      showNotice('Signature request was cancelled. You can retry later from Wallets.', { title:'Signature skipped', variant:'warn', autoCloseMs:2400 });
+    } else {
+      console.warn('requestPhantomSignature error', err);
+    }
+    return { signature: null, message };
+  }
+}
+
+async function connectMetaMaskViaBridge(reason){
+  if (!DP_BRIDGE_AVAILABLE){
+    ensureBridgeWarning();
+    return null;
+  }
+  try{
+    const payload = await requestParent('DP:WALLET:CONNECT', {
+      chain: 'evm',
+      wallet: 'metamask',
+      reason: reason || 'metamask-direct-unavailable'
+    });
+    if (!payload || !payload.address){
+      showNotice('Unable to connect MetaMask from the host site.', {
+        title:'Wallet unavailable',
+        variant:'warning',
+        autoCloseMs:3200
+      });
+      return null;
+    }
+    const address = String(payload.address).toLowerCase();
+    upsertWalletConnection({
+      type: payload.type || 'MetaMask',
+      chain: 'evm',
+      address,
+      verified: Boolean(payload.signature),
+      signature: payload.signature || null,
+      message: payload.message || null
+    });
+    syncAuthState();
+    refreshAuthUI();
+    showNotice('MetaMask connected via site controls.', {
+      title:'Wallet connected',
+      variant:'success',
+      autoCloseMs:2200
+    });
+    return address;
+  } catch (err){
+    if (err?.code === 'BRIDGE_UNAVAILABLE'){
+      ensureBridgeWarning();
+      showNotice('Browser wallet extensions are blocked here. Open dikpik.io directly to connect MetaMask.', {
+        title:'Wallet blocked',
+        variant:'warning',
+        autoCloseMs:3400
+      });
+    } else if (err?.status === 401){
+      showNotice('Log in on dikpik.io before connecting MetaMask.', {
+        title:'Login required',
+        variant:'warning',
+        autoCloseMs:3000
+      });
+    } else {
+      console.warn('connectMetaMask via parent failed', err);
+      showNotice(err?.message || 'MetaMask connection failed via host site.', {
+        title:'Wallet error',
+        variant:'error',
+        autoCloseMs:3200
+      });
+    }
+    return null;
+  }
+}
+
+async function connectMetaMask(){
+  const provider = window.ethereum;
+  if (!provider){
+    showNotice('MetaMask not detected. Install or open MetaMask, then retry.', {
+      title:'Wallet not found',
+      variant:'warning',
+      autoCloseMs: 2600
+    });
+    return await connectMetaMaskViaBridge('provider-missing');
+  }
+  if (typeof provider.request !== 'function'){
+    console.warn('[bazaar] MetaMask provider present but request() unavailable (likely iframe restrictions).');
+    return await connectMetaMaskViaBridge('provider-request-missing');
+  }
+  try{
+    const accounts = await provider.request({ method: 'eth_requestAccounts' });
+    const address = Array.isArray(accounts) && accounts[0] ? String(accounts[0]).toLowerCase() : null;
+    if (!address){
+      showNotice('No account returned from MetaMask.', { title:'Wallet error', variant:'error', autoCloseMs:2400 });
+      return null;
+    }
+    const { signature, message } = await requestEvmSignature(provider, address);
+    upsertWalletConnection({
+      type: provider.isMetaMask ? 'MetaMask' : 'EVM Wallet',
+      chain: 'evm',
+      address,
+      verified: Boolean(signature),
+      signature,
+      message
+    });
+    syncAuthState();
+    refreshAuthUI();
+    showNotice('MetaMask connected.', { title:'Wallet connected', variant:'success', autoCloseMs:2000 });
+    return address;
+  } catch (err){
+    const shouldFallback =
+      DP_BRIDGE_AVAILABLE &&
+      (
+        err?.code === 'BRIDGE_UNAVAILABLE_FALLBACK' ||
+        /addListener/i.test(err?.message || '') ||
+        /request.*undefined/i.test(err?.message || '') ||
+        err instanceof TypeError
+      );
+    if (err?.code === 4001){
+      showNotice('MetaMask connection was rejected.', { title:'Wallet cancelled', variant:'warn', autoCloseMs:2200 });
+    } else if (shouldFallback){
+      console.warn('connectMetaMask direct call failed; attempting bridge fallback.', err);
+      return await connectMetaMaskViaBridge('metamask-direct-error');
+    } else {
+      console.error('connectMetaMask error', err);
+      const msg = err?.message || 'Wallet connection failed. Make sure MetaMask is unlocked and allows this site.';
+      showNotice(msg, { title:'Wallet error', variant:'error', autoCloseMs:3200 });
+    }
+    return null;
+  }
+}
+
+async function connectBinanceWallet(){
+  const provider = window.BinanceChain || window.binance;
+  if (!provider){
+    showNotice('Binance Web3 Wallet was not detected.', { title:'Wallet not found', variant:'error', autoCloseMs:2600 });
+    return null;
+  }
+  try{
+    const accounts = await provider.request({ method: 'eth_requestAccounts' });
+    const address = Array.isArray(accounts) && accounts[0] ? String(accounts[0]).toLowerCase() : null;
+    if (!address){
+      showNotice('No account returned from Binance Wallet.', { title:'Wallet error', variant:'error', autoCloseMs:2400 });
+      return null;
+    }
+    const { signature, message } = await requestEvmSignature(provider, address);
+    upsertWalletConnection({
+      type: 'Binance Wallet',
+      chain: 'evm',
+      address,
+      verified: Boolean(signature),
+      signature,
+      message
+    });
+    syncAuthState();
+    refreshAuthUI();
+    showNotice('Binance wallet connected.', { title:'Wallet connected', variant:'success', autoCloseMs:2000 });
+    return address;
+  } catch (err){
+    if (err?.code === 4001){
+      showNotice('Binance wallet connection was rejected.', { title:'Wallet cancelled', variant:'warn', autoCloseMs:2200 });
+    } else {
+      console.error('connectBinanceWallet error', err);
+      showNotice(err?.message || 'Wallet connection failed.', { title:'Wallet error', variant:'error', autoCloseMs:2600 });
+    }
+    return null;
+  }
+}
+
+async function connectPhantom(){
+  const provider = window.solana;
+  if (!provider || !provider.isPhantom){
+    showNotice('Phantom wallet was not detected.', { title:'Wallet not found', variant:'error', autoCloseMs:2600 });
+    return null;
+  }
+  try{
+    const resp = await provider.connect();
+    const address = resp?.publicKey?.toString();
+    if (!address){
+      showNotice('No account returned from Phantom.', { title:'Wallet error', variant:'error', autoCloseMs:2400 });
+      return null;
+    }
+    const { signature, message } = await requestPhantomSignature(provider, address);
+    upsertWalletConnection({
+      type: 'Phantom',
+      chain: 'solana',
+      address,
+      verified: Boolean(signature),
+      signature,
+      message
+    });
+    syncAuthState();
+    refreshAuthUI();
+    showNotice('Phantom connected.', { title:'Wallet connected', variant:'success', autoCloseMs:2000 });
+    return address;
+  } catch (err){
+    if (err?.code === 4001){
+      showNotice('Phantom connection was rejected.', { title:'Wallet cancelled', variant:'warn', autoCloseMs:2200 });
+    } else {
+      console.error('connectPhantom error', err);
+      showNotice(err?.message || 'Wallet connection failed.', { title:'Wallet error', variant:'error', autoCloseMs:2600 });
+    }
+    return null;
+  }
+}
+
+async function connectWalletViaBridge(chain = 'evm'){
+  try{
+    const result = await requestParent('DP:WALLET:CONNECT', { chain });
+    if (!result?.address) {
+      return null;
+    }
+    const normalized = String(result.address).toLowerCase();
+    upsertWalletConnection({
+      type: result.provider || 'Wallet',
+      chain: result.chain || chain || 'evm',
+      address: normalized,
+      verified: Boolean(result.signature),
+      signature: result.signature || null,
+      message: result.message || null,
+      connectedAt: new Date().toISOString()
+    });
+    syncAuthState();
+    refreshAuthUI();
+    return normalized;
+  } catch (err){
+    console.warn('bridge wallet connection failed', err);
+    throw err;
+  }
+}
+
+async function connectWallet(){
+  if (window.parent && window.parent !== window){
+    try{
+      const bridged = await connectWalletViaBridge('evm');
+      if (bridged) return bridged;
+    } catch (err){
+      if (err?.message){
+        showNotice(err.message, {
+          title:'Wallet error',
+          variant:'error',
+          autoCloseMs:3000
+        });
+      }
+    }
+  }
+  if (window.ethereum){
+    const direct = await connectMetaMask();
+    if (direct) return direct;
+  }
+  showNotice('No browser wallet detected in this view. Open the site in a window with MetaMask (or another supported wallet) and try again.', {
+    title:'Wallet not found',
+    variant:'error',
+    autoCloseMs:3200
+  });
+  return null;
+}
+
+async function verifyOwnership({chain, contract, tokenId, wallet}){
+  // TODO: wire real ownership checks (Alchemy/Moralis/OpenSea). For now always succeed so pre-mint tests work.
+  void chain; void contract; void tokenId; void wallet;
+  return true;
+}
+
+function toggleDisabled(el, disabled){
+  if(!el) return;
+  el.disabled = disabled;
+  el.classList.toggle('opacity-50', disabled);
+  el.classList.toggle('cursor-not-allowed', disabled);
+}
+
+function renderConnectedWallets(){
+  const list = $('connectedWalletList');
+  if (!list) return;
+  list.innerHTML = '';
+  if (!walletConnections.length){
+    const empty = document.createElement('li');
+    empty.className = 'text-white/50';
+    empty.textContent = 'No wallets connected yet.';
+    list.appendChild(empty);
+    return;
+  }
+  walletConnections.forEach((wallet) => {
+    const li = document.createElement('li');
+    li.className = 'flex items-center justify-between gap-2 text-xs text-white/70';
+
+    const label = document.createElement('span');
+    label.className = 'font-mono text-white/80';
+    label.textContent = short(wallet.address);
+
+    const meta = document.createElement('span');
+    meta.className = 'text-white/60';
+    const chainLabel = wallet.chain === 'solana' ? ' - solana' : '';
+    meta.textContent = `(${wallet.type}${chainLabel})`;
+
+    const status = document.createElement('span');
+    status.className = wallet.verified
+      ? 'text-emerald-300 text-[11px] uppercase tracking-wide'
+      : 'text-white/50 text-[11px] uppercase tracking-wide';
+    status.textContent = wallet.verified ? 'verified' : 'pending signature';
+
+    li.appendChild(label);
+    li.appendChild(meta);
+    li.appendChild(status);
+    list.appendChild(li);
+  });
+}
+
+function refreshAuthUI(){
+  syncAuthState();
+  const hasAuth = Boolean(AUTH.isLoggedIn);
+  const hasWallet = hasEvmWallet();
+  const auctionBox = $('postAuctionBox');
+  const wantedBox = $('postWantedBox');
+  const loginBtn = $('loginToPostBtn');
+  const overlay = $('auctionWalletOverlay');
+  const gate = $('bazaarLoginGate');
+  const logoutBtn = $('logoutBtn');
+  const logoutMembersBtn = $('logoutMembersBtn');
+  const wSubmit = $('w_submit');
+  const aSubmit = $('a_submit');
+  const moveEscrow = $('a_moveEscrow');
+  const walletAddrEl = $('walletAddr');
+  const stmWalletEl = $('stm_wallet');
+
+  const displayWallet = hasWallet ? getPrimaryEvmWallet() : '';
+  const shortWallet = displayWallet ? short(displayWallet) : null;
+
+  if (walletAddrEl) walletAddrEl.textContent = shortWallet || 'Not connected';
+  if (stmWalletEl) stmWalletEl.textContent = displayWallet || 'Not connected';
+
+  const setHidden = (el, hidden) => { if(!el) return; el.classList.toggle('hidden', hidden); };
+  setHidden(loginBtn, hasAuth);
+  setHidden(gate, hasAuth);
+  setHidden(logoutBtn, !hasAuth);
+  if (logoutMembersBtn) logoutMembersBtn.classList.toggle('hidden', !hasAuth);
+
+  if (!hasAuth){
+    setHidden(auctionBox, true);
+    setHidden(wantedBox, true);
+    if (overlay) overlay.classList.add('hidden');
+  } else {
+    setHidden(auctionBox, false);
+    setHidden(wantedBox, false);
+    if (overlay) overlay.classList.toggle('hidden', hasWallet);
+  }
+
+  toggleDisabled(wSubmit, !hasAuth);
+  toggleDisabled(aSubmit, !(hasAuth && hasWallet));
+  toggleDisabled(moveEscrow, !(hasAuth && hasWallet));
+
+  const walletConnectBtn = $('walletConnect');
+  if (walletConnectBtn){
+    walletConnectBtn.disabled = false;
+    walletConnectBtn.classList.remove('opacity-50','cursor-not-allowed');
+  }
+
+  renderConnectedWallets();
+}
+
+function hasAcceptedSellerTerms(addr){
+  if (!addr) return false;
+  const bucket = SELLER_TERMS[SELLER_TERMS_VERSION] || {};
+  return Boolean(bucket[addr.toLowerCase()]);
+}
+function recordSellerTerms(addr){
+  if (!addr) return;
+  if (!SELLER_TERMS[SELLER_TERMS_VERSION]) SELLER_TERMS[SELLER_TERMS_VERSION] = {};
+  SELLER_TERMS[SELLER_TERMS_VERSION][addr.toLowerCase()] = new Date().toISOString();
+  saveSellerTerms();
+}
+
+function markEscrowed(tokenId, by){
+  if (!Number.isFinite(tokenId)) return;
+  ESCROWED_TOKENS[String(tokenId)] = { by: (by||'').toLowerCase(), at: Date.now() };
+  saveEscrowedTokens();
+  if ($('a_escrowStatus')) $('a_escrowStatus').textContent = 'Escrow ready (stub)';
+  if ($('a_escrowBadge')) $('a_escrowBadge').classList.remove('hidden');
+}
+function isEscrowed(tokenId){
+  return Boolean(ESCROWED_TOKENS && ESCROWED_TOKENS[String(tokenId)]);
+}
+
+function openLoginModal(){
+  openModalEl('loginModal', '#loginWalletBtn');
+}
+function closeLoginModal(){
+  closeModalEl('loginModal');
+  updateLoginStatus('');
+}
+function ensureAuth(actionLabel, opts = {}){
+  const requiresWallet = Boolean(opts.requiresWallet);
+  if (!AUTH.isLoggedIn){
+    showNotice(`Please log in first${actionLabel ? ` to ${actionLabel}` : ''}.`, { title:'Login required', variant:'error', autoCloseMs:2200 });
+    openLoginModal();
+    return false;
+  }
+  if (requiresWallet && !hasEvmWallet()){
+    showNotice('Connect an EVM wallet first.', { title:'Wallet required', variant:'error', autoCloseMs:2200 });
+    openLoginModal();
+    return false;
+  }
+  return true;
+}
+
+/* ================== Stats & Normalization ================== */
+function computeTraitStats(){
+  const stats = {}; TOTAL_SUPPLY = TOKENS.length;
+  for(const t of TOKENS){
+    for(const [k,v0] of Object.entries(t.traits||{})){
+      const kStr = String(k); const v = String(v0 ?? "");
+      if(!stats[kStr]) stats[kStr] = { __total:0, Value<option Value</option>'; Array.from(FACTIONS.keys()).sort().forEach(f=>{ const o = document.createElement("option"); o.Value<option Value</option>'; Array.from(FACTIONS.keys()).sort().forEach(f=>{ const o = document.createElement("option"); o.Value< boss) takeAny(boss - b1.length).forEach(t=>t._canonRank="Boss (Don)");
+    const u1 = take(prefer("Underboss"), underboss); u1.forEach(t=>t._canonRank="Underboss"); if (u1.length < underboss) takeAny(underboss - u1.length).forEach(t=>t._canonRank="Underboss");
+    const c1 = take(prefer("Consigliere"), consigliere); c1.forEach(t=>t._canonRank="Consigliere"); if (c1.length < consigliere) takeAny(consigliere - c1.length).forEach(t=>t._canonRank="Consigliere");
+    const capPicked = take(prefer("Caporegime"), capos); capPicked.forEach(t=>t._canonRank="Caporegime"); if(capPicked.length<capos) takeAny(capos-capPicked.length).forEach(t=>t._canonRank="Caporegime");
+    const solPicked = take(prefer("Soldier"), soldiers); solPicked.forEach(t=>t._canonRank="Soldier"); if(solPicked.length<soldiers) takeAny(soldiers-solPicked.length).forEach(t=>t._canonRank="Soldier");
+    for(const t of byScore){ if(!assigned.has(t)){ t._canonRank="Associate"; assigned.add(t); } }
+  }
+}
+
+/* ================== UI helpers ================== */
+function pctText(p){ return (p||0).toFixed(2)+'%'; }
+function scoreOf(t){ return (t.nftScore!=null)?t.nftScore:(t.rarityScore!=null?t.rarityScore:undefined); }
+
+function buildTokenTile(t){
+  const factionVal = String(t.traits?.[factionKey] ?? "");
+  const roleVal    = String(t.traits?.[roleKey] ?? "");
+  const canon      = getRankText(t);
+  const rankPct    = canonOccurrence(canon).pct;
+  const factionPct = traitOccurrence(factionKey, factionVal).pct;
+  const rolePct    = traitOccurrence(roleKey, roleVal).pct;
+  const wave       = t.traits?.["Drop Wave"];
+  const score      = scoreOf(t);
+  const imgUrl     = getImageUrl(t);
+  const tier       = tierFromRank(t.rarityRank);
+  const frameCls   = frameClass(tier);
+  const tags       = chaseTags(t);
+  const tokenLabel = h(t.tokenIdStr || String(t.tokenId));
+  const canonSafe  = h(canon);
+  const factionSafe= h(titleCase(factionVal));
+  const roleSafe   = h(titleCase(roleVal));
+  const waveSafe   = wave != null ? h(String(wave)) : "";
+  const tile = document.createElement("div");
+  const accent = accentClass(tier);
+  tile.className = `relative rounded-xl border border-white/10 bg-black/40 p-2 text-left ${accent}`;
+  tile.innerHTML = `
+    <button class="aspect-square w-full overflow-hidden rounded-lg bg-black/60 flex items-center justify-center hover:bg-white/5 ${frameCls}" data-view-token="${t.tokenId}" title="View details">
+      <img src="${imgUrl}" alt="Token ${tokenLabel}" class="h-full w-full object-contain" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden')"/>
+      <div class="hidden text-white/30 text-xs">No Image</div>
+    </button>
+    <div class="mt-2 flex flex-wrap items-center justify-between gap-x-1 gap-y-1 text-xs min-w-0 w-full">
+      <span class="text-white/80">#${tokenLabel}</span>
+      <span class="mini-badge mb-rank truncate"><span class="mb-k">Rank</span><span class="mb-v">${canonSafe}</span><span class="mb-p">${pctText(rankPct)}</span></span>
+    </div>
+    <div class="mini-badges mt-1">
+      ${factionVal ? `<span class="mini-badge mb-faction"><span class="mb-k">Faction</span><span class="mb-v">${factionSafe}</span><span class="mb-p">${pctText(factionPct)}</span></span>` : ""}
+      ${roleVal ? `<span class="mini-badge mb-role"><span class="mb-k">Role</span><span class="mb-v">${roleSafe}</span><span class="mb-p">${pctText(rolePct)}</span></span>` : ""}
+    </div>
+    <div class="mt-1 flex flex-wrap gap-1 text-[10px] text-white/70">
+      ${tierBadge(tier, t.rarityRank, t.rarityScore)}
+      ${tags.map(tag => `<span class="chase-chip">${h(tag)}</span>`).join("")}
+    </div>
+    <div class="text-[10px] text-white/60 mt-1">${
+      wave != null ? `Wave: ${waveSafe}` : ""
+    }${
+      (wave != null && score != null) ? " | " : ""
+    }${
+      (score != null) ? `NFT Score: ${fmt2(score)}` : ""
+    }</div>`;
+  return tile;
+}
+
+function renderMafiaTree(tokens, grid, factionName){
+  grid.innerHTML = "";
+  const ORDER = ["Boss (Don)", "Boss -> Underboss -> Consigliere -> Caporegime -> Soldier -> Associate"];
+  const groups = new Map(ORDER.map(l => [l, []]));
+  tokens.forEach(t => { const l = getRankText(t); if (!groups.has(l)) groups.set(l, []); groups.get(l).push(t); });
+  if (factionName){
+    const head = document.createElement("div");
+    head.className = "mb-3 text-base sm:text-lg text-white/80 font-semibold text-center";
+    head.textContent = `Pyramid for "${factionName}" - Canon Roles`;
+    grid.appendChild(head);
+  }
+  const MAX_PER_ROW = 6; const COL_W = 200; const GAP_PX = 12; const MAX_WIDTH = (MAX_PER_ROW * COL_W) + (MAX_PER_ROW - 1) * GAP_PX;
+  ORDER.forEach(label => {
+    const list = groups.get(label) || [];
+    if (!list.length) return;
+    const title = document.createElement("div"); title.className = "tree-tier-title text-center mt-2"; title.textContent = label; grid.appendChild(title);
+    const row = document.createElement("div");
+    row.style.display = "flex"; row.style.flexWrap = "wrap"; row.style.justifyContent = "center"; row.style.gap = ".75rem"; row.style.maxWidth = MAX_WIDTH + "px"; row.style.margin = "0 auto";
+    list.forEach(t => { const slot = document.createElement("div"); slot.style.width = COL_W + "px"; slot.appendChild(buildTokenTile(t)); row.appendChild(slot); });
+    grid.appendChild(row);
+  });
+}
+
+function renderFactions(){
+  const grid = $('factionGrid'); if(!grid) return;
+  grid.innerHTML = ""; const names = Array.from(FACTIONS.keys()).sort();
+  for(const name of names){
+    const tokens = FACTIONS.get(name) || []; const target = TARGETS[name] ?? tokens.length; const have = tokens.length;
+    const pct = Math.max(0, Math.min(100, Math.round((have/Math.max(1,target))*100)));
+    const counts = {Boss -> Underboss -> Consigliere -> Caporegime -> Soldier -> Associate:0};
+    for(const t of tokens){ const label = getRankText(t); const key = label==="Boss (Don)"?"Boss":label; if(counts[key]!==undefined) counts[key]+=1; }
+    const card = document.createElement("div"); card.className="bg-black/50 border border-white/10 rounded-xl p-4";
+    card.innerHTML = `<div class="flex items-center justify-between"><div class="font-semibold">${h(name)}</div><div class="text-cyan-300 text-xs border border-cyan-400/40 rounded px-2 py-0.5">${have} / ${target}</div></div><div class="mt-3 h-2 bg-white/10 rounded"><div class="h-2 bg-cyan-400 rounded" style="width:${pct}%"></div></div><div class="flex items-center gap-2 text-xs text-white/70 mt-2"><span>Target:</span><input type="number" min="0" Value</div><div class="space-y-1 mt-3 text-sm text-white/80"><div class="flex justify-between"><span>Boss -> Underboss -> Consigliere -> Caporegime -> Soldier -> Associate||0}</span></div></div>`;
+    const inp = card.querySelector("input");
+    if (inp) inp.addEventListener("input", (e)=>{ const v = parseInt(e.target.Value<option Value</option>` + keys.map(k=>`<option ${f.key===k?'selected':''}>${h(k)}</option>`).join("");
+    const valSel = document.createElement("select"); valSel.className = "bg-black/60 border border-white/10 rounded h-9 px-2 flex-1";
+    const vals = f.key && TRAIT_STATS[f.key] ? Object.keys(TRAIT_STATS[f.key].Value<option Value</option>` + vals.map(v=>`<option ${String(f.Value</option>`).join("");
+    const rm = document.createElement("button"); rm.className = "border border-white/10 rounded px-2 h-9 text-xs hover:bg-white/10"; rm.textContent = "Remove";
+    keySel.addEventListener("change", ()=>{ f.key = keySel.Value<= maxSel);
+
+  for (const f of TRAIT_FILTERS){
+    if (f.key && f.Value<= 1) : (p >= pages);
+  });
+  return {pages,p};
+}
+function togglePager(show){
+  if ($('pagerTop')) $('pagerTop').style.display = show ? "flex" : "none";
+  if ($('pagerBottom')) $('pagerBottom').style.display = show ? "flex" : "none";
+}
+
+function renderTokens(){
+  const grid = $('tokenGrid'); const empty = $('tokenEmpty'); if(!grid||!empty) return;
+  const factionValue<br/>');
+
+  if (badgeEl){
+    badgeEl.innerHTML = `${tierBadge(tier, token?.rarityRank, token?.rarityScore)} ${chase.map(tag => `<span class="chase-chip">${h(tag)}</span>`).join('')}`;
+  }
+
+  if (loreEl){
+    if (lore){
+      loreEl.textContent = lore;
+      loreEl.classList.remove('hidden');
+    } else {
+      loreEl.classList.add('hidden');
+      loreEl.textContent = '';
+    }
+  }
+
+  const osUrl = token ? getOpenSeaAssetUrl(token.tokenId) : '';
+  if (osLink) {
+    if (osUrl) {
+      osLink.href = osUrl;
+      osLink.classList.remove('hidden');
+    } else {
+      osLink.classList.add('hidden');
+    }
+  }
+
+  traitsEl.innerHTML = '';
+  const traits = token?.traits || {};
+  Object.entries(traits).forEach(([key, Value<div class="trait-name">${h(key)}</div><div class="trait-Value</div>`;
+    traitsEl.appendChild(item);
+  });
+
+  modal.classList.remove('hidden');
+}
+
+function setPreviewImage(imgEl, fallbackEl, url) {
+  if (!imgEl) return;
+  if (!url) {
+    imgEl.classList.add('hidden');
+    if (fallbackEl) fallbackEl.classList.remove('hidden');
+    imgEl.removeAttribute('src');
+    return;
+  }
+  imgEl.onload = () => {
+    imgEl.classList.remove('hidden');
+    if (fallbackEl) fallbackEl.classList.add('hidden');
+  };
+  imgEl.onerror = () => {
+    imgEl.classList.add('hidden');
+    if (fallbackEl) fallbackEl.classList.remove('hidden');
+  };
+  imgEl.src = url;
+}
+
+function buildTokenBadges(token) {
+  if (!token) return '';
+  const pieces = [];
+  const canon = getRankText(token);
+  if (canon) {
+    const { pct } = canonOccurrence(canon);
+    pieces.push(
+      `<span class="mini-badge mb-rank"><span class="mb-k">Rank</span><span class="mb-v">${h(canon)}</span><span class="mb-p">${pctText(pct)}</span></span>`
+    );
+  }
+  const factionVal = token.traits?.[factionKey];
+  if (factionVal) {
+    const { pct } = traitOccurrence(factionKey, factionVal);
+    pieces.push(
+      `<span class="mini-badge mb-faction"><span class="mb-k">Faction</span><span class="mb-v">${h(titleCase(factionVal))}</span><span class="mb-p">${pctText(pct)}</span></span>`
+    );
+  }
+  const roleVal = token.traits?.[roleKey];
+  if (roleVal) {
+    const { pct } = traitOccurrence(roleKey, roleVal);
+    pieces.push(
+      `<span class="mini-badge mb-role"><span class="mb-k">Role</span><span class="mb-v">${h(titleCase(roleVal))}</span><span class="mb-p">${pctText(pct)}</span></span>`
+    );
+  }
+  const wave = token.traits?.['Drop Wave'];
+  if (wave !== undefined && wave !== null && String(wave).trim()) {
+    pieces.push(
+      `<span class="mini-badge"><span class="mb-k">Wave</span><span class="mb-v">${h(String(wave))}</span></span>`
+    );
+  }
+  return pieces.join('');
+}
+
+function tokenMetaLine(token) {
+  if (!token) return '';
+  const parts = [];
+  const factionVal = token.traits?.[factionKey];
+  const canon = getRankText(token);
+  const score = scoreOf(token);
+  if (factionVal) parts.push(titleCase(factionVal));
+  if (canon) parts.push(canon);
+  if (Number.isFinite(score)) parts.push(`Score ${fmt2(score)}`);
+  return parts.join(' • ');
+}
+
+function setAuctionSelection(selection) {
+  const token =
+    selection && typeof selection === 'object'
+      ? selection
+      : getTokenById(selection);
+  const tokenId = token?.tokenId;
+  const inputEl = $('a_token');
+  if (inputEl) {
+    if (tokenId != null) {
+      inputEl.Value<div class="flex items-start gap-3">
+      <div class="h-16 w-16 shrink-0 rounded bg-black/60 overflow-hidden flex items-center justify-center ${frameCls}">
+        <img src="${h(imgUrl)}" alt="Token #${h(token.tokenId)}" class="h-full w-full object-contain" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden')"/>
+        <div class="hidden text-[10px] text-white/40">No image</div>
+      </div>
+      <div class="flex-1 min-w-0 text-xs text-left">
+        <div class="flex items-center justify-between gap-2">
+          <div class="text-white/90 font-medium truncate">Token #${h(token.tokenId)}</div>
+          ${score != null ? `<span class="text-[10px] text-white/60">Score ${fmt2(score)}</span>` : ''}
+        </div>
+        <div class="text-[11px] text-white/70 truncate">${h(metaLine)}</div>
+        <div class="mt-1 flex flex-wrap gap-1 text-[10px] text-white/70">
+          ${tierBadge(tier, token.rarityRank, token.rarityScore)}
+          ${tags.map(tag => `<span class="chase-chip">${h(tag)}</span>`).join("")}
+        </div>
+      </div>
+    </div>
+  `;
+
+  button.addEventListener('click', () => selectTokenFromPicker(token));
+  return button;
+}
+
+function renderTokenPickerResults() {
+  const grid = $('tp_grid');
+  const emptyState = $('tp_empty');
+  if (!grid) return;
+
+  grid.innerHTML = '';
+
+  if (!Array.isArray(TOKENS) || !TOKENS.length) {
+    if (emptyState) {
+      emptyState.textContent = 'Token metadata is still Loading...<div class="countdown-neon mt-1" id="cd_${h(lid)}" data-expire-ts="${expTs}"><span data-remaining-big>00:00:00</span></div>` : "";
+  const hasId = l.tokenId != null && /^\d+$/.test(String(l.tokenId));
+  const wrapTag = hasId ? "button" : "div";
+  const wrapAttrs = hasId
+    ? `type="button" data-view-token="${parseInt(l.tokenId, 10)}" class="h-24 w-24 rounded bg-black/60 overflow-hidden flex items-center justify-center cursor-zoom-in ${frameCls}" title="Click to view details"`
+    : `class="h-24 w-24 rounded bg-black/60 overflow-hidden flex items-center justify-center ${frameCls}"`;
+  const titleSafe = h(l.title || `Auction #${l.tokenId ?? ""}`);
+  const factionSafe = h(faction);
+  const canonSafe = h(canon);
+  const minCcySafe = h(l.min_ccy || l.currency || "");
+  const ccySafe = h(l.currency || "");
+  const tokenLabel = h(String(l.tokenId ?? ""));
+  const minValue<span class="ml-2 text-[10px] text-emerald-300 border border-emerald-400/50 rounded px-1.5">Escrow</span>' : "";
+
+  return `
+    <div class="bg-black/50 border border-white/10 rounded p-3 text-sm ${accent}">
+      <div class="flex items-start gap-3">
+        <${wrapTag} ${wrapAttrs}>
+          ${img ? `<img src="${img}" class="h-full w-full object-contain" alt="${"#" + tokenLabel}" />` : `<div class="text-xs text-white/40">No Image</div>`}
+        </${wrapTag}>
+        <div class="flex-1 min-w-0">
+          <div class="font-medium truncate">${titleSafe} ${escrowBadge}</div>
+          <div class="text-xs text-white/60">${tokenMeta}</div>
+          <div class="mt-1 flex flex-wrap gap-1 text-[11px] text-white/70">
+            ${t ? tierBadge(tier, t.rarityRank, t.rarityScore) : ""}
+            ${tags.map(tag => `<span class="chase-chip">${h(tag)}</span>`).join("")}
+          </div>
+          <div class="mt-1 text-xs text-white/70">Min: ${minValue</div>
+          ${os ? `<a class="text-cyan-300 underline text-xs" target="_blank" rel="noreferrer" href="${os}">Open on OpenSea</a>` : ""}
+          ${ends}
+          <div class="mt-2">
+            <button
+              class="h-8 px-3 rounded bg-fuchsia-600/80 hover:bg-fuchsia-600"
+              data-open-bid
+              data-lid="${h(lid)}"
+              data-tokenid="${hasId ? h(String(l.tokenId)) : ''}"
+              data-title="${titleSafe}"
+              data-min="${Number.isFinite(l.min) ? String(l.min) : ''}"
+              data-ccy="${h(l.min_ccy || l.currency || 'ETH')}"
+            >Place Bid</button>
+            <button class="h-8 px-3 ml-2 rounded bg-white/10 hover:bg-white/20 text-xs"
+              data-open-listing="${h(l.id || lid)}"
+              data-view-token="${hasId ? h(String(l.tokenId)) : ''}"
+            >View details</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+function buildWantedContactHtml(post){
+  if (!AUTH.isLoggedIn){
+    return '<div class="mt-2 text-xs text-white/60">Log in to view contact details.</div>';
+  }
+  const rows = [];
+  if (post.contactLine) rows.push(`<div><span class="font-semibold text-white/70">Line:</span> ${h(post.contactLine)}</div>`);
+  if (post.contactWhatsApp) rows.push(`<div><span class="font-semibold text-white/70">WhatsApp:</span> ${h(post.contactWhatsApp)}</div>`);
+  if (post.contactTelegram) rows.push(`<div><span class="font-semibold text-white/70">Telegram:</span> ${h(post.contactTelegram)}</div>`);
+  if (post.contactEmail) rows.push(`<div><span class="font-semibold text-white/70">Email:</span> ${h(post.contactEmail)}</div>`);
+  if (post.contactPhone) rows.push(`<div><span class="font-semibold text-white/70">Phone:</span> ${h(post.contactPhone)}</div>`);
+  if (post.contactMessage){
+    const escaped = h(post.contactMessage).replace(/\n/g, '<br>');
+    rows.push(`<div class="pt-1 border-t border-white/10 text-white/70">${escaped}</div>`);
+  }
+  if (!rows.length){
+    return '<div class="mt-2 text-xs text-white/60">No contact details provided.</div>';
+  }
+  return `<div class="mt-2 space-y-1 text-xs text-white/70">${rows.join('')}</div>`;
+}
+
+function buildWantedWalletHtml(post){
+  if (!AUTH.isLoggedIn || !post.wallets || !post.wallets.length){
+    return '';
+  }
+  const rows = post.wallets.map((wallet) => {
+    const label = `${h(wallet.type || 'wallet')} (${h(wallet.chain || 'evm')})`;
+    const addr = wallet.address ? h(short(wallet.address)) : '';
+    const badge = wallet.verified
+      ? '<span class="ml-2 text-emerald-300 text-[10px] uppercase tracking-wide">verified</span>'
+      : '<span class="ml-2 text-white/50 text-[10px] uppercase tracking-wide">pending</span>';
+    return `<div class="flex items-center gap-2"><span class="font-mono text-white/80">${addr}</span><span class="text-white/60 text-[11px]">${label}</span>${badge}</div>`;
+  }).join('');
+  return `<div class="mt-2 space-y-1 text-[11px] text-white/60"><div class="font-semibold text-white/70">Wallets</div>${rows}</div>`;
+}
+
+function wantedCard(post){
+  const token = post.tokenId != null ? TOKENS.find((x) => x.tokenId == post.tokenId) : null;
+  const img = token ? getImageUrl(token) : (post.tokenId != null ? placeholderForToken(post.tokenId) : placeholderForToken("Wanted"));
+  const canon = token ? getRankText(token) : "";
+  const faction = token ? String(token.traits?.[factionKey] ?? "") : "";
+  const tier = token ? tierFromRank(token.rarityRank) : "Base";
+  const frameCls = frameClass(tier);
+  const tags = token ? chaseTags(token) : [];
+  const os = token ? getOpenSeaAssetUrl(token.tokenId) : "";
+  const hasToken = Boolean(token);
+  const wrapTag = hasToken ? "button" : "div";
+  const wrapAttrs = hasToken
+    ? `type="button" data-view-token="${post.tokenId}" class="h-24 w-24 rounded bg-black/60 overflow-hidden flex items-center justify-center cursor-zoom-in ${frameCls}" title="Click to view details"`
+    : `class="h-24 w-24 rounded bg-black/60 overflow-hidden flex items-center justify-center"`;
+  const titleSafe = h(post.title || "Wanted");
+  const traitSafe = post.traitQuery ? `Looking for: ${h(post.traitQuery)}` : "";
+  const budgetSafe = Number.isFinite(post.budget) ? `${post.budget} ${h(post.currency || "")}` : "-";
+  const statusBadge = `<span class="inline-flex items-center rounded bg-white/10 px-2 py-0.5 text-[11px] uppercase tracking-wide text-white/70">${h(post.status || "OPEN")}</span>`;
+  const description = post.description || post.descriptionRich || "";
+  const descriptionHtml = description ? `<div class="mt-2 text-xs text-white/70 whitespace-pre-wrap">${h(description)}</div>` : "";
+  const contactHtml = buildWantedContactHtml(post);
+  const walletHtml = buildWantedWalletHtml(post);
+  const ownerControls = post.isOwner
+    ? `<div class="mt-3 flex gap-2 text-xs"><button class="flex-1 rounded bg-white/10 hover:bg-white/15 h-8" data-edit-wanted="${post.id}">Edit post</button></div>`
+    : "";
+
+  const tokenLabel = post.tokenId != null ? `Token #${h(String(post.tokenId))}` : "";
+  const metaPieces = [];
+  if (tokenLabel) metaPieces.push(tokenLabel);
+  if (traitSafe) metaPieces.push(traitSafe);
+  if (faction) metaPieces.push(h(faction));
+  if (canon) metaPieces.push(h(canon));
+  const metaLine = metaPieces.filter(Boolean).join(" \u2022 ");
+
+  return `
+    <div class="bg-black/50 border border-white/10 rounded p-3 text-sm">
+      <div class="flex items-start gap-3">
+        <${wrapTag} ${wrapAttrs}>
+          ${img ? `<img src="${img}" class="h-full w-full object-contain" alt="${hasToken ? "#" + h(String(post.tokenId)) : "Wanted"}" />` : `<div class="text-xs text-white/40">No Image</div>`}
+        </${wrapTag}>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-2">
+            <div class="font-medium truncate">${titleSafe}</div>
+            ${statusBadge}
+          </div>
+          ${metaLine ? `<div class="text-xs text-white/60">${metaLine}</div>` : ""}
+          <div class="mt-1 flex flex-wrap gap-1 text-[11px] text-white/70">
+            ${token ? tierBadge(tier, token.rarityRank, token.rarityScore) : ""}
+            ${tags.map(tag => `<span class="chase-chip">${h(tag)}</span>`).join("")}
+          </div>
+          <div class="mt-1 text-xs text-white/70">${budgetSafe}</div>
+          ${descriptionHtml}
+          ${os ? `<a class="text-cyan-300 underline text-xs" target="_blank" rel="noreferrer" href="${os}">Open on OpenSea</a>` : ""}
+          ${contactHtml}
+          ${walletHtml}
+          ${ownerControls}
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderAuctionListings(){
+  const grid = $('auctionsGrid'); const empty = $('auctionsEmpty');
+  if(!grid) return;
+  const all = LISTINGS.filter(l=>l.kind==="auction" && (l.title || Number.isFinite(l.tokenId) || l.id));
+  grid.innerHTML = "";
+
+  if(!all.length){ if(empty) empty.classList.remove("hidden"); removeAuctionsPager(); return; }
+  if(empty) empty.classList.add("hidden");
+
+  const st = BZ_PAGER.auctions;
+  const pages = Math.max(1, Math.ceil(all.length / st.perPage));
+  st.page = Math.min(Math.max(1, st.page), pages);
+  const start = (st.page - 1) * st.perPage;
+  const pageItems = all.slice(start, start + st.perPage);
+
+  pageItems.forEach(item=>{
+    const wrap = document.createElement("div");
+    wrap.innerHTML = auctionCard(item);
+    const card = wrap.firstElementChild;
+    if(card) grid.appendChild(card);
+  });
+
+  updateCountdownDisplays();
+  installAuctionsPager(pages);
+  function installAuctionsPager(pages){
+    removeAuctionsPager();
+    const bar = document.createElement('div');
+    bar.id = 'auctionsPager';
+    bar.className = 'mt-3 flex items-center justify-between text-xs';
+    const prev = document.createElement('button'); prev.className='pager-btn'; prev.textContent='Prev'; prev.disabled = st.page<=1; prev.onclick = ()=>{ st.page--; renderAuctionListings(); };
+    const info = document.createElement('span'); info.className='px-2 text-white/70'; info.textContent = `Page ${st.page} / ${pages}`;
+    const next = document.createElement('button'); next.className='pager-btn'; next.textContent='Next'; next.disabled = st.page>=pages; next.onclick = ()=>{ st.page++; renderAuctionListings(); };
+    bar.append(prev, info, next);
+    grid.parentElement.appendChild(bar);
+  }
+  function removeAuctionsPager(){
+    const old = document.getElementById('auctionsPager');
+    if (old && old.parentElement) old.parentElement.removeChild(old);
+  }
+}
+
+function renderWantedListings(){
+  const grid = $('wantedGrid'); const empty = $('wantedEmpty');
+  if(!grid) return;
+  const all = wantedState.list.slice();
+  grid.innerHTML = "";
+
+  if(!all.length){ if(empty) empty.classList.remove("hidden"); removeWantedPager(); return; }
+  if(empty) empty.classList.add("hidden");
+
+  const st = BZ_PAGER.wanted;
+  const pages = Math.max(1, Math.ceil(all.length / st.perPage));
+  st.page = Math.min(Math.max(1, st.page), pages);
+  const start = (st.page - 1) * st.perPage;
+  const pageItems = all.slice(start, start + st.perPage);
+
+  pageItems.forEach(post=>{
+    const wrap = document.createElement("div");
+    wrap.innerHTML = wantedCard(post);
+    const card = wrap.firstElementChild;
+    if(card) grid.appendChild(card);
+  });
+
+  installWantedPager(pages);
+  function installWantedPager(pages){
+    removeWantedPager();
+    const bar = document.createElement('div');
+    bar.id = 'wantedPager';
+    bar.className = 'mt-3 flex items-center justify-between text-xs';
+    const prev = document.createElement('button'); prev.className='pager-btn'; prev.textContent='Prev'; prev.disabled = st.page<=1; prev.onclick = ()=>{ st.page--; renderWantedListings(); };
+    const info = document.createElement('span'); info.className='px-2 text-white/70'; info.textContent = `Page ${st.page} / ${pages}`;
+    const next = document.createElement('button'); next.className='pager-btn'; next.textContent='Next'; next.disabled = st.page>=pages; next.onclick = ()=>{ st.page++; renderWantedListings(); };
+    bar.append(prev, info, next);
+    grid.parentElement.appendChild(bar);
+  }
+  function removeWantedPager(){
+    const old = document.getElementById('wantedPager');
+    if (old && old.parentElement) old.parentElement.removeChild(old);
+  }
+}
+
+function renderListings(){
+  renderAuctionListings();
+  renderWantedListings();
+}
+
+let COUNTDOWN_TIMER_ID = null;
+let COUNTDOWN_VIS_HANDLER = null;
+
+function formatCountdown(diffMs){
+  if (!Number.isFinite(diffMs) || diffMs <= 0) return 'ENDED';
+  const totalSeconds = Math.floor(diffMs / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  let remaining = totalSeconds - days * 86400;
+  const hours = Math.floor(remaining / 3600);
+  remaining -= hours * 3600;
+  const minutes = Math.floor(remaining / 60);
+  const seconds = remaining - minutes * 60;
+  const pad = (Value<= 0) {
+      span.textContent = 'ENDED';
+      node.classList.add('countdown-ended');
+    } else {
+      span.textContent = formatCountdown(diff);
+      node.classList.remove('countdown-ended');
+    }
+  });
+}
+
+function startCountdownLoop(){
+  if (COUNTDOWN_TIMER_ID) {
+    updateCountdownDisplays();
+    return;
+  }
+  COUNTDOWN_TIMER_ID = setInterval(updateCountdownDisplays, 1000);
+  if (!COUNTDOWN_VIS_HANDLER) {
+    COUNTDOWN_VIS_HANDLER = () => {
+      if (document.visibilityState === 'visible') {
+        updateCountdownDisplays();
+      }
+    };
+    document.addEventListener('visibilitychange', COUNTDOWN_VIS_HANDLER);
+  }
+  updateCountdownDisplays();
+}
+function readLocalArray(key){
+  try{
+    const raw = localStorage.getItem(key);
+    if(!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  }catch{
+    return [];
+  }
+}
+function writeLocalArray(key, arr){
+  localStorage.setItem(key, JSON.stringify(arr));
+}
+
+function normalizeListingFromApi(entry){
+  if (!entry) return null;
+  const payload = entry.payload && typeof entry.payload === 'string' ? safeParseJson(entry.payload) : (entry.payload || {});
+  const merged = { ...payload, ...entry };
+  delete merged.payload;
+  merged.kind = merged.kind || merged.type || 'auction';
+  if (!merged.id && merged._id) merged.id = merged._id;
+  return merged;
+}
+
+async function detectBackend(){
+  const normalizeSet = (...Value< 4){
+      updateLoginStatus('Enter the 6-digit code that was emailed to you.', 'error');
+      return;
+    }
+    const profile = {};
+    const name = (nameInput?.Value<= 0){ showNotice("Enter your bid amount (a positive number).", { title:"Invalid amount", variant:"error", autoCloseMs:2200 }); return; }
+          if (!/^0x([A-Fa-f0-9]{64})$/.test(txhash)){ showNotice("Paste a valid deposit tx hash (0x..64 hex).", { title:"Invalid tx hash", variant:"error", autoCloseMs:2200 }); return; }
+          if (!CURRENT_BID_CTX?.listingId){ showNotice("Missing listing ID; reload and try again.", { title:"Cannot submit", variant:"error", autoCloseMs:2200 }); return; }
+          try{
+            const depositUsd = BACKEND_STATE.depositUsd || REQUIRED_DEPOSIT_USD;
+            const payload = { listingId: Number(CURRENT_BID_CTX.listingId) || CURRENT_BID_CTX.listingId, tokenId: Number.isFinite(CURRENT_BID_CTX.tokenId) ? CURRENT_BID_CTX.tokenId : undefined, wallet, amount, currency: CURRENT_BID_CTX.ccy || "ETH", chain: "evm", depositTx: txhash, depositAmount: Number.isFinite(REQUIRED_DEPOSIT_ETH) ? REQUIRED_DEPOSIT_ETH : undefined, depositUsd, createdAt: new Date().toISOString() };
+            const payloadWithAuth = withAuthPayload(payload);
+            const res  = await fetchWithAuth(API_BIDS, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payloadWithAuth) });
+            const text = await res.text();
+            if (!res.ok) throw new Error(text || `HTTP ${res.status}`);
+            showNotice("Your bid has been submitted!", { title:"Bid submitted", variant:"success", autoCloseMs:2400 });
+            if (bmRoot) bmRoot.classList.add("hidden"); if(bmWallet) bmWallet.Value<option Value</option>`;
+        const steps = 20; const span = max - min || 1;
+        for(let i=0;i<=steps;i++){ const v = min + (span*i/steps); const label = Number.isInteger(v) ? String(Math.round(v)) : v.toFixed(2); const opt = document.createElement("option"); opt.Value</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

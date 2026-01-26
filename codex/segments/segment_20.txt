@@ -1,0 +1,80 @@
+function renderConnectedWallets(){
+  const list = $('connectedWalletList');
+  if (!list) return;
+  list.innerHTML = '';
+  if (!walletConnections.length){
+    const empty = document.createElement('li');
+    empty.className = 'text-white/50';
+    empty.textContent = 'No wallets connected yet.';
+    list.appendChild(empty);
+    return;
+  }
+  walletConnections.forEach((wallet) => {
+    const li = document.createElement('li');
+    li.className = 'flex items-center justify-between gap-2 text-xs text-white/70';
+
+    const label = document.createElement('span');
+    label.className = 'font-mono text-white/80';
+    label.textContent = short(wallet.address);
+
+    const meta = document.createElement('span');
+    meta.className = 'text-white/60';
+    const chainLabel = wallet.chain === 'solana' ? ' - solana' : '';
+    meta.textContent = `(${wallet.type}${chainLabel})`;
+
+    const status = document.createElement('span');
+    status.className = wallet.verified
+      ? 'text-emerald-300 text-[11px] uppercase tracking-wide'
+      : 'text-white/50 text-[11px] uppercase tracking-wide';
+    status.textContent = wallet.verified ? 'verified' : 'pending signature';
+
+    li.appendChild(label);
+    li.appendChild(meta);
+    li.appendChild(status);
+    list.appendChild(li);
+  });
+}
+
+function refreshAuthUI(){
+  syncAuthState();
+  const hasAuth = Boolean(AUTH.isLoggedIn);
+  const hasWallet = hasEvmWallet();
+  const auctionBox = $('postAuctionBox');
+  const wantedBox = $('postWantedBox');
+  const loginBtn = $('loginToPostBtn');
+  const overlay = $('auctionWalletOverlay');
+  const gate = $('bazaarLoginGate');
+  const logoutBtn = $('logoutBtn');
+  const logoutMembersBtn = $('logoutMembersBtn');
+  const wSubmit = $('w_submit');
+  const aSubmit = $('a_submit');
+  const moveEscrow = $('a_moveEscrow');
+  const walletAddrEl = $('walletAddr');
+  const stmWalletEl = $('stm_wallet');
+
+  const displayWallet = hasWallet ? getPrimaryEvmWallet() : '';
+  const shortWallet = displayWallet ? short(displayWallet) : null;
+
+  if (walletAddrEl) walletAddrEl.textContent = shortWallet || 'Not connected';
+  if (stmWalletEl) stmWalletEl.textContent = displayWallet || 'Not connected';
+
+  const setHidden = (el, hidden) => { if(!el) return; el.classList.toggle('hidden', hidden); };
+  setHidden(loginBtn, hasAuth);
+  setHidden(gate, hasAuth);
+  setHidden(logoutBtn, !hasAuth);
+  if (logoutMembersBtn) logoutMembersBtn.classList.toggle('hidden', !hasAuth);
+
+  if (!hasAuth){
+    setHidden(auctionBox, true);
+    setHidden(wantedBox, true);
+    if (overlay) overlay.classList.add('hidden');
+  } else {
+    setHidden(auctionBox, false);
+    setHidden(wantedBox, false);
+    if (overlay) overlay.classList.toggle('hidden', hasWallet);
+  }
+
+  toggleDisabled(wSubmit, !hasAuth);
+  toggleDisabled(aSubmit, !(hasAuth && hasWallet));
+  toggleDisabled(moveEscrow, !(hasAuth && hasWallet));
+

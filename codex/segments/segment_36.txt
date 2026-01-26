@@ -1,0 +1,80 @@
+    const tokenId = parseInt($('a_token')?.value||'',10);
+    if (Number.isFinite(tokenId)) markEscrowed(tokenId, CURRENT_WALLET);
+  });
+  // === TOS & Auction Policy modal wiring ===
+  const openTos = () => openModalEl('tosModal', '#tos_close');
+  const openAp  = () => openModalEl('auctionPolicyModal', '#ap_close');
+
+  const linkTos = $('link_tos');
+  const linkAp  = $('link_ap');
+  if (linkTos) linkTos.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); openTos(); });
+  if (linkAp)  linkAp.addEventListener('click',  (e) => { e.preventDefault(); e.stopPropagation(); openAp(); });
+
+  on('tos_close','click', () => closeModalEl('tosModal'));
+  on('ap_close','click',  () => closeModalEl('auctionPolicyModal'));
+
+  const closeIfOpen = (id) => {
+    const node = $(id);
+    if (node && !node.classList.contains('hidden')){
+      closeModalEl(node);
+      return true;
+    }
+    return false;
+  };
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      let handled = false;
+      handled = closeIfOpen('loginModal') || handled;
+      handled = closeIfOpen('tosModal') || handled;
+      handled = closeIfOpen('auctionPolicyModal') || handled;
+      if (handled) e.preventDefault();
+    }
+  });
+
+
+  // Escrow action (stub)
+  on('a_moveEscrow','click', async ()=>{
+    if(!requireMember("mark escrow status", { requiresWallet: true })) return;
+    const tokenId = parseInt($('a_token')?.value || '', 10);
+    if (!Number.isFinite(tokenId)) { showNotice('Choose a Token ID first.', { title:'Missing fields', variant:'error', autoCloseMs:1800 }); return; }
+    const addr = CURRENT_WALLET || AUTH.wallet || await connectWallet();
+    if (!addr) return;
+    if (!hasAcceptedSellerTerms(addr)) { openSellerTerms(); return; }
+    const owns = await verifyOwnership({ chain: OS_SETTINGS.chain, contract: OS_SETTINGS.contract, tokenId, wallet: addr });
+    if (!owns){
+      showNotice('Wallet does not own this token or settings missing.', { title:'Ownership failed', variant:'error', autoCloseMs:2600 });
+      return;
+    }
+    // Until on-chain is wired, mark as escrowed locally
+    markEscrowed(tokenId, addr);
+    showNotice('Marked as escrowed (dev stub). On-chain transfer to escrow contract will be added next.', { title:'Escrow ready', variant:'info', autoCloseMs:2600 });
+  });
+
+  // Auction submission
+  toggleMemberForms(window.DIKPIK_MEMBER);
+
+  on('a_submit','click', async ()=> {
+    if(!requireMember("publish an auction", { requiresWallet: true })) return;
+    const tokenId = parseInt($('a_token')?.value || "", 10);
+    const title   = ($('a_title')?.value || "").trim();
+    const min     = safeNum($('a_min')?.value);
+    const min_ccy = $('a_min_ccy')?.value || "ETH";
+    const price   = safeNum($('a_price')?.value);
+    const currency= $('a_ccy')?.value || "ETH";
+    const expiresS= $('a_expires')?.value;
+
+    if (!Number.isFinite(tokenId) || !expiresS){
+      showNotice("Please choose a Token ID and an end date/time.", { title: "Missing fields", variant: "error", autoCloseMs: 2200 }); return;
+    }
+
+    const addr = CURRENT_WALLET || AUTH.wallet || await connectWallet();
+    if (!addr) return;
+    if (!hasAcceptedSellerTerms(addr)) { openSellerTerms(); return; }
+    if (!isEscrowed(tokenId)) { showNotice('Please move the NFT to escrow first.', { title:'Escrow required', variant:'error', autoCloseMs:2200 }); return; }
+
+    try {
+      const created = await createListing({ kind: "auction", title, tokenId, min, min_ccy, price, currency, expiresAt: new Date(expiresS).toISOString(), escrowed: true, seller: addr });
+      LISTINGS = [created, ...LISTINGS];
+      renderListings();
+      await loadListings();
+      renderListings();

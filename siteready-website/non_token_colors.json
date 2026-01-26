@@ -1,0 +1,1542 @@
+[
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\requests\\page.tsx",
+    "LineNumber": 344,
+    "Line": "<div key={c.worker_id} className={styles.group} style={{ background: \"#fff\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 221,
+    "Line": "border: \"1px solid #e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 224,
+    "Line": "background: \"#f8fafc\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 232,
+    "Line": "color: \"#0f172a\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 238,
+    "Line": "color: \"#0f172a\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 243,
+    "Line": "verified: \"#bbf7d0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 244,
+    "Line": "pending: \"#fde68a\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 245,
+    "Line": "needs_clearer: \"#fdba74\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 246,
+    "Line": "out_of_date: \"#fecaca\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 247,
+    "Line": "rejected: \"#fecaca\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 248,
+    "Line": "unverified: \"#e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 255,
+    "Line": "background: colors[value] || \"#e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 258,
+    "Line": "color: \"#0f172a\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 641,
+    "Line": "<SecondaryButton href=\"/dashboard/admin\" style={headerButtonStyle(\"#bae6fd\")}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 644,
+    "Line": "<SecondaryButton href=\"/dashboard/admin/clients\" style={headerButtonStyle(\"#bbf7d0\")}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 647,
+    "Line": "<SecondaryButton href=\"/dashboard/admin/requests\" style={headerButtonStyle(\"#fef3c7\")}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 650,
+    "Line": "<SecondaryButton href=\"/dashboard/admin/access\" style={headerButtonStyle(\"#e9d5ff\")}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 653,
+    "Line": "<SecondaryButton href=\"/logout\" style={headerButtonStyle(\"#fecaca\")}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 673,
+    "Line": "{item.missing ? <div style={{ color: \"#b91c1c\", fontWeight: 700 }}>Missing or unsigned declaration</div> : null}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 675,
+    "Line": "<div style={{ color: \"#b45309\", fontWeight: 700 }}>Working holiday maker with tax-free threshold set</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 692,
+    "Line": "<div style={{ padding: \"0.35rem 0.75rem\", borderRadius: 999, background: \"#e0f2fe\", fontWeight: 700 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 700,
+    "Line": "<div style={{ color: \"#475569\" }}>{w.role_id || \"Unassigned\"}</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 732,
+    "Line": "<div style={sectionTitleStyle(\"#e0f2fe\")}>Worker profile</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 733,
+    "Line": "<div style={{ padding: \"0.35rem 0.75rem\", borderRadius: 999, background: \"#e0f2fe\", fontWeight: 700, display: \"inline-block\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 779,
+    "Line": "? \"#f87171\""
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 782,
+    "Line": "? \"#f87171\""
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 794,
+    "Line": "<div style={sectionTitleStyle(\"#ecfdf3\")}>Company details</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 828,
+    "Line": "borderColor: needsSuper ? \"#f87171\" : cardStyle.border,"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 833,
+    "Line": "<div style={sectionTitleStyle(\"#fef9c3\")}>Superannuation (payroll)</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 838,
+    "Line": "<div style={{ marginBottom: \"0.5rem\", fontWeight: 700, color: \"#b91c1c\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 847,
+    "Line": "background: superChoice === \"REGULATED\" ? \"#dcfce7\" : \"#f8fafc\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 848,
+    "Line": "borderColor: \"#e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 872,
+    "Line": "background: superChoice === \"SMSF\" ? \"#e0f2fe\" : \"#f8fafc\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 873,
+    "Line": "borderColor: \"#e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 894,
+    "Line": "background: superChoice === \"STAPLED\" ? \"#fef3c7\" : \"#f8fafc\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 895,
+    "Line": "borderColor: \"#e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 930,
+    "Line": "{superLoading[w.worker_id] ? <div style={{ fontSize: \"0.85rem\", color: \"#64748b\" }}>Searching…</div> : null}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 933,
+    "Line": "<div style={{ border: \"1px solid #e2e8f0\", borderRadius: 10, overflow: \"hidden\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 953,
+    "Line": "<div style={{ fontSize: \"0.8rem\", color: \"#64748b\" }}>ABN {result.abn}</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 995,
+    "Line": "<div style={{ marginTop: \"0.5rem\", fontWeight: 700, color: \"#b45309\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1032,
+    "Line": "<div style={{ marginTop: \"0.75rem\", padding: \"0.6rem 0.75rem\", borderRadius: 10, background: \"#fff7ed\", color: \"#92400e\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1051,
+    "Line": "borderColor: needsApproval(details[w.worker_id]) ? \"#f87171\" : cardStyle.border,"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1057,
+    "Line": "<div style={sectionTitleStyle(\"#ede9fe\")}>Identification documents</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1186,
+    "Line": "<div style={sectionTitleStyle(\"#ffe4e6\")}>Banking</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1206,
+    "Line": "<div style={sectionTitleStyle(\"#e2e8f0\")}>Tax declaration</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1229,
+    "Line": "<div style={sectionTitleStyle(\"#dcfce7\")}>Tickets</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1255,
+    "Line": "<div style={{ marginTop: \"0.35rem\", fontWeight: 700, color: \"#b91c1c\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1261,
+    "Line": "<div style={{ marginTop: \"0.35rem\", fontWeight: 700, color: \"#b91c1c\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1344,
+    "Line": "<div style={sectionTitleStyle(\"#fee2e2\")}>Work experience</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1404,
+    "Line": "<div style={{ marginTop: \"0.5rem\", color: \"#64748b\" }}>No media uploaded.</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1407,
+    "Line": "<div style={{ background: \"#f8fafc\", borderRadius: 12, padding: \"0.75rem\", border: \"1px solid #e2e8f0\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1425,
+    "Line": "<div style={sectionTitleStyle(\"#fef3c7\")}>Work media (additional)</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1483,
+    "Line": "<div style={sectionTitleStyle(\"#e2e8f0\")}>Emergency contact</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1494,
+    "Line": "<div style={sectionTitleStyle(\"#cffafe\")}>Consents</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1501,
+    "Line": "<div style={sectionTitleStyle(\"#ffe4e6\")}>Delete request</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1518,
+    "Line": "style={{ background: \"#e0f2fe\", borderColor: \"#38bdf8\", color: \"#075985\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1525,
+    "Line": "<span style={{ color: \"#dc2626\", fontWeight: 700 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1530,
+    "Line": "<span style={{ color: \"#0f172a\", fontWeight: 700 }}>{syncMessages[w.worker_id]}</span>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\admin\\workers\\page.tsx",
+    "LineNumber": 1562,
+    "Line": "background: \"#fff\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\requests\\proposed\\page.tsx",
+    "LineNumber": 78,
+    "Line": "<div key={c.assignment_id} className={styles.group} style={{ background: \"#fff\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\requests\\status\\page.tsx",
+    "LineNumber": 17,
+    "Line": "submitted: { label: \"Submitted\", color: \"#2563eb\", next: \"Under review\" },"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\requests\\status\\page.tsx",
+    "LineNumber": 18,
+    "Line": "under_review: { label: \"Under review\", color: \"#f59e0b\", next: \"Approved or declined\" },"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\requests\\status\\page.tsx",
+    "LineNumber": 19,
+    "Line": "approved: { label: \"Approved\", color: \"#10b981\", next: \"Assigned\" },"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\requests\\status\\page.tsx",
+    "LineNumber": 20,
+    "Line": "declined: { label: \"Declined\", color: \"#ef4444\", next: \"Closed\" },"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\requests\\status\\page.tsx",
+    "LineNumber": 21,
+    "Line": "assigned: { label: \"Assigned\", color: \"#6366f1\", next: \"Active\" },"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\requests\\status\\page.tsx",
+    "LineNumber": 22,
+    "Line": "active: { label: \"Active\", color: \"#0ea5e9\", next: \"Completed\" },"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\requests\\status\\page.tsx",
+    "LineNumber": 23,
+    "Line": "completed: { label: \"Completed\", color: \"#64748b\", next: \"Closed\" },"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\requests\\status\\page.tsx",
+    "LineNumber": 72,
+    "Line": "<div className={styles.group} style={{ background: \"#fff\", marginBottom: \"1rem\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\requests\\status\\page.tsx",
+    "LineNumber": 83,
+    "Line": "color: \"#fff\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\requests\\status\\page.tsx",
+    "LineNumber": 122,
+    "Line": "color: \"#fff\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\assignments\\page.tsx",
+    "LineNumber": 33,
+    "Line": "<h2 style={{ fontWeight: 800, color: \"#0f172a\" }}>Active assignments</h2>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 35,
+    "Line": "border: \"1px solid #e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 37,
+    "Line": "background: \"#f8fafc\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 49,
+    "Line": "border: \"1px solid #e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 51,
+    "Line": "background: \"#f8fafc\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1581,
+    "Line": "<div style={{ flex: \"1 1 200px\", fontSize: \"0.9rem\", color: \"#0f172a\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1586,
+    "Line": "style={{ background: \"#ecfdf3\", borderColor: \"#22c55e\", color: \"#166534\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1593,
+    "Line": "style={{ background: \"#fee2e2\", borderColor: \"#ef4444\", color: \"#991b1b\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1620,
+    "Line": "<div style={{ flex: \"1 1 200px\", fontSize: \"0.9rem\", color: \"#0f172a\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1625,
+    "Line": "style={{ background: \"#ecfdf3\", borderColor: \"#22c55e\", color: \"#166534\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1633,
+    "Line": "style={{ background: \"#fee2e2\", borderColor: \"#ef4444\", color: \"#991b1b\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1763,
+    "Line": "const sectionTitleStyle = { fontWeight: 800, color: \"#0f172a\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1768,
+    "Line": "return { label: \"Proposed position - waiting your approval\", bg: \"#fef3c7\", color: \"#92400e\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1771,
+    "Line": "return { label: \"Assigned to job\", bg: \"#dcfce7\", color: \"#166534\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1774,
+    "Line": "return { label: \"Working elsewhere - offers paused\", bg: \"#fee2e2\", color: \"#991b1b\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1777,
+    "Line": "return { label: \"Working elsewhere - still open to offers\", bg: \"#e0f2fe\", color: \"#075985\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1781,
+    "Line": "return { label: `Working now${from}`, bg: \"#fef3c7\", color: \"#92400e\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1785,
+    "Line": "return { label: `Fully available${from}`, bg: \"#dcfce7\", color: \"#166534\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1788,
+    "Line": "return { label: \"Approved\", bg: \"#dcfce7\", color: \"#166534\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1791,
+    "Line": "return { label: \"Pending approval\", bg: \"#e0f2fe\", color: \"#075985\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1793,
+    "Line": "return { label: \"Unverified - complete your profile\", bg: \"#fee2e2\", color: \"#991b1b\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1797,
+    "Line": "return { label: \"Approved profile\", bg: \"#dcfce7\", color: \"#166534\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1800,
+    "Line": "return { label: \"Pending approval\", bg: \"#e0f2fe\", color: \"#075985\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1802,
+    "Line": "return { label: \"Unverified - complete your profile\", bg: \"#fee2e2\", color: \"#991b1b\" };"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1808,
+    "Line": "<h2 style={{ fontWeight: 800, color: \"#0f172a\" }}>Worker portal</h2>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1812,
+    "Line": "<div style={{ padding: \"0.5rem 0.9rem\", borderRadius: 10, background: \"#f1f5f9\", color: \"#0f172a\", fontWeight: 700 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1824,
+    "Line": "style={{ background: \"#eff6ff\", borderColor: \"#3b82f6\", color: \"#1d4ed8\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1830,
+    "Line": "style={{ background: \"#ecfdf3\", borderColor: \"#22c55e\", color: \"#166534\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1836,
+    "Line": "style={{ background: \"#eef2ff\", borderColor: \"#6366f1\", color: \"#3730a3\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1842,
+    "Line": "style={{ background: \"#fff7ed\", borderColor: \"#f97316\", color: \"#c2410c\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1848,
+    "Line": "style={{ background: \"#fef2f2\", borderColor: \"#ef4444\", color: \"#991b1b\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 1990,
+    "Line": "border: \"1px solid #d4d4d4\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2035,
+    "Line": "border: profileErrors.super_choice ? \"2px solid #ef4444\" : undefined,"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2046,
+    "Line": "background: superChoice === \"REGULATED\" ? \"#dcfce7\" : \"#f8fafc\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2047,
+    "Line": "borderColor: superChoice === \"REGULATED\" ? \"#22c55e\" : \"#e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2049,
+    "Line": "color: \"#0f172a\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2066,
+    "Line": "<div style={{ fontSize: \"0.85rem\", marginTop: \"0.25rem\", color: \"#475569\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2075,
+    "Line": "background: superChoice === \"SMSF\" ? \"#e0f2fe\" : \"#f8fafc\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2076,
+    "Line": "borderColor: superChoice === \"SMSF\" ? \"#38bdf8\" : \"#e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2078,
+    "Line": "color: \"#0f172a\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2097,
+    "Line": "<div style={{ fontSize: \"0.85rem\", marginTop: \"0.25rem\", color: \"#475569\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2106,
+    "Line": "background: superChoice === \"STAPLED\" ? \"#fef3c7\" : \"#f8fafc\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2107,
+    "Line": "borderColor: superChoice === \"STAPLED\" ? \"#f59e0b\" : \"#e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2109,
+    "Line": "color: \"#0f172a\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2129,
+    "Line": "<div style={{ fontSize: \"0.85rem\", marginTop: \"0.25rem\", color: \"#475569\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2135,
+    "Line": "<div style={{ marginTop: \"0.75rem\", padding: \"0.7rem 0.9rem\", borderRadius: 12, background: \"#fff7ed\", color: \"#92400e\", fontWeight: 600 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2150,
+    "Line": "Super member number <span style={{ color: \"#b91c1c\", fontWeight: 700 }}>(If registering as a company leave blank)</span>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2167,
+    "Line": "{fundLoading ? <div style={{ fontSize: \"0.85rem\", color: \"#64748b\", marginTop: \"0.35rem\" }}>Searching…</div> : null}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2172,
+    "Line": "border: \"1px solid #e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2175,
+    "Line": "background: \"#fff\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2190,
+    "Line": "borderBottom: \"1px solid #e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2194,
+    "Line": "<div style={{ fontSize: \"0.8rem\", color: \"#64748b\" }}>ABN {result.abn}</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2227,
+    "Line": "<div style={{ marginTop: \"0.5rem\", padding: \"0.6rem 0.75rem\", borderRadius: 10, background: \"#fff7ed\", color: \"#9a3412\", fontWeight: 600 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2267,
+    "Line": "border: Object.keys(taxDeclarationErrors).length ? \"2px solid #ef4444\" : undefined,"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2272,
+    "Line": "<p style={{ marginTop: \"0.35rem\", color: \"#475569\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2276,
+    "Line": "<div style={{ marginTop: \"0.5rem\", padding: \"0.6rem 0.75rem\", borderRadius: 10, background: \"#ecfeff\", color: \"#0f766e\", fontWeight: 700 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2319,
+    "Line": "<div style={{ fontSize: \"0.85rem\", color: \"#64748b\", marginTop: \"0.25rem\" }}>We store this securely.</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2391,
+    "Line": "<div style={{ marginTop: \"0.5rem\", color: \"#92400e\", fontWeight: 600 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2606,
+    "Line": "<p style={{ color: \"#475569\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2645,
+    "Line": "style={{ background: \"#16a34a\", borderColor: \"#16a34a\", color: \"#fff\", fontWeight: 800 }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2657,
+    "Line": "<div style={{ marginBottom: \"0.75rem\", padding: \"0.6rem 0.75rem\", borderRadius: 10, background: \"#fff7ed\", color: \"#9a3412\", fontWeight: 600 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 2660,
+    "Line": "<h4 style={{ color: \"#1d4ed8\", fontWeight: 800 }}>Company details (if operating under your ABN)</h4>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3051,
+    "Line": "style={{ background: \"#ecfdf3\", borderColor: \"#22c55e\", color: \"#166534\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3057,
+    "Line": "<span className={styles.hint} style={{ color: \"#1d4ed8\", fontWeight: 700 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3062,
+    "Line": "<span className={styles.hint} style={{ color: \"#b91c1c\", fontWeight: 700 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3081,
+    "Line": "<div className={styles.hint} style={{ fontWeight: 700, color: \"#1d4ed8\", marginBottom: \"0.5rem\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3245,
+    "Line": "style={{ background: \"#fff7ed\", borderColor: \"#f97316\", color: \"#c2410c\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3258,
+    "Line": "style={{ background: \"#eff6ff\", borderColor: \"#3b82f6\", color: \"#1d4ed8\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3310,
+    "Line": "color: expiryCountdown.startsWith(\"Expires in\") ? \"#0f172a\" : \"#b91c1c\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3323,
+    "Line": "<div className={styles.hint} style={{ fontWeight: 700, color: \"#b91c1c\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3353,
+    "Line": "style={{ background: \"#ecfdf3\", borderColor: \"#22c55e\", color: \"#166534\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3361,
+    "Line": "style={{ background: \"#fee2e2\", borderColor: \"#ef4444\", color: \"#991b1b\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3371,
+    "Line": "style={{ background: \"#eff6ff\", borderColor: \"#3b82f6\", color: \"#1d4ed8\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3633,
+    "Line": "style={{ background: \"#fee2e2\", borderColor: \"#ef4444\", color: \"#991b1b\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3685,
+    "Line": "style={{ background: \"#ecfdf3\", borderColor: \"#22c55e\", color: \"#166534\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3692,
+    "Line": "<span className={styles.hint} style={{ color: \"#1d4ed8\", fontWeight: 700 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3822,
+    "Line": "<SecondaryButton type=\"button\"  style={{ background: \"#ecfdf3\", borderColor: \"#22c55e\", color: \"#166534\" }} onClick={submitProfile}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3829,
+    "Line": "color: submitStatus === \"success\" ? \"#166534\" : submitStatus === \"loading\" ? \"#1d4ed8\" : \"#b91c1c\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3862,
+    "Line": "style={{ background: \"#fee2e2\", borderColor: \"#ef4444\", color: \"#991b1b\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3885,
+    "Line": "<div style={{ maxWidth: 720, width: \"100%\", background: \"#fff\", borderRadius: 16, padding: \"1rem\", maxHeight: \"80vh\", display: \"flex\", flexDirection: \"column\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3886,
+    "Line": "<div style={{ display: \"flex\", justifyContent: \"space-between\", alignItems: \"center\", marginBottom: \"0.75rem\", position: \"sticky\", top: 0, background: \"#fff\", zIndex: 1, paddingBottom: \"0.5rem\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3890,
+    "Line": "style={{ background: \"#fee2e2\", borderColor: \"#ef4444\", color: \"#991b1b\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3896,
+    "Line": "<div style={{ width: \"100%\", borderRadius: 12, overflow: \"auto\", border: \"1px solid #e2e8f0\", flex: 1 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3917,
+    "Line": "<div style={{ background: \"#fff\", borderRadius: 16, maxWidth: 640, width: \"100%\", padding: \"1.5rem\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\page.tsx",
+    "LineNumber": 3959,
+    "Line": "style={{ background: \"#16a34a\", borderColor: \"#16a34a\", color: \"#fff\", fontWeight: 800 }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\proposed\\page.tsx",
+    "LineNumber": 27,
+    "Line": "<h2 style={{ fontWeight: 800, color: \"#0f172a\" }}>Proposed positions</h2>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\timesheets\\page.tsx",
+    "LineNumber": 202,
+    "Line": "border: \"1px solid #e2e8f0\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\timesheets\\page.tsx",
+    "LineNumber": 203,
+    "Line": "background: [\"#fff7ed\", \"#eff6ff\", \"#ecfdf3\", \"#fdf2f8\", \"#fef9c3\", \"#f3f4f6\", \"#ede9fe\"][index % 7],"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\working-now\\page.tsx",
+    "LineNumber": 102,
+    "Line": "<h2 style={{ fontWeight: 800, color: \"#0f172a\" }}>Current status / Working now / Holidays</h2>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\working-now\\page.tsx",
+    "LineNumber": 109,
+    "Line": "<h3 style={{ fontWeight: 800, color: \"#0f172a\" }}>Your current status</h3>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\working-now\\page.tsx",
+    "LineNumber": 195,
+    "Line": "<h3 style={{ fontWeight: 800, color: \"#0f172a\" }}>Planned holidays</h3>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(dashboard)\\dashboard\\worker\\working-now\\page.tsx",
+    "LineNumber": 238,
+    "Line": "style={{ background: \"#dcfce7\", borderColor: \"#22c55e\", color: \"#166534\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\admin-setup\\page.tsx",
+    "LineNumber": 41,
+    "Line": "<div className={styles.errorSummary} style={{ background: \"#ecfdf3\", borderColor: \"#86efac\", color: \"#166534\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\contact\\page.tsx",
+    "LineNumber": 133,
+    "Line": "<span className=\"text-sm text-green-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\contact\\page.tsx",
+    "LineNumber": 138,
+    "Line": "<span className=\"text-sm text-red-600\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\for-workers\\page.tsx",
+    "LineNumber": 370,
+    "Line": "<p className=\"text-sm font-semibold text-green-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\for-workers\\page.tsx",
+    "LineNumber": 375,
+    "Line": "<p className=\"text-sm font-semibold text-red-600\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\login\\page.tsx",
+    "LineNumber": 105,
+    "Line": "<path fill=\"#EA4335\" d=\"M24 9.5c3.54 0 6.02 1.53 7.41 2.82l5.08-4.88C33.38 4.57 29.06 2.5 24 2.5 14.8 2.5 6.93 7.76 3.11 15.41l6.19 4.81C11.13 14.03 17.12 9.5 24 9.5z\" />"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\login\\page.tsx",
+    "LineNumber": 106,
+    "Line": "<path fill=\"#4285F4\" d=\"M46.5 24.5c0-1.57-.14-2.73-.45-3.93H24v7.42h12.78c-.26 2.06-1.66 5.16-4.78 7.24l-.04.27 6.04 4.68.42.04c3.86-3.56 6.08-8.8 6.08-15.72z\" />"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\login\\page.tsx",
+    "LineNumber": 107,
+    "Line": "<path fill=\"#FBBC05\" d=\"M9.3 28.22c-.46-1.39-.73-2.87-.73-4.42s.27-3.03.72-4.42l-.03-.29-6.22-4.89-.2.1C1.74 17.09 1.5 20.02 1.5 23.8c0 3.78.24 6.7 1.34 9.5l6.46-5.08z\" />"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\login\\page.tsx",
+    "LineNumber": 108,
+    "Line": "<path fill=\"#34A853\" d=\"M24 45.5c6.06 0 11.14-2 14.85-5.45l-6.5-5.04c-1.74 1.2-4.08 2.04-8.35 2.04-6.88 0-12.87-4.53-14.69-10.72l-.26.02-6.2 4.84-.09.25C6.57 39.24 14.8 45.5 24 45.5z\" />"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\page.tsx",
+    "LineNumber": 126,
+    "Line": "<div className=\"rounded-lg bg-srBg p-3\">Booking #1023 - Confirmed</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\platform-not-configured\\page.tsx",
+    "LineNumber": 3,
+    "Line": "<div style={{ maxWidth: 640, margin: \"3rem auto\", padding: \"1rem\", border: \"1px solid #e5e7eb\", borderRadius: 12 }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\privacy\\page.tsx",
+    "LineNumber": 12,
+    "Line": "<p className=\"mt-4 text-sm text-slate-600\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\privacy\\page.tsx",
+    "LineNumber": 18,
+    "Line": "<ul className=\"mt-3 list-disc space-y-2 pl-5 text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\privacy\\page.tsx",
+    "LineNumber": 26,
+    "Line": "<ul className=\"mt-3 list-disc space-y-2 pl-5 text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\privacy\\page.tsx",
+    "LineNumber": 34,
+    "Line": "<p className=\"mt-3 text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\privacy\\page.tsx",
+    "LineNumber": 40,
+    "Line": "<p className=\"mt-3 text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\privacy\\page.tsx",
+    "LineNumber": 46,
+    "Line": "<p className=\"mt-3 text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\privacy\\page.tsx",
+    "LineNumber": 50,
+    "Line": "<p className=\"mt-10 text-xs text-slate-500\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\register\\page.tsx",
+    "LineNumber": 8,
+    "Line": "<path fill=\"#EA4335\" d=\"M24 9.5c3.54 0 6.02 1.53 7.41 2.82l5.08-4.88C33.38 4.57 29.06 2.5 24 2.5 14.8 2.5 6.93 7.76 3.11 15.41l6.19 4.81C11.13 14.03 17.12 9.5 24 9.5z\" />"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\register\\page.tsx",
+    "LineNumber": 9,
+    "Line": "<path fill=\"#4285F4\" d=\"M46.5 24.5c0-1.57-.14-2.73-.45-3.93H24v7.42h12.78c-.26 2.06-1.66 5.16-4.78 7.24l-.04.27 6.04 4.68.42.04c3.86-3.56 6.08-8.8 6.08-15.72z\" />"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\register\\page.tsx",
+    "LineNumber": 10,
+    "Line": "<path fill=\"#FBBC05\" d=\"M9.3 28.22c-.46-1.39-.73-2.87-.73-4.42s.27-3.03.72-4.42l-.03-.29-6.22-4.89-.2.1C1.74 17.09 1.5 20.02 1.5 23.8c0 3.78.24 6.7 1.34 9.5l6.46-5.08z\" />"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\register\\page.tsx",
+    "LineNumber": 11,
+    "Line": "<path fill=\"#34A853\" d=\"M24 45.5c6.06 0 11.14-2 14.85-5.45l-6.5-5.04c-1.74 1.2-4.08 2.04-8.35 2.04-6.88 0-12.87-4.53-14.69-10.72l-.26.02-6.2 4.84-.09.25C6.57 39.24 14.8 45.5 24 45.5z\" />"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\register\\page.tsx",
+    "LineNumber": 77,
+    "Line": "<div className={styles.errorSummary} style={{ background: \"#ecfdf3\", borderColor: \"#86efac\", color: \"#166534\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\technology\\page.tsx",
+    "LineNumber": 30,
+    "Line": "<div className=\"rounded-lg bg-srBg p-3\">Booking #1402 • Awaiting approval</div>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\terms\\page.tsx",
+    "LineNumber": 12,
+    "Line": "<p className=\"mt-4 text-sm text-slate-600\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\terms\\page.tsx",
+    "LineNumber": 17,
+    "Line": "<p className=\"mt-3 text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\terms\\page.tsx",
+    "LineNumber": 23,
+    "Line": "<p className=\"mt-3 text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\terms\\page.tsx",
+    "LineNumber": 29,
+    "Line": "<ul className=\"mt-3 list-disc space-y-2 pl-5 text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\terms\\page.tsx",
+    "LineNumber": 35,
+    "Line": "<p className=\"mt-3 text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\terms\\page.tsx",
+    "LineNumber": 41,
+    "Line": "<p className=\"mt-3 text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\(marketing)\\terms\\page.tsx",
+    "LineNumber": 45,
+    "Line": "<p className=\"mt-10 text-xs text-slate-500\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\api\\auth\\register\\route.ts",
+    "LineNumber": 73,
+    "Line": "<div style=\"font-family: Arial, sans-serif; color: #0b1f3b; line-height: 1.6;\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\api\\auth\\register\\route.ts",
+    "LineNumber": 77,
+    "Line": "<a href=\"${loginUrl}\" style=\"background: #0b1f3b; color: #fff; text-decoration: none; padding: 10px 18px; border-radius: 999px; display: inline-block;\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\api\\auth\\register\\route.ts",
+    "LineNumber": 82,
+    "Line": "<p style=\"color: #6b7280; font-size: 12px;\">This email is for your account access and updates.</p>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\globals.css",
+    "LineNumber": 4,
+    "Line": "--color-srPrimary: #0b1f3b;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\globals.css",
+    "LineNumber": 5,
+    "Line": "--color-srAccent: #ff7a1a;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\globals.css",
+    "LineNumber": 6,
+    "Line": "--color-srTeal: #11b6a8;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\globals.css",
+    "LineNumber": 7,
+    "Line": "--color-srText: #212529;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\globals.css",
+    "LineNumber": 8,
+    "Line": "--color-srMuted: #6b7280;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\globals.css",
+    "LineNumber": 9,
+    "Line": "--color-srBg: #f5f7fa;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\globals.css",
+    "LineNumber": 10,
+    "Line": "--color-srCard: #ffffff;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\app\\globals.css",
+    "LineNumber": 11,
+    "Line": "--color-srBorder: #e5e7eb;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 8,
+    "Line": "background: #fff4eb;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 9,
+    "Line": "border: 1px solid #ffd9b8;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 20,
+    "Line": "color: #0b1f3b;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 25,
+    "Line": "color: #c2410c;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 57,
+    "Line": "color: #0b1f3b;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 64,
+    "Line": "border: 1px solid #e5e7eb;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 68,
+    "Line": "background: #fff;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 77,
+    "Line": "color: #b91c1c;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 82,
+    "Line": "border-color: #b91c1c !important;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 103,
+    "Line": "border-color: #b91c1c;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 109,
+    "Line": "border: 1px solid #fca5a5;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 110,
+    "Line": "background: #fef2f2;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 111,
+    "Line": "color: #991b1b;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 119,
+    "Line": "border: 1px solid #e5e7eb;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 122,
+    "Line": "background: #f9fafb;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 139,
+    "Line": "background: #0b1f3b;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 140,
+    "Line": "color: #fff;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 156,
+    "Line": "background: #fff4eb;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 157,
+    "Line": "color: #b45309;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 158,
+    "Line": "border: 1px solid #fed7aa;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 164,
+    "Line": "background: #ecfdf3;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 165,
+    "Line": "color: #166534;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 166,
+    "Line": "border: 1px solid #bbf7d0;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 169,
+    "Line": "background: #fef2f2;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 170,
+    "Line": "color: #991b1b;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 171,
+    "Line": "border: 1px solid #fecaca;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 174,
+    "Line": "background: #f3f4f6;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 175,
+    "Line": "color: #6b7280;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 176,
+    "Line": "border: 1px solid #e5e7eb;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 187,
+    "Line": "color: #0b1f3b;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 193,
+    "Line": "border: 1px solid #e5e7eb;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 206,
+    "Line": "background: #f3f4f6;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 211,
+    "Line": "background: #fff7ed;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 212,
+    "Line": "border: 1px solid #fdba74;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 213,
+    "Line": "color: #9a3412;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 239,
+    "Line": "border-bottom: 1px solid #e5e7eb;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 247,
+    "Line": "color: #0b1f3b;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 248,
+    "Line": "background: #fff7ed;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 252,
+    "Line": "color: #6b7280;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 260,
+    "Line": "background: #fef3c7;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 261,
+    "Line": "border: 1px solid #fcd34d;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 262,
+    "Line": "color: #92400e;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 269,
+    "Line": "color: #065f46;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 280,
+    "Line": "border: 1px solid #fdba74;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 281,
+    "Line": "background: #fff7ed;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 282,
+    "Line": "color: #9a3412;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 297,
+    "Line": "color: #065f46;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 310,
+    "Line": "border: 1px solid #e5e7eb;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 314,
+    "Line": "background: #fff;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 329,
+    "Line": "color: #4b5563;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 340,
+    "Line": "border: 1px solid #e5e7eb;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 342,
+    "Line": "background: #fff;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 361,
+    "Line": ".section { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem; }"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 363,
+    "Line": ".sectionTitleStrong { font-size: 1.1rem; color: #0b1f3b; font-weight: 700; }"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 364,
+    "Line": ".highlightSection { border: 2px solid #ff7a1a; background: #fff4eb; }"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 365,
+    "Line": ".workersTitle { font-size: 1.15rem; color: #0b1f3b; font-weight: 800; }"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 366,
+    "Line": ".note { font-weight: 600; color: #0b1f3b; }"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 367,
+    "Line": ".emphasis { font-size: 0.95rem; color: #d97706; font-weight: 700; }"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 369,
+    "Line": "border: 1px solid #0b1f3b;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 370,
+    "Line": "background: #ffffff;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 371,
+    "Line": "color: #0b1f3b;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 380,
+    "Line": "background: #0b1f3b;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 381,
+    "Line": "color: #ffffff;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.module.css",
+    "LineNumber": 389,
+    "Line": "color: #b45309;"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.tsx",
+    "LineNumber": 591,
+    "Line": "{status === \"success\" && <span className=\"text-green-700 font-semibold\">{message}</span>}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\booking\\BookLabourNowForm.tsx",
+    "LineNumber": 592,
+    "Line": "{status === \"error\" && <span className=\"text-red-600 font-semibold\">{message || \"Submission failed.\"}</span>}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 11,
+    "Line": "<footer className=\"border-t border-slate-200/70 bg-white/80 backdrop-blur\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 14,
+    "Line": "<p className=\"text-sm font-semibold uppercase tracking-[0.14em] text-amber-600\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 17,
+    "Line": "<h3 className=\"font-display text-2xl font-semibold text-slate-900\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 20,
+    "Line": "<p className=\"text-sm text-slate-600\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 25,
+    "Line": "<div className=\"flex flex-wrap gap-3 text-sm text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 26,
+    "Line": "<span className=\"rounded-full bg-slate-900 px-3 py-1 text-amber-100\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 29,
+    "Line": "<span className=\"rounded-full border border-slate-300 px-3 py-1\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 32,
+    "Line": "<span className=\"rounded-full border border-amber-300/80 bg-amber-50 px-3 py-1 text-amber-800\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 39,
+    "Line": "<h4 className=\"text-sm font-semibold uppercase tracking-[0.14em] text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 42,
+    "Line": "<div className=\"mt-4 flex flex-col gap-3 text-sm font-semibold text-slate-900\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 47,
+    "Line": "className=\"transition hover:text-amber-600\""
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 56,
+    "Line": "<h4 className=\"text-sm font-semibold uppercase tracking-[0.14em] text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 59,
+    "Line": "<div className=\"text-sm text-slate-700\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 60,
+    "Line": "<p>Phone: <a className=\"font-semibold text-slate-900\" href=\"tel:+61280000000\">+61 2 8000 0000</a></p>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 61,
+    "Line": "<p>Email: <a className=\"font-semibold text-slate-900\" href=\"mailto:hello@siteready.com.au\">hello@siteready.com.au</a></p>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 64,
+    "Line": "<div className=\"space-y-1 text-xs text-slate-500\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 70,
+    "Line": "<div className=\"border-t border-slate-200/70 bg-white/90\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 71,
+    "Line": "<div className=\"mx-auto flex max-w-6xl flex-col gap-2 px-4 py-4 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\footer.tsx",
+    "LineNumber": 73,
+    "Line": "<p className=\"text-slate-500\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 18,
+    "Line": "<header className=\"sticky top-0 z-30 border-b border-slate-200/70 bg-white/80 backdrop-blur\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 19,
+    "Line": "<div className=\"bg-slate-900 text-xs font-semibold uppercase tracking-[0.12em] text-slate-100\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 22,
+    "Line": "<span className=\"h-1 w-6 rounded-full bg-amber-400\" />"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 25,
+    "Line": "<span className=\"flex flex-wrap items-center gap-3 text-slate-200\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 26,
+    "Line": "<span className=\"rounded-full border border-slate-700/80 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-amber-200\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 29,
+    "Line": "<span className=\"text-slate-400\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 38,
+    "Line": "<div className=\"flex h-11 w-11 items-center justify-center rounded-full bg-amber-400 text-base font-black text-slate-900 shadow-md shadow-amber-300/40\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 42,
+    "Line": "<p className=\"font-display text-lg font-semibold text-slate-900\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 45,
+    "Line": "<p className=\"text-sm text-slate-600\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 51,
+    "Line": "<nav className=\"ml-auto hidden items-center gap-6 text-sm font-semibold text-slate-800 md:flex\">"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 56,
+    "Line": "className=\"transition-colors hover:text-amber-600\""
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\header.tsx",
+    "LineNumber": 68,
+    "Line": "className=\"rounded-full border border-slate-300 px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-slate-900 transition hover:border-amber-400 hover:bg-amber-50\""
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\legal\\LegalConsentModal.tsx",
+    "LineNumber": 38,
+    "Line": "<div style={{ background: \"#fff\", borderRadius: 16, maxWidth: 760, width: \"100%\", padding: \"1.5rem\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\legal\\LegalConsentModal.tsx",
+    "LineNumber": 40,
+    "Line": "<div style={{ maxHeight: \"45vh\", overflow: \"auto\", border: \"1px solid #e2e8f0\", borderRadius: 12, padding: \"1rem\", marginBottom: \"1rem\" }}>"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\legal\\LegalConsentModal.tsx",
+    "LineNumber": 69,
+    "Line": "style={{ fontWeight: 800, background: \"#16a34a\", borderColor: \"#16a34a\", color: \"#fff\" }}"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\PrimaryButton.tsx",
+    "LineNumber": 15,
+    "Line": "\"inline-flex items-center justify-center rounded-full px-6 py-2 text-sm font-semibold bg-orange-400 text-slate-900 hover:bg-orange-500 transition focus:outline-none focus:ring-2 focus:ring-orange-400/50\";"
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\shared\\cta-button.tsx",
+    "LineNumber": 15,
+    "Line": "\"bg-amber-400 text-slate-900 shadow-lg shadow-amber-300/50 hover:bg-amber-300\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\shared\\cta-button.tsx",
+    "LineNumber": 17,
+    "Line": "\"border border-slate-300 text-slate-900 hover:border-amber-300 hover:bg-amber-50\","
+  },
+  {
+    "Path": "C:\\Users\\info\\Documents\\GitHub\\hashlips_art_engine\\siteready-website\\src\\components\\shared\\cta-button.tsx",
+    "LineNumber": 19,
+    "Line": "\"bg-slate-900 text-amber-100 hover:bg-slate-800 shadow-md shadow-slate-900/30\","
+  }
+]

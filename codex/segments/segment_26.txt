@@ -1,0 +1,80 @@
+  const minValue = Number.isFinite(l.min) ? String(l.min) : "—";
+  const binInfo = l.price ? ` \u2022 BIN: ${l.price} ${ccySafe}` : "";
+  const tokenMeta = `Token #${tokenLabel}${faction ? ` \u2022 ${factionSafe}` : ""}${canon ? ` \u2022 ${canonSafe}` : ""}`;
+  const escrowBadge = l.escrowed ? '<span class="ml-2 text-[10px] text-emerald-300 border border-emerald-400/50 rounded px-1.5">Escrow</span>' : "";
+
+  return `
+    <div class="bg-black/50 border border-white/10 rounded p-3 text-sm">
+      <div class="flex items-start gap-3">
+        <${wrapTag} ${wrapAttrs}>
+          ${img ? `<img src="${img}" class="h-full w-full object-contain" alt="${"#" + tokenLabel}" />` : `<div class="text-xs text-white/40">No Image</div>`}
+        </${wrapTag}>
+        <div class="flex-1 min-w-0">
+          <div class="font-medium truncate">${titleSafe} ${escrowBadge}</div>
+          <div class="text-xs text-white/60">${tokenMeta}</div>
+          <div class="mt-1 text-xs text-white/70">Min: ${minValue} ${minCcySafe}${binInfo}</div>
+          ${os ? `<a class="text-cyan-300 underline text-xs" target="_blank" rel="noreferrer" href="${os}">Open on OpenSea</a>` : ""}
+          ${ends}
+          <div class="mt-2">
+            <button
+              class="h-8 px-3 rounded bg-fuchsia-600/80 hover:bg-fuchsia-600"
+              data-open-bid
+              data-lid="${h(lid)}"
+              data-tokenid="${hasId ? h(String(l.tokenId)) : ''}"
+              data-title="${titleSafe}"
+              data-min="${Number.isFinite(l.min) ? String(l.min) : ''}"
+              data-ccy="${h(l.min_ccy || l.currency || 'ETH')}"
+            >Place Bid</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function buildWantedContactHtml(post){
+  if (!AUTH.isLoggedIn){
+    return '<div class="mt-2 text-xs text-white/60">Log in to view contact details.</div>';
+  }
+  const rows = [];
+  if (post.contactLine) rows.push(`<div><span class="font-semibold text-white/70">Line:</span> ${h(post.contactLine)}</div>`);
+  if (post.contactWhatsApp) rows.push(`<div><span class="font-semibold text-white/70">WhatsApp:</span> ${h(post.contactWhatsApp)}</div>`);
+  if (post.contactTelegram) rows.push(`<div><span class="font-semibold text-white/70">Telegram:</span> ${h(post.contactTelegram)}</div>`);
+  if (post.contactEmail) rows.push(`<div><span class="font-semibold text-white/70">Email:</span> ${h(post.contactEmail)}</div>`);
+  if (post.contactPhone) rows.push(`<div><span class="font-semibold text-white/70">Phone:</span> ${h(post.contactPhone)}</div>`);
+  if (post.contactMessage){
+    const escaped = h(post.contactMessage).replace(/\n/g, '<br>');
+    rows.push(`<div class="pt-1 border-t border-white/10 text-white/70">${escaped}</div>`);
+  }
+  if (!rows.length){
+    return '<div class="mt-2 text-xs text-white/60">No contact details provided.</div>';
+  }
+  return `<div class="mt-2 space-y-1 text-xs text-white/70">${rows.join('')}</div>`;
+}
+
+function buildWantedWalletHtml(post){
+  if (!AUTH.isLoggedIn || !post.wallets || !post.wallets.length){
+    return '';
+  }
+  const rows = post.wallets.map((wallet) => {
+    const label = `${h(wallet.type || 'wallet')} (${h(wallet.chain || 'evm')})`;
+    const addr = wallet.address ? h(short(wallet.address)) : '';
+    const badge = wallet.verified
+      ? '<span class="ml-2 text-emerald-300 text-[10px] uppercase tracking-wide">verified</span>'
+      : '<span class="ml-2 text-white/50 text-[10px] uppercase tracking-wide">pending</span>';
+    return `<div class="flex items-center gap-2"><span class="font-mono text-white/80">${addr}</span><span class="text-white/60 text-[11px]">${label}</span>${badge}</div>`;
+  }).join('');
+  return `<div class="mt-2 space-y-1 text-[11px] text-white/60"><div class="font-semibold text-white/70">Wallets</div>${rows}</div>`;
+}
+
+function wantedCard(post){
+  const token = post.tokenId != null ? TOKENS.find((x) => x.tokenId == post.tokenId) : null;
+  const img = token ? getImageUrl(token) : "";
+  const canon = token ? getRankText(token) : "";
+  const faction = token ? String(token.traits?.[factionKey] ?? "") : "";
+  const os = token ? getOpenSeaAssetUrl(token.tokenId) : "";
+  const hasToken = Boolean(token);
+  const wrapTag = hasToken ? "button" : "div";
+  const wrapAttrs = hasToken
+    ? `type="button" data-view-token="${post.tokenId}" class="h-24 w-24 rounded bg-black/60 overflow-hidden flex items-center justify-center cursor-zoom-in" title="Click to view details"`
+    : `class="h-24 w-24 rounded bg-black/60 overflow-hidden flex items-center justify-center"`;
+  const titleSafe = h(post.title || "Wanted");

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "goblin721-main",
+    "name": "Goblin Verse (ERC721)",
+    "address": "0x0000000000000000000000000000000000000000",
+    "standard": "ERC721",
+    "tokenIds": [1, 2, 3],
+    "chainId": 1
+  },
+  {
+    "id": "goblin1155-main",
+    "name": "Goblin Items (ERC1155)",
+    "address": "0x0000000000000000000000000000000000000000",
+    "standard": "ERC1155",
+    "tokenIds": [1001, 1002],
+    "chainId": 1
+  }
+]

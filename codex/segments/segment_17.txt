@@ -1,0 +1,80 @@
+  const sub = $('treeSubtitle');
+  if (sub) sub.textContent = 'Network load failed. Click "Load JSON File" to load locally.';
+  throw new Error(msg);
+}
+
+/* ================== State ================== */
+let TOKENS = [], FACTIONS = new Map(), factionKey = "Faction", roleKey = "Role";
+let TARGETS = {}, LISTINGS = [], OS_SETTINGS = { chain:"ethereum", contract:"" };
+let TRAIT_STATS = null, TOTAL_SUPPLY = 0;
+let CURRENT_BID_CTX = null;
+let CANON_STATS = null, CANON_TOTAL = 0;
+const TARGETS_KEY="gv_targets", OS_SETTINGS_KEY="dikpik_os_settings";
+const PAGING={ page:1, perPage:60 };
+
+const BZ_PAGER = {
+  auctions: { page: 1, perPage: 6 },
+  wanted:   { page: 1, perPage: 8 }
+};try{ TARGETS = JSON.parse(localStorage.getItem(TARGETS_KEY)||"{}"); }catch{}
+try{
+  const cachedOs = JSON.parse(localStorage.getItem(OS_SETTINGS_KEY)||"{}");
+  if(cachedOs) OS_SETTINGS = { ...OS_SETTINGS, ...cachedOs };
+}catch{}
+const saveTargets = ()=> localStorage.setItem(TARGETS_KEY, JSON.stringify(TARGETS));
+const cacheOS = ()=> localStorage.setItem(OS_SETTINGS_KEY, JSON.stringify(OS_SETTINGS));
+
+function requireMember(actionLabel, opts = {}){
+  if (ensureAuth(actionLabel, opts)) return true;
+  if(window.WixBridge?.requestMember) window.WixBridge.requestMember();
+  return false;
+}
+
+function toggleMemberForms(){
+  hydrateMemberState({ silent: false }).catch((err) => console.warn('toggleMemberForms hydrate failed', err));
+}
+
+document.addEventListener('dikpik:member', (ev)=>{
+  if (ev?.detail) {
+    window.DIKPIK_MEMBER = ev.detail;
+  }
+  toggleMemberForms();
+});
+
+/* ================== Helpers (images / formatting) ================== */
+function titleCase(s){ return String(s||"").replace(/\w\S*/g,t=>t[0].toUpperCase()+t.slice(1).toLowerCase()); }
+function toCloudinaryUrl(x){
+  if(!x) return "";
+  if(/^https?:\/\//i.test(x)) return x;
+  const hasExt = /\.[a-z0-9]{2,4}$/i.test(x);
+  const path = hasExt ? x : `${x}.png`;
+  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/${path}`;
+}
+function neonIdxFromKey(k){ let h=0; for(let i=0;i<k.length;i++){ h=(h*31 + k.charCodeAt(i))>>>0; } return h%5; }
+function getImageUrl(t){ if(t?.image && String(t.image).trim()) return String(t.image).trim(); if(t?._publicId) return toCloudinaryUrl(t._publicId); const id = t?.tokenId ?? "NFT"; return `https://placehold.co/600x600/png?text=Goblin%20%23${encodeURIComponent(id)}`; }
+const fmt2 = (v)=> Number.isFinite(v) ? Number(v).toFixed(2) : (v ?? "");
+
+/* ================== Wallet (minimal) ================== */
+const short = (a)=> a ? a.slice(0,6)+"..."+a.slice(-4) : '';
+
+function walletSignatureMessage(address, chain){
+  return `DIKPIK Bazaar wallet verification\nChain: ${chain}\nAddress: ${address}\nTimestamp: ${new Date().toISOString()}`;
+}
+
+async function requestEvmSignature(provider, address){
+  const message = walletSignatureMessage(address, 'evm');
+  try{
+    if (!provider?.request) throw new Error('Missing provider interface');
+    const signature = await provider.request({
+      method: 'personal_sign',
+      params: [message, address]
+    });
+    return { signature, message };
+  } catch (err){
+    if (err?.code === 4001){
+      showNotice('Signature request was cancelled. You can retry later from Wallets.', { title:'Signature skipped', variant:'warn', autoCloseMs:2400 });
+    } else {
+      console.warn('requestEvmSignature error', err);
+    }
+    return { signature: null, message };
+  }
+}

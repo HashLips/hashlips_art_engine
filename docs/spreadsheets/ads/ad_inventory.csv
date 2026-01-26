@@ -1,0 +1,78 @@
+SlotID,Format,CountAvailable,Term,BasePriceUSD,RateModel,CTA,RecommendedBrands,Notes
+BILL-HOLO-CORE,Neon Holo Billboard (Core Nexus),6,1-week,400,Flat,Affiliate/Deep Link,"Razer; ASUS ROG; Cloudflare; Chainlink; Coinbase",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-CORE,Neon Holo Billboard (Core Nexus),6,1-month,1400,Flat,Affiliate/Deep Link,"Razer; ASUS ROG; Cloudflare; Chainlink; Coinbase",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-CORE,Neon Holo Billboard (Core Nexus),6,4-month,5000,Flat,Affiliate/Deep Link,"Razer; ASUS ROG; Cloudflare; Chainlink; Coinbase",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-CORE,Neon Holo Billboard (Core Nexus),6,6-month,7200,Flat,Affiliate/Deep Link,"Razer; ASUS ROG; Cloudflare; Chainlink; Coinbase",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-CORE,Neon Holo Billboard (Core Nexus),6,12-month,12800,Flat,Affiliate/Deep Link,"Razer; ASUS ROG; Cloudflare; Chainlink; Coinbase",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-SCRAP,Neon Holo Billboard (Scrap Bazaar),6,1-week,350,Flat,Affiliate/Deep Link,"Red Bull; Monster; Nike; Adidas; Polygon",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-SCRAP,Neon Holo Billboard (Scrap Bazaar),6,1-month,1225,Flat,Affiliate/Deep Link,"Red Bull; Monster; Nike; Adidas; Polygon",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-SCRAP,Neon Holo Billboard (Scrap Bazaar),6,4-month,4375,Flat,Affiliate/Deep Link,"Red Bull; Monster; Nike; Adidas; Polygon",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-SCRAP,Neon Holo Billboard (Scrap Bazaar),6,6-month,6300,Flat,Affiliate/Deep Link,"Red Bull; Monster; Nike; Adidas; Polygon",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-SCRAP,Neon Holo Billboard (Scrap Bazaar),6,12-month,11200,Flat,Affiliate/Deep Link,"Red Bull; Monster; Nike; Adidas; Polygon",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-GUT,Neon Holo Billboard (Gutter Spires),6,1-week,350,Flat,Affiliate/Deep Link,"Vans; Supreme; Pepsi; Base; Arbitrum",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-GUT,Neon Holo Billboard (Gutter Spires),6,1-month,1225,Flat,Affiliate/Deep Link,"Vans; Supreme; Pepsi; Base; Arbitrum",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-GUT,Neon Holo Billboard (Gutter Spires),6,4-month,4375,Flat,Affiliate/Deep Link,"Vans; Supreme; Pepsi; Base; Arbitrum",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-GUT,Neon Holo Billboard (Gutter Spires),6,6-month,6300,Flat,Affiliate/Deep Link,"Vans; Supreme; Pepsi; Base; Arbitrum",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-GUT,Neon Holo Billboard (Gutter Spires),6,12-month,11200,Flat,Affiliate/Deep Link,"Vans; Supreme; Pepsi; Base; Arbitrum",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-HYDRO,Neon Holo Billboard (Hydro Docks),6,1-week,360,Flat,Affiliate/Deep Link,"Monster; Gatorade; Prime; Polygon; Base",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-HYDRO,Neon Holo Billboard (Hydro Docks),6,1-month,1260,Flat,Affiliate/Deep Link,"Monster; Gatorade; Prime; Polygon; Base",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-HYDRO,Neon Holo Billboard (Hydro Docks),6,4-month,4500,Flat,Affiliate/Deep Link,"Monster; Gatorade; Prime; Polygon; Base",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-HYDRO,Neon Holo Billboard (Hydro Docks),6,6-month,6480,Flat,Affiliate/Deep Link,"Monster; Gatorade; Prime; Polygon; Base",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-HYDRO,Neon Holo Billboard (Hydro Docks),6,12-month,11520,Flat,Affiliate/Deep Link,"Monster; Gatorade; Prime; Polygon; Base",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-CLOUD,Neon Holo Billboard (Cloud Spires),6,1-week,380,Flat,Affiliate/Deep Link,"Coinbase; Chainlink; Cloudflare; Polygon; Base",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-CLOUD,Neon Holo Billboard (Cloud Spires),6,1-month,1330,Flat,Affiliate/Deep Link,"Coinbase; Chainlink; Cloudflare; Polygon; Base",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-CLOUD,Neon Holo Billboard (Cloud Spires),6,4-month,4750,Flat,Affiliate/Deep Link,"Coinbase; Chainlink; Cloudflare; Polygon; Base",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-CLOUD,Neon Holo Billboard (Cloud Spires),6,6-month,6840,Flat,Affiliate/Deep Link,"Coinbase; Chainlink; Cloudflare; Polygon; Base",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-CLOUD,Neon Holo Billboard (Cloud Spires),6,12-month,12160,Flat,Affiliate/Deep Link,"Coinbase; Chainlink; Cloudflare; Polygon; Base",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-BASS,Neon Holo Billboard (Bass Depths),6,1-week,340,Flat,Affiliate/Deep Link,"Adidas; Red Bull; Monster; Base; Arbitrum",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-BASS,Neon Holo Billboard (Bass Depths),6,1-month,1190,Flat,Affiliate/Deep Link,"Adidas; Red Bull; Monster; Base; Arbitrum",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-BASS,Neon Holo Billboard (Bass Depths),6,4-month,4250,Flat,Affiliate/Deep Link,"Adidas; Red Bull; Monster; Base; Arbitrum",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-BASS,Neon Holo Billboard (Bass Depths),6,6-month,6120,Flat,Affiliate/Deep Link,"Adidas; Red Bull; Monster; Base; Arbitrum",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+BILL-HOLO-BASS,Neon Holo Billboard (Bass Depths),6,12-month,10880,Flat,Affiliate/Deep Link,"Adidas; Red Bull; Monster; Base; Arbitrum",Rotating creative; 1080x1920 or 1920x1080, 15s loop
+MARQ-CORE,District Marquee (Core Nexus),5,1-week,150,Flat,Landing/CTA,"Razer; ASUS ROG; Cloudflare; Chainlink; Coinbase",Entry header
+MARQ-SCRAP,District Marquee (Scrap Bazaar),5,1-week,140,Flat,Landing/CTA,"Red Bull; Monster; Nike; Adidas; Polygon",Entry header
+MARQ-GUT,District Marquee (Gutter Spires),5,1-week,140,Flat,Landing/CTA,"Vans; Supreme; Pepsi; Base; Arbitrum",Entry header
+MARQ-HYDRO,District Marquee (Hydro Docks),5,1-week,140,Flat,Landing/CTA,"Monster; Gatorade; Prime; Polygon; Base",Entry header
+MARQ-CLOUD,District Marquee (Cloud Spires),5,1-week,150,Flat,Landing/CTA,"Coinbase; Chainlink; Cloudflare; Polygon; Base",Entry header
+MARQ-BASS,District Marquee (Bass Depths),5,1-week,140,Flat,Landing/CTA,"Adidas; Red Bull; Monster; Base; Arbitrum",Entry header
+KIOSK-CORE,Branded Kiosk/Shop (Core Nexus),6,1-week,500,Flat,Affiliate/QR,"Razer; ASUS ROG; Cloudflare; Chainlink; Coinbase",Includes QR + product panel
+KIOSK-SCRAP,Branded Kiosk/Shop (Scrap Bazaar),6,1-week,480,Flat,Affiliate/QR,"Red Bull; Monster; Nike; Adidas; Polygon",Includes QR + product panel
+KIOSK-GUT,Branded Kiosk/Shop (Gutter Spires),6,1-week,480,Flat,Affiliate/QR,"Vans; Supreme; Pepsi; Base; Arbitrum",Includes QR + product panel
+KIOSK-HYDRO,Branded Kiosk/Shop (Hydro Docks),6,1-week,480,Flat,Affiliate/QR,"Monster; Gatorade; Prime; Polygon; Base",Includes QR + product panel
+KIOSK-CLOUD,Branded Kiosk/Shop (Cloud Spires),6,1-week,500,Flat,Affiliate/QR,"Coinbase; Chainlink; Cloudflare; Polygon; Base",Includes QR + product panel
+KIOSK-BASS,Branded Kiosk/Shop (Bass Depths),6,1-week,470,Flat,Affiliate/QR,"Adidas; Red Bull; Monster; Base; Arbitrum",Includes QR + product panel
+VEND-ENERGY-CORE,Vending Machine (CORE),5,1-month,1100,Flat,Affiliate/QR,"Red Bull; Monster; Gatorade; Prime; Ghost",Energy/on-ramp promo
+VEND-ENERGY-SCRAP,Vending Machine (SCRAP),5,1-month,1100,Flat,Affiliate/QR,"Red Bull; Monster; Gatorade; Prime; Ghost",Energy/on-ramp promo
+VEND-ENERGY-GUT,Vending Machine (GUT),5,1-month,1100,Flat,Affiliate/QR,"Red Bull; Monster; Gatorade; Prime; Ghost",Energy/on-ramp promo
+VEND-ENERGY-HYDRO,Vending Machine (HYDRO),5,1-month,1100,Flat,Affiliate/QR,"Red Bull; Monster; Gatorade; Prime; Ghost",Energy/on-ramp promo
+VEND-ENERGY-CLOUD,Vending Machine (CLOUD),5,1-month,1100,Flat,Affiliate/QR,"Red Bull; Monster; Gatorade; Prime; Ghost",Energy/on-ramp promo
+VEND-ENERGY-BASS,Vending Machine (BASS),5,1-month,1100,Flat,Affiliate/QR,"Red Bull; Monster; Gatorade; Prime; Ghost",Energy/on-ramp promo
+QUEST-SPONSOR-CORE,Quest/Event (Core Nexus),6,1-week,1500,Flat,Deep Link,"Cloudflare; Chainlink; Coinbase; Polygon; Base",Sponsor quest with cosmetic reward
+QUEST-SPONSOR-SCRAP,Quest/Event (Scrap Bazaar),6,1-week,1400,Flat,Deep Link,"Nike; Monster; Adidas; Polygon; Immutable",Sponsor quest with cosmetic reward
+QUEST-SPONSOR-GUT,Quest/Event (Gutter Spires),6,1-week,1400,Flat,Deep Link,"Vans; Pepsi; Base; Arbitrum; Supreme",Sponsor quest with cosmetic reward
+QUEST-SPONSOR-HYDRO,Quest/Event (Hydro Docks),6,1-week,1400,Flat,Deep Link,"Monster; Gatorade; Base; Polygon; Circle",Sponsor quest with cosmetic reward
+QUEST-SPONSOR-CLOUD,Quest/Event (Cloud Spires),6,1-week,1500,Flat,Deep Link,"Cloudflare; Coinbase; Chainlink; Polygon; Base",Sponsor quest with cosmetic reward
+QUEST-SPONSOR-BASS,Quest/Event (Bass Depths),6,1-week,1400,Flat,Deep Link,"Adidas; Red Bull; Base; Arbitrum; Circle",Sponsor quest with cosmetic reward
+LEADER-SKIN-GLB,Leaderboard Skin (Faction Wars),6,1-week,1700,Flat,Landing/CTA,"Cloudflare; Coinbase; Polygon; Base; Razer",Wraps leaderboard UI
+LANDING-HERO-GLB,Cybercity Landing Hero,6,1-week,1800,Flat,Landing/CTA,"Cloudflare; Nike; Red Bull; Coinbase; Polygon",Top hero slot; 1920x1080 static/loop
+FLOOR-DECAL-CORE,Floor/Street Decal (Core Nexus),6,1-week,180,Flat,Affiliate/QR,"Razer; Cloudflare; Chainlink; Coinbase; Ledger",Ground decals with QR
+AR-POPUP-CORE,AR Popup (Core Nexus interactable),6,1-week,200,Flat,Deep Link,"Razer; Cloudflare; Chainlink; Coinbase; Ledger",Popup CTA over props
+LOOT-SKIN-CORE,Loot/Drop Skin (Core Nexus theme),6,1-week,240,Flat,Landing/CTA,"Razer; Cloudflare; Chainlink; Coinbase; Ledger",Sponsor skin on loot
+FLOOR-DECAL-SCRAP,Floor/Street Decal (Scrap Bazaar),6,1-week,180,Flat,Affiliate/QR,"Nike; Adidas; Red Bull; Polygon; Immutable",Ground decals with QR
+AR-POPUP-SCRAP,AR Popup (Scrap Bazaar interactable),6,1-week,200,Flat,Deep Link,"Nike; Adidas; Red Bull; Polygon; Immutable",Popup CTA over props
+LOOT-SKIN-SCRAP,Loot/Drop Skin (Scrap Bazaar theme),6,1-week,240,Flat,Landing/CTA,"Nike; Adidas; Red Bull; Polygon; Immutable",Sponsor skin on loot
+FLOOR-DECAL-GUT,Floor/Street Decal (Gutter Spires),6,1-week,180,Flat,Affiliate/QR,"Vans; Supreme; Base; Arbitrum; Pepsi",Ground decals with QR
+AR-POPUP-GUT,AR Popup (Gutter Spires interactable),6,1-week,200,Flat,Deep Link,"Vans; Supreme; Base; Arbitrum; Pepsi",Popup CTA over props
+LOOT-SKIN-GUT,Loot/Drop Skin (Gutter Spires theme),6,1-week,240,Flat,Landing/CTA,"Vans; Supreme; Base; Arbitrum; Pepsi",Sponsor skin on loot
+FLOOR-DECAL-HYDRO,Floor/Street Decal (Hydro Docks),6,1-week,180,Flat,Affiliate/QR,"Monster; Gatorade; Base; Polygon; Circle",Ground decals with QR
+AR-POPUP-HYDRO,AR Popup (Hydro Docks interactable),6,1-week,200,Flat,Deep Link,"Monster; Gatorade; Base; Polygon; Circle",Popup CTA over props
+LOOT-SKIN-HYDRO,Loot/Drop Skin (Hydro Docks theme),6,1-week,240,Flat,Landing/CTA,"Monster; Gatorade; Base; Polygon; Circle",Sponsor skin on loot
+FLOOR-DECAL-CLOUD,Floor/Street Decal (Cloud Spires),6,1-week,180,Flat,Affiliate/QR,"Coinbase; Chainlink; Base; Cloudflare; Polygon",Ground decals with QR
+AR-POPUP-CLOUD,AR Popup (Cloud Spires interactable),6,1-week,200,Flat,Deep Link,"Coinbase; Chainlink; Base; Cloudflare; Polygon",Popup CTA over props
+LOOT-SKIN-CLOUD,Loot/Drop Skin (Cloud Spires theme),6,1-week,240,Flat,Landing/CTA,"Coinbase; Chainlink; Base; Cloudflare; Polygon",Sponsor skin on loot
+FLOOR-DECAL-BASS,Floor/Street Decal (Bass Depths),6,1-week,180,Flat,Affiliate/QR,"Adidas; Red Bull; Base; Arbitrum; Monster",Ground decals with QR
+AR-POPUP-BASS,AR Popup (Bass Depths interactable),6,1-week,200,Flat,Deep Link,"Adidas; Red Bull; Base; Arbitrum; Monster",Popup CTA over props
+LOOT-SKIN-BASS,Loot/Drop Skin (Bass Depths theme),6,1-week,240,Flat,Landing/CTA,"Adidas; Red Bull; Base; Arbitrum; Monster",Sponsor skin on loot
+AUDIO-STING-GLB,Audio Sting (scene transition),5,1-week,300,Flat,Landing/CTA,"Red Bull; Monster; Nike; Razer; Coinbase",1-2s audio logo
+TELEPORT-GATE-GLB,Teleport Gate Wrap,5,1-week,320,Flat,Affiliate/Deep Link,"Cloudflare; Coinbase; Base; Polygon; Chainlink",Gate frame wrap + CTA
+BEACON-WRAP-GLB,Beacon/Relay Wrap,5,1-week,210,Flat,Affiliate/Deep Link,"Cloudflare; Chainlink; Polygon; Base; Arbitrum",Small form factor on relays

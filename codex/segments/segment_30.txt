@@ -1,0 +1,80 @@
+
+async function saveRelaySettingsRemote(settings){
+  if (!HAS_RELAY_API) {
+    return null;
+  }
+  try{
+    const res = await fetch(API_RELAY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(settings)
+    });
+    if(!res.ok){
+      const text = await res.text();
+      throw new Error(text || `HTTP ${res.status}`);
+    }
+    return await res.json();
+  }catch(err){
+    console.error('saveRelaySettingsRemote error:', err);
+    throw err;
+  }
+}
+
+async function loadListings() {
+  let auctions = [];
+  try {
+    const result = await API.listings.list();
+    auctions = (result?.auctions ?? []).map(item => ({ kind: item.kind || 'auction', ...item }));
+  } catch (err) {
+    console.error('loadListings error:', err);
+  }
+  await refreshWantedPosts({ silent: true });
+  mergeWantedIntoListings(auctions);
+  return LISTINGS;
+}
+
+async function createListing(listing) {
+  const payload = Object.fromEntries(Object.entries(listing).filter(([, v]) => v !== undefined));
+  try {
+    return await API.listings.create(payload);
+  } catch (err) {
+    console.error('createListing error:', err);
+    showNotice(`Listing failed: ${err?.message || err}`, { title: 'Request failed', variant: 'error', autoCloseMs: 3200 });
+    throw err;
+  }
+}
+
+const wantedState = {
+  list: [],
+  mine: [],
+  index: new Map()
+};
+
+function mapWantedDocument(doc){
+  if (!doc) return null;
+  const idRaw = doc._id || doc.id || doc.documentId || doc._docId;
+  const id = idRaw ? String(idRaw) : `wanted_${uid()}`;
+  const budgetRaw = doc.budget != null ? Number(doc.budget) : (doc.price != null ? Number(doc.price) : null);
+  const tokenIdCandidate = doc.tokenId != null ? Number(doc.tokenId) : NaN;
+  const tokenId = Number.isFinite(tokenIdCandidate) ? tokenIdCandidate : undefined;
+  const chain = doc.chain || (doc.currency === 'SOL' ? 'solana' : 'evm');
+  const wallets = Array.isArray(doc.wallets)
+    ? doc.wallets.map((wallet) => ({
+        type: wallet.type || 'wallet',
+        chain: wallet.chain || chain,
+        address: wallet.address ? String(wallet.address).toLowerCase() : '',
+        verified: Boolean(wallet.verified),
+        signature: wallet.signature || null,
+        message: wallet.message || null
+      })).filter((wallet) => wallet.address)
+    : [];
+  const mapped = {
+    kind: 'wanted',
+    id,
+    title: sanitizePlain(doc.title || ''),
+    description: sanitizeRich(doc.description || ''),
+    chain,
+    budget: Number.isFinite(budgetRaw) ? budgetRaw : null,
+    currency: doc.currency || (chain === 'solana' ? 'SOL' : 'ETH'),
+    status: doc.status || 'OPEN',

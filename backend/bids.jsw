@@ -1,0 +1,63 @@
+import wixData from 'wix-data';
+import { verify } from 'backend/jwt.jsw';
+
+const AUCTIONS = 'Auctions';
+const BIDS = 'Bids';
+
+export async function listBids(auctionId) {
+  const items = await wixData
+    .query(BIDS)
+    .eq('auctionId', auctionId)
+    .descending('amount')
+    .find();
+  return items.items;
+}
+
+export async function placeBid({ auctionId, amount, jwt }) {
+  if (!jwt) throw new Error('AUTH_REQUIRED');
+  const token = await verify(jwt);
+  if (!auctionId || !amount) throw new Error('INVALID_INPUT');
+
+  const auction = await wixData.get(AUCTIONS, auctionId);
+  if (!auction) throw new Error('AUCTION_NOT_FOUND');
+  if (auction.status !== 'LIVE') throw new Error('AUCTION_CLOSED');
+
+  const minAmount = Math.max(
+    Number(auction.minPrice || 0),
+    Number(auction.highBidAmount || 0) + Number(auction.minIncrement || 0)
+  );
+  if (Number(amount) < minAmount) throw new Error('BID_TOO_LOW');
+
+  const bid = await wixData.insert(BIDS, {
+    auctionId,
+    memberId: token.sub,
+    address: token.address,
+    amount: Number(amount),
+    createdAt: new Date()
+  });
+
+  const updatedAuction = {
+    ...auction,
+    highBidAmount: Number(amount),
+    highBidder: token.sub,
+    version: (auction.version || 0) + 1
+  };
+
+  try {
+    await wixData.update(AUCTIONS, updatedAuction, {
+      condition: wixData
+        .filter()
+        .eq('_id', auction._id)
+        .eq('version', auction.version || 0)
+    });
+  } catch (err) {
+    await wixData.remove(BIDS, bid._id);
+    throw new Error('AUCTION_CONFLICT');
+  }
+
+  return {
+    bid,
+    highBidAmount: updatedAuction.highBidAmount,
+    version: updatedAuction.version
+  };
+}

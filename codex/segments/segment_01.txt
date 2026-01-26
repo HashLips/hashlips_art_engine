@@ -1,0 +1,80 @@
+      });
+      if (added.length) applyMetadata(added);
+    });
+
+    observer.observe(document.head, { childList: true, subtree: true });
+  })();
+  </script>
+  <style>
+/* â€”â€”â€” Neon Notice â€”â€”â€” */
+.neon-overlay{
+  position:fixed; inset:0;
+  display:grid; place-items:center;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(2px);
+  z-index:2147483647;
+  opacity:0; visibility:hidden;
+  pointer-events:none;              /* cannot block clicks when hidden */
+  transition:opacity .15s ease, visibility .15s ease;
+}
+.neon-overlay.is-open{
+  opacity:1; visibility:visible;
+  pointer-events:auto;              /* only clickable when open */
+}
+
+/* Base box */
+.neon-box{
+  pointer-events:auto;
+  width:min(560px,92vw);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:14px;
+  padding:16px 18px;
+  background:linear-gradient(180deg,rgba(0,0,0,.75),rgba(0,0,0,.55));
+  box-shadow:0 16px 48px rgba(0,0,0,.6), 0 0 28px var(--neon-glow, rgba(0,255,255,.35));
+}
+
+/* Variants set the glow token */
+.neon-box[data-variant="success"]{ --neon-glow: rgba(0,255,170,.45); border-color: rgba(0,255,170,.35); }
+.neon-box[data-variant="error"]{   --neon-glow: rgba(255,85,120,.50); border-color: rgba(255,85,120,.35); }
+.neon-box[data-variant="info"]{    --neon-glow: rgba(100,180,255,.50); border-color: rgba(100,180,255,.35); }
+.neon-box[data-variant="warn"],
+.neon-box[data-variant="warning"]{ --neon-glow: rgba(255,200,0,.50);  border-color: rgba(255,200,0,.35); }
+
+/* Neon Notice title + OK button */
+.neon-title{
+  font-family:"Share Tech Mono", ui-monospace, Menlo, Consolas, monospace;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-size:13px;
+  color:#bffcff;
+  margin-bottom:6px;
+  text-shadow:0 0 8px var(--neon-glow, rgba(0,255,255,.45));
+}
+.neon-ok{
+  border:1px solid rgba(255,255,255,.2);
+  background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(255,255,255,.06));
+  color:#fff;
+  border-radius:10px;
+  padding:6px 12px;
+  font-size:13px;
+  line-height:1;
+  transition:transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+  box-shadow:0 0 0 0 var(--neon-glow, transparent);
+  cursor:pointer;
+}
+.neon-ok:hover{
+  transform:translateY(-1px);
+  border-color:var(--neon-glow, rgba(0,255,255,.4));
+  box-shadow:0 0 18px -6px var(--neon-glow, rgba(0,255,255,.4));
+}
+.neon-ok:active{ transform:translateY(0); }
+.neon-ok:focus{
+  outline:none;
+  box-shadow:0 0 0 2px rgba(255,255,255,.15), 0 0 24px -6px var(--neon-glow, rgba(0,255,255,.5));
+}
+/* â€”â€”â€” Anchored Neon Notice (next to "New Wanted Post") â€”â€”â€” */
+/* â€”â€”â€” Anchored Neon Notice (next to "New Wanted Post") â€”â€”â€” */
+.neon-overlay.is-local{
+  background: transparent;    /* no dark backdrop when anchored */
+  backdrop-filter: none;

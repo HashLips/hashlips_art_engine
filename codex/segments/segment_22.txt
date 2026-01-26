@@ -1,0 +1,80 @@
+    if (Array.isArray(root)) return root;
+    let best = null;
+    function walk(x){
+      if (!x || typeof x !== "object") return;
+      if (Array.isArray(x)){
+        if (!best || x.length > best.length) best = x;
+        return;
+      }
+      for (const k of Object.keys(x)){
+        const v = x[k];
+        if (Array.isArray(v)){
+          if (!best || v.length > best.length) best = v;
+        } else if (v && typeof v === "object"){
+          walk(v);
+        }
+      }
+    }
+    walk(root);
+    return best || [];
+  }
+  const arr = findBestArray(rows);
+  const RESERVED = new Set([
+    "tokenId","token_id","Token ID","tokenID","token","id","ID","Id","_key","edition","Edition","name","Name",
+    "image","Image","image_url","img","Image URL","url","href",
+    "NFTScore","nftScore","Score","score",
+    "RarityScore","rarityScore","rarity_score",
+    "RarityRank","rarityRank","rarity_rank",
+    "attributes","Attributes","attribute"
+  ]);
+  const DIGITS = x=>{const s=String(x??"");const m=s.match(/\d+/);return m?parseInt(m[0],10):NaN;};
+  const pick = (o,ks)=>{ for(const k of ks){ if(o==null) continue; const val=o[k]; if(val!==undefined&&val!==null&&String(val).trim()!=='') return val; } };
+  return arr.map(item=>{
+    const tokenIdRaw = pick(item,["Token ID","tokenId","token_id","tokenID","token","id","ID","Id","_key","edition","Edition","name","Name"]);
+    const tokenId = DIGITS(tokenIdRaw);
+    const image = pick(item,["image","Image","image_url","img","Image URL","url","href"]) || "";
+    const nftScore = safeNum(pick(item,["NFTScore","nftScore","Score","score"]));
+    const rarityScore = safeNum(pick(item,["RarityScore","rarityScore","rarity_score"]));
+    const rarityRank = safeNum(pick(item,["RarityRank","rarityRank","rarity_rank"]));
+    const traits = {};
+    const attrs = item.attributes || item.Attributes || item.attribute;
+    if (Array.isArray(attrs)) {
+      for (const row of attrs) {
+        const k = String(row?.trait_type ?? row?.type ?? '').trim();
+        const v = row?.value ?? row?.trait_value ?? row?.val;
+        if (k) traits[k] = v;
+      }
+    }
+    for (const [k, v] of Object.entries(item)) {
+      if (RESERVED.has(k)) continue;
+      if (v === undefined || v === null) continue;
+      if (typeof v === "object") continue;
+      traits[k] = v;
+    }
+    const f = traits.Faction || traits.faction || traits.FAMILY || traits.Family || traits.Clan || traits.Guild || traits.Tribe;
+    if (f) traits.Faction = f;
+    const r = traits.Rank || traits.rank || traits["Mafia Rank"] || traits.Title || traits.Hierarchy || traits.Level;
+    if (r) traits.Rank = r;
+    const role = traits.Role || traits.role || traits.Class || traits.Job || traits.Position;
+    if (role) traits.Role = role;
+    return { tokenId, tokenIdStr: String(tokenIdRaw ?? tokenId), image, traits, nftScore, rarityScore, rarityRank };
+  }).filter(t => Number.isFinite(t.tokenId));
+}
+
+/* ================== Keys, factions, canon ================== */
+function guessTraitKey(keys,cands){ const lower = keys.map(k=>k.toLowerCase()); for(const c of cands){ const i = lower.findIndex(k=>k.includes(c.toLowerCase())); if(i>=0) return keys[i]; } }
+function deriveKeysAndFactions(){
+  const set = new Set(); for(const t of TOKENS) Object.keys(t.traits||{}).forEach(k=>set.add(k));
+  const keys = Array.from(set);
+  factionKey = guessTraitKey(keys,["faction","clan","family","tribe","guild"]) || "Faction";
+  roleKey = guessTraitKey(keys,["rank","role","class","guild","job"]) || "Role";
+  setStatus(`Hierarchy by "${factionKey}" â†’ Canon Mafia Ranks`);
+  FACTIONS = new Map();
+  for(const t of TOKENS){ const key = String(t.traits?.[factionKey] ?? "Unaligned"); if(!FACTIONS.has(key)) FACTIONS.set(key,[]); FACTIONS.get(key).push(t); }
+  const sel = $('factionSelect'); if (sel) { sel.innerHTML = '<option value="">All Factions</option>'; Array.from(FACTIONS.keys()).sort().forEach(f=>{ const o = document.createElement("option"); o.value = f; o.textContent = f; sel.appendChild(o); }); }
+  const tpf = $('tp_faction'); if (tpf) { tpf.innerHTML = '<option value="">All Factions</option>'; Array.from(FACTIONS.keys()).sort().forEach(f=>{ const o = document.createElement("option"); o.value = f; o.textContent = f; tpf.appendChild(o); }); }
+}
+
+/* Canon helpers */
+function normalizeToCanon(val){
+  const s = String(val||"").trim().toLowerCase();

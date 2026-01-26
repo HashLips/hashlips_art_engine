@@ -1,0 +1,80 @@
+function populateWantedForm(post){
+  if (!post) return;
+  const setVal = (id, value) => { const el = $(id); if (el) el.value = value ?? ''; };
+  setVal('w_postId', post.id || '');
+  setVal('w_title', post.title || '');
+  setVal('w_query', post.traitQuery || '');
+  setVal('w_tokenid', post.tokenId != null ? String(post.tokenId) : '');
+  setVal('w_offer', post.budget != null ? String(post.budget) : '');
+  const ccyEl = $('w_ccy'); if (ccyEl) ccyEl.value = post.currency || 'ETH';
+  setVal('w_description', post.description || post.descriptionRich || '');
+  setVal('w_contact_line', post.contactLine || '');
+  setVal('w_contact_whatsapp', post.contactWhatsApp || '');
+  setVal('w_contact_telegram', post.contactTelegram || '');
+  setVal('w_contact_email', post.contactEmail || '');
+  setVal('w_contact_phone', post.contactPhone || '');
+  setVal('w_contact_message', post.contactMessage || '');
+  const statusEl = $('w_status'); if (statusEl) statusEl.value = post.status || 'OPEN';
+  const submitBtn = $('w_submit'); if (submitBtn) submitBtn.textContent = 'Update Wanted';
+  const cancelBtn = $('w_cancelEdit'); if (cancelBtn) cancelBtn.classList.remove('hidden');
+  if (post.tokenId != null) setWantedSelection(post.tokenId);
+  const form = $('postWantedBox'); if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function getWantedFormValues(){
+  const id = $('w_postId')?.value?.trim();
+  const title = sanitizePlain($('w_title')?.value);
+  const traitQuery = sanitizePlain($('w_query')?.value);
+  const tokenIdRaw = $('w_tokenid')?.value ?? '';
+  const tokenId = Number.parseInt(tokenIdRaw, 10);
+  const budget = safeNum($('w_offer')?.value);
+  const currency = $('w_ccy')?.value || 'ETH';
+  const description = sanitizeRich($('w_description')?.value);
+  const contactLine = sanitizePlain($('w_contact_line')?.value);
+  const contactWhatsApp = sanitizePlain($('w_contact_whatsapp')?.value);
+  const contactTelegram = sanitizePlain($('w_contact_telegram')?.value);
+  const contactEmail = sanitizeEmail($('w_contact_email')?.value);
+  const contactPhone = sanitizePhone($('w_contact_phone')?.value);
+  const contactMessage = sanitizeRich($('w_contact_message')?.value);
+  const status = $('w_status')?.value || 'OPEN';
+  const wallets = getWalletPayload();
+  const chain = wallets.some(w => (w.chain || 'evm') === 'solana') ? 'solana' : (currency === 'SOL' ? 'solana' : 'evm');
+
+  if (!traitQuery && !Number.isFinite(tokenId)){
+    showNotice('Pick a token or enter a trait query.', { title: 'Choose target', variant: 'error', autoCloseMs: 2600 });
+    return null;
+  }
+  if (!Number.isFinite(budget)){
+    showNotice('Please enter your offer as a number.', { title: 'Missing offer', variant: 'error', autoCloseMs: 2600 });
+    return null;
+  }
+
+  return {
+    id: id || null,
+    data: {
+      title: title || null,
+      description: description || null,
+      traitQuery: traitQuery || null,
+      tokenId: Number.isFinite(tokenId) ? tokenId : null,
+      budget,
+      currency,
+      chain,
+      status,
+      wallets,
+      contactLine: contactLine || null,
+      contactWhatsApp: contactWhatsApp || null,
+      contactTelegram: contactTelegram || null,
+      contactEmail: contactEmail || null,
+      contactPhone: contactPhone || null,
+      contactMessage: contactMessage || null
+    }
+  };
+}
+
+async function submitWantedForm(){
+  if(!requireMember("post a wanted request")) return;
+  const payload = getWantedFormValues();
+  if (!payload) return;
+  const { id, data } = payload;
+  const normalized = Object.fromEntries(Object.entries(data).filter(([, value]) => value !== null && value !== undefined && !(typeof value === 'string' && value.trim() === '')));
+  try{

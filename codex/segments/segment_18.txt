@@ -1,0 +1,80 @@
+
+function uint8ArrayToBase64(bytes){
+  if (!bytes) return null;
+  const view = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+  let binary = '';
+  for (let i = 0; i < view.length; i++){
+    binary += String.fromCharCode(view[i]);
+  }
+  if (typeof btoa === 'function') return btoa(binary);
+  if (typeof Buffer !== 'undefined') return Buffer.from(binary, 'binary').toString('base64');
+  return null;
+}
+
+async function requestPhantomSignature(provider, address){
+  const message = walletSignatureMessage(address, 'solana');
+  try{
+    if (!provider?.signMessage){
+      return { signature: null, message };
+    }
+    const encoded = new TextEncoder().encode(message);
+    const res = await provider.signMessage(encoded, 'utf8');
+    const signature = uint8ArrayToBase64(res?.signature);
+    return { signature, message };
+  } catch (err){
+    if (err?.code === 4001){
+      showNotice('Signature request was cancelled. You can retry later from Wallets.', { title:'Signature skipped', variant:'warn', autoCloseMs:2400 });
+    } else {
+      console.warn('requestPhantomSignature error', err);
+    }
+    return { signature: null, message };
+  }
+}
+
+async function connectMetaMask(){
+  const provider = window.ethereum;
+  if (!provider){
+    showNotice('MetaMask or another EVM wallet was not detected.', { title:'Wallet not found', variant:'error', autoCloseMs:2600 });
+    return null;
+  }
+  try{
+    const accounts = await provider.request({ method: 'eth_requestAccounts' });
+    const address = Array.isArray(accounts) && accounts[0] ? String(accounts[0]).toLowerCase() : null;
+    if (!address){
+      showNotice('No account returned from MetaMask.', { title:'Wallet error', variant:'error', autoCloseMs:2400 });
+      return null;
+    }
+    const { signature, message } = await requestEvmSignature(provider, address);
+    upsertWalletConnection({
+      type: provider.isMetaMask ? 'MetaMask' : 'EVM Wallet',
+      chain: 'evm',
+      address,
+      verified: Boolean(signature),
+      signature,
+      message
+    });
+    syncAuthState();
+    refreshAuthUI();
+    showNotice('MetaMask connected.', { title:'Wallet connected', variant:'success', autoCloseMs:2000 });
+    return address;
+  } catch (err){
+    if (err?.code === 4001){
+      showNotice('MetaMask connection was rejected.', { title:'Wallet cancelled', variant:'warn', autoCloseMs:2200 });
+    } else {
+      console.error('connectMetaMask error', err);
+      showNotice(err?.message || 'Wallet connection failed.', { title:'Wallet error', variant:'error', autoCloseMs:2600 });
+    }
+    return null;
+  }
+}
+
+async function connectBinanceWallet(){
+  const provider = window.BinanceChain || window.binance;
+  if (!provider){
+    showNotice('Binance Web3 Wallet was not detected.', { title:'Wallet not found', variant:'error', autoCloseMs:2600 });
+    return null;
+  }
+  try{
+    const accounts = await provider.request({ method: 'eth_requestAccounts' });
+    const address = Array.isArray(accounts) && accounts[0] ? String(accounts[0]).toLowerCase() : null;
+    if (!address){

@@ -1,0 +1,267 @@
+import { authentication } from 'wix-members-frontend';
+import { getMemberSnapshot, listenForAuthChanges } from 'public/dikpikBridge.js';
+import { connectWallet, shortAddress, getJwt } from 'public/wallet.js';
+import {
+  listWantedPosts,
+  getMyWantedPosts,
+  createWantedPost,
+  updateWantedPost
+} from 'backend/wantedPosts.jsw';
+
+const HTML_COMPONENT_ID = '#html1';
+const RELATIVE_FUNCTIONS_BASE = '/_functions';
+let bridgeWired = false;
+let toastElement = null;
+let toastTimer = null;
+const TOAST_AUTO_CLOSE_MS = 5000;
+
+function postToIframe(htmlComponent, payload) {
+  try {
+    htmlComponent.postMessage(payload);
+  } catch (err) {
+    console.warn('[bazaar] postMessage failed', err);
+  }
+}
+
+function buildApiConfig() {
+  const origin =
+    typeof window !== 'undefined' && window.location?.origin
+      ? window.location.origin.replace(/\/+$/, '')
+      : 'https://www.dikpik.io';
+  const absoluteBase = `${origin}${RELATIVE_FUNCTIONS_BASE}`;
+
+  return {
+    version: '2024-11-01',
+    origin,
+    apiBase: absoluteBase,
+    relativeBase: RELATIVE_FUNCTIONS_BASE,
+    endpoints: {
+      listings: `${absoluteBase}/listings`,
+      listing: `${absoluteBase}/listings/:id`,
+      wanted: `${absoluteBase}/wanted`,
+      wantedMine: `${absoluteBase}/wanted/mine`,
+      wantedItem: `${absoluteBase}/wanted/:id`,
+      wantedContact: `${absoluteBase}/wanted/:id/contact`,
+      wantedRespond: `${absoluteBase}/wanted/:id/respond`,
+      bids: `${absoluteBase}/bids`,
+      relay: `${absoluteBase}/relay`
+    }
+  };
+}
+
+async function pushMemberState(htmlComponent, { forceRefresh = false } = {}) {
+  const snapshot = await getMemberSnapshot({ forceRefresh });
+  postToIframe(htmlComponent, {
+    type: 'DP:MEMBER:SET',
+    payload: snapshot
+  });
+}
+
+function sendConfig(htmlComponent) {
+  postToIframe(htmlComponent, {
+    type: 'DP:CONFIG',
+    payload: buildApiConfig()
+  });
+}
+
+function toErrorPayload(err) {
+  if (err instanceof Error) {
+    const payload = { error: err.message };
+    if (err.status) payload.status = err.status;
+    if (err.payload?.details) payload.details = err.payload.details;
+    return payload;
+  }
+  if (typeof err === 'string') {
+    return { error: err };
+  }
+  return { error: 'Unknown error' };
+}
+
+function ensureToastElement() {
+  if (typeof window === 'undefined' || typeof document === 'undefined') return null;
+  if (toastElement) return toastElement;
+
+  const container = document.createElement('div');
+  container.id = 'dp-legacy-toast';
+  container.style.position = 'fixed';
+  container.style.top = '32px';
+  container.style.right = '32px';
+  container.style.zIndex = '9999';
+  container.style.padding = '16px 20px';
+  container.style.borderRadius = '10px';
+  container.style.background = 'rgba(16, 16, 16, 0.9)';
+  container.style.color = '#fff';
+  container.style.fontFamily = 'Montserrat, Arial, sans-serif';
+  container.style.fontSize = '15px';
+  container.style.fontWeight = '600';
+  container.style.letterSpacing = '0.03em';
+  container.style.boxShadow = '0 10px 40px rgba(0,0,0,0.45)';
+  container.style.display = 'none';
+
+  document.body.appendChild(container);
+  toastElement = container;
+  return container;
+}
+
+function showToast(message) {
+  if (!message) return;
+  const el = ensureToastElement();
+  if (!el) {
+    console.log('[bazaar toast]', message);
+    return;
+  }
+  el.textContent = message;
+  el.style.display = 'block';
+
+  if (toastTimer) {
+    clearTimeout(toastTimer);
+  }
+  toastTimer = setTimeout(() => {
+    el.style.display = 'none';
+  }, TOAST_AUTO_CLOSE_MS);
+}
+
+function requireJwt() {
+  const jwt = getJwt();
+  if (!jwt) throw new Error('AUTH_REQUIRED');
+  return jwt;
+}
+
+async function handleWalletConnectRequest() {
+  const address = await connectWallet();
+  showToast('Wallet connected');
+  return {
+    address,
+    shortAddress: shortAddress(address),
+    jwt: getJwt()
+  };
+}
+
+async function handleWantedCreate(payload) {
+  if (!payload || typeof payload !== 'object') {
+    throw new Error('Payload is required.');
+  }
+  return createWantedPost(payload);
+}
+
+async function handleWantedUpdate(input) {
+  const { id, data } = input || {};
+  if (!id) throw new Error('ID is required.');
+  if (!data || typeof data !== 'object') throw new Error('Update payload is required.');
+  return updateWantedPost(id, data);
+}
+
+function wireIframe(htmlComponent) {
+  if (bridgeWired) return;
+  bridgeWired = true;
+
+  postToIframe(htmlComponent, { type: 'DP:PARENT_READY' });
+  sendConfig(htmlComponent);
+
+  listenForAuthChanges((snapshot) => {
+    postToIframe(htmlComponent, {
+      type: 'DP:MEMBER:SET',
+      payload: snapshot
+    });
+  });
+
+  pushMemberState(htmlComponent).catch((err) =>
+    console.warn('[bazaar] failed to send member snapshot', err)
+  );
+
+  const dispatchSuccess = (baseType, nonce, payload) => {
+    postToIframe(htmlComponent, {
+      type: `${baseType}:OK`,
+      payload,
+      nonce
+    });
+  };
+
+  const dispatchError = (baseType, nonce, err) => {
+    postToIframe(htmlComponent, {
+      type: `${baseType}:ERR`,
+      ...toErrorPayload(err),
+      nonce
+    });
+  };
+
+  htmlComponent.onMessage(async (event) => {
+    const message = event?.data;
+    if (!message || typeof message !== 'object') return;
+
+    const { type, nonce, payload } = message;
+
+    const exec = async (fn) => {
+      try {
+        const result = await fn();
+        dispatchSuccess(type, nonce, result);
+      } catch (err) {
+        dispatchError(type, nonce, err);
+      }
+    };
+
+    switch (type) {
+      case 'DP:REQUEST_MEMBER':
+        await pushMemberState(htmlComponent);
+        break;
+
+      case 'DP:REQUEST_CONFIG':
+      case 'DP:READY':
+        sendConfig(htmlComponent);
+        break;
+
+      case 'DP:LOGIN':
+        try {
+          await authentication.promptLogin();
+          dispatchSuccess(type, nonce, { ok: true });
+          await pushMemberState(htmlComponent, { forceRefresh: true });
+        } catch (err) {
+          dispatchError(type, nonce, err);
+        }
+        break;
+
+      case 'DP:LOGOUT':
+        try {
+          await authentication.logout();
+          dispatchSuccess(type, nonce, { ok: true });
+          await pushMemberState(htmlComponent, { forceRefresh: true });
+        } catch (err) {
+          dispatchError(type, nonce, err);
+        }
+        break;
+
+      case 'DP:WALLET:CONNECT':
+        exec(() => handleWalletConnectRequest());
+        break;
+
+      case 'DP:WANTED:LIST':
+        exec(() => listWantedPosts());
+        break;
+
+      case 'DP:WANTED:MINE':
+        exec(() => getMyWantedPosts());
+        break;
+
+      case 'DP:WANTED:CREATE':
+        exec(() => handleWantedCreate(payload));
+        break;
+
+      case 'DP:WANTED:UPDATE':
+        exec(() => handleWantedUpdate(payload));
+        break;
+
+      default:
+        break;
+    }
+  });
+}
+
+$w.onReady(() => {
+  const htmlComponent = $w(HTML_COMPONENT_ID);
+  if (!htmlComponent || typeof htmlComponent.postMessage !== 'function') {
+    console.warn(`[bazaar] HTML component not found or unsupported (${HTML_COMPONENT_ID}).`);
+    return;
+  }
+
+  wireIframe(htmlComponent);
+});

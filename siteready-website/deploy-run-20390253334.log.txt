@@ -1,0 +1,298 @@
+deploy	Set up job	∩╗┐2025-12-20T07:00:44.4668495Z Current runner version: '2.330.0'
+deploy	Set up job	2025-12-20T07:00:44.4723819Z ##[group]Runner Image Provisioner
+deploy	Set up job	2025-12-20T07:00:44.4725093Z Hosted Compute Agent
+deploy	Set up job	2025-12-20T07:00:44.4726237Z Version: 20251211.462
+deploy	Set up job	2025-12-20T07:00:44.4727646Z Commit: 6cbad8c2bb55d58165063d031ccabf57e2d2db61
+deploy	Set up job	2025-12-20T07:00:44.4728815Z Build Date: 2025-12-11T16:28:49Z
+deploy	Set up job	2025-12-20T07:00:44.4729868Z Worker ID: {d93a4cd1-c0d9-4808-aad3-99eba3b6cdf1}
+deploy	Set up job	2025-12-20T07:00:44.4731082Z ##[endgroup]
+deploy	Set up job	2025-12-20T07:00:44.4731874Z ##[group]Operating System
+deploy	Set up job	2025-12-20T07:00:44.4732723Z Ubuntu
+deploy	Set up job	2025-12-20T07:00:44.4733597Z 24.04.3
+deploy	Set up job	2025-12-20T07:00:44.4734296Z LTS
+deploy	Set up job	2025-12-20T07:00:44.4735003Z ##[endgroup]
+deploy	Set up job	2025-12-20T07:00:44.4735892Z ##[group]Runner Image
+deploy	Set up job	2025-12-20T07:00:44.4736992Z Image: ubuntu-24.04
+deploy	Set up job	2025-12-20T07:00:44.4737835Z Version: 20251215.174.1
+deploy	Set up job	2025-12-20T07:00:44.4739733Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20251215.174/images/ubuntu/Ubuntu2404-Readme.md
+deploy	Set up job	2025-12-20T07:00:44.4742084Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20251215.174
+deploy	Set up job	2025-12-20T07:00:44.4744047Z ##[endgroup]
+deploy	Set up job	2025-12-20T07:00:44.4745756Z ##[group]GITHUB_TOKEN Permissions
+deploy	Set up job	2025-12-20T07:00:44.4748502Z Contents: read
+deploy	Set up job	2025-12-20T07:00:44.4749315Z Metadata: read
+deploy	Set up job	2025-12-20T07:00:44.4750177Z ##[endgroup]
+deploy	Set up job	2025-12-20T07:00:44.4753507Z Secret source: Actions
+deploy	Set up job	2025-12-20T07:00:44.4754617Z Prepare workflow directory
+deploy	Set up job	2025-12-20T07:00:44.5713206Z Prepare all required actions
+deploy	Set up job	2025-12-20T07:00:44.5825581Z Getting action download info
+deploy	Set up job	2025-12-20T07:00:44.8650799Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+deploy	Set up job	2025-12-20T07:00:45.0091140Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+deploy	Set up job	2025-12-20T07:00:45.1992347Z Complete job name: deploy
+deploy	Checkout	∩╗┐2025-12-20T07:00:45.2625636Z ##[group]Run actions/checkout@v4
+deploy	Checkout	2025-12-20T07:00:45.2626888Z with:
+deploy	Checkout	2025-12-20T07:00:45.2627362Z   repository: info936/siteready-website
+deploy	Checkout	2025-12-20T07:00:45.2628124Z   token: ***
+deploy	Checkout	2025-12-20T07:00:45.2628543Z   ssh-strict: true
+deploy	Checkout	2025-12-20T07:00:45.2628966Z   ssh-user: git
+deploy	Checkout	2025-12-20T07:00:45.2629397Z   persist-credentials: true
+deploy	Checkout	2025-12-20T07:00:45.2629873Z   clean: true
+deploy	Checkout	2025-12-20T07:00:45.2630304Z   sparse-checkout-cone-mode: true
+deploy	Checkout	2025-12-20T07:00:45.2630816Z   fetch-depth: 1
+deploy	Checkout	2025-12-20T07:00:45.2631241Z   fetch-tags: false
+deploy	Checkout	2025-12-20T07:00:45.2631671Z   show-progress: true
+deploy	Checkout	2025-12-20T07:00:45.2632120Z   lfs: false
+deploy	Checkout	2025-12-20T07:00:45.2632523Z   submodules: false
+deploy	Checkout	2025-12-20T07:00:45.2632977Z   set-safe-directory: true
+deploy	Checkout	2025-12-20T07:00:45.2633687Z env:
+deploy	Checkout	2025-12-20T07:00:45.2634308Z   CLOUDFLARE_API_TOKEN: ***
+deploy	Checkout	2025-12-20T07:00:45.2634906Z   CLOUDFLARE_ACCOUNT_ID: ***
+deploy	Checkout	2025-12-20T07:00:45.2635382Z ##[endgroup]
+deploy	Checkout	2025-12-20T07:00:45.3794372Z Syncing repository: info936/siteready-website
+deploy	Checkout	2025-12-20T07:00:45.3797142Z ##[group]Getting Git version info
+deploy	Checkout	2025-12-20T07:00:45.3798732Z Working directory is '/home/runner/work/siteready-website/siteready-website'
+deploy	Checkout	2025-12-20T07:00:45.3800719Z [command]/usr/bin/git version
+deploy	Checkout	2025-12-20T07:00:45.3999554Z git version 2.52.0
+deploy	Checkout	2025-12-20T07:00:45.4003564Z ##[endgroup]
+deploy	Checkout	2025-12-20T07:00:45.4010949Z Temporarily overriding HOME='/home/runner/work/_temp/a3966cab-512b-4a58-8ff7-16ffbe6babca' before making global git config changes
+deploy	Checkout	2025-12-20T07:00:45.4013746Z Adding repository directory to the temporary git global config as a safe directory
+deploy	Checkout	2025-12-20T07:00:45.4016418Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/siteready-website/siteready-website
+deploy	Checkout	2025-12-20T07:00:45.4021878Z Deleting the contents of '/home/runner/work/siteready-website/siteready-website'
+deploy	Checkout	2025-12-20T07:00:45.4023894Z ##[group]Initializing the repository
+deploy	Checkout	2025-12-20T07:00:45.4025910Z [command]/usr/bin/git init /home/runner/work/siteready-website/siteready-website
+deploy	Checkout	2025-12-20T07:00:45.4949285Z hint: Using 'master' as the name for the initial branch. This default branch name
+deploy	Checkout	2025-12-20T07:00:45.4952952Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+deploy	Checkout	2025-12-20T07:00:45.4955099Z hint: to use in all of your new repositories, which will suppress this warning,
+deploy	Checkout	2025-12-20T07:00:45.4956786Z hint: call:
+deploy	Checkout	2025-12-20T07:00:45.4957517Z hint:
+deploy	Checkout	2025-12-20T07:00:45.4958400Z hint: 	git config --global init.defaultBranch <name>
+deploy	Checkout	2025-12-20T07:00:45.4959497Z hint:
+deploy	Checkout	2025-12-20T07:00:45.4960566Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+deploy	Checkout	2025-12-20T07:00:45.4962281Z hint: 'development'. The just-created branch can be renamed via this command:
+deploy	Checkout	2025-12-20T07:00:45.4963653Z hint:
+deploy	Checkout	2025-12-20T07:00:45.4964370Z hint: 	git branch -m <name>
+deploy	Checkout	2025-12-20T07:00:45.4965192Z hint:
+deploy	Checkout	2025-12-20T07:00:45.4966534Z hint: Disable this message with "git config set advice.defaultBranchName false"
+deploy	Checkout	2025-12-20T07:00:45.4968768Z Initialized empty Git repository in /home/runner/work/siteready-website/siteready-website/.git/
+deploy	Checkout	2025-12-20T07:00:45.4972162Z [command]/usr/bin/git remote add origin https://github.com/info936/siteready-website
+deploy	Checkout	2025-12-20T07:00:45.4975277Z ##[endgroup]
+deploy	Checkout	2025-12-20T07:00:45.4976951Z ##[group]Disabling automatic garbage collection
+deploy	Checkout	2025-12-20T07:00:45.4978221Z [command]/usr/bin/git config --local gc.auto 0
+deploy	Checkout	2025-12-20T07:00:45.4980911Z ##[endgroup]
+deploy	Checkout	2025-12-20T07:00:45.4982208Z ##[group]Setting up auth
+deploy	Checkout	2025-12-20T07:00:45.4983491Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+deploy	Checkout	2025-12-20T07:00:45.4987678Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+deploy	Checkout	2025-12-20T07:00:45.4992146Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+deploy	Checkout	2025-12-20T07:00:45.4997291Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+deploy	Checkout	2025-12-20T07:00:45.5252543Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+deploy	Checkout	2025-12-20T07:00:45.5256327Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+deploy	Checkout	2025-12-20T07:00:45.5429551Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+deploy	Checkout	2025-12-20T07:00:45.5555686Z ##[endgroup]
+deploy	Checkout	2025-12-20T07:00:45.5557119Z ##[group]Fetching the repository
+deploy	Checkout	2025-12-20T07:00:45.5559694Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +e76583bf6c476593ecce0b7e2d6a18032bf3779c:refs/remotes/origin/main
+deploy	Checkout	2025-12-20T07:00:45.7618282Z From https://github.com/info936/siteready-website
+deploy	Checkout	2025-12-20T07:00:45.7620351Z  * [new ref]         e76583bf6c476593ecce0b7e2d6a18032bf3779c -> origin/main
+deploy	Checkout	2025-12-20T07:00:45.7626585Z ##[endgroup]
+deploy	Checkout	2025-12-20T07:00:45.7627925Z ##[group]Determining the checkout info
+deploy	Checkout	2025-12-20T07:00:45.7629433Z ##[endgroup]
+deploy	Checkout	2025-12-20T07:00:45.7647730Z [command]/usr/bin/git sparse-checkout disable
+deploy	Checkout	2025-12-20T07:00:45.7700298Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+deploy	Checkout	2025-12-20T07:00:45.7727379Z ##[group]Checking out the ref
+deploy	Checkout	2025-12-20T07:00:45.7730991Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+deploy	Checkout	2025-12-20T07:00:45.7842255Z Switched to a new branch 'main'
+deploy	Checkout	2025-12-20T07:00:45.7846533Z branch 'main' set up to track 'origin/main'.
+deploy	Checkout	2025-12-20T07:00:45.7855185Z ##[endgroup]
+deploy	Checkout	2025-12-20T07:00:45.7891980Z [command]/usr/bin/git log -1 --format=%H
+deploy	Checkout	2025-12-20T07:00:45.7914369Z e76583bf6c476593ecce0b7e2d6a18032bf3779c
+deploy	Setup Node	∩╗┐2025-12-20T07:00:45.8167424Z ##[group]Run actions/setup-node@v4
+deploy	Setup Node	2025-12-20T07:00:45.8168098Z with:
+deploy	Setup Node	2025-12-20T07:00:45.8168526Z   node-version: 20
+deploy	Setup Node	2025-12-20T07:00:45.8169006Z   cache: npm
+deploy	Setup Node	2025-12-20T07:00:45.8169448Z   always-auth: false
+deploy	Setup Node	2025-12-20T07:00:45.8169951Z   check-latest: false
+deploy	Setup Node	2025-12-20T07:00:45.8170651Z   token: ***
+deploy	Setup Node	2025-12-20T07:00:45.8171082Z env:
+deploy	Setup Node	2025-12-20T07:00:45.8171957Z   CLOUDFLARE_API_TOKEN: ***
+deploy	Setup Node	2025-12-20T07:00:45.8172669Z   CLOUDFLARE_ACCOUNT_ID: ***
+deploy	Setup Node	2025-12-20T07:00:45.8173231Z ##[endgroup]
+deploy	Setup Node	2025-12-20T07:00:46.0057137Z Found in cache @ /opt/hostedtoolcache/node/20.19.6/x64
+deploy	Setup Node	2025-12-20T07:00:46.0059967Z ##[group]Environment details
+deploy	Setup Node	2025-12-20T07:00:46.4793877Z node: v20.19.6
+deploy	Setup Node	2025-12-20T07:00:46.4797583Z npm: 10.8.2
+deploy	Setup Node	2025-12-20T07:00:46.4798682Z yarn: 1.22.22
+deploy	Setup Node	2025-12-20T07:00:46.4801214Z ##[endgroup]
+deploy	Setup Node	2025-12-20T07:00:46.4822608Z [command]/opt/hostedtoolcache/node/20.19.6/x64/bin/npm config get cache
+deploy	Setup Node	2025-12-20T07:00:46.6116177Z /home/runner/.npm
+deploy	Setup Node	2025-12-20T07:00:46.7482629Z npm cache is not found
+deploy	Install	∩╗┐2025-12-20T07:00:46.7655215Z ##[group]Run npm ci
+deploy	Install	2025-12-20T07:00:46.7656503Z [36;1mnpm ci[0m
+deploy	Install	2025-12-20T07:00:46.7701620Z shell: /usr/bin/bash -e {0}
+deploy	Install	2025-12-20T07:00:46.7702704Z env:
+deploy	Install	2025-12-20T07:00:46.7704181Z   CLOUDFLARE_API_TOKEN: ***
+deploy	Install	2025-12-20T07:00:46.7705494Z   CLOUDFLARE_ACCOUNT_ID: ***
+deploy	Install	2025-12-20T07:00:46.7706884Z ##[endgroup]
+deploy	Install	2025-12-20T07:00:52.5353484Z npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+deploy	Install	2025-12-20T07:01:09.5914627Z 
+deploy	Install	2025-12-20T07:01:09.5937403Z added 919 packages, and audited 920 packages in 23s
+deploy	Install	2025-12-20T07:01:09.5938324Z 
+deploy	Install	2025-12-20T07:01:09.5938849Z 204 packages are looking for funding
+deploy	Install	2025-12-20T07:01:09.5939847Z   run `npm fund` for details
+deploy	Install	2025-12-20T07:01:09.5940420Z 
+deploy	Install	2025-12-20T07:01:09.5940870Z found 0 vulnerabilities
+deploy	Lint	∩╗┐2025-12-20T07:01:09.6445105Z ##[group]Run npm run lint
+deploy	Lint	2025-12-20T07:01:09.6445435Z [36;1mnpm run lint[0m
+deploy	Lint	2025-12-20T07:01:09.6482418Z shell: /usr/bin/bash -e {0}
+deploy	Lint	2025-12-20T07:01:09.6482704Z env:
+deploy	Lint	2025-12-20T07:01:09.6483251Z   CLOUDFLARE_API_TOKEN: ***
+deploy	Lint	2025-12-20T07:01:09.6483602Z   CLOUDFLARE_ACCOUNT_ID: ***
+deploy	Lint	2025-12-20T07:01:09.6483853Z ##[endgroup]
+deploy	Lint	2025-12-20T07:01:09.7612844Z 
+deploy	Lint	2025-12-20T07:01:09.7615741Z > siteready-website@0.1.0 lint
+deploy	Lint	2025-12-20T07:01:09.7622473Z > eslint
+deploy	Lint	2025-12-20T07:01:09.7622761Z 
+deploy	Build + Deploy (keep vars)	∩╗┐2025-12-20T07:01:14.1408699Z ##[group]Run npm run cf:deploy:keep-vars
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:14.1409074Z [36;1mnpm run cf:deploy:keep-vars[0m
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:14.1441662Z shell: /usr/bin/bash -e {0}
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:14.1441905Z env:
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:14.1442245Z   CLOUDFLARE_API_TOKEN: ***
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:14.1442554Z   CLOUDFLARE_ACCOUNT_ID: ***
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:14.1442779Z ##[endgroup]
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:14.2583599Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:14.2587288Z > siteready-website@0.1.0 cf:deploy:keep-vars
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:14.2588505Z > opennextjs-cloudflare build && opennextjs-cloudflare deploy -- --keep-vars
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:14.2590661Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.0298722Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.0300260Z ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.0317288Z Γöé OpenNext ΓÇö Cloudflare build Γöé
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.0318506Z ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.0318966Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.1255664Z App directory: /home/runner/work/siteready-website/siteready-website
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.1260577Z WARN Next.js 16 is not fully supported yet! Some features may not work as expected.
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.1284661Z Next.js version : 16.0.10
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.1285789Z @opennextjs/cloudflare version: 1.14.6
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.1286803Z @opennextjs/aws version: 3.9.6
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.1297052Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.1298040Z ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.1298984Z Γöé OpenNext ΓÇö Building Next.js app Γöé
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.1300210Z ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.1300766Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.2553712Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.2554286Z > siteready-website@0.1.0 build
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.2554780Z > next build
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.2554995Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:16.9902635Z ΓÜá No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:17.0079608Z Attention: Next.js now collects completely anonymous telemetry regarding usage.
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:17.0086274Z This information is used to shape Next.js' roadmap and prioritize features.
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:17.0091833Z You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:17.0096916Z https://nextjs.org/telemetry
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:17.0099415Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:17.0220107Z    Γû▓ Next.js 16.0.10 (Turbopack)
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:17.0221491Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:17.0841778Z    Creating an optimized production build ...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:25.9097657Z  Γ£ô Compiled successfully in 8.3s
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:25.9163579Z    Running TypeScript ...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:31.8508934Z    Collecting page data using 1 worker ...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:32.2481059Z    Generating static pages using 1 worker (0/12) ...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:32.6247503Z    Generating static pages using 1 worker (3/12) 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:32.7739382Z    Generating static pages using 1 worker (6/12) 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:32.8602411Z    Generating static pages using 1 worker (9/12) 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:32.8608340Z  Γ£ô Generating static pages using 1 worker (12/12) in 612.8ms
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:32.8725189Z    Finalizing page optimization ...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2152179Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2170649Z Route (app)
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2172468Z Γöî Γùï /
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2172906Z Γö£ Γùï /_not-found
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2173393Z Γö£ ╞Æ /api/applications
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2173889Z Γö£ ╞Æ /api/bookings
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2174333Z Γö£ ╞Æ /api/contact
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2174754Z Γö£ Γùï /contact
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2175165Z Γö£ Γùï /for-workers
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2175597Z Γö£ Γùï /labour-hire
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2176306Z Γö£ Γùï /safety-compliance
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2176800Z Γöö Γùï /technology
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2177026Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2177039Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2177565Z Γùï  (Static)   prerendered as static content
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2178155Z ╞Æ  (Dynamic)  server-rendered on demand
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2178453Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2535314Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2545895Z ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2549109Z Γöé OpenNext ΓÇö Generating bundle Γöé
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2550049Z ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2551302Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.2862279Z Bundling middleware function...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.3191609Z Bundling static assets...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.3248048Z Bundling cache assets...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:33.3446786Z Building server function: default...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:35.9776270Z Applying code patches: 2.377s
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:36.3136887Z # copyPackageTemplateFiles
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:36.3168944Z [35mΓÜÖ∩╕Å Bundling the OpenNext server...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:36.3170743Z [0m
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:38.6177807Z [35mWorker saved in `.open-next/worker.js` ≡ƒÜÇ
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:38.6178421Z [0m
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:38.6182509Z OpenNext build complete.
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:40.3868339Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:40.3869957Z ΓöîΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:40.3870954Z Γöé OpenNext ΓÇö Cloudflare deploy Γöé
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:40.3874142Z ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:40.3878636Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:40.9940777Z Incremental cache does not need populating
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:40.9943635Z Tag cache does not need populating
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:42.3394277Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:42.3399312Z  Γ¢à∩╕Å wrangler 4.56.0
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:42.3403605Z ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:43.8118016Z ≡ƒîÇ Building list of assets...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:43.8176628Z Γ£¿ Read 29 files from the assets directory /home/runner/work/siteready-website/siteready-website/.open-next/assets
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:43.8467111Z ≡ƒîÇ Starting asset upload...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:45.7098555Z ≡ƒîÇ Found 1 new or modified static asset to upload. Proceeding with upload...
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:45.7100676Z + /BUILD_ID
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:46.9839849Z Uploaded 1 of 1 asset
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:46.9842875Z Γ£¿ Success! Uploaded 1 file (23 already uploaded) (1.27 sec)
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:46.9843628Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:47.1798677Z Total Upload: 9319.65 KiB / gzip: 2185.19 KiB
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2424015Z Worker Startup Time: 34 ms
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2436181Z Your Worker has access to the following bindings:
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2437421Z Binding                                                                     Resource                  
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2440714Z env.WORKER_SELF_REFERENCE (siteready-website)                               Worker                    
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2442205Z env.ASSETS                                                                  Assets                    
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2443221Z env.SMTP_HOST ("smtp.gmail.com")                                            Environment Variable      
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2444251Z env.SMTP_PORT ("587")                                                       Environment Variable      
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2445301Z env.SMTP_USER ("info@sitereadyworkforce.com")                               Environment Variable      
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2446695Z env.SMTP_FROM ("SiteReady Workforce <info@sitereadywo...")                  Environment Variable      
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2448583Z env.NOTIFY_TO ("info@sitereadyworkforce.com")                               Environment Variable      
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2449682Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:51.2497530Z Uploaded siteready-website (8.53 sec)
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5025876Z [33mΓû▓ [43;33m[[43;30mWARNING[43;33m][0m [1mBecause 'workers_dev' is not in your Wrangler file, it will be enabled for this deployment by default.[0m
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5028187Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5028950Z   To override this setting, you can disable workers.dev by explicitly setting 'workers_dev = false' in your Wrangler file.
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5029725Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5029738Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5035723Z [33mΓû▓ [43;33m[[43;30mWARNING[43;33m][0m [1mBecause your 'workers.dev' route is enabled and your 'preview_urls' setting is not in your Wrangler file, Preview URLs will be enabled for this deployment by default.[0m
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5037169Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5037952Z   To override this setting, you can disable Preview URLs by explicitly setting 'preview_urls = false' in your Wrangler file.
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5038734Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5038749Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5039618Z Deployed siteready-website triggers (1.25 sec)
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5061373Z   https://siteready-website.frosty-night-e998.workers.dev
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5063834Z Current Version ID: bcfd850c-7e7f-494e-97bd-a694de4fb5f4
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5075751Z 
+deploy	Build + Deploy (keep vars)	2025-12-20T07:01:52.5079904Z Cloudflare collects anonymous telemetry about your usage of Wrangler. Learn more at https://github.com/cloudflare/workers-sdk/tree/main/packages/wrangler/telemetry.md
+deploy	Post Setup Node	∩╗┐2025-12-20T07:01:52.6282572Z Post job cleanup.
+deploy	Post Setup Node	2025-12-20T07:01:52.8017823Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/siteready-website/siteready-website --files-from manifest.txt --use-compress-program zstdmt
+deploy	Post Setup Node	2025-12-20T07:01:54.6566556Z Sent 250064388 of 250064388 (100.0%), 241.4 MBs/sec
+deploy	Post Setup Node	2025-12-20T07:01:54.8204350Z Cache saved with the key: node-cache-Linux-x64-npm-77cbf80d16080954afa49c071495e52b5a19d856ab5eb015e36051a73623c6fa
+deploy	Post Checkout	∩╗┐2025-12-20T07:01:54.8351035Z Post job cleanup.
+deploy	Post Checkout	2025-12-20T07:01:54.9300695Z [command]/usr/bin/git version
+deploy	Post Checkout	2025-12-20T07:01:54.9341045Z git version 2.52.0
+deploy	Post Checkout	2025-12-20T07:01:54.9389646Z Temporarily overriding HOME='/home/runner/work/_temp/86b42dc4-f5b2-4257-8dc9-b51005931e67' before making global git config changes
+deploy	Post Checkout	2025-12-20T07:01:54.9391737Z Adding repository directory to the temporary git global config as a safe directory
+deploy	Post Checkout	2025-12-20T07:01:54.9396410Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/siteready-website/siteready-website
+deploy	Post Checkout	2025-12-20T07:01:54.9439530Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+deploy	Post Checkout	2025-12-20T07:01:54.9475063Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+deploy	Post Checkout	2025-12-20T07:01:54.9712437Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+deploy	Post Checkout	2025-12-20T07:01:54.9735122Z http.https://github.com/.extraheader
+deploy	Post Checkout	2025-12-20T07:01:54.9750555Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+deploy	Post Checkout	2025-12-20T07:01:54.9784203Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+deploy	Post Checkout	2025-12-20T07:01:55.0011183Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+deploy	Post Checkout	2025-12-20T07:01:55.0045582Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+deploy	Complete job	∩╗┐2025-12-20T07:01:55.0398122Z Cleaning up orphan processes
+

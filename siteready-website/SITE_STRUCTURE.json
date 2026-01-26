@@ -1,0 +1,360 @@
+{
+  "pages": [
+    {
+      "route": "/",
+      "title": "Construction labour & cleaning, without the chaos",
+      "primaryCTA": "Book labour",
+      "secondaryCTAs": ["Find site work", "Request workers"],
+      "templates": ["SectionWrapper"],
+      "components": ["SectionHeading", "FeatureCard", "StepCard", "PrimaryButton", "SecondaryButton"]
+    },
+    {
+      "route": "/labour-hire",
+      "title": "Construction labour hire – Sydney / NSW",
+      "primaryCTA": "Log in to request workers",
+      "secondaryCTAs": ["Create an account", "Log in", "Create account"],
+      "templates": ["SectionWrapper"],
+      "components": ["SectionHeading", "RoleCard", "StepCard", "FeatureCard", "BookLabourNowForm"]
+    },
+    {
+      "route": "/for-workers",
+      "title": "Find steady construction work in Sydney / NSW",
+      "primaryCTA": "Apply now",
+      "secondaryCTAs": [],
+      "templates": ["SectionWrapper"],
+      "components": ["SectionHeading", "FeatureCard", "RoleCard", "StepCard", "ApplicationForm"]
+    },
+    {
+      "route": "/technology",
+      "title": "Our labour & cleaning portal",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["SectionWrapper"],
+      "components": ["SectionHeading", "FeatureCard"]
+    },
+    {
+      "route": "/safety-compliance",
+      "title": "Safety & Compliance",
+      "primaryCTA": "Book labour",
+      "secondaryCTAs": ["For workers"],
+      "templates": ["SectionWrapper"],
+      "components": ["SectionHeading", "FeatureCard", "PrimaryButton", "SecondaryButton"]
+    },
+    {
+      "route": "/contact",
+      "title": "Talk to SiteReady Workforce",
+      "primaryCTA": "Send message",
+      "secondaryCTAs": [],
+      "templates": ["SectionWrapper"],
+      "components": ["SectionHeading", "PrimaryButton", "ContactForm"]
+    },
+    {
+      "route": "/login",
+      "title": "Login",
+      "primaryCTA": "Login",
+      "secondaryCTAs": ["Continue with Google", "Continue with Apple", "Forgot password"],
+      "templates": ["Auth"],
+      "components": ["LoginForm"]
+    },
+    {
+      "route": "/register",
+      "title": "Create account",
+      "primaryCTA": "Create account",
+      "secondaryCTAs": ["Continue with Google", "Continue with Apple", "Login"],
+      "templates": ["Auth"],
+      "components": ["RegisterForm"]
+    },
+    {
+      "route": "/forgot-password",
+      "title": "Forgot password",
+      "primaryCTA": "Send reset email",
+      "secondaryCTAs": ["Back to login"],
+      "templates": ["Auth"],
+      "components": ["ForgotPasswordForm"]
+    },
+    {
+      "route": "/reset-password",
+      "title": "Reset password",
+      "primaryCTA": "Reset password",
+      "secondaryCTAs": [],
+      "templates": ["Auth"],
+      "components": ["ResetPasswordForm"]
+    },
+    {
+      "route": "/logout",
+      "title": "Logout",
+      "primaryCTA": "Logout",
+      "secondaryCTAs": [],
+      "templates": ["Auth"],
+      "components": []
+    },
+    {
+      "route": "/admin-login",
+      "title": "Admin login",
+      "primaryCTA": "Login",
+      "secondaryCTAs": [],
+      "templates": ["Auth"],
+      "components": ["AdminLoginForm"]
+    },
+    {
+      "route": "/admin-setup",
+      "title": "Admin setup",
+      "primaryCTA": "Create admin",
+      "secondaryCTAs": [],
+      "templates": ["Auth"],
+      "components": ["AdminSetupForm"]
+    },
+    {
+      "route": "/platform-not-configured",
+      "title": "Platform not configured",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["System"],
+      "components": []
+    },
+    {
+      "route": "/privacy",
+      "title": "Privacy",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["Legal"],
+      "components": ["LegalContent"]
+    },
+    {
+      "route": "/terms",
+      "title": "Terms",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["Legal"],
+      "components": ["LegalContent"]
+    },
+    {
+      "route": "/legal/privacy",
+      "title": "Privacy",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["Legal"],
+      "components": ["LegalContent"]
+    },
+    {
+      "route": "/legal/collection-notice",
+      "title": "Collection notice",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["Legal"],
+      "components": ["LegalContent"]
+    },
+    {
+      "route": "/legal/terms",
+      "title": "Terms",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["Legal"],
+      "components": ["LegalContent"]
+    },
+    {
+      "route": "/legal/xero-consent",
+      "title": "Xero consent",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["Legal"],
+      "components": ["LegalContent"]
+    },
+    {
+      "route": "/dashboard",
+      "title": "Dashboard",
+      "primaryCTA": "Role-based actions",
+      "secondaryCTAs": ["Logout"],
+      "templates": ["Dashboard"],
+      "components": ["DashboardLinks"]
+    },
+    {
+      "route": "/dashboard/requests",
+      "title": "Requests",
+      "primaryCTA": "Submit booking",
+      "secondaryCTAs": ["Go back to main area"],
+      "templates": ["Dashboard"],
+      "components": ["RequestForm", "CompanyDetailsForm"]
+    },
+    {
+      "route": "/dashboard/requests/status",
+      "title": "Request status",
+      "primaryCTA": "View request",
+      "secondaryCTAs": [],
+      "templates": ["Dashboard"],
+      "components": ["StatusList"]
+    },
+    {
+      "route": "/dashboard/requests/proposed",
+      "title": "Proposed workers",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["Dashboard"],
+      "components": ["ProposedWorkers"]
+    },
+    {
+      "route": "/dashboard/requests/[id]",
+      "title": "Request detail",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["Dashboard"],
+      "components": ["RequestDetail"]
+    },
+    {
+      "route": "/dashboard/timesheets",
+      "title": "Timesheets",
+      "primaryCTA": "Approve timesheets",
+      "secondaryCTAs": [],
+      "templates": ["Dashboard"],
+      "components": ["TimesheetList"]
+    },
+    {
+      "route": "/dashboard/worker",
+      "title": "Worker portal",
+      "primaryCTA": "Submit profile",
+      "secondaryCTAs": ["Save profile", "Save tickets", "Availability status"],
+      "templates": ["Dashboard"],
+      "components": ["WorkerProfileForm", "TicketsForm", "WorkExperienceForm"]
+    },
+    {
+      "route": "/dashboard/worker/assignments",
+      "title": "Worker assignments",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["Dashboard"],
+      "components": ["AssignmentsList"]
+    },
+    {
+      "route": "/dashboard/worker/proposed",
+      "title": "Proposed positions",
+      "primaryCTA": "",
+      "secondaryCTAs": [],
+      "templates": ["Dashboard"],
+      "components": ["ProposedPositions"]
+    },
+    {
+      "route": "/dashboard/worker/timesheets",
+      "title": "Worker timesheets",
+      "primaryCTA": "Submit timesheet",
+      "secondaryCTAs": ["Save draft"],
+      "templates": ["Dashboard"],
+      "components": ["WorkerTimesheetForm"]
+    },
+    {
+      "route": "/dashboard/worker/working-now",
+      "title": "Availability status",
+      "primaryCTA": "Save working status",
+      "secondaryCTAs": ["Back to worker portal"],
+      "templates": ["Dashboard"],
+      "components": ["AvailabilityForm"]
+    },
+    {
+      "route": "/dashboard/admin",
+      "title": "Admin dashboard",
+      "primaryCTA": "Manage workers",
+      "secondaryCTAs": ["Manage clients", "View requests", "Access & roles"],
+      "templates": ["Dashboard"],
+      "components": ["AdminNav"]
+    },
+    {
+      "route": "/dashboard/admin/requests",
+      "title": "Admin requests",
+      "primaryCTA": "View request detail",
+      "secondaryCTAs": ["Delete request"],
+      "templates": ["Dashboard"],
+      "components": ["AdminRequestList"]
+    },
+    {
+      "route": "/dashboard/admin/clients",
+      "title": "Admin clients",
+      "primaryCTA": "View client",
+      "secondaryCTAs": ["Delete client"],
+      "templates": ["Dashboard"],
+      "components": ["AdminClientList"]
+    },
+    {
+      "route": "/dashboard/admin/contractors",
+      "title": "Admin contractors",
+      "primaryCTA": "Update pay rate",
+      "secondaryCTAs": [],
+      "templates": ["Dashboard"],
+      "components": ["ContractorTable"]
+    },
+    {
+      "route": "/dashboard/admin/workers",
+      "title": "Admin workers",
+      "primaryCTA": "Approve worker",
+      "secondaryCTAs": ["Delete worker"],
+      "templates": ["Dashboard"],
+      "components": ["AdminWorkerList"]
+    },
+    {
+      "route": "/dashboard/admin/access",
+      "title": "Admin access",
+      "primaryCTA": "Manage roles",
+      "secondaryCTAs": [],
+      "templates": ["Dashboard"],
+      "components": ["AdminAccess"]
+    },
+    {
+      "route": "/dashboard/admin/xero",
+      "title": "Xero integration",
+      "primaryCTA": "Connect Xero",
+      "secondaryCTAs": ["Test connection", "Disconnect"],
+      "templates": ["Dashboard"],
+      "components": ["XeroStatus"]
+    },
+    {
+      "route": "/dashboard/admin/xero/accounting",
+      "title": "Xero accounting settings",
+      "primaryCTA": "Save settings",
+      "secondaryCTAs": [],
+      "templates": ["Dashboard"],
+      "components": ["XeroAccountingSettings"]
+    },
+    {
+      "route": "/dashboard/admin/xero/bill-failures",
+      "title": "Bill sync failures",
+      "primaryCTA": "Retry",
+      "secondaryCTAs": [],
+      "templates": ["Dashboard"],
+      "components": ["BillFailuresTable"]
+    }
+  ],
+  "navigation": {
+    "header": ["Home", "Labour Hire", "For Workers", "Technology", "Safety & Compliance", "Contact", "Admin login", "Login", "Create account"],
+    "footer": ["Home", "Labour Hire", "For Workers", "Technology", "Safety & Compliance", "Privacy", "Terms"]
+  },
+  "journeys": [
+    {
+      "name": "Employer / Hire flow",
+      "steps": ["/", "/labour-hire", "/login?next=/dashboard/requests", "/dashboard/requests"]
+    },
+    {
+      "name": "Worker / Apply flow",
+      "steps": ["/", "/for-workers", "/register", "/dashboard/worker"]
+    },
+    {
+      "name": "Contact flow",
+      "steps": ["/", "/contact", "/api/contact"]
+    }
+  ],
+  "uiInventory": {
+    "colors": [
+      "#0b1f3b",
+      "#ff7a1a",
+      "#11b6a8",
+      "#212529",
+      "#6b7280",
+      "#f5f7fa",
+      "#ffffff",
+      "#e5e7eb"
+    ],
+    "typography": [
+      "system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+      "text-5xl, text-4xl, text-lg, text-sm, text-xs"
+    ],
+    "buttons": ["PrimaryButton", "SecondaryButton", "pillButton"],
+    "spacingNotes": "Tailwind spacing used (gap-6, space-y-6, py-6/py-10, mt-4). No explicit design tokens."
+  }
+}

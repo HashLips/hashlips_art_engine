@@ -1,0 +1,80 @@
+
+function hasEvmWallet(){
+  return Boolean(getPrimaryEvmWallet());
+}
+
+function upsertWalletConnection(entry){
+  if (!entry || !entry.address) return null;
+  const normalizedAddress = entry.chain === 'solana'
+    ? String(entry.address)
+    : String(entry.address).toLowerCase();
+  const normalized = {
+    type: entry.type || 'wallet',
+    chain: entry.chain || 'evm',
+    address: normalizedAddress,
+    verified: Boolean(entry.verified),
+    signature: entry.signature || null,
+    message: entry.message || null,
+    connectedAt: entry.connectedAt || new Date().toISOString()
+  };
+  const idx = walletConnections.findIndex(
+    (w) => w.type === normalized.type && w.address === normalized.address
+  );
+  if (idx >= 0){
+    walletConnections[idx] = { ...walletConnections[idx], ...normalized };
+  } else {
+    walletConnections.push(normalized);
+  }
+  AUTH.wallets = listWalletConnections();
+  if (normalized.chain === 'evm'){
+    AUTH.wallet = normalized.address;
+    CURRENT_WALLET = normalized.address;
+    AUTH.method = 'wallet';
+  }
+  renderConnectedWallets();
+  return normalized;
+}
+
+function syncAuthState(){
+  AUTH.isLoggedIn = memberState.loggedIn;
+  AUTH.userId = memberState.id || memberState.email || null;
+  if (!AUTH.isLoggedIn){
+    AUTH.method = 'anonymous';
+    clearWalletConnections();
+  } else if (hasEvmWallet()){
+    AUTH.method = 'wallet';
+    AUTH.wallet = getPrimaryEvmWallet();
+  } else {
+    AUTH.method = 'member';
+  }
+}
+
+async function hydrateMemberState({ silent } = {}) {
+  if (!MEMBER_LOADED) {
+    requestMemberSnapshot();
+  }
+
+  const snapshot = window.DIKPIK_MEMBER || null;
+  memberState.loggedIn = Boolean(snapshot && snapshot.id);
+  memberState.id = snapshot?.id || null;
+  memberState.email = snapshot?.email || '';
+  memberState.roles = Array.isArray(snapshot?.roles) ? snapshot.roles : [];
+  memberState.displayName =
+    snapshot?.nickname ||
+    snapshot?.displayName ||
+    snapshot?.email ||
+    '';
+
+  MEMBER_LOADED = true;
+  syncAuthState();
+
+  if (!silent) {
+    renderConnectedWallets();
+    refreshAuthUI();
+    renderWantedListings();
+  }
+  return { ...memberState };
+}
+
+function isAuthorized() {
+  return Boolean(memberState.loggedIn && memberState.id);

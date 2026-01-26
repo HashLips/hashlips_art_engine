@@ -1,0 +1,80 @@
+          const tryLeft = rect.left - bw - margin;
+          left = Math.max(margin, tryLeft);
+          if (left + bw + margin > vw) left = Math.round((vw - bw) / 2);
+        }
+      }
+// Vertical position: align near anchor's mid, but bias a bit higher
+const bhGuess = box.offsetHeight || 260;
+let top;
+if (rect) {
+  const anchorMid = rect.top + rect.height / 2;
+  top = Math.round(anchorMid - bhGuess / 2 - 40); // nudge up ~40px
+} else {
+  top = Math.round(vh * 0.28); // fallback: upper third of the viewport
+}
+top = Math.max(margin, Math.min(top, vh - bhGuess - margin));
+
+      box.classList.add('is-anchored');
+      box.style.left = left + 'px';
+      box.style.top  = top  + 'px';
+    };
+
+    requestAnimationFrame(place);
+    showNotice._reposition = () => requestAnimationFrame(place);
+    window.addEventListener('resize', showNotice._reposition);
+    window.addEventListener('scroll', showNotice._reposition, { passive: true });
+  } else {
+    // Default centered overlay mode
+    neonRoot.classList.add('is-open');
+    neonRoot.classList.remove('is-local');
+  }
+
+  if (autoCloseMs > 0) {
+    clearTimeout(showNotice._t);
+    showNotice._t = setTimeout(hideNotice, autoCloseMs);
+  }
+}
+
+function hideNotice() {
+  if (!neonRoot) return;
+  neonRoot.classList.remove('is-open', 'is-local');
+  const box = neonRoot.querySelector('.neon-box');
+  if (box) {
+    box.classList.remove('is-anchored');
+    box.style.top = '';
+    box.style.left = '';
+    box.style.width = '';
+  }
+  if (showNotice._reposition) {
+    window.removeEventListener('resize', showNotice._reposition);
+    window.removeEventListener('scroll', showNotice._reposition);
+    showNotice._reposition = null;
+  }
+}
+on('neonOk','click', hideNotice);
+
+let LAST_FOCUSED_ELEMENT = null;
+function openModalEl(modal, focusSelector){
+  const node = typeof modal === 'string' ? $(modal) : modal;
+  if(!node) return;
+  LAST_FOCUSED_ELEMENT = document.activeElement;
+  node.classList.remove('hidden');
+  const activeId = LAST_FOCUSED_ELEMENT && LAST_FOCUSED_ELEMENT.id ? LAST_FOCUSED_ELEMENT.id : '';
+  node.setAttribute('data-prev-focus', activeId);
+  document.body.classList.add('overflow-hidden');
+  const focusTarget = focusSelector
+    ? node.querySelector(focusSelector)
+    : node.querySelector('[data-modal-focus]') || node.querySelector('button, [href], input, select, textarea');
+  if (focusTarget) focusTarget.focus();
+}
+function closeModalEl(modal){
+  const node = typeof modal === 'string' ? $(modal) : modal;
+  if(!node) return;
+  node.classList.add('hidden');
+  document.body.classList.remove('overflow-hidden');
+  const prevId = node.getAttribute('data-prev-focus');
+  let target = prevId ? document.getElementById(prevId) : null;
+  if (!target && LAST_FOCUSED_ELEMENT && document.contains(LAST_FOCUSED_ELEMENT)) {
+    target = LAST_FOCUSED_ELEMENT;
+  }
+  if (target) target.focus();

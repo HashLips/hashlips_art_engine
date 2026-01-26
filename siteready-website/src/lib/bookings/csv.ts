@@ -1,0 +1,73 @@
+import { BookingPayload } from "./schema";
+
+const headers = [
+  "Company Structure",
+  "Contact Title",
+  "Contact Name",
+  "Contact Job Title",
+  "Contact Email",
+  "Contact Mobile",
+  "Contact Landline",
+  "Contact On Behalf",
+  "ACN",
+  "ABN",
+  "Website",
+  "Registered Street",
+  "Registered State",
+  "Registered Postcode",
+  "Site Address",
+  "Site Map Link",
+  "Site Name",
+  "Role Group #",
+  "Number of Workers",
+  "Role",
+  "Tickets",
+  "Experience",
+  "Start Date",
+  "Start Time",
+  "Hours/Day",
+  "Expected Duration",
+  "OT Options",
+  "Notes",
+  "Attachments Link",
+  "Submitted At",
+];
+
+export function bookingToCsvRows(booking: BookingPayload): string[][] {
+  const rows: string[][] = [headers];
+  booking.roles.forEach((role, idx) => {
+    rows.push([
+      booking.company.structure,
+      booking.company.contactTitle,
+      booking.company.contactName,
+      booking.company.contactJobTitle,
+      booking.company.contactEmail,
+      booking.company.contactMobile,
+      booking.company.contactLandline ?? "",
+      booking.company.contactOnBehalf ? "Yes" : "No",
+      booking.company.acn,
+      booking.company.abn,
+      booking.company.website ?? "",
+      booking.registeredAddress.street,
+      booking.registeredAddress.state,
+      booking.registeredAddress.postcode,
+      booking.siteAddress.formattedAddress,
+      booking.siteAddress.mapUrl ?? "",
+      booking.siteAddress.siteName ?? "",
+      String(idx + 1),
+      String(role.count),
+      role.role,
+      role.tickets?.join("; ") ?? "",
+      role.experience,
+      role.startDate,
+      role.startTime,
+      String(role.hoursPerDay),
+      `${role.expectedDurationValue} ${role.expectedDurationUnit}`,
+      role.otOptions?.join("; ") ?? "",
+      booking.notes ?? "",
+      booking.attachmentsLink ?? "",
+      booking.submittedAt ?? "",
+    ]);
+  });
+  return rows;
+}

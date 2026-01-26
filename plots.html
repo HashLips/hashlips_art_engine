@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <script>
+    (function enforceVersion(){
+      const REQUIRED_VERSION = "2025-12-05-plots-v1";
+      const url = new URL(window.location.href);
+      if (url.searchParams.get("v") !== REQUIRED_VERSION) {
+        url.searchParams.set("v", REQUIRED_VERSION);
+        window.location.replace(url.toString());
+      }
+      window.DIKPIK_BUILD = REQUIRED_VERSION;
+    })();
+  </script>
+  <title>DIKPIK Plots</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    .plot-cloud {
+      grid-auto-rows: 60px;
+    }
+    .plot-tile-shape-1 {
+      clip-path: polygon(6% 0%, 94% 4%, 100% 25%, 96% 76%, 88% 100%, 10% 96%, 0% 68%, 4% 12%);
+    }
+    .plot-tile-shape-2 {
+      clip-path: polygon(8% 6%, 92% 0%, 100% 20%, 90% 90%, 60% 100%, 12% 92%, 0% 40%, 4% 16%);
+    }
+    .plot-tile-shape-3 {
+      clip-path: polygon(10% 0%, 96% 10%, 100% 40%, 92% 96%, 44% 100%, 6% 88%, 0% 46%, 4% 12%);
+    }
+    .plot-iso {
+      transform: skewX(-4deg);
+    }
+    .plot-iso > .plot-inner {
+      transform: skewX(4deg);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white" style="font-family: 'Share Tech Mono', ui-monospace, Menlo, Consolas, monospace;">
+  <div class="max-w-7xl mx-auto px-4 py-6 space-y-4">
+    <header class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div>
+        <p class="text-xs uppercase tracking-[0.2em] text-cyan-200/80">DIKPIK // PLOTS</p>
+        <h1 class="text-3xl font-semibold bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">2D Plot Grid</h1>
+        <p class="text-sm text-white/70">Click a tile to view owner (masked), nickname, and make an offer. Available plots show a buy/offer CTA.</p>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <a href="./index.html" class="border border-white/15 bg-white/10 hover:bg-white/15 rounded px-3 py-2 text-sm">Bazaar</a>
+        <a href="./cybercity.html" class="border border-cyan-500/40 text-cyan-200 hover:bg-cyan-500/10 rounded px-3 py-2 text-sm">Cybercity</a>
+      </div>
+    </header>
+
+    <section class="rounded-2xl border border-white/10 bg-black/60 p-4 space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold">Factions & Districts</h2>
+        <div class="flex gap-2 text-xs text-white/60">
+          <span class="px-2 py-1 rounded bg-white/10 border border-white/10">Owned</span>
+          <span class="px-2 py-1 rounded bg-cyan-500/20 border border-cyan-500/40 text-cyan-100">Available</span>
+        </div>
+      </div>
+      <div id="plotsGrid" class="space-y-6"></div>
+    </section>
+  </div>
+
+  <div id="plotModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur flex items-center justify-center px-4">
+    <div class="w-[min(520px,92vw)] rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-900/80 p-5">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <div id="modalTier" class="text-xs uppercase tracking-[0.2em] text-cyan-200/80"></div>
+          <h3 id="modalName" class="text-xl font-semibold"></h3>
+          <p id="modalDistrict" class="text-sm text-white/60"></p>
+        </div>
+        <button id="modalClose" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15 text-sm">Close</button>
+      </div>
+      <p id="modalLore" class="text-sm text-white/70 mt-2"></p>
+      <div class="mt-3 grid grid-cols-2 gap-3 text-sm text-white/70">
+        <div><span class="text-white/50">Faction:</span> <span id="modalFaction"></span></div>
+        <div><span class="text-white/50">Area Weight:</span> <span id="modalArea"></span></div>
+        <div><span class="text-white/50">Status:</span> <span id="modalStatus"></span></div>
+        <div><span class="text-white/50">Owner:</span> <span id="modalOwner"></span></div>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <button id="modalOffer" class="h-10 px-4 rounded bg-emerald-600/80 hover:bg-emerald-600 text-sm hidden">Make Offer</button>
+        <button id="modalWanted" class="h-10 px-4 rounded bg-fuchsia-600/80 hover:bg-fuchsia-600 text-sm hidden">Post Wanted</button>
+        <button id="modalBuy" class="h-10 px-4 rounded bg-cyan-600/80 hover:bg-cyan-600 text-sm hidden">Buy / Offer</button>
+      </div>
+      <div id="modalInfo" class="mt-3 text-xs text-white/60"></div>
+    </div>
+  </div>
+
+  <script type="module" src="./frontend/js/plots.js"></script>
+</body>
+</html>

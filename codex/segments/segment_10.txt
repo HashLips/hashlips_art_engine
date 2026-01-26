@@ -1,0 +1,80 @@
+let HAS_LISTINGS_API = false;
+let HAS_BIDS_API = false;
+let HAS_RELAY_API = false;
+
+const MEMBER_SUBSCRIBERS = new Set();
+
+function applyDpConfig(payload = {}, origin) {
+  if (origin && DP_TARGET_ORIGIN === '*') {
+    DP_TARGET_ORIGIN = origin;
+  }
+  const merged = { ...DP_CONFIG, ...payload };
+  const currentEndpoints = DP_CONFIG.endpoints || {};
+  if (payload.apiBase && !payload.endpoints) {
+    const base = String(payload.apiBase || '').replace(/\/+$/, '');
+    merged.endpoints = {
+      listings: `${base}/listings`,
+      wanted: `${base}/wanted`,
+      bids: `${base}/bids`,
+      relay: `${base}/relay`
+    };
+  } else {
+    const endpoints = payload.endpoints || {};
+    merged.endpoints = {
+      listings: endpoints.listings || currentEndpoints.listings || '/_functions/listings',
+      wanted: endpoints.wanted || currentEndpoints.wanted || '/_functions/wanted',
+      bids: endpoints.bids || currentEndpoints.bids || '/_functions/bids',
+      relay: endpoints.relay || currentEndpoints.relay || '/_functions/relay'
+    };
+  }
+  DP_CONFIG = merged;
+  API_LISTINGS = DP_CONFIG.endpoints.listings;
+  API_WANTED = DP_CONFIG.endpoints.wanted;
+  API_BIDS = DP_CONFIG.endpoints.bids;
+  API_RELAY = DP_CONFIG.endpoints.relay;
+}
+
+function sendToParent(message) {
+  if (!window.parent || window.parent === window) return;
+  try {
+    window.parent.postMessage(message, DP_TARGET_ORIGIN);
+  } catch (err) {
+    console.warn('postMessage to parent failed', err);
+  }
+}
+
+function notifyParent(type, payload) {
+  sendToParent({ type, payload });
+}
+
+function requestParent(type, payload) {
+  if (!window.parent || window.parent === window) {
+    return Promise.reject(new Error('Parent bridge unavailable.'));
+  }
+  const nonce = `dp_${Date.now()}_${++DP_REQUEST_SEQ}`;
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      if (DP_PENDING.has(nonce)) {
+        DP_PENDING.delete(nonce);
+        reject(new Error(`${type} timed out`));
+      }
+    }, DP_BRIDGE_TIMEOUT_MS);
+    DP_PENDING.set(nonce, { resolve, reject, timer, type });
+    sendToParent({ type, payload, nonce });
+  });
+}
+
+function setMemberSnapshot(snapshot) {
+  window.DIKPIK_MEMBER = snapshot || null;
+  document.dispatchEvent(new CustomEvent('dikpik:member', { detail: window.DIKPIK_MEMBER }));
+  MEMBER_SUBSCRIBERS.forEach((handler) => {
+    try {
+      handler(window.DIKPIK_MEMBER);
+    } catch (err) {
+      console.warn('member handler failed', err);
+    }
+  });
+}
+
+function handleParentMessage(event) {
+  const msg = event?.data;

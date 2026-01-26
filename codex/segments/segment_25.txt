@@ -1,0 +1,80 @@
+  if (maxSel !== undefined) out = out.filter(t => (scoreOf(t) ?? Infinity) <= maxSel);
+
+  for (const f of TRAIT_FILTERS){
+    if (f.key && f.value !== "") {
+      out = out.filter(t => String(t.traits?.[f.key] ?? "") === String(f.value));
+    }
+  }
+
+  out.sort((a,b) => {
+    switch(sortKey){
+      case "tokenId": return a.tokenId - b.tokenId;
+      case "nftScore": return (b.nftScore ?? -Infinity) - (a.nftScore ?? -Infinity);
+      case "rarityScore": return (b.rarityScore ?? -Infinity) - (a.rarityScore ?? -Infinity);
+      case "rarityRank": return (a.rarityRank ?? Infinity) - (b.rarityRank ?? Infinity);
+      default: return 0;
+    }
+  });
+  return out;
+}
+function updatePager(total){
+  const per = +PAGING.perPage, pages = Math.max(1, Math.ceil(total/per));
+  PAGING.page = Math.min(Math.max(1, PAGING.page), pages);
+  const p = PAGING.page;
+  const setText = (id, txt) => { const el = $(id); if (el) el.textContent = txt; };
+  setText("pageInfo", `Page ${p} / ${pages}`); setText("pageInfoB", `Page ${p} / ${pages}`);
+  const ti = $('totalInfo'); if (ti) ti.textContent = `${total} tokens â€¢ ${per} per page`;
+  ["pageFirst","pagePrev","pageNext","pageLast","pageFirstB","pagePrevB","pageNextB","pageLastB"].forEach(id=>{
+    const btn = $(id); if(!btn) return;
+    const first = id.includes("First"), prev = id.includes("Prev"), next = id.includes("Next"), last = id.includes("Last");
+    btn.disabled = (first||prev) ? (p <= 1) : (p >= pages);
+  });
+  return {pages,p};
+}
+function togglePager(show){
+  if ($('pagerTop')) $('pagerTop').style.display = show ? "flex" : "none";
+  if ($('pagerBottom')) $('pagerBottom').style.display = show ? "flex" : "none";
+}
+
+function renderTokens(){
+  const grid = $('tokenGrid'); const empty = $('tokenEmpty'); if(!grid||!empty) return;
+  const factionValue = ($('factionSelect')?.value || "").trim();
+  const tokens = applyFilters(); grid.innerHTML = "";
+  if (!tokens.length){ empty.classList.remove("hidden"); togglePager(false); return; } empty.classList.add("hidden");
+  if (factionValue){
+    togglePager(false);
+    const holder = document.createElement("div"); holder.className = "space-y-2"; grid.appendChild(holder);
+    renderMafiaTree(tokens, holder, factionValue);
+    return;
+  }
+  togglePager(true);
+  const {pages,p} = updatePager(tokens.length);
+  const start = (p-1) * PAGING.perPage, end = start + PAGING.perPage;
+  const pageItems = tokens.slice(start, end);
+  const wrap = document.createElement("div"); wrap.className = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"; grid.appendChild(wrap);
+  for(const t of pageItems) wrap.appendChild(buildTokenTile(t));
+}
+
+/* ================== Listings + popups ================== */
+function getOpenSeaAssetUrl(tokenId){ if(!OS_SETTINGS?.chain||!OS_SETTINGS?.contract) return ""; return `https://opensea.io/assets/${OS_SETTINGS.chain.toLowerCase()}/${OS_SETTINGS.contract}/${tokenId}`; }
+
+function auctionCard(l){
+  const t = TOKENS.find((x) => x.tokenId == l.tokenId);
+  const img = t ? getImageUrl(t) : "";
+  const canon = t ? getRankText(t) : "";
+  const faction = t ? String(t.traits?.[factionKey] ?? "") : "";
+  const os = t ? getOpenSeaAssetUrl(t.tokenId) : "";
+  const lid = l.id || l._id || ("auc_" + (t?.tokenId ?? uid()));
+  const expTs = l.expiresAt ? (typeof l.expiresAt === "number" ? l.expiresAt : Date.parse(l.expiresAt)) : 0;
+  const ends = expTs ? `<div class="countdown-neon mt-1" id="cd_${h(lid)}" data-expire-ts="${expTs}"><span data-remaining-big>00:00:00</span></div>` : "";
+  const hasId = l.tokenId != null && /^\d+$/.test(String(l.tokenId));
+  const wrapTag = hasId ? "button" : "div";
+  const wrapAttrs = hasId
+    ? `type="button" data-view-token="${parseInt(l.tokenId, 10)}" class="h-24 w-24 rounded bg-black/60 overflow-hidden flex items-center justify-center cursor-zoom-in" title="Click to view details"`
+    : `class="h-24 w-24 rounded bg-black/60 overflow-hidden flex items-center justify-center"`;
+  const titleSafe = h(l.title || `Auction #${l.tokenId ?? ""}`);
+  const factionSafe = h(faction);
+  const canonSafe = h(canon);
+  const minCcySafe = h(l.min_ccy || l.currency || "");
+  const ccySafe = h(l.currency || "");
+  const tokenLabel = h(String(l.tokenId ?? ""));

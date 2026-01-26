@@ -1,0 +1,80 @@
+      showNotice('No account returned from Binance Wallet.', { title:'Wallet error', variant:'error', autoCloseMs:2400 });
+      return null;
+    }
+    const { signature, message } = await requestEvmSignature(provider, address);
+    upsertWalletConnection({
+      type: 'Binance Wallet',
+      chain: 'evm',
+      address,
+      verified: Boolean(signature),
+      signature,
+      message
+    });
+    syncAuthState();
+    refreshAuthUI();
+    showNotice('Binance wallet connected.', { title:'Wallet connected', variant:'success', autoCloseMs:2000 });
+    return address;
+  } catch (err){
+    if (err?.code === 4001){
+      showNotice('Binance wallet connection was rejected.', { title:'Wallet cancelled', variant:'warn', autoCloseMs:2200 });
+    } else {
+      console.error('connectBinanceWallet error', err);
+      showNotice(err?.message || 'Wallet connection failed.', { title:'Wallet error', variant:'error', autoCloseMs:2600 });
+    }
+    return null;
+  }
+}
+
+async function connectPhantom(){
+  const provider = window.solana;
+  if (!provider || !provider.isPhantom){
+    showNotice('Phantom wallet was not detected.', { title:'Wallet not found', variant:'error', autoCloseMs:2600 });
+    return null;
+  }
+  try{
+    const resp = await provider.connect();
+    const address = resp?.publicKey?.toString();
+    if (!address){
+      showNotice('No account returned from Phantom.', { title:'Wallet error', variant:'error', autoCloseMs:2400 });
+      return null;
+    }
+    const { signature, message } = await requestPhantomSignature(provider, address);
+    upsertWalletConnection({
+      type: 'Phantom',
+      chain: 'solana',
+      address,
+      verified: Boolean(signature),
+      signature,
+      message
+    });
+    syncAuthState();
+    refreshAuthUI();
+    showNotice('Phantom connected.', { title:'Wallet connected', variant:'success', autoCloseMs:2000 });
+    return address;
+  } catch (err){
+    if (err?.code === 4001){
+      showNotice('Phantom connection was rejected.', { title:'Wallet cancelled', variant:'warn', autoCloseMs:2200 });
+    } else {
+      console.error('connectPhantom error', err);
+      showNotice(err?.message || 'Wallet connection failed.', { title:'Wallet error', variant:'error', autoCloseMs:2600 });
+    }
+    return null;
+  }
+}
+
+async function connectWallet(){
+  return connectMetaMask();
+}
+
+async function verifyOwnership({chain, contract, tokenId, wallet}){
+  // SUGGEST replacing with Alchemy/Moralis/OpenSea owner lookup; return true only if wallet owns token
+  return Boolean(chain && contract && wallet);
+}
+
+function toggleDisabled(el, disabled){
+  if(!el) return;
+  el.disabled = disabled;
+  el.classList.toggle('opacity-50', disabled);
+  el.classList.toggle('cursor-not-allowed', disabled);
+}
+

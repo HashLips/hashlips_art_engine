@@ -1,0 +1,207 @@
+import wixData from 'wix-data';
+import { currentMember } from 'wix-members-backend';
+import {
+  WANTED_COLLECTION,
+  WantedError,
+  normalizeWantedPayload,
+  shapeWantedRecord,
+  getOwnerId
+} from './wantedUtils.js';
+import {
+  placeBid,
+  increaseBidQuick,
+  withdrawBid,
+  finalizeAuction,
+  buyNow,
+  getAuctionPublic,
+  getAuctionPrivate,
+  isAuctionAdmin
+} from './auctionService.js';
+
+function compact(obj) {
+  return Object.fromEntries(Object.entries(obj).filter(([, value]) => value !== undefined));
+}
+
+async function fetchCurrentMember() {
+  try {
+    return await currentMember.getMember({ fieldsets: ['FULL'] });
+  } catch (_err) {
+    return null;
+  }
+}
+
+async function requireMember() {
+  const member = await fetchCurrentMember();
+  if (!member) throw new WantedError('Login required.', 401);
+  return member;
+}
+
+function resolveMemberName(member) {
+  if (!member) return 'Member';
+  const nickname = member.profile?.nickname;
+  if (nickname) return nickname;
+  const slug = member.profile?.slug;
+  if (slug) return slug;
+  const name = member.contact?.name;
+  if (name) return name;
+  const email = member.contact?.emails?.[0]?.email;
+  if (email) return email;
+  return 'Member';
+}
+
+async function getWantedById(id) {
+  try {
+    return await wixData.get(WANTED_COLLECTION, id);
+  } catch (_err) {
+    return null;
+  }
+}
+
+function mergeRecords(oldRec, newRec) {
+  return { ...(oldRec || {}), ...(newRec || {}) };
+}
+
+export async function listWantedPosts() {
+  const member = await fetchCurrentMember();
+  const viewerId = member?._id ? String(member._id) : null;
+
+  const results = await wixData
+    .query(WANTED_COLLECTION)
+    .eq('kind', 'wanted')
+    .descending('_createdDate')
+    .limit(1000)
+    .find();
+
+  return results.items.map((item) =>
+    shapeWantedRecord(item, { includeContact: Boolean(viewerId), viewerId })
+  );
+}
+
+export async function getMyWantedPosts() {
+  const member = await requireMember();
+  const memberId = String(member._id);
+
+  let results = await wixData
+    .query(WANTED_COLLECTION)
+    .eq('kind', 'wanted')
+    .eq('ownerMemberId', memberId)
+    .descending('_createdDate')
+    .limit(1000)
+    .find();
+
+  if (!results.items.length) {
+    results = await wixData
+      .query(WANTED_COLLECTION)
+      .eq('kind', 'wanted')
+      .eq('_owner', memberId)
+      .descending('_createdDate')
+      .limit(1000)
+      .find();
+  }
+
+  return results.items.map((item) =>
+    shapeWantedRecord(item, { includeContact: true, viewerId: memberId })
+  );
+}
+
+export async function createWantedPost(data) {
+  const member = await requireMember();
+  const memberId = String(member._id);
+  const payload = normalizeWantedPayload(data || {}, { partial: false });
+  const now = new Date();
+
+  const doc = compact({
+    ...payload,
+    ownerMemberId: memberId,
+    ownerDisplayName: resolveMemberName(member),
+    createdAt: now,
+    updatedAt: now
+  });
+
+  const saved = await wixData.insert(WANTED_COLLECTION, doc, { suppressAuth: true });
+
+  return shapeWantedRecord(saved, { includeContact: true, viewerId: memberId });
+}
+
+export async function updateWantedPost(id, data) {
+  if (!id || typeof id !== 'string') {
+    throw new WantedError('ID is required.', 400, { field: 'id' });
+  }
+
+  const member = await requireMember();
+  const memberId = String(member._id);
+  const existing = await getWantedById(id);
+
+  if (!existing) {
+    throw new WantedError('Wanted post not found.', 404);
+  }
+
+  const ownerId = getOwnerId(existing);
+  if (!ownerId || String(ownerId) !== memberId) {
+    throw new WantedError('You can only update your own wanted posts.', 403);
+  }
+
+  const payload = normalizeWantedPayload(data || {}, { partial: true });
+  const updateFields = compact({
+    ...payload,
+    _id: id,
+    ownerMemberId: ownerId,
+    updatedAt: new Date()
+  });
+
+  const changedKeys = Object.keys(updateFields).filter((key) => key !== '_id');
+  if (!changedKeys.length) {
+    throw new WantedError('No changes provided.', 400);
+  }
+
+  const updated = await wixData.update(WANTED_COLLECTION, updateFields, { suppressAuth: true });
+  const merged = mergeRecords(existing, updated);
+
+  return shapeWantedRecord(merged, { includeContact: true, viewerId: memberId });
+}
+
+export async function placeAuctionBid(input) {
+  const member = await requireMember();
+  const context = { member };
+  return placeBid(input, context);
+}
+
+export async function increaseAuctionBidQuick(input) {
+  const member = await requireMember();
+  const context = { member };
+  return increaseBidQuick(input, context);
+}
+
+export async function withdrawAuctionBid(input) {
+  const member = await requireMember();
+  const context = { member };
+  return withdrawBid(input, context);
+}
+
+export async function finalizeAuctionAdmin(input) {
+  const member = await requireMember();
+  if (!isAuctionAdmin(member)) {
+    throw new WantedError('Admin access required.', 403);
+  }
+  const context = { member };
+  return finalizeAuction(input, context);
+}
+
+export async function buyNowAuction(input) {
+  const member = await requireMember();
+  const context = { member };
+  return buyNow(input, context);
+}
+
+export async function getAuctionPublicData(input) {
+  return getAuctionPublic(input);
+}
+
+export async function getAuctionPrivateData(input) {
+  const member = await requireMember();
+  if (!isAuctionAdmin(member)) {
+    throw new WantedError('Admin access required.', 403);
+  }
+  const context = { member };
+  return getAuctionPrivate(input, context);
+}

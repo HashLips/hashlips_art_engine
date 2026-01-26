@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book labour now – Mock</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <!-- Replace YOUR_GOOGLE_MAPS_API_KEY with a real key (Maps JS + Places enabled, restricted to your domains). -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap" async defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="top">
+      <h1>Book labour now</h1>
+      <p class="lede">Sydney / NSW labour hire request mock. All data stays in the browser. Use the JSON preview or CSV export to inspect payloads.</p>
+      <p id="maps-warning" class="warning" hidden>Google Maps did not load (API key missing?). You can still submit the form, but map search/pin are unavailable.</p>
+      <div class="actions">
+        <button type="button" id="open-json">Preview JSON</button>
+        <button type="button" id="export-csv">Export CSV</button>
+      </div>
+    </header>
+
+    <form id="booking-form" novalidate>
+      <section class="section">
+        <h2>Company details</h2>
+        <div class="grid two">
+          <label>Company name *
+            <input name="companyName" required />
+            <span class="error" data-error-for="companyName"></span>
+          </label>
+          <label>Company structure *
+            <select name="companyStructure" required></select>
+            <span class="error" data-error-for="companyStructure"></span>
+          </label>
+        </div>
+
+        <div class="grid four">
+          <label>Title *
+            <select name="contactTitle" required></select>
+            <span class="error" data-error-for="contactTitle"></span>
+          </label>
+          <label>Contact name *
+            <input name="contactName" required />
+            <span class="error" data-error-for="contactName"></span>
+          </label>
+          <label>Job title *
+            <input name="contactJobTitle" required />
+            <span class="error" data-error-for="contactJobTitle"></span>
+          </label>
+          <label>Mobile (required) *
+            <input name="contactMobile" required />
+            <span class="error" data-error-for="contactMobile"></span>
+          </label>
+        </div>
+
+        <div class="grid three">
+          <label>Contact email *
+            <input name="contactEmail" type="email" required />
+            <span class="error" data-error-for="contactEmail"></span>
+          </label>
+          <label>Landline (optional)
+            <input name="contactLandline" />
+          </label>
+          <label class="inline">
+            <input type="checkbox" name="contactOnBehalf" />
+            Contact is acting for / on behalf of the company listed above
+          </label>
+          <label>Preferred contact time (optional)
+            <input name="preferredContactTime" placeholder="e.g. Weekdays 08:00–10:00" />
+          </label>
+        </div>
+
+        <div class="grid three">
+          <label>ACN (9 digits) *
+            <input name="acn" inputmode="numeric" maxlength="9" required />
+            <span class="error" data-error-for="acn"></span>
+          </label>
+          <label>ABN (11 digits) *
+            <input name="abn" inputmode="numeric" maxlength="11" required />
+            <span class="hint" id="abn-hint" hidden>ABN ends with ACN ✓</span>
+            <span class="error" data-error-for="abn"></span>
+          </label>
+          <label>Website (optional)
+            <input name="website" type="url" placeholder="https://example.com" />
+            <span class="error" data-error-for="website"></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Registered address (company registered address)</h2>
+        <div class="grid three">
+          <label>Street incl. property number *
+            <input name="registeredStreet" required />
+            <span class="error" data-error-for="registeredStreet"></span>
+          </label>
+          <label>State / Territory *
+            <select name="registeredState" required></select>
+            <span class="error" data-error-for="registeredState"></span>
+          </label>
+          <label>Postcode (4 digits) *
+            <input name="registeredPostcode" inputmode="numeric" maxlength="4" required />
+            <span class="error" data-error-for="registeredPostcode"></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Site address (Location of site that workers need to go to)</h2>
+        <label>Site name (if you have one)
+          <input name="siteName" placeholder="e.g. Western Sydney Logistics Hub" />
+        </label>
+        <div class="grid">
+          <label>Search address (Google Places) *
+            <input id="site-search" name="siteSearch" required placeholder="Start typing site address" />
+            <span class="error" data-error-for="siteSearch"></span>
+          </label>
+        </div>
+        <div class="map-row">
+          <div id="map" aria-label="Site map preview"></div>
+          <div class="map-meta">
+            <p><strong>Selected address</strong></p>
+            <p id="selected-address">None</p>
+            <p id="coords">Lat/Lng: -</p>
+            <p><a id="map-link" href="#" target="_blank" rel="noreferrer">Open in Google Maps</a></p>
+            <button type="button" id="recenter">Recenter to selected place</button>
+          </div>
+        </div>
+        <input type="hidden" name="siteFormattedAddress" />
+        <input type="hidden" name="siteLat" />
+        <input type="hidden" name="siteLng" />
+        <input type="hidden" name="sitePlaceId" />
+      </section>
+
+      <section class="section highlight" id="workers-section">
+        <div class="section-head">
+          <div>
+            <h2>Workers needed</h2>
+            <p class="hint">(If need different types of workers please click <strong>Next role needed</strong> to add more)</p>
+          </div>
+          <button type="button" id="add-group">Add role group</button>
+        </div>
+        <div id="groups"></div>
+      </section>
+
+      <section class="section">
+        <h2>Notes (optional)</h2>
+        <label>
+          <textarea name="notes" rows="3" placeholder="Anything else we should know?"></textarea>
+        </label>
+      </section>
+
+      <section class="section">
+        <h2>Attachments (optional)</h2>
+        <p class="hint">Upload scope, induction, or any other docs you want to send us (PDFs preferred, max ~10MB total).</p>
+        <input type="file" id="attachments" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,image/*" />
+        <p class="hint">If files are bigger than 10MB, paste a link instead:</p>
+        <input name="attachmentsLink" type="url" placeholder="Link to larger documents (SharePoint, Google Drive, etc.)" />
+        <ul id="attachments-list" class="attach-list"></ul>
+      </section>
+
+      <div class="actions">
+        <button type="submit" id="submit">Submit booking</button>
+      </div>
+    </form>
+  </main>
+
+  <div id="modal" class="modal" hidden>
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="json-title">
+      <div class="modal-head">
+        <h3 id="json-title">JSON preview</h3>
+        <button id="close-modal" type="button" aria-label="Close">×</button>
+      </div>
+      <pre id="json-output"></pre>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>

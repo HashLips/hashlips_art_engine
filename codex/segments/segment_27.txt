@@ -1,0 +1,80 @@
+  const traitSafe = post.traitQuery ? `Looking for: ${h(post.traitQuery)}` : "";
+  const budgetSafe = Number.isFinite(post.budget) ? `${post.budget} ${h(post.currency || "")}` : "-";
+  const statusBadge = `<span class="inline-flex items-center rounded bg-white/10 px-2 py-0.5 text-[11px] uppercase tracking-wide text-white/70">${h(post.status || "OPEN")}</span>`;
+  const description = post.description || post.descriptionRich || "";
+  const descriptionHtml = description ? `<div class="mt-2 text-xs text-white/70 whitespace-pre-wrap">${h(description)}</div>` : "";
+  const contactHtml = buildWantedContactHtml(post);
+  const walletHtml = buildWantedWalletHtml(post);
+  const ownerControls = post.isOwner
+    ? `<div class="mt-3 flex gap-2 text-xs"><button class="flex-1 rounded bg-white/10 hover:bg-white/15 h-8" data-edit-wanted="${post.id}">Edit post</button></div>`
+    : "";
+
+  const tokenLabel = post.tokenId != null ? `Token #${h(String(post.tokenId))}` : "";
+  const metaPieces = [];
+  if (tokenLabel) metaPieces.push(tokenLabel);
+  if (traitSafe) metaPieces.push(traitSafe);
+  if (faction) metaPieces.push(h(faction));
+  if (canon) metaPieces.push(h(canon));
+  const metaLine = metaPieces.filter(Boolean).join(" \u2022 ");
+
+  return `
+    <div class="bg-black/50 border border-white/10 rounded p-3 text-sm">
+      <div class="flex items-start gap-3">
+        <${wrapTag} ${wrapAttrs}>
+          ${img ? `<img src="${img}" class="h-full w-full object-contain" alt="${hasToken ? "#" + h(String(post.tokenId)) : "Wanted"}" />` : `<div class="text-xs text-white/40">No Image</div>`}
+        </${wrapTag}>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-start justify-between gap-2">
+            <div class="font-medium truncate">${titleSafe}</div>
+            ${statusBadge}
+          </div>
+          ${metaLine ? `<div class="text-xs text-white/60">${metaLine}</div>` : ""}
+          <div class="mt-1 text-xs text-white/70">${budgetSafe}</div>
+          ${descriptionHtml}
+          ${os ? `<a class="text-cyan-300 underline text-xs" target="_blank" rel="noreferrer" href="${os}">Open on OpenSea</a>` : ""}
+          ${contactHtml}
+          ${walletHtml}
+          ${ownerControls}
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderAuctionListings(){
+  const grid = $('auctionsGrid'); const empty = $('auctionsEmpty');
+  if(!grid) return;
+  const all = LISTINGS.filter(l=>l.kind==="auction");
+  grid.innerHTML = "";
+
+  if(!all.length){ if(empty) empty.classList.remove("hidden"); removeAuctionsPager(); return; }
+  if(empty) empty.classList.add("hidden");
+
+  const st = BZ_PAGER.auctions;
+  const pages = Math.max(1, Math.ceil(all.length / st.perPage));
+  st.page = Math.min(Math.max(1, st.page), pages);
+  const start = (st.page - 1) * st.perPage;
+  const pageItems = all.slice(start, start + st.perPage);
+
+  pageItems.forEach(item=>{
+    const wrap = document.createElement("div");
+    wrap.innerHTML = auctionCard(item);
+    const card = wrap.firstElementChild;
+    if(card) grid.appendChild(card);
+  });
+
+  installAuctionsPager(pages);
+  function installAuctionsPager(pages){
+    removeAuctionsPager();
+    const bar = document.createElement('div');
+    bar.id = 'auctionsPager';
+    bar.className = 'mt-3 flex items-center justify-between text-xs';
+    const prev = document.createElement('button'); prev.className='pager-btn'; prev.textContent='Prev'; prev.disabled = st.page<=1; prev.onclick = ()=>{ st.page--; renderAuctionListings(); };
+    const info = document.createElement('span'); info.className='px-2 text-white/70'; info.textContent = `Page ${st.page} / ${pages}`;
+    const next = document.createElement('button'); next.className='pager-btn'; next.textContent='Next'; next.disabled = st.page>=pages; next.onclick = ()=>{ st.page++; renderAuctionListings(); };
+    bar.append(prev, info, next);
+    grid.parentElement.appendChild(bar);
+  }
+  function removeAuctionsPager(){
+    const old = document.getElementById('auctionsPager');
+    if (old && old.parentElement) old.parentElement.removeChild(old);
+  }

@@ -1,0 +1,80 @@
+                  <input id="w_contact_line" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Line (optional)"/>
+                  <input id="w_contact_whatsapp" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="WhatsApp (optional)"/>
+                  <input id="w_contact_telegram" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Telegram (optional)"/>
+                  <input id="w_contact_email" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Email (optional)"/>
+                </div>
+                <input id="w_contact_phone" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Phone (optional)"/>
+                <textarea id="w_contact_message" class="w-full bg-black/60 border border-white/10 rounded px-2 py-2 h-20" placeholder="Private message to responders (optional)"></textarea>
+                <select id="w_status" class="w-full bg-black/60 border border-white/10 rounded h-9 px-2">
+                  <option value="OPEN">Status: OPEN</option>
+                  <option value="FOUND">Status: FOUND</option>
+                  <option value="CANCELLED">Status: CANCELLED</option>
+                </select>
+                <div class="flex flex-col sm:flex-row gap-2">
+                  <button id="w_submit" type="button" class="flex-1 bg-cyan-600/80 hover:bg-cyan-600 rounded h-9">Post Wanted</button>
+                  <button id="w_cancelEdit" type="button" class="hidden flex-1 bg-white/10 hover:bg-white/15 rounded h-9 text-sm">Cancel edit</button>
+                </div>
+
+              </div>
+            </div>
+
+            <button id="loginToPostBtn" class="hidden w-full bg-white/10 hover:bg-white/15 h-10 rounded">Log in to post</button>
+          </div>
+
+          <!-- listings -->
+          <div class="lg:col-span-2 space-y-6">
+            <div class="bg-black/50 border border-white/10 rounded-xl p-4 list-panel">
+              <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="font-medium">Live Auctions</div>
+              </div>
+              <div id="auctionsGrid" class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+              <p id="auctionsEmpty" class="hidden text-white/60 text-sm">No auctions yet. List one on the left.</p>
+            </div>
+
+            <div class="bg-black/50 border border-white/10 rounded-xl p-4 list-panel">
+             <div class="flex items-center justify-between flex-wrap gap-2">
+                <div class="font-medium">Wanted Posts</div>
+              </div>
+              <div id="wantedGrid" class="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+              <p id="wantedEmpty" class="hidden text-white/60 text-sm">No wanted posts yet. Create one on the left.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div aria-hidden class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute inset-6 rounded-3xl" style="padding:2px;background:linear-gradient(90deg,rgba(0,255,255,.4),rgba(255,0,255,.4)) 0 0/200% 100% no-repeat,linear-gradient(90deg,rgba(255,0,255,.4),rgba(0,255,255,.4)) 0 0/200% 100% no-repeat;animation:borderScroll 12s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;">
+      <div class="h-full w-full rounded-[calc(24px-2px)] bg-black/60"></div>
+    </div>
+  </div>
+
+  <!-- Token Picker -->
+  <div id="tokenPicker" class="hidden fixed inset-0 z-40 bg-black/60 backdrop-blur">
+    <!-- removed 'max-height-[85vh]' -->
+    <div class="mx-auto mt-14 w-[min(1100px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/70 via-black/60 to-black/70 p-5">
+      <div class="flex items-center justify-between gap-3">
+        <div class="text-lg font-semibold">Choose a Token</div>
+        <button id="tp_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+      </div>
+      <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <input id="tp_search" class="bg-black/60 border border-white/10 rounded h-9 px-3" placeholder="Search token #, faction, rank, traitâ€¦"/>
+        <select id="tp_faction" class="bg-black/60 border border-white/10 rounded h-9 px-3"><option value="">All Factions</option></select>
+        <select id="tp_rank" class="bg-black/60 border border-white/10 rounded h-9 px-3">
+          <option value="">All Canon Ranks</option>
+          <option>Boss (Don)</option><option>Underboss</option><option>Consigliere</option>
+          <option>Caporegime</option><option>Soldier</option><option>Associate</option>
+        </select>
+      </div>
+      <div id="tp_grid" class="mt-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3"></div>
+      <p id="tp_empty" class="hidden text-white/60 text-sm mt-2">No tokens match.</p>
+    </div>
+  </div>
+
+  <!-- Bid Modal -->
+  <div id="bidModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur">
+    <div class="mx-auto mt-14 w-[min(1100px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/70 via-black/60 to-black/70 p-5">
+      <div class="flex items-center justify-between gap-3">
+        <div class="text-lg font-semibold">Place a Bid</div>
+        <button id="bm_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>

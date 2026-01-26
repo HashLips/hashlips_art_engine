@@ -1,0 +1,80 @@
+  const walletConnectBtn = $('walletConnect');
+  if (walletConnectBtn){
+    walletConnectBtn.disabled = false;
+    walletConnectBtn.classList.remove('opacity-50','cursor-not-allowed');
+  }
+
+  renderConnectedWallets();
+}
+
+function hasAcceptedSellerTerms(addr){
+  if (!addr) return false;
+  const bucket = SELLER_TERMS[SELLER_TERMS_VERSION] || {};
+  return Boolean(bucket[addr.toLowerCase()]);
+}
+function recordSellerTerms(addr){
+  if (!addr) return;
+  if (!SELLER_TERMS[SELLER_TERMS_VERSION]) SELLER_TERMS[SELLER_TERMS_VERSION] = {};
+  SELLER_TERMS[SELLER_TERMS_VERSION][addr.toLowerCase()] = new Date().toISOString();
+  saveSellerTerms();
+}
+
+function markEscrowed(tokenId, by){
+  if (!Number.isFinite(tokenId)) return;
+  ESCROWED_TOKENS[String(tokenId)] = { by: (by||'').toLowerCase(), at: Date.now() };
+  saveEscrowedTokens();
+  if ($('a_escrowStatus')) $('a_escrowStatus').textContent = 'Escrow ready (stub)';
+  if ($('a_escrowBadge')) $('a_escrowBadge').classList.remove('hidden');
+}
+function isEscrowed(tokenId){
+  return Boolean(ESCROWED_TOKENS && ESCROWED_TOKENS[String(tokenId)]);
+}
+
+function openLoginModal(){
+  openModalEl('loginModal', '#loginWalletBtn');
+}
+function closeLoginModal(){
+  closeModalEl('loginModal');
+}
+function ensureAuth(actionLabel, opts = {}){
+  const requiresWallet = Boolean(opts.requiresWallet);
+  if (!AUTH.isLoggedIn){
+    showNotice(`Please log in first${actionLabel ? ` to ${actionLabel}` : ''}.`, { title:'Login required', variant:'error', autoCloseMs:2200 });
+    openLoginModal();
+    return false;
+  }
+  if (requiresWallet && !hasEvmWallet()){
+    showNotice('Connect an EVM wallet first.', { title:'Wallet required', variant:'error', autoCloseMs:2200 });
+    openLoginModal();
+    return false;
+  }
+  return true;
+}
+
+/* ================== Stats & Normalization ================== */
+function computeTraitStats(){
+  const stats = {}; TOTAL_SUPPLY = TOKENS.length;
+  for(const t of TOKENS){
+    for(const [k,v0] of Object.entries(t.traits||{})){
+      const kStr = String(k); const v = String(v0 ?? "");
+      if(!stats[kStr]) stats[kStr] = { __total:0, values:{} };
+      const node = stats[kStr]; node.__total++; node.values[v] = (node.values[v]||0) + 1;
+    }
+  }
+  TRAIT_STATS = stats;
+}
+function traitOccurrence(k,v){
+  if(!TRAIT_STATS||!k) return {count:0,pct:0};
+  const node=TRAIT_STATS[k]; if(!node) return {count:0,pct:0};
+  const c=node.values[String(v)]||0; const pct=TOTAL_SUPPLY ? (c/TOTAL_SUPPLY*100) : 0;
+  return {count:c,pct};
+}
+function computeCanonStats(){
+  const map={}; const total=TOKENS.length;
+  for(const t of TOKENS){ const r=getRankText(t)||"Associate"; map[r]=(map[r]||0)+1; }
+  CANON_STATS = map; CANON_TOTAL = total;
+}
+
+/* Robust normalization of many export shapes */
+function normalizeTokens(rows){
+  function findBestArray(root){

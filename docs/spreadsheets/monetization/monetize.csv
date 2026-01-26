@@ -1,0 +1,14 @@
+Item,Description,HolderShare%,PlatformShare%,Dev/Marketing%,InfluencerPool%,Token/Coin Reserve%
+Ownership Rights,Slot tied to NFT (by trait/ID); holder controls approved creatives,0,0,0,0,0
+Revenue Share (Baseline),Platform sells ads/affiliates; holder paid in DIKPIK Token,55,25,12,5,3
+Revenue Share (High-Tier Holder),Flagship slots; slightly better holder cut,60,22,11,4,3
+Revenue Share (Direct Deal Floor),Holder sets floor; platform approves creative,50,25,15,5,5
+Self-Serve Listings,Holder opts in; platform rotates sponsor ads,55,25,12,5,3
+Direct Deals,Holder uploads sponsor creative; content policy enforced,50,25,15,5,5
+Quest/Event Sponsorship,Holder slot shares quest revenue,55,25,12,5,3
+Cosmetic/Loot Sales,Branded skins in holder’s district,50,25,15,5,5
+Payout Asset (Token),DIKPIK Token used for payouts initially,0,0,0,0,0
+Payout Asset (Coin Future),Switch/bridge to DIKPIK Coin when launched,0,0,0,0,0
+Influencer/Creator Promo,Allocated from platform share for collabs,0,0,0,10,0
+Dev/Marketing Fund,Portion of platform share for ops,0,0,25,0,0
+Token/Coin Reserve,Long-term reserve for liquidity/rewards,0,0,0,0,100

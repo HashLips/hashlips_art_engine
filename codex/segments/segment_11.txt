@@ -1,0 +1,80 @@
+  if (!msg || typeof msg !== 'object' || typeof msg.type !== 'string' || !msg.type.startsWith('DP:')) {
+    return;
+  }
+  if (DP_TARGET_ORIGIN === '*' && event.origin) {
+    DP_TARGET_ORIGIN = event.origin;
+  }
+  switch (msg.type) {
+    case 'DP:PARENT_READY':
+      notifyParent('DP:REQUEST_CONFIG');
+      notifyParent('DP:REQUEST_MEMBER');
+      break;
+    case 'DP:CONFIG':
+      applyDpConfig(msg.payload || {}, event.origin);
+      break;
+    case 'DP:MEMBER:SET':
+      setMemberSnapshot(msg.payload || null);
+      break;
+    default: {
+      const { nonce } = msg;
+      if (nonce && DP_PENDING.has(nonce)) {
+        const pending = DP_PENDING.get(nonce);
+        DP_PENDING.delete(nonce);
+        clearTimeout(pending.timer);
+        if (msg.type.endsWith(':OK')) {
+          pending.resolve(msg.payload);
+        } else if (msg.type.endsWith(':ERR')) {
+          const error = new Error(msg.error || 'Request failed');
+          if (msg.status) error.status = msg.status;
+          if (msg.details) error.details = msg.details;
+          pending.reject(error);
+        } else {
+          pending.resolve(msg.payload);
+        }
+      }
+      break;
+    }
+  }
+}
+
+window.addEventListener('message', handleParentMessage, false);
+
+function requestMemberSnapshot() {
+  notifyParent('DP:REQUEST_MEMBER');
+}
+
+function subscribeMember(handler) {
+  if (typeof handler === 'function') {
+    MEMBER_SUBSCRIBERS.add(handler);
+    return () => MEMBER_SUBSCRIBERS.delete(handler);
+  }
+  return () => {};
+}
+
+async function bridgeLogin() {
+  await requestParent('DP:LOGIN', { source: 'bazaar-embed' });
+}
+
+async function bridgeLogout() {
+  await requestParent('DP:LOGOUT', { source: 'bazaar-embed' });
+}
+
+function listWantedPosts() {
+  return requestParent('DP:WANTED:LIST', {});
+}
+
+function getMyWantedPosts() {
+  return requestParent('DP:WANTED:MINE', {});
+}
+
+function createWantedPost(data) {
+  return requestParent('DP:WANTED:CREATE', data || {});
+}
+
+function updateWantedPost(id, data) {
+  return requestParent('DP:WANTED:UPDATE', { id, data });
+}
+
+if (window.parent && window.parent !== window) {
+  notifyParent('DP:READY', { version: '2024-11-01' });
+  notifyParent('DP:REQUEST_CONFIG');

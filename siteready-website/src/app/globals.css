@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+/* =========
+   DEFAULT THEME = MARKETING (Option A: Charcoal + Orange)
+   ========= */
+@theme {
+  --color-srPrimary: #111827;
+  --color-srAccent:  #FF7A1A;
+  --color-srTeal:    #FF7A1A; /* KISS: alias teal to accent for now */
+
+  --color-srBg:      #F8FAFC;
+  --color-srCard:    #FFFFFF;
+  --color-srText:    #0F172A;
+  --color-srMuted:   #64748B;
+  --color-srBorder:  #E2E8F0;
+}
+
+:root {
+  --sr-onAccent:   #111827; /* dark text on orange */
+  --sr-onPrimary:  #FFFFFF;
+  --sr-accentSoft: #FFE7D2; /* subtle highlight background */
+
+  /* Status tokens (global semantic tones) */
+  --sr-success:   #16A34A;
+  --sr-warning:   #F59E0B;
+  --sr-danger:    #DC2626;
+  --sr-neutral:   #64748B;
+
+  /* Soft status backgrounds */
+  --sr-successBg: #DCFCE7;
+  --sr-warningBg: #FFEDD5;
+  --sr-dangerBg:  #FEE2E2;
+  --sr-neutralBg: #F1F5F9;
+}
+
+/* =========
+   DASHBOARD THEME = (Option B: Navy + Sky)
+   ========= */
+[data-theme="dashboard"] {
+  --color-srPrimary: #0B2A4A;
+  --color-srAccent:  #38BDF8;
+  --color-srTeal:    #38BDF8; /* alias */
+
+  --color-srBg:      #F5F7FA;
+  --color-srCard:    #FFFFFF;
+  --color-srText:    #0F172A;
+  --color-srMuted:   #64748B;
+  --color-srBorder:  #E5E7EB;
+
+  --sr-onAccent:   #062338; /* dark text on sky */
+  --sr-onPrimary:  #FFFFFF;
+  --sr-accentSoft: #E0F2FE;
+
+  --sr-success:   #22C55E;
+  --sr-warning:   #F97316;
+  --sr-danger:    #EF4444;
+  --sr-neutral:   #64748B;
+
+  --sr-successBg: #DCFCE7;
+  --sr-warningBg: #FFEDD5;
+  --sr-dangerBg:  #FEE2E2;
+  --sr-neutralBg: #F1F5F9;
+}
+
+body {
+  background-color: var(--color-srBg);
+  color: var(--color-srText);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+a {
+  @apply text-inherit no-underline;
+}
+
+.container {
+  @apply max-w-[1120px] w-full px-4 mx-auto;
+}

@@ -1,0 +1,80 @@
+    let saved;
+    if (id){
+      saved = await updateWantedPost(id, normalized);
+      showNotice('Wanted post updated.', { title:'Post updated', variant:'success', autoCloseMs:2200 });
+    } else {
+      saved = await createWantedPost(normalized);
+      showNotice('Wanted post created.', { title:'Post created', variant:'success', autoCloseMs:2200 });
+    }
+    if (saved) mapWantedDocument(saved);
+    await refreshWantedPosts({ silent: false });
+    renderListings();
+    resetWantedForm();
+  } catch (err){
+    console.error('submitWantedForm error:', err);
+    showNotice(err?.message || 'Failed to save wanted post.', { title:'Request failed', variant:'error', autoCloseMs:3200 });
+  }
+}
+
+function syncRelayInputs(){
+  if($('os_chain')) $('os_chain').value = OS_SETTINGS.chain || 'ethereum';
+  if($('os_contract')) $('os_contract').value = OS_SETTINGS.contract || '';
+}
+
+async function hydrateRelaySettings(){
+  if (!HAS_RELAY_API) {
+    syncRelayInputs();
+    return;
+  }
+  const remote = await loadRelaySettingsRemote();
+  if(remote){
+    OS_SETTINGS.chain = remote.chain || OS_SETTINGS.chain;
+    OS_SETTINGS.contract = remote.contract || OS_SETTINGS.contract;
+    cacheOS();
+  }
+  syncRelayInputs();
+}
+
+async function persistRelaySettings(){
+  OS_SETTINGS.chain = ($('os_chain')?.value || 'ethereum').trim() || 'ethereum';
+  OS_SETTINGS.contract = ($('os_contract')?.value || '').trim();
+  cacheOS();
+  if (!HAS_RELAY_API){
+    showNotice('Backend unavailable. Settings saved locally.', { title: 'Offline draft', variant: 'warning', autoCloseMs: 2600 });
+    syncRelayInputs();
+    return;
+  }
+  try{
+    const saved = await saveRelaySettingsRemote(OS_SETTINGS);
+    OS_SETTINGS.chain = saved.chain || OS_SETTINGS.chain;
+    OS_SETTINGS.contract = saved.contract || OS_SETTINGS.contract;
+    cacheOS();
+    showNotice("OpenSea settings saved.", { title: "Saved", variant: "success", autoCloseMs: 1800 });
+  }catch(err){
+    showNotice(`Failed to save settings: ${err?.message || err}`, { title: "Save failed", variant: "error", autoCloseMs: 2600 });
+  }
+  syncRelayInputs();
+  renderListings();
+}
+
+/* ================== Attach handlers (pager, bazaar, UI) ================== */
+function attachPagerHandlers(){
+  const goto=(p)=>{ PAGING.page = p; renderTokens(); };
+  on("pageFirst","click", ()=>goto(1));
+  on("pagePrev","click", ()=>goto(PAGING.page-1));
+  on("pageNext","click", ()=>goto(PAGING.page+1));
+  on("pageLast","click", ()=>{ const total = applyFilters().length; goto(Math.max(1, Math.ceil(total/PAGING.perPage))); });
+  on("pageFirstB","click", ()=>goto(1));
+  on("pagePrevB","click", ()=>goto(PAGING.page-1));
+  on("pageNextB","click", ()=>goto(PAGING.page+1));
+  on("pageLastB","click", ()=>{ const total = applyFilters().length; goto(Math.max(1, Math.ceil(total/PAGING.perPage))); });
+  const per = $('perPage'); if(per) per.addEventListener("change", (e)=>{ PAGING.perPage = parseInt(e.target.value,10) || 60; PAGING.page = 1; renderTokens(); });
+}
+
+function attachBazaarHandlers(){
+  const depTxt = `${REQUIRED_DEPOSIT_ETH} ETH`;
+  if($('depositInfo')) $('depositInfo').textContent = depTxt;
+  if($('bm_deposit_req')) $('bm_deposit_req').textContent = depTxt;
+  syncRelayInputs();
+
+  bindModalDismiss('loginModal');

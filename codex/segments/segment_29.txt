@@ -1,0 +1,80 @@
+}
+
+const API = {
+  listings: {
+    async list(){
+      if (HAS_LISTINGS_API){
+        let auctionsData = [];
+        const auctionsResPrimary = await fetch('/_functions/listings', { cache:'no-store', credentials:'include' }).catch(()=>null);
+        const auctionsRes = (auctionsResPrimary && auctionsResPrimary.ok) ? auctionsResPrimary : await fetch(API_LISTINGS, { cache:'no-store', credentials:'include' }).catch(()=>null);
+        if (auctionsRes && auctionsRes.ok){
+          auctionsData = await auctionsRes.json();
+        }
+        return {
+          auctions: auctionsData?.items ?? auctionsData ?? []
+        };
+      }
+      return {
+        auctions: readLocalArray(LISTINGS_KEY)
+      };
+    },
+    async create(payload){
+      if (HAS_LISTINGS_API){
+        const endpoint = (payload?.kind === 'wanted') ? API_WANTED : API_LISTINGS;
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          cache: 'no-store',
+          body: JSON.stringify(payload)
+        });
+        const text = await res.text();
+        if (!res.ok) throw new Error(text || `HTTP ${res.status}`);
+        return text ? JSON.parse(text) : {};
+      }
+      const key = payload?.kind === 'wanted' ? WANTED_KEY : LISTINGS_KEY;
+      const arr = readLocalArray(key);
+      const draft = {
+        ...payload,
+        kind: payload?.kind || (key === WANTED_KEY ? 'wanted' : 'auction'),
+        id: payload?.id || `local_${uid()}`,
+        _createdDate: Date.now(),
+        _localDraft: true
+      };
+      arr.unshift(draft);
+      writeLocalArray(key, arr);
+      showNotice('Backend unreachable. Saved as a local draft only.', { title:'Offline draft', variant:'error', autoCloseMs:3000 });
+      return draft;
+    }
+  },
+  bids: {
+    async create(payload){
+      if (HAS_BIDS_API){
+        const res = await fetch(API_BIDS, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          cache: 'no-store',
+          credentials: 'include',
+          body: JSON.stringify(payload)
+        });
+        const text = await res.text();
+        if (!res.ok) throw new Error(text || `HTTP ${res.status}`);
+        return text ? JSON.parse(text) : {};
+      }
+      showNotice('Backend unavailable; bid not recorded.', { title:'Request failed', variant:'error', autoCloseMs:3000 });
+      throw new Error('No bids endpoint available');
+    }
+  }
+};
+
+async function loadRelaySettingsRemote(){
+  if (!HAS_RELAY_API) return null;
+  try{
+    const res = await fetch(API_RELAY, { cache: 'no-store', credentials: 'include' });
+    if(!res.ok) return null;
+    return await res.json();
+  }catch(err){
+    console.warn('loadRelaySettingsRemote error:', err);
+    return null;
+  }
+}

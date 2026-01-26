@@ -1,0 +1,80 @@
+function openSellerTerms(){
+  if (!CURRENT_WALLET) { $('stm_wallet').textContent = 'Not connected'; } else { $('stm_wallet').textContent = CURRENT_WALLET; }
+  const m=$('sellerTermsModal'); if(m) m.classList.remove('hidden');
+  // reset checkboxes
+  ['stm_ck1','stm_ck2','stm_ck3','stm_ck4','stm_ck5'].forEach(id=>{ const el=$(id); if(el) { el.checked=false; } });
+  const agree=$('stm_agree'); if(agree) agree.disabled = true;
+}
+
+/* ================== Boot & Data loading ================== */
+let LOADED = false;
+function loadDataFallback(){
+  const sample = [ { tokenId: 1, traits: { Faction: "Hydrohackers", Rank: "Boss (Don)" }, rarityScore: 120, rarityRank: 10 }, { tokenId: 2, traits: { Faction: "Hydrohackers", Rank: "Soldier" }, rarityScore: 58 }, { tokenId: 3, traits: { Faction: "Dune Runners", Rank: "Associate" }, rarityScore: 34 } ];
+  TOKENS = normalizeTokens(sample);
+  deriveKeysAndFactions(); applyMafiaCanon(); computeCanonStats(); computeTraitStats(); renderTraitFiltersUI(); renderFactions(); renderTokens(); LOADED = true;
+}
+
+function forceFallbackIfStuck(){ setTimeout(()=> { if (!LOADED && (!TOKENS || TOKENS.length === 0)) { setStatus("Network slow â€” loading a tiny sample so the UI worksâ€¦"); loadDataFallback(); } }, 4000); }
+
+async function loadData(){
+  try{
+    setStatus("Loading full datasetâ€¦");
+    const [traitsText, mappingText] = await Promise.all([ fetchWithFallback(TRAITS_URL), (async()=>{ try{ return await fetchWithFallback(MAPPING_URL); }catch{return null;} })() ]);
+    const traitsJson = parseLenientJSON(traitsText);
+    TOKENS = normalizeTokens(traitsJson);
+    if(mappingText){ try{ mergeMapping(TOKENS, parseLenientJSON(mappingText)); }catch{} }
+    deriveKeysAndFactions(); applyMafiaCanon(); computeCanonStats(); computeTraitStats();
+
+    (function setupScoreRankFilters(){
+      const scores = TOKENS.map(scoreOf).filter(v=>Number.isFinite(v));
+      if(!scores.length) return;
+      const min = Math.min(...scores), max = Math.max(...scores);
+      const minSel = $('minScoreSel'), maxSel = $('maxScoreSel');
+      function fill(sel,isMin){
+        sel.innerHTML = `<option value="">${isMin?'Min':'Max'} Score (Any)</option>`;
+        const steps = 20; const span = max - min || 1;
+        for(let i=0;i<=steps;i++){ const v = min + (span*i/steps); const label = Number.isInteger(v) ? String(Math.round(v)) : v.toFixed(2); const opt = document.createElement("option"); opt.value = String(v); opt.textContent = label; sel.appendChild(opt); }
+      }
+      if (minSel && maxSel) { fill(minSel,true); fill(maxSel,false); }
+    })();
+
+    renderTraitFiltersUI(); renderFactions(); renderTokens(); startCountdownLoop();
+    setStatus(`Loaded ${TOKENS.length} tokens.`); LOADED = true;
+  } catch(e){
+    console.error(e);
+    setStatus("Network load failed â€” using a tiny sample so the UI works.");
+    loadDataFallback();
+  }
+}
+
+function setStatus(msg){ const el = $('treeSubtitle'); if(el) el.textContent = msg || ""; }
+
+function attachUIHandlers(){
+  const tabTree = $('tabTree'), tabBazaar = $('tabBazaar'), tree = $('treeSection'), bazaar = $('bazaarSection'), filters = $('filtersBar');
+  if (tabTree && tabBazaar && tree && bazaar && filters){
+    tabTree.addEventListener("click", ()=>{ tabTree.classList.add("bg-white/10"); tabBazaar.classList.remove("bg-white/10"); tree.classList.remove("hidden"); bazaar.classList.add("hidden"); filters.classList.remove("hidden"); });
+    tabBazaar.addEventListener("click", ()=>{ tabBazaar.classList.add("bg-white/10"); tabTree.classList.remove("bg-white/10"); bazaar.classList.remove("hidden"); tree.classList.add("hidden"); filters.classList.add("hidden"); });
+  }
+  const refresh = ()=>{ PAGING.page = 1; renderTokens(); };
+  ["searchInput","factionSelect","rankSelect","minScoreSel","maxScoreSel","sortSelect"].forEach(id=>{
+    const el = $(id); if(!el) return; el.addEventListener("input", refresh); el.addEventListener("change", refresh);
+  });
+  const addBtn = $('addTraitFilter'), clearBtn = $('clearTraitFilters');
+  if (addBtn) addBtn.addEventListener("click", ()=>{ TRAIT_FILTERS.push({key:"", value:""}); renderTraitFiltersUI(); });
+  if (clearBtn) clearBtn.addEventListener("click", ()=>{ TRAIT_FILTERS = []; renderTraitFiltersUI(); PAGING.page=1; renderTokens(); });
+  const pickAuction = $('a_chooseToken'), pickWanted = $('w_chooseToken');
+  if (pickAuction) pickAuction.addEventListener("click", ()=> openTokenPicker("auction"));
+  if (pickWanted) pickWanted.addEventListener("click", ()=> openTokenPicker("wanted"));
+}
+
+/* ================== Boot sequence ================== */
+document.addEventListener("DOMContentLoaded", ()=>{
+  const fi = $('traitsFileInput');
+  if(fi){
+    fi.addEventListener("change", (e)=>{
+      const file = e.target.files && e.target.files[0];
+      if(file) loadTraitsFromFile(file);
+      e.target.value = "";
+    });
+  }
+});

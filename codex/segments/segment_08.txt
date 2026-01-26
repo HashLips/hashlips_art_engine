@@ -1,0 +1,80 @@
+      <p class="mt-2 text-xs text-white/70">To list via DIKPIK Escrow (escrow-only settlement), please confirm each item:</p>
+      <div class="mt-3 space-y-2 text-sm">
+        <label class="flex items-start gap-2"><input id="stm_ck1" type="checkbox" class="mt-0.5">
+          <span>I confirm I am the lawful owner of the NFT I am moving into escrow, and I authorize DIKPIK Escrow to transfer it to the winning bidder at settlement.</span>
+        </label>
+       <label class="flex items-start gap-2">
+  <input id="stm_ck2" type="checkbox" class="mt-0.5">
+  <span>
+    I accept the
+    <a id="link_tos" href="#" role="button" class="text-cyan-300 underline">Terms of Service</a>
+    and
+    <a id="link_ap" href="#" role="button" class="text-cyan-300 underline">Auction Policy</a>,
+    including <strong>no cancellation after a verified bid</strong> unless policy allows a penalty path.
+  </span>
+</label>
+
+        <label class="flex items-start gap-2"><input id="stm_ck3" type="checkbox" class="mt-0.5">
+          <span>I understand bidders place a small refundable deposit and pay their own network fees to withdraw; DIKPIK does not push refunds. Seller-caused cancellations may result in penalties.</span>
+        </label>
+        <label class="flex items-start gap-2"><input id="stm_ck4" type="checkbox" class="mt-0.5">
+          <span>I understand settlement is performed by DIKPIK Escrow and that <strong>DIKPIK auction fees (7%)</strong> and any platform fee are automatically deducted from the sale proceeds before I am paid.</span>
+        </label>
+        <label class="flex items-start gap-2"><input id="stm_ck5" type="checkbox" class="mt-0.5">
+          <span>If I violate policy (e.g., attempt to sell elsewhere during the auction or abuse cancellations), I may lose my listing privileges and any posted bonds; in extreme cases the NFT may be retained until disputes are resolved as per policy.</span>
+        </label>
+      </div>
+      <div class="mt-4 flex items-center justify-between gap-3 text-xs text-white/70">
+        <div>Wallet: <span id="stm_wallet" class="font-mono">Not connected</span></div>
+        <div class="flex items-center gap-2">
+          <button id="stm_connect" class="h-9 px-3 rounded bg-white/10 hover:bg-white/15">Connect Wallet</button>
+          <button id="stm_agree" class="h-9 px-3 rounded bg-emerald-600/80 hover:bg-emerald-600 disabled:opacity-50" disabled>I Agree</button>
+        </div>
+      </div>
+      <p class="mt-2 text-xs text-emerald-300">DIKPIK auction fees (7%) are taken at settlement.</p>
+      <p class="mt-2 text-[11px] text-white/50">Your acceptance is recorded locally for your wallet and shown in the listing flow. On-chain escrow transfer still requires a wallet transaction when enabled.</p>
+    </div>
+  </div>
+<!-- Terms of Service Modal -->
+<div id="tosModal" class="hidden fixed inset-0 z-[70] bg-black/70 backdrop-blur" role="dialog" aria-modal="true" aria-labelledby="tos_title">
+  <div class="mx-auto mt-10 w-[min(900px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/80 via-black/70 to-black/80 p-5">
+    <div class="flex items-center justify-between gap-3">
+      <div class="text-lg font-semibold" id="tos_title">Terms of Service (DIKPIK Bazaar)</div>
+      <button id="tos_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+    </div>
+
+    <div class="mt-3 text-sm space-y-4 text-white/75">
+      <p class="text-xs text-white/60">Last updated: 31 Oct 2025</p>
+      <p>1) Overview. DIKPIK Bazaar (â€œBazaarâ€) enables users to discover, list, bid on, and purchase NFTs via a relay and escrow workflow. Bazaar is not a broker, financial institution, or exchange; it provides software and facilitation only.</p>
+      <p>2) Eligibility. You must be of legal age and authority to enter binding agreements. By using Bazaar you represent that you are not prohibited by applicable sanctions or laws.</p>
+      <p>3) Accounts &amp; Login. You may access posting features via (a) email-based login or (b) wallet-based login. Auctions and escrow actions require wallet login and on-chain authorization.</p>
+      <p>4) Listings &amp; Content. You are solely responsible for the accuracy of your listings, metadata, prices, and communications. Do not post infringing, fraudulent, deceptive, or unlawful content.</p>
+      <p>5) Ownership &amp; Authenticity. You warrant that you have the right to list and transfer any NFT you place into escrow. We may request evidence of ownership and may suspend or remove listings that appear non-compliant.</p>
+      <p>6) Escrow &amp; Settlement. When enabled, escrow holds the NFT until settlement, at which point the NFT is transferred to the winning bidder and the seller is paid net proceeds.</p>
+      <p>7) Fees. â€œDIKPIK auction fees (7%)â€ are deducted at settlement from the gross sale amount, in addition to any network fees. You authorize deduction of these fees.</p>
+      <p>8) Bids &amp; Deposits. Bids may require a refundable deposit. Deposits are verified by transaction hash; failed verification may void the bid. Losing bidders may withdraw deposits subject to network fees.</p>
+      <p>9) Cancellations. There is <strong>no seller cancellation after a verified bid</strong> unless the Auction Policyâ€™s penalty path applies. We may cancel or pause listings to protect users or comply with law.</p>
+      <p>10) Taxes. You are responsible for your own taxes arising from use of Bazaar.</p>
+      <p>11) Prohibited Conduct. No wash trading, market manipulation, spam, scams, malware, or attempts to circumvent escrow, fees, or platform safeguards.</p>
+      <p>12) Disclaimers. Bazaar is provided â€œas isâ€ without warranties. Digital assets are volatile and risky; you assume all risk.</p>
+      <p>13) Limitation of Liability. To the maximum extent permitted by law, DIKPIK is not liable for indirect, incidental, or consequential damages, nor for amounts exceeding fees paid by you in the preceding 12 months.</p>
+      <p>14) Indemnity. You will defend and hold DIKPIK harmless from claims arising from your listings, bids, misuse, or law violations.</p>
+      <p>15) Disputes. Good-faith negotiation first. If unresolved, binding arbitration where permitted. Nothing limits either partyâ€™s ability to seek injunctive relief.</p>
+      <p>16) Changes. We may update these terms; continued use after notice indicates acceptance.</p>
+      <p>17) Contact. info@dikpik.io.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Auction Policy Modal -->
+<div id="auctionPolicyModal" class="hidden fixed inset-0 z-[70] bg-black/70 backdrop-blur" role="dialog" aria-modal="true" aria-labelledby="ap_title">
+  <div class="mx-auto mt-10 w-[min(900px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/80 via-black/70 to-black/80 p-5">
+    <div class="flex items-center justify-between gap-3">
+      <div class="text-lg font-semibold" id="ap_title">Auction Policy (DIKPIK Bazaar)</div>
+      <button id="ap_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+    </div>
+
+    <div class="mt-3 text-sm space-y-4 text-white/75">
+      <p class="text-xs text-white/60">Last updated: 31 Oct 2025</p>
+      <div>
+        <p class="font-semibold text-white/80">A) Listing Requirements.</p>

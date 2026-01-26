@@ -1,0 +1,80 @@
+  notifyParent('DP:REQUEST_MEMBER');
+}
+
+document.addEventListener('dikpik:request-member', requestMemberSnapshot);
+
+/* ================== Minimal safe DOM helpers ================== */const $ = (id) => document.getElementById(id);
+const on = (id, ev, fn) => { const el = $(id); if (el) el.addEventListener(ev, fn); };
+
+const INTEGRATION_SUGGESTIONS = [
+  "Integration Suggestions (for site owner/dev):",
+  "1) Ownership verification for escrow gating:",
+  "   - Alchemy NFT API or Moralis: lookup contract/tokenId owners and compare to wallet.",
+  "   - OpenSea API (asset owner) where available.",
+  "2) Deposit verification for bids:",
+  "   - Etherscan/Blockscout/Alchemy: confirm tx hash amount >= REQUIRED_DEPOSIT_ETH to platform deposit address; mark bid \"verified\".",
+  "3) Auth provider:",
+  "   - Email OTP (Members/Auth) for WANTED posts.",
+  "   - Wallet-signature login (SIWE or simple message signing) for AUCTIONS; bind to member profile.",
+  "4) Rate limiting & anti-abuse:",
+  "   - Per-IP/hour quotas on /_functions/listings and /_functions/bids plus invisible reCAPTCHA.",
+  "5) Config & secrets:",
+  "   - Store chain, escrow contract, and fee bps in environment secrets; never hardcode private keys."
+].join('\n');
+console.info(INTEGRATION_SUGGESTIONS);
+
+/* ================== Config ================== */
+const TRAITS_URL  = "https://res.cloudinary.com/dcnf47tla/raw/upload/dikpik_realigned_smenrw.json";
+const CLOUDINARY_CLOUD_NAME = "dcnf47tla";
+const MAPPING_URL = "https://res.cloudinary.com/dcnf47tla/raw/upload/mapping_pfyomj.json";
+const REQUIRED_DEPOSIT_ETH = 0.0078;
+
+// === Escrow mode (Option A) ===
+const ESCROW_MODE = true;                 // Escrow-only settlement flow
+const ROYALTY_BPS = 700;                  // AUCTION FEE BPS (DIKPIK auction fees), currently 7%
+const SELLER_TERMS_VERSION = 'escrow-v1-rb700';
+const SELLER_TERMS_KEY = 'dikpik_seller_terms';
+const ESCROWED_TOKENS_KEY = 'dikpik_escrowed_tokens'; // local stub until on-chain
+
+let CURRENT_WALLET = null;                // cached connected wallet (EVM)
+let SELLER_TERMS = {};                    // { [version]: { [wallet]: isoString } }
+let ESCROWED_TOKENS = {};                 // { [tokenId]: { by: wallet, at: ts } }
+try { SELLER_TERMS = JSON.parse(localStorage.getItem(SELLER_TERMS_KEY) || '{}'); } catch {}
+try { ESCROWED_TOKENS = JSON.parse(localStorage.getItem(ESCROWED_TOKENS_KEY) || '{}'); } catch {}
+const saveSellerTerms = ()=> localStorage.setItem(SELLER_TERMS_KEY, JSON.stringify(SELLER_TERMS));
+const saveEscrowedTokens = ()=> localStorage.setItem(ESCROWED_TOKENS_KEY, JSON.stringify(ESCROWED_TOKENS));
+
+const memberState = {
+  loggedIn: false,
+  id: null,
+  email: '',
+  roles: [],
+  displayName: '',
+};
+let MEMBER_LOADED = false;
+
+let AUTH = {
+  isLoggedIn: false,
+  method: 'anonymous',
+  wallet: null,
+  userId: null,
+  wallets: []
+};
+const walletConnections = [];
+
+function listWalletConnections(){
+  return walletConnections.map(entry => ({ ...entry }));
+}
+
+function clearWalletConnections(){
+  walletConnections.length = 0;
+  AUTH.wallet = null;
+  AUTH.wallets = [];
+  CURRENT_WALLET = null;
+  renderConnectedWallets();
+}
+
+function getPrimaryEvmWallet(){
+  const evm = walletConnections.find(w => (w.chain || 'evm') === 'evm');
+  return evm ? evm.address : null;
+}

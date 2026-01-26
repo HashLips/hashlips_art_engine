@@ -1,0 +1,184 @@
+// Legacy HOME page HTTP functions preserved for reference.
+// This file is NOT wired into the current build; keep here for future review.
+
+import { ok, created, badRequest, unauthorized, forbidden, notFound, serverError } from 'wix-http-functions';
+import wixData from 'wix-data';
+import { currentMember } from 'wix-members-backend';
+import { v4 as uuidv4 } from 'uuid';
+
+const REQUIRED_DEPOSIT_ETH = 0.0078;
+const COLLECTION_LISTINGS = 'Listings';
+const COLLECTION_WANTED = 'Wanted';
+const COLLECTION_RELAY = 'RelaySettings';
+
+async function getMember(ctx) {
+  try {
+    const member = await currentMember.getMember({ fields: ['contactId', 'profile.nickname'] });
+    if (!member) return null;
+    return { id: member._id, nickname: member.profile.nickname || 'Member' };
+  } catch (err) {
+    console.error('Member lookup failed', err);
+    return null;
+  }
+}
+
+export async function get_listings(request) {
+  try {
+    const member = await getMember(request);
+    const isOwnerQuery = request.query.owner === 'me' && member;
+    const filter = isOwnerQuery
+      ? wixData.query(COLLECTION_LISTINGS).eq('ownerId', member.id)
+      : wixData.query(COLLECTION_LISTINGS).ne('status', 'draft');
+    const result = await filter.find();
+    return ok({ items: result.items });
+  } catch (err) {
+    console.error('GET listings failed', err);
+    return serverError({ message: 'Failed to load listings' });
+  }
+}
+
+export async function post_listings(request) {
+  const member = await getMember(request);
+  if (!member) return unauthorized({ message: 'Login required' });
+
+  let payload;
+  try {
+    payload = await request.body.json();
+  } catch (_) {
+    return badRequest({ message: 'Invalid JSON' });
+  }
+
+  if (!payload.tokenId || !payload.minPrice) return badRequest({ message: 'tokenId and minPrice required' });
+  if (payload.depositEth && payload.depositEth < REQUIRED_DEPOSIT_ETH) {
+    return badRequest({ message: `depositEth must be ≥ ${REQUIRED_DEPOSIT_ETH}` });
+  }
+
+  const now = new Date();
+  const doc = {
+    _id: uuidv4(),
+    tokenId: Number(payload.tokenId),
+    title: payload.title?.trim() || `Auction #${payload.tokenId}`,
+    minPrice: Number(payload.minPrice),
+    buyNowPrice: payload.buyNowPrice ? Number(payload.buyNowPrice) : null,
+    depositEth: payload.depositEth ? Number(payload.depositEth) : REQUIRED_DEPOSIT_ETH,
+    currency: payload.currency || 'ETH',
+    expiresAt: payload.expiresAt ? new Date(payload.expiresAt) : null,
+    status: 'live',
+    ownerId: member.id,
+    ownerName: member.nickname,
+    relayChain: payload.relayChain || '',
+    relayContract: payload.relayContract || '',
+    openseaUrl: payload.openseaUrl || '',
+    maskDescription: payload.maskDescription || '',
+    createdAt: now,
+    updatedAt: now
+  };
+
+  try {
+    await wixData.insert(COLLECTION_LISTINGS, doc);
+    return created(doc);
+  } catch (err) {
+    console.error('Create listing failed', err);
+    return serverError({ message: 'Unable to create listing' });
+  }
+}
+
+export async function patch_listings(request) {
+  const member = await getMember(request);
+  if (!member) return unauthorized({ message: 'Login required' });
+
+  const id = request.path[0];
+  if (!id) return badRequest({ message: 'Missing id' });
+
+  let payload;
+  try {
+    payload = await request.body.json();
+  } catch (_) {
+    return badRequest({ message: 'Invalid JSON' });
+  }
+
+  try {
+    const existing = await wixData.get(COLLECTION_LISTINGS, id);
+    if (!existing) return notFound({ message: 'Listing not found' });
+    const isOwner = existing.ownerId === member.id;
+    const isModerator = member.roles?.includes('Moderator');
+    if (!isOwner && !isModerator) return forbidden({ message: 'Not allowed' });
+
+    Object.assign(existing, payload, { updatedAt: new Date() });
+
+    if (existing.expiresAt && new Date(existing.expiresAt) < new Date()) {
+      existing.status = 'expired';
+    }
+
+    const updated = await wixData.update(COLLECTION_LISTINGS, existing);
+    return ok(updated);
+  } catch (err) {
+    console.error('Update listing failed', err);
+    return serverError({ message: 'Unable to update listing' });
+  }
+}
+
+export async function delete_listings(request) {
+  const member = await getMember(request);
+  if (!member) return unauthorized({ message: 'Login required' });
+
+  const id = request.path[0];
+  if (!id) return badRequest({ message: 'Missing id' });
+
+  try {
+    const existing = await wixData.get(COLLECTION_LISTINGS, id);
+    if (!existing) return notFound({ message: 'Listing not found' });
+    const isOwner = existing.ownerId === member.id;
+    const isModerator = member.roles?.includes('Moderator');
+    if (!isOwner && !isModerator) return forbidden({ message: 'Not allowed' });
+
+    await wixData.remove(COLLECTION_LISTINGS, id);
+    return ok({ removed: id });
+  } catch (err) {
+    console.error('Delete listing failed', err);
+    return serverError({ message: 'Unable to delete listing' });
+  }
+}
+
+// Mirror the same CRUD structure for Wanted posts (stubbed for reference).
+export async function get_wanted(request) {
+  return serverError({ message: 'Not implemented in legacy snippet.' });
+}
+export async function post_wanted(request) {
+  return serverError({ message: 'Not implemented in legacy snippet.' });
+}
+export async function patch_wanted(request) {
+  return serverError({ message: 'Not implemented in legacy snippet.' });
+}
+export async function delete_wanted(request) {
+  return serverError({ message: 'Not implemented in legacy snippet.' });
+}
+
+// Relay settings handlers
+export async function get_relay(request) {
+  const member = await getMember(request);
+  if (!member) return unauthorized({ message: 'Login required' });
+  const result = await wixData.query(COLLECTION_RELAY).eq('memberId', member.id).find();
+  return ok(result.items[0] || null);
+}
+
+export async function post_relay(request) {
+  const member = await getMember(request);
+  if (!member) return unauthorized({ message: 'Login required' });
+  const body = await request.body.json();
+  const doc = {
+    memberId: member.id,
+    chain: body.chain || '',
+    contract: body.contract || '',
+    lastUpdated: new Date()
+  };
+  const existing = await wixData.query(COLLECTION_RELAY).eq('memberId', member.id).find();
+  if (existing.items.length) {
+    doc._id = existing.items[0]._id;
+    await wixData.update(COLLECTION_RELAY, doc);
+  } else {
+    doc._id = uuidv4();
+    await wixData.insert(COLLECTION_RELAY, doc);
+  }
+  return ok(doc);
+}

@@ -1,0 +1,80 @@
+  bindModalDismiss('tosModal');
+  bindModalDismiss('auctionPolicyModal');
+
+  window.addEventListener('auth:changed', refreshAuthUI);
+
+  on('loginToPostBtn','click', ()=>{ openLoginModal(); });
+  on('loginClose','click', ()=>{ closeLoginModal(); });
+
+  on('loginMembersBtn','click', async ()=>{
+    const ok = await promptLogin();
+    if (ok){
+      closeLoginModal();
+      await refreshWantedPosts({ silent: false });
+    }
+  });
+  on('logoutMembersBtn','click', async ()=>{
+    closeLoginModal();
+    await performLogout();
+  });
+
+  on('connectMetaMaskBtn','click', async ()=>{
+    if (!AUTH.isLoggedIn){
+      const ok = await promptLogin();
+      if (!ok) return;
+    }
+    const addr = await connectMetaMask();
+    if (addr) closeLoginModal();
+  });
+  on('connectBinanceBtn','click', async ()=>{
+    if (!AUTH.isLoggedIn){
+      const ok = await promptLogin();
+      if (!ok) return;
+    }
+    const addr = await connectBinanceWallet();
+    if (addr) closeLoginModal();
+  });
+  on('connectPhantomBtn','click', async ()=>{
+    if (!AUTH.isLoggedIn){
+      const ok = await promptLogin();
+      if (!ok) return;
+    }
+    const addr = await connectPhantom();
+    if (addr) closeLoginModal();
+  });
+  on('connectWalletConnectBtn','click', ()=>{
+    showNotice('WalletConnect hook ready. Wire your preferred provider in public/wallet-connect.js.', { title:'Integration hook', variant:'info', autoCloseMs:3200 });
+  });
+  on('connectCoinbaseBtn','click', ()=>{
+    showNotice('Coinbase Wallet hook ready. Add your integration in public/wallet-connect.js.', { title:'Integration hook', variant:'info', autoCloseMs:3200 });
+  });
+
+  on('auctionOverlayWalletBtn','click', async ()=>{
+    const addr = await connectWallet();
+    if(addr){
+      refreshAuthUI();
+    }
+  });
+  on('logoutBtn','click', async ()=>{
+    closeLoginModal();
+    await performLogout();
+  });
+
+  on('os_save','click', ()=>{ if(requireMember("save relay settings")) persistRelaySettings(); });
+
+  on('walletConnect','click', async ()=>{
+    if(!requireMember("connect a wallet")) return;
+    const addr = await connectMetaMask();
+    if (addr) refreshAuthUI();
+  });
+  on('a_viewTerms','click', ()=> openSellerTerms());
+
+  const exportBtn = $('exportCsvBtn');
+if (exportBtn){
+  exportBtn.addEventListener("click", ()=>{
+    const header = ["id","kind","title","price","currency","tokenId","traitQuery","notes","contact","createdAtISO","updatedAtISO","min","min_ccy","escrowed"];
+    const rows = LISTINGS.map(l => {
+      const createdISO = l.createdAt ? new Date(l.createdAt).toISOString() : (l._createdDate ? new Date(l._createdDate).toISOString() : "");
+      const updatedISO = l.updatedAt ? new Date(l.updatedAt).toISOString() : (l._updatedDate ? new Date(l._updatedDate).toISOString() : "");
+      const price = l.budget != null ? l.budget : (l.price != null ? l.price : "");
+      const currency = l.currency || l.min_ccy || '';

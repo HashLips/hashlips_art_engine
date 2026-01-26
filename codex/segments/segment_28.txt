@@ -1,0 +1,80 @@
+}
+
+function renderWantedListings(){
+  const grid = $('wantedGrid'); const empty = $('wantedEmpty');
+  if(!grid) return;
+  const all = wantedState.list.slice();
+  grid.innerHTML = "";
+
+  if(!all.length){ if(empty) empty.classList.remove("hidden"); removeWantedPager(); return; }
+  if(empty) empty.classList.add("hidden");
+
+  const st = BZ_PAGER.wanted;
+  const pages = Math.max(1, Math.ceil(all.length / st.perPage));
+  st.page = Math.min(Math.max(1, st.page), pages);
+  const start = (st.page - 1) * st.perPage;
+  const pageItems = all.slice(start, start + st.perPage);
+
+  pageItems.forEach(post=>{
+    const wrap = document.createElement("div");
+    wrap.innerHTML = wantedCard(post);
+    const card = wrap.firstElementChild;
+    if(card) grid.appendChild(card);
+  });
+
+  installWantedPager(pages);
+  function installWantedPager(pages){
+    removeWantedPager();
+    const bar = document.createElement('div');
+    bar.id = 'wantedPager';
+    bar.className = 'mt-3 flex items-center justify-between text-xs';
+    const prev = document.createElement('button'); prev.className='pager-btn'; prev.textContent='Prev'; prev.disabled = st.page<=1; prev.onclick = ()=>{ st.page--; renderWantedListings(); };
+    const info = document.createElement('span'); info.className='px-2 text-white/70'; info.textContent = `Page ${st.page} / ${pages}`;
+    const next = document.createElement('button'); next.className='pager-btn'; next.textContent='Next'; next.disabled = st.page>=pages; next.onclick = ()=>{ st.page++; renderWantedListings(); };
+    bar.append(prev, info, next);
+    grid.parentElement.appendChild(bar);
+  }
+  function removeWantedPager(){
+    const old = document.getElementById('wantedPager');
+    if (old && old.parentElement) old.parentElement.removeChild(old);
+  }
+}
+
+function renderListings(){
+  renderAuctionListings();
+  renderWantedListings();
+}
+function writeLocalArray(key, arr){
+  localStorage.setItem(key, JSON.stringify(arr));
+}
+
+async function detectBackend(){
+  async function probe(urls){
+    for (const url of urls){
+      if(!url) continue;
+      try{
+        const res = await fetch(url, { method: 'GET', cache: 'no-store', credentials: 'include' });
+        if (res.status === 200) return true;
+      }catch{}
+    }
+    return false;
+  }
+  HAS_LISTINGS_API = await probe(['/_functions/listings', API_LISTINGS]);
+  HAS_BIDS_API = await probe(['/_functions/bids', API_BIDS]);
+  HAS_RELAY_API = await probe(['/_functions/relay', API_RELAY]);
+
+  if (!HAS_LISTINGS_API && !OFFLINE_FLAGS.backend){
+    OFFLINE_FLAGS.backend = true;
+    showNotice('Backend unreachable. Using local drafts only.', { title: 'Offline draft', variant: 'warning', autoCloseMs: 3200 });
+  }
+  if (!HAS_RELAY_API && !OFFLINE_FLAGS.relay){
+    OFFLINE_FLAGS.relay = true;
+    showNotice('Relay settings unavailable. Using local cache.', { title: 'Offline draft', variant: 'warning', autoCloseMs: 3200 });
+  }
+
+  console.table({
+    HAS_LISTINGS_API,
+    HAS_BIDS_API,
+    HAS_RELAY_API,
+    walletDetected: !!window.ethereum
+  });

@@ -1,0 +1,80 @@
+  pointer-events: none;       /* do not block page below; only the box is interactive */
+}
+.neon-box.is-anchored{
+  position: fixed;            /* we compute top/left in JS */
+  top: 0; left: 0;
+  transform: translate(0,0);
+  width: min(560px, 92vw);
+}
+
+/* â€”â€”â€” Make Bazaar listing panels scroll so the page is shorter â€”â€”â€” */
+.list-panel{
+  max-height: min(68vh, 900px);
+  overflow: auto;
+}
+
+
+    @keyframes borderScroll{0%{background-position:0 0,0 0}100%{background-position:200% 0,-200% 0}}
+    .tree-tier-title{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+    .tree-row{display:grid;gap:.75rem;justify-content:center}
+    .tree-row--boss{grid-template-columns:repeat(1,minmax(140px,1fr))}
+    .tree-row--duo{grid-template-columns:repeat(2,minmax(140px,1fr))}
+    .tree-row--capos{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+    .tree-row--wide{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
+    .mini-badges{display:flex;gap:.35rem;flex-wrap:wrap}
+    .mini-badge{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.22rem .5rem;border-radius:999px;font-size:10px;line-height:1.1;
+  border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.6);
+  max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+    .mb-rank{border-color:rgba(255,0,255,.45);box-shadow:0 0 12px -6px rgba(255,0,255,.6)}
+    .mb-faction{border-color:rgba(0,255,255,.45);box-shadow:0 0 12px -6px rgba(0,255,255,.6)}
+    .mb-role{border-color:rgba(0,255,85,.45);box-shadow:0 0 12px -6px rgba(0,255,85,.6)}
+    .mb-k{opacity:.75;text-transform:uppercase;letter-spacing:.08em}.mb-v{font-weight:700}.mb-p{opacity:.7}
+    .trait-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem}
+    @media (min-width:1024px){.trait-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+    .trait-card{border:1px solid rgba(255,255,255,.14);background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.35));border-radius:10px;padding:.5rem .55rem}
+    .trait-name{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+    .trait-value{font-weight:600;font-size:13px}
+    .trait-stats{font-size:10px;color:rgba(255,255,255,.60)}
+    .neon-0{border-color:rgba(0,255,255,.45); box-shadow:0 0 16px -6px rgba(0,255,255,.7)}
+    .neon-1{border-color:rgba(255,0,255,.45); box-shadow:0 0 16px -6px rgba(255,0,255,.7)}
+    .neon-2{border-color:rgba(0,255,85,.45); box-shadow:0 0 16px -6px rgba(0,255,85,.7)}
+    .neon-3{border-color:rgba(255,200,0,.45); box-shadow:0 0 16px -6px rgba(255,200,0,.7)}
+    .neon-4{border-color:rgba(100,180,255,.45); box-shadow:0 0 16px -6px rgba(100,180,255,.7)}
+    @keyframes glowPulse{0%{text-shadow:0 0 6px rgba(0,255,255,.7),0 0 14px rgba(255,0,255,.5)}50%{text-shadow:0 0 12px rgba(0,255,255,1),0 0 22px rgba(255,0,255,.8)}100%{text-shadow:0 0 6px rgba(0,255,255,.7),0 0 14px rgba(255,0,255,.5)}}
+    .countdown-neon{font-family:"Share Tech Mono",ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;font-size:clamp(22px,4.2vw,40px);line-height:1.05;color:#bffcff;animation:glowPulse 1.8s ease-in-out infinite}
+    .countdown-ended{color:#ffb3c0!important;text-shadow:none!important;animation:none!important}
+    .pager-btn{padding:.35rem .55rem;border-radius:.5rem;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06)}
+    .pager-btn[disabled]{opacity:.4}
+
+
+/* convenience wrappers */
+
+/* --- Failsafe: hidden overlays never intercept clicks --- */
+#tokenPicker.hidden,
+#bidModal.hidden,
+#detailModal.hidden,
+#sellerTermsModal.hidden,
+#tosModal.hidden,
+#auctionPolicyModal.hidden {
+  display: none !important;
+  pointer-events: none !important;
+}
+  </style>
+</head>
+<body class="min-h-screen bg-black text-white relative">
+  <div class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute -top-40 -left-40 h-96 w-96 rounded-full blur-3xl opacity-40" style="background:radial-gradient(circle at 30% 30%,#06f,transparent 60%)"></div>
+    <div class="absolute -bottom-40 -right-40 h-96 w-96 rounded-full blur-3xl opacity-40" style="background:radial-gradient(circle at 70% 70%,#f0f,transparent 60%)"></div>
+  </div>
+
+  <header class="sticky top-0 z-20 backdrop-blur bg-black/40 border-b border-white/10">
+    <div class="mx-auto max-w-7xl px-4 py-4">
+      <div class="flex items-center justify-between gap-4">
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">
+          <span class="bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-cyan-400 bg-clip-text text-transparent">THE DIKPIK BAZAAR</span>
+        </h1>
+        <div class="flex items-center gap-2">
+          <button id="exportCanonBtn" class="border border-white/10 rounded-md px-3 py-1.5 text-sm hover:bg-white/10">Export Canon Ranks CSV</button>

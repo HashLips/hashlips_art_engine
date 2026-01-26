@@ -1,0 +1,80 @@
+  if(!s) return "Associate";
+  if(/(^|\b)(don|godfather|boss)\b/.test(s)) return "Boss (Don)";
+  if(/\bunder[-\s]?boss\b/.test(s)) return "Underboss";
+  if (/\bconsig(liere)?\b|\badvis(or|er)\b/.test(s)) return "Consigliere";
+  if(/\bcapo(regime|rgime)?\b|\bcapo\b|\bcaptain\b/.test(s)) return "Caporegime";
+  if(/\bsold(ier|ato)|\bfoot|\bgrunt\b/.test(s)) return "Soldier";
+  if(/\bassociat|affiliate|runner|associate\b/.test(s)) return "Associate";
+  return "Associate";
+}
+function getRankText(t){ if(t._canonRank) return t._canonRank; const explicit = t?.traits?.Rank ?? t?.traits?.role ?? t?.traits?.ROLE ?? ""; return normalizeToCanon(explicit); }
+
+function canonOccurrence(label){ const c = (CANON_STATS && CANON_STATS[label]) || 0; const pct = CANON_TOTAL ? (c/CANON_TOTAL*100) : 0; return {count:c,pct}; }
+
+/* ================== Canon assignment ================== */
+function applyMafiaCanon(){
+  for(const [family,list] of FACTIONS.entries()){
+    const n = list.length; if(!n) continue;
+    let boss = n >= 1 ? 1 : 0, underboss = n >= 3 ? 1 : 0, consigliere = n >= 2 ? 1 : 0;
+    let remaining = n - (boss + underboss + consigliere), capos = 0, soldiers = 0, associates = 0;
+    if (remaining > 0){
+      capos = Math.round(n*0.10); if(n>=12) capos = Math.max(capos,4); capos = Math.min(capos,10,remaining); remaining -= capos;
+      soldiers = Math.round(n*0.30); soldiers = Math.min(soldiers,remaining); remaining -= soldiers;
+      associates = Math.max(0,remaining);
+    }
+    const byScore = [...list].sort((a,b)=> (b.rarityScore??-1e9)-(a.rarityScore??-1e9) || (b.nftScore??-1e9)-(a.nftScore??-1e9) || a.tokenId-b.tokenId);
+    const assigned = new Set();
+    const prefer = label => t => normalizeToCanon(t?.traits?.Rank ?? t?.traits?.Role) === label;
+    const take = (f,c) => { const out = []; for(const t of byScore){ if(assigned.has(t)) continue; if(f(t)){ out.push(t); assigned.add(t); if(out.length===c) break; } } return out; };
+    const takeAny = c => { const out = []; for(const t of byScore){ if(assigned.has(t)) continue; out.push(t); assigned.add(t); if(out.length===c) break; } return out; };
+    const b1 = take(prefer("Boss (Don)"), boss); b1.forEach(t=>t._canonRank="Boss (Don)"); if(b1.length < boss) takeAny(boss - b1.length).forEach(t=>t._canonRank="Boss (Don)");
+    const u1 = take(prefer("Underboss"), underboss); u1.forEach(t=>t._canonRank="Underboss"); if (u1.length < underboss) takeAny(underboss - u1.length).forEach(t=>t._canonRank="Underboss");
+    const c1 = take(prefer("Consigliere"), consigliere); c1.forEach(t=>t._canonRank="Consigliere"); if (c1.length < consigliere) takeAny(consigliere - c1.length).forEach(t=>t._canonRank="Consigliere");
+    const capPicked = take(prefer("Caporegime"), capos); capPicked.forEach(t=>t._canonRank="Caporegime"); if(capPicked.length<capos) takeAny(capos-capPicked.length).forEach(t=>t._canonRank="Caporegime");
+    const solPicked = take(prefer("Soldier"), soldiers); solPicked.forEach(t=>t._canonRank="Soldier"); if(solPicked.length<soldiers) takeAny(soldiers-solPicked.length).forEach(t=>t._canonRank="Soldier");
+    for(const t of byScore){ if(!assigned.has(t)){ t._canonRank="Associate"; assigned.add(t); } }
+  }
+}
+
+/* ================== UI helpers ================== */
+function pctText(p){ return (p||0).toFixed(2)+'%'; }
+function scoreOf(t){ return (t.nftScore!=null)?t.nftScore:(t.rarityScore!=null?t.rarityScore:undefined); }
+
+function buildTokenTile(t){
+  const factionVal = String(t.traits?.[factionKey] ?? "");
+  const roleVal    = String(t.traits?.[roleKey] ?? "");
+  const canon      = getRankText(t);
+  const rankPct    = canonOccurrence(canon).pct;
+  const factionPct = traitOccurrence(factionKey, factionVal).pct;
+  const rolePct    = traitOccurrence(roleKey, roleVal).pct;
+  const wave       = t.traits?.["Drop Wave"];
+  const score      = scoreOf(t);
+  const imgUrl     = getImageUrl(t);
+  const tokenLabel = h(t.tokenIdStr || String(t.tokenId));
+  const canonSafe  = h(canon);
+  const factionSafe= h(titleCase(factionVal));
+  const roleSafe   = h(titleCase(roleVal));
+  const waveSafe   = wave != null ? h(String(wave)) : "";
+  const tile = document.createElement("div");
+  tile.className = "relative rounded-xl border border-white/10 bg-black/40 p-2 text-left";
+  tile.innerHTML = `
+    <button class="aspect-square w-full overflow-hidden rounded-lg bg-black/60 flex items-center justify-center hover:bg-white/5" data-view-token="${t.tokenId}" title="View details">
+      <img src="${imgUrl}" alt="Token ${tokenLabel}" class="h-full w-full object-contain" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden')"/>
+      <div class="hidden text-white/30 text-xs">No Image</div>
+    </button>
+    <div class="mt-2 flex flex-wrap items-center justify-between gap-x-1 gap-y-1 text-xs min-w-0 w-full">
+      <span class="text-white/80">#${tokenLabel}</span>
+      <span class="mini-badge mb-rank truncate"><span class="mb-k">Rank</span><span class="mb-v">${canonSafe}</span><span class="mb-p">${pctText(rankPct)}</span></span>
+    </div>
+    <div class="mini-badges mt-1">
+      ${factionVal ? `<span class="mini-badge mb-faction"><span class="mb-k">Faction</span><span class="mb-v">${factionSafe}</span><span class="mb-p">${pctText(factionPct)}</span></span>` : ""}
+      ${roleVal ? `<span class="mini-badge mb-role"><span class="mb-k">Role</span><span class="mb-v">${roleSafe}</span><span class="mb-p">${pctText(rolePct)}</span></span>` : ""}
+    </div>
+    <div class="text-[10px] text-white/60 mt-1">${
+      wave != null ? `Wave: ${waveSafe}` : ""
+    }${
+      (wave != null && score != null) ? " â€¢ " : ""
+    }${
+      (score != null) ? `NFT Score: ${fmt2(score)}` : ""
+    }</div>`;
+  return tile;

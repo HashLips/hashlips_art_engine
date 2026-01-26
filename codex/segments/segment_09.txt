@@ -1,0 +1,80 @@
+        <p class="mt-1">1) Wallet login and ownership verification are required for auctions.</p>
+        <p>2) The NFT must be transferred to escrow before an auction can be published.</p>
+        <p>3) Title, minimum acceptable price, currency, and end time are required.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">B) Bidding.</p>
+        <p class="mt-1">1) Bids may be masked privately; public UI may show only status.</p>
+        <p>2) Each bid may require a refundable deposit to a platform-controlled address.</p>
+        <p>3) DIKPIK may verify deposit transactions and reject unverified bids.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">C) Settlement.</p>
+        <p class="mt-1">1) At auction end, the highest eligible bid that meets minimums wins.</p>
+        <p>2) Upon settlement, the NFT is transferred from escrow to the winner.</p>
+        <p>3) DIKPIK deducts <strong>DIKPIK auction fees (7%)</strong> from gross proceeds; network fees are borne by users.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">D) Non-Payment / Failed Settlement (Buyer).</p>
+        <p class="mt-1">1) If the winner fails to complete payment within the stated window, the bid may be voided.</p>
+        <p>2) The buyerâ€™s deposit may be forfeited per platform rules; the seller may relist.</p>
+        <p>3) Repeated failures may lead to account restrictions.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">E) Seller Cancellation &amp; Penalty Path.</p>
+        <p class="mt-1">1) <strong>No seller cancellation after a verified bid</strong>, except via this penalty path.</p>
+        <p>2) To cancel after a verified bid, the seller must:</p>
+        <p class="pl-4 mt-1">(i) reimburse/cover the top bidderâ€™s deposit and reasonable network fees; and</p>
+        <p class="pl-4">(ii) pay a cancellation penalty <strong>up to</strong> the platformâ€™s auction fee amount (7% of the winning bid) to DIKPIK; and</p>
+        <p class="pl-4">(iii) accept temporary suspension of auction privileges at DIKPIKâ€™s discretion.</p>
+        <p>3) If the NFT is already in escrow, DIKPIK may hold it until disputes are resolved or obligations satisfied.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">F) Compliance &amp; Safety.</p>
+        <p class="mt-1">1) DIKPIK may pause or remove auctions for fraud risk, IP claims, legal requests, or policy violations.</p>
+        <p>2) Prohibited: wash trading, bid shilling, self-dealing to evade fees, misrepresenting ownership.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">G) Records &amp; Audit.</p>
+        <p class="mt-1">1) DIKPIK may keep anonymized records of bids, deposits, and settlements to detect abuse and comply with law.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white/80">H) Changes.</p>
+        <p class="mt-1">1) DIKPIK may update this policy; continued use after notice indicates acceptance.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Neon Notice -->
+<div id="neonNotice" class="neon-overlay" role="dialog" aria-modal="true" aria-labelledby="neonTitle" aria-live="polite">
+  <div class="neon-box" data-variant="success">
+    <div id="neonTitle" class="neon-title">Success</div>
+    <div id="neonMessage" class="text-sm text-white/80">Done.</div>
+    <div class="mt-3 flex justify-end">
+      <button id="neonOk" class="neon-ok">OK</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+const DP_BRIDGE_TIMEOUT_MS = 20000;
+let DP_TARGET_ORIGIN = '*';
+let DP_REQUEST_SEQ = 0;
+const DP_PENDING = new Map();
+let DP_CONFIG = {
+  apiBase: '/_functions',
+  endpoints: {
+    listings: '/_functions/listings',
+    wanted: '/_functions/wanted',
+    bids: '/_functions/bids',
+    relay: '/_functions/relay'
+  }
+};
+
+let API_LISTINGS = DP_CONFIG.endpoints.listings;
+let API_WANTED = DP_CONFIG.endpoints.wanted;
+let API_BIDS = DP_CONFIG.endpoints.bids;
+let API_RELAY = DP_CONFIG.endpoints.relay;
+
+const OFFLINE_FLAGS = { backend: false, relay: false };

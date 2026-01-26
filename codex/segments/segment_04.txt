@@ -1,0 +1,80 @@
+            <button id="pageFirst" class="pager-btn">Â« First</button>
+            <button id="pagePrev" class="pager-btn">â€¹ Prev</button>
+            <span id="pageInfo" class="px-2 text-white/70">Page 1 / 1</span>
+            <button id="pageNext" class="pager-btn">Next â€º</button>
+            <button id="pageLast" class="pager-btn">Last Â»</button>
+            <div class="ml-3 flex items-center gap-1">
+              <span class="text-white/60">Per page</span>
+              <select id="perPage" class="bg-black/60 border border-white/10 rounded h-8 px-2">
+                <option value="30">30</option><option value="60" selected>60</option><option value="90">90</option><option value="120">120</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="tokenGrid" class="mt-4"></div>
+        <p id="tokenEmpty" class="hidden mt-2 text-white/60">No tokens match the current filters.</p>
+
+        <div class="mt-4 flex items-center justify-between text-xs" id="pagerBottom">
+          <div class="text-white/60" id="totalInfo"></div>
+          <div class="flex items-center gap-2">
+            <button id="pageFirstB" class="pager-btn">Â« First</button>
+            <button id="pagePrevB" class="pager-btn">â€¹ Prev</button>
+            <span id="pageInfoB" class="px-2 text-white/70">Page 1 / 1</span>
+            <button id="pageNextB" class="pager-btn">Next â€º</button>
+            <button id="pageLastB" class="pager-btn">Last Â»</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bazaar -->
+    <section id="bazaarSection" class="mt-6 hidden">
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-black/60 via-black/40 to-black/60 p-5">
+        <div class="mb-4">
+          <div class="flex items-center justify-between gap-3">
+            <h2 class="text-lg font-semibold tracking-wide">
+              <span class="bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">DIKPIK Bazaar (OpenSea Relay)</span>
+            </h2>
+            <button id="logoutBtn" class="hidden text-xs px-3 h-8 rounded border border-white/15 bg-white/10 hover:bg-white/15">Log out</button>
+          </div>
+          <p class="mt-1 text-xs text-white/70">Relay to OpenSea for custody & settlement. Bids masked; deposit required.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="space-y-6" id="postBoxes">
+            <div class="bg-black/40 border border-white/10 rounded-xl p-4">
+              <div class="font-semibold text-white mb-2">OpenSea Relay Settings</div>
+              <div class="grid grid-cols-1 gap-2 text-sm">
+                <label class="text-xs text-white/70">Chain</label>
+                <select id="os_chain" class="bg-black/60 border border-white/10 rounded h-9 px-2">
+                  <option value="ethereum">Ethereum</option><option value="polygon">Polygon</option>
+                  <option value="base">Base</option><option value="arbitrum">Arbitrum</option>
+                </select>
+                <label class="text-xs text-white/70 mt-2">Contract address</label>
+                <input id="os_contract" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="0x..."/>
+                <p class="text-[11px] text-white/50">OpenSea: <code>opensea.io/assets/[chain]/[contract]/[tokenId]</code></p>
+                <button id="os_save" class="w-full bg-white/10 hover:bg-white/15 rounded h-9 mt-1">Save</button>
+              </div>
+            </div>
+
+            <div id="bazaarLoginGate" class="mb-4 rounded-xl border border-white/10 bg-white/5 p-3 text-xs text-white/70">
+              <div class="font-semibold text-white/80 mb-1">Members only</div>
+              <p>Log in to post auctions, create wanted requests, or view contact details. Use the site header login and retry after signing in.</p>
+            </div>
+
+            <!-- Auction post -->
+            <div class="relative bg-black/40 border border-fuchsia-500/40 rounded-xl p-4" id="postAuctionBox">
+              <div id="auctionWalletOverlay" class="hidden absolute inset-0 z-10 rounded-xl bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center text-center px-6">
+                <div class="text-sm font-semibold text-white">Wallet login required to post auctions</div>
+                <button id="auctionOverlayWalletBtn" class="mt-3 h-9 px-4 rounded bg-white/15 hover:bg-white/25 text-sm">Connect Wallet</button>
+              </div>
+              <div class="font-semibold text-fuchsia-300 mb-2">New Auction</div>
+              <div class="space-y-2 text-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <input id="a_token" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Token ID"/>
+                  <div class="flex items-center gap-2"><button id="a_chooseToken" class="h-9 px-3 rounded bg-fuchsia-600/80 hover:bg-fuchsia-600">Choose Token</button></div>
+                </div>
+                <div id="a_preview" class="hidden mt-1 flex items-center gap-3 rounded-lg border border-white/10 bg-black/40 p-2 cursor-zoom-in" title="Click to view details">
+                  <div class="h-16 w-16 rounded bg-black/60 overflow-hidden flex items-center justify-center">
+                    <img id="a_preview_img" class="h-full w-full object-contain hidden" alt="Selected token"/>

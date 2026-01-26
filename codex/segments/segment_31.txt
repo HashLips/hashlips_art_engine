@@ -1,0 +1,80 @@
+    ownerId: doc.ownerId || doc.owner || doc._owner || null,
+    wallets,
+    contactLine: sanitizePlain(doc.contactLine || ''),
+    contactWhatsApp: sanitizePlain(doc.contactWhatsApp || ''),
+    contactEmail: sanitizeEmail(doc.contactEmail || ''),
+    contactPhone: sanitizePhone(doc.contactPhone || ''),
+    contactTelegram: sanitizePlain(doc.contactTelegram || ''),
+    contactMessage: sanitizeRich(doc.contactMessage || doc.message || ''),
+    tokenId,
+    traitQuery: sanitizePlain(doc.traitQuery || ''),
+    createdAt: doc.createdAt || doc._createdDate || null,
+    updatedAt: doc.updatedAt || doc._updatedDate || null,
+    descriptionRich: sanitizeRich(doc.description || ''),
+    ownerDisplayName: sanitizePlain(doc.ownerDisplayName || '')
+  };
+  const memberId = memberState.id || null;
+  mapped.isOwner = Boolean(memberId && mapped.ownerId && String(mapped.ownerId) === String(memberId));
+  wantedState.index.set(id, mapped);
+  return mapped;
+}
+
+function mergeWantedIntoListings(auctions){
+  const auctionList = Array.isArray(auctions) ? auctions : LISTINGS.filter((item) => item.kind !== 'wanted');
+  const wantedListings = wantedState.list.slice();
+  LISTINGS = [...auctionList, ...wantedListings];
+}
+
+function getWalletPayload(){
+  return listWalletConnections().map(({ type, chain, address, verified, signature, message }) => ({
+    type,
+    chain,
+    address,
+    verified,
+    signature,
+    message
+  }));
+}
+
+async function refreshWantedPosts({ silent } = {}){
+  try{
+    const allPromise = listWantedPosts().catch((err) => {
+      console.warn('listWantedPosts error', err);
+      return [];
+    });
+    const minePromise = AUTH.isLoggedIn
+      ? getMyWantedPosts().catch((err) => {
+          console.warn('getMyWantedPosts error', err);
+          return [];
+        })
+      : Promise.resolve([]);
+    const [allDocs, myDocs] = await Promise.all([allPromise, minePromise]);
+    wantedState.index.clear();
+    wantedState.list = Array.isArray(allDocs) ? allDocs.map(mapWantedDocument).filter(Boolean) : [];
+    wantedState.mine = Array.isArray(myDocs) ? myDocs.map(mapWantedDocument).filter(Boolean) : [];
+    if (!silent){
+      renderWantedListings();
+    }
+    return wantedState.list;
+  } catch (err){
+    console.error('refreshWantedPosts error:', err);
+    if (!silent){
+      showNotice(err?.message || 'Unable to load wanted posts.', { title:'Request failed', variant:'error', autoCloseMs:3200 });
+    }
+    return [];
+  }
+}
+
+function resetWantedForm(){
+  ["w_postId","w_title","w_query","w_tokenid","w_offer","w_description","w_contact_line","w_contact_whatsapp","w_contact_telegram","w_contact_email","w_contact_phone","w_contact_message"].forEach((id)=>{
+    const el = $(id);
+    if (el) el.value = '';
+  });
+  const statusEl = $('w_status'); if (statusEl) statusEl.value = 'OPEN';
+  const ccyEl = $('w_ccy'); if (ccyEl) ccyEl.value = 'ETH';
+  const submitBtn = $('w_submit'); if (submitBtn) submitBtn.textContent = 'Post Wanted';
+  const cancelBtn = $('w_cancelEdit'); if (cancelBtn) cancelBtn.classList.add('hidden');
+  const preview = $('w_preview'); if (preview) preview.classList.add('hidden');
+  const badge = $('w_chosenBadge'); if (badge) badge.textContent = '';
+}
+

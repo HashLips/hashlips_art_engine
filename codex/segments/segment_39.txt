@@ -1,0 +1,58 @@
+
+async function loadTraitsFromFile(file){
+  try{
+    const txt = await file.text();
+    const json = parseLenientJSON(txt);
+    TOKENS = normalizeTokens(json);
+    try { const mappingText = await fetchWithFallback(MAPPING_URL); try { mergeMapping(TOKENS, parseLenientJSON(mappingText)); } catch {} } catch {}
+    deriveKeysAndFactions(); applyMafiaCanon(); computeCanonStats(); computeTraitStats(); renderTraitFiltersUI(); renderFactions(); renderTokens(); renderListings(); startCountdownLoop(); setStatus(`Loaded ${TOKENS.length} tokens (from local file).`);
+  } catch(e){
+    console.error(e);
+    setStatus("Network load failed â€” loading a tiny sample so the UI works.");
+    loadDataFallback();
+  }
+}
+
+(async function start(){
+  forceFallbackIfStuck();
+  attachUIHandlers();
+  attachBazaarHandlers();
+  attachPagerHandlers();
+  refreshAuthUI();
+  on('reloadBtn','click', ()=>{ setStatus("Reloading..."); loadData(); });
+  setStatus("Loading full dataset...");
+  await loadData();
+  await detectBackend();
+  await hydrateRelaySettings();
+  if(window.WixBridge?.requestMember) window.WixBridge.requestMember();
+  await loadListings();
+  renderListings();
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

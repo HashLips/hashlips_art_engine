@@ -1,0 +1,53 @@
+import { getSecret } from 'wix-secrets-backend';
+
+const secretPromise = getSecret('WIX_SECRET_JWT_KEY');
+
+function base64Url(input) {
+  return Buffer.from(JSON.stringify(input))
+    .toString('base64')
+    .replace(/=/g, '')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_');
+}
+
+function decode(str) {
+  const pad = str.length % 4 === 2 ? '==' : str.length % 4 === 3 ? '=' : '';
+  const normalized = str.replace(/-/g, '+').replace(/_/g, '/') + pad;
+  return JSON.parse(Buffer.from(normalized, 'base64').toString('utf8'));
+}
+
+export async function sign(payload, ttlSeconds = 900) {
+  const secret = await secretPromise;
+  const header = base64Url({ alg: 'HS256', typ: 'JWT' });
+  const now = Math.floor(Date.now() / 1000);
+  const body = base64Url({ ...payload, iat: now, exp: now + ttlSeconds });
+  const data = `${header}.${body}`;
+  const signature = Buffer.from(
+    require('crypto').createHmac('sha256', secret).update(data).digest('base64')
+  )
+    .toString('base64')
+    .replace(/=/g, '')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_');
+  return `${data}.${signature}`;
+}
+
+export async function verify(token) {
+  const [headerPart, bodyPart, sigPart] = token.split('.');
+  if (!headerPart || !bodyPart || !sigPart) throw new Error('INVALID_JWT');
+  const secret = await secretPromise;
+  const data = `${headerPart}.${bodyPart}`;
+  const expected = Buffer.from(
+    require('crypto').createHmac('sha256', secret).update(data).digest('base64')
+  )
+    .toString('base64')
+    .replace(/=/g, '')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_');
+  if (expected !== sigPart) throw new Error('INVALID_SIGNATURE');
+  const payload = decode(bodyPart);
+  if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
+    throw new Error('JWT_EXPIRED');
+  }
+  return payload;
+}

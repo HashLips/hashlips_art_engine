@@ -1,0 +1,80 @@
+<!--
+Integration Suggestions (for site owner/dev):
+1) Ownership verification for escrow gating:
+   - Alchemy NFT API or Moralis: lookup contract/tokenId owners and compare to wallet.
+   - OpenSea API (asset owner) where available.
+2) Deposit verification for bids:
+   - Etherscan/Blockscout/Alchemy: confirm tx hash amount >= REQUIRED_DEPOSIT_ETH to platform deposit address; mark bid "verified".
+3) Auth provider:
+   - Email OTP (Members/Auth) for WANTED posts.
+   - Wallet-signature login (SIWE or simple message signing) for AUCTIONS; bind to member profile.
+4) Rate limiting & anti-abuse:
+   - Per-IP/hour quotas on /_functions/listings and /_functions/bids plus invisible reCAPTCHA.
+5) Config & secrets:
+   - Store chain, escrow contract, and fee bps in environment secrets; never hardcode private keys.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>THE DIKPIK BAZAAR</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <script>
+  (function(){
+    window.DIKPIK_MEMBER = window.DIKPIK_MEMBER || null;
+    const bridge = {
+      setMemberState(payload){
+        window.DIKPIK_MEMBER = payload || null;
+        document.dispatchEvent(new CustomEvent('dikpik:member', { detail: window.DIKPIK_MEMBER }));
+      },
+      requestMember(){
+        document.dispatchEvent(new Event('dikpik:request-member'));
+      }
+    };
+    window.WixBridge = Object.assign(window.WixBridge || {}, bridge);
+  })();
+  </script>
+  <script>
+  (function ensurePreloadMetadata(){
+    const detectors = [
+      { test: /\.(css)(\?|#|$)/i, value: 'style' },
+      { test: /\.(js)(\?|#|$)/i, value: 'script' },
+      { test: /\.(woff2?|ttf|otf|eot)(\?|#|$)/i, value: 'font' },
+      { test: /\.(jpe?g|png|gif|webp|avif|svg)(\?|#|$)/i, value: 'image' },
+      { test: /\.(mp4|webm|ogv)(\?|#|$)/i, value: 'video' },
+      { test: /\.(mp3|wav|ogg)(\?|#|$)/i, value: 'audio' }
+    ];
+
+    const applyMetadata = (links) => {
+      links.forEach(link => {
+        if (!link || link.rel !== 'preload') return;
+        if (link.hasAttribute('as') && link.getAttribute('as')) return;
+
+        const href = link.getAttribute('href') || '';
+        const match = detectors.find(entry => entry.test.test(href));
+        const asValue = match ? match.value : 'fetch';
+        link.setAttribute('as', asValue);
+
+        if (asValue === 'font' && !link.hasAttribute('crossorigin')) {
+          link.setAttribute('crossorigin', 'anonymous');
+        }
+      });
+    };
+
+    const init = () => applyMetadata(document.head.querySelectorAll('link[rel="preload"]'));
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+      init();
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      const added = [];
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType === 1 && node.tagName === 'LINK' && node.rel === 'preload') {
+            added.push(node);
+          }
+        });

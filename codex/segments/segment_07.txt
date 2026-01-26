@@ -1,0 +1,80 @@
+      </div>
+      <div id="bm_meta" class="mt-2 text-xs text-white/70"></div>
+      <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+        <div><label class="text-xs text-white/70">Your wallet (EVM):</label><input id="bm_wallet" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="0x..."/></div>
+        <div><label class="text-xs text-white/70">Your bid amount (hidden publicly):</label><input id="bm_amount" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="e.g. 0.15"/></div>
+        <div class="sm:col-span-2"><div class="text-xs text-white/70">Deposit required: <span id="bm_deposit_req"></span></div><div class="text-[11px] text-white/50 mt-1">Paste the tx hash below. Bids without a verified deposit may be ignored.</div></div>
+        <div class="sm:col-span-2"><label class="text-xs text-white/70">Deposit tx hash (0xâ€¦):</label><input id="bm_txhash" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="0x..."/></div>
+        <div class="sm:col-span-2"><button id="bm_submit" class="w-full h-10 rounded bg-fuchsia-600/80 hover:bg-fuchsia-600">Submit Bid</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur" role="dialog" aria-modal="true">
+    <div class="mx-auto mt-16 w-[min(500px,92vw)] rounded-2xl border border-white/10 bg-gradient-to-br from-black/80 via-black/70 to-black/80 p-5 focus:outline-none">
+      <div class="flex items-center justify-between gap-3">
+        <div class="text-lg font-semibold">Log in to post</div>
+        <button id="loginClose" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+      </div>
+      <div class="mt-4 space-y-6 text-sm">
+        <div class="space-y-2">
+          <div class="text-xs uppercase tracking-wide text-white/60">Wix Account</div>
+          <p class="text-xs text-white/60">Sign in with your DIKPIK member profile to unlock posting tools.</p>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button id="loginMembersBtn" class="h-10 px-4 rounded bg-white/15 hover:bg-white/20 text-sm">Log In / Sign Up</button>
+            <button id="logoutMembersBtn" class="hidden h-10 px-4 rounded bg-white/10 hover:bg-white/15 text-sm">Log out</button>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <div class="text-xs uppercase tracking-wide text-white/60">Wallet connections</div>
+            <p class="text-xs text-white/60">Connect one or more wallets. MetaMask, Binance Web3 Wallet, and Phantom are supported. WalletConnect and Coinbase wallet hooks are prepared for later enablement.</p>
+          </div>
+          <div class="grid grid-cols-1 gap-2">
+            <button id="connectMetaMaskBtn" class="h-10 rounded bg-emerald-600/80 hover:bg-emerald-600 text-sm">Connect MetaMask</button>
+            <button id="connectBinanceBtn" class="h-10 rounded bg-yellow-500/80 hover:bg-yellow-500 text-sm text-black">Connect Binance Wallet</button>
+            <button id="connectPhantomBtn" class="h-10 rounded bg-purple-600/80 hover:bg-purple-600 text-sm">Connect Phantom</button>
+            <button id="connectWalletConnectBtn" class="h-10 rounded bg-white/10 hover:bg-white/15 text-sm">Use WalletConnect (hook)</button>
+            <button id="connectCoinbaseBtn" class="h-10 rounded bg-white/10 hover:bg-white/15 text-sm">Connect Coinbase Wallet (hook)</button>
+          </div>
+          <div class="rounded border border-white/10 bg-black/40 p-3 text-xs text-white/60">
+            <div class="font-semibold text-white/70">Connected wallets</div>
+            <ul id="connectedWalletList" class="mt-2 space-y-1 text-white/70"></ul>
+            <p class="mt-2 text-[11px] text-white/50">We request an off-chain signature to verify ownership. Wallet metadata is stored with each Wanted post.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Token Detail Modal -->
+  <div id="detailModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur">
+    <div class="mx-auto mt-10 w-[min(1100px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/75 via-black/65 to-black/75 p-5">
+      <div class="flex items-center justify-between gap-3">
+        <div class="text-lg font-semibold" id="dm_title">Token</div>
+        <button id="dm_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+      </div>
+      <div class="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="rounded-xl border border-white/10 bg-black/50 p-3 flex items-center justify-center">
+          <img id="dm_img" class="max-h-[60vh] w-full object-contain" alt="Token image"/>
+        </div>
+        <div>
+          <div class="text-sm text-white/70" id="dm_meta"></div>
+          <a id="dm_os" target="_blank" rel="noreferrer" class="mt-2 inline-block text-cyan-300 underline text-sm hidden">Open on OpenSea</a>
+          <div class="mt-4">
+            <div class="text-xs uppercase tracking-wide text-white/60">Traits</div>
+            <div id="dm_traits" class="trait-grid mt-2"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seller Terms Modal (Escrow) -->
+  <div id="sellerTermsModal" class="hidden fixed inset-0 z-[60] bg-black/70 backdrop-blur">
+    <div class="mx-auto mt-10 w-[min(900px,92vw)] max-h-[85vh] overflow-auto rounded-2xl border border-white/10 bg-gradient-to-br from-black/80 via-black/70 to-black/80 p-5">
+      <div class="flex items-center justify-between gap-3">
+        <div class="text-lg font-semibold">Seller Agreement (Escrow)</div>
+        <button id="stm_close" class="h-8 px-3 rounded bg-white/10 hover:bg-white/15">Close</button>
+      </div>

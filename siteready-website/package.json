@@ -1,0 +1,58 @@
+{
+    "name": "siteready-website",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "node scripts/build-next.js",
+        "start": "next start",
+        "lint": "eslint",
+        "deploy": "next build",
+        "patch:resvg": "node scripts/patch-resvg.mjs && node scripts/patch-worker.js",
+        "cf:preview": "opennextjs-cloudflare build && npm run patch:resvg && opennextjs-cloudflare preview",
+        "cf:deploy": "opennextjs-cloudflare build && npm run patch:resvg && opennextjs-cloudflare deploy",
+        "cf:upload": "opennextjs-cloudflare build && npm run patch:resvg && opennextjs-cloudflare upload",
+        "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
+        "cf:login": "wrangler login",
+        "cf:whoami": "wrangler whoami",
+        "cf:tail": "wrangler tail",
+        "cf:secret:smtp-pass": "wrangler secret put SMTP_PASS",
+        "cf:deploy:keep-vars": "opennextjs-cloudflare build && npm run patch:resvg && opennextjs-cloudflare deploy -- --keep-vars",
+        "cf:deploy:no-bundle": "opennextjs-cloudflare build && npm run patch:resvg && opennextjs-cloudflare deploy -- --no-bundle",
+        "cf:deploy:keep-vars:no-bundle": "opennextjs-cloudflare build && npm run patch:resvg && opennextjs-cloudflare deploy -- --keep-vars --no-bundle",
+        "cf:deploy:keep-all": "opennextjs-cloudflare build && npm run patch:resvg && opennextjs-cloudflare deploy -- --keep-vars",
+        "verify:bundle": "node scripts/verify-bundle.js",
+        "test:legal": "node scripts/test-legal-gating.js",
+        "test:redaction": "node scripts/test-timesheet-redaction.js"
+    },
+    "dependencies": {
+        "@auth0/nextjs-auth0": "^3.5.0",
+        "@hookform/resolvers": "^4.0.0",
+        "@opennextjs/cloudflare": "^1.14.6",
+        "clsx": "^2.1.1",
+        "next": "15.0.7",
+        "nodemailer": "^7.0.11",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "react-hook-form": "^7.54.0",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "@tailwindcss/postcss": "^4",
+        "@types/express": "^5.0.6",
+        "@types/google.maps": "^3.55.7",
+        "@types/node": "^20",
+        "@types/nodemailer": "^7.0.4",
+        "@types/react": "^18.2.63",
+        "@types/react-dom": "^18.2.20",
+        "eslint": "^9",
+        "eslint-config-next": "15.0.7",
+        "googleapis": "^169.0.0",
+        "tailwindcss": "^4",
+        "typescript": "^5",
+        "wrangler": "^4.56.0"
+    },
+    "overrides": {
+        "@vercel/og": "file:stubs/og"
+    }
+}

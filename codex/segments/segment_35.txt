@@ -1,0 +1,80 @@
+      const tokenId = l.tokenId != null ? l.tokenId : '';
+      const trait = l.traitQuery || '';
+      const contactParts = [];
+      if (l.contactLine) contactParts.push(`Line: ${l.contactLine}`);
+      if (l.contactWhatsApp) contactParts.push(`WhatsApp: ${l.contactWhatsApp}`);
+      if (l.contactTelegram) contactParts.push(`Telegram: ${l.contactTelegram}`);
+      if (l.contactEmail) contactParts.push(`Email: ${l.contactEmail}`);
+      if (l.contactPhone) contactParts.push(`Phone: ${l.contactPhone}`);
+      if (l.contactMessage) contactParts.push(l.contactMessage);
+      const contact = contactParts.join(' | ');
+      return [
+        l.id || l._id || '',
+        l.kind || '',
+        l.title ?? '',
+        price,
+        currency,
+        tokenId,
+        trait,
+        l.notes ?? '',
+        contact,
+        createdISO,
+        updatedISO,
+        l.min ?? '',
+        l.min_ccy ?? '',
+        l.escrowed ? 'true' : 'false'
+      ];
+    });
+    const csv = [header, ...rows].map(r => r.map(csvEscape).join(",")).join("\n");
+    downloadText("dikpik_bazaar_listings.csv", csv);
+  });
+}
+
+  on('a_clearToken','click', ()=> {
+    if($('a_token')) $('a_token').value = "";
+    const wrap = $('a_preview'); if(wrap) wrap.classList.add('hidden');
+    const imgEl = $('a_preview_img'); if(imgEl){ imgEl.src = ""; imgEl.classList.add('hidden'); }
+    if($('a_preview_fallback')) $('a_preview_fallback').classList.remove('hidden');
+    if($('a_preview_title')) $('a_preview_title').textContent = "";
+    if($('a_preview_meta')) $('a_preview_meta').textContent = "";
+    if($('a_preview_pills')) $('a_preview_pills').innerHTML = "";
+    if($('a_preview_os')) $('a_preview_os').classList.add('hidden');
+    if($('a_escrowBadge')) $('a_escrowBadge').classList.add('hidden');
+    if($('a_escrowStatus')) $('a_escrowStatus').textContent = 'Not escrowed';
+    if(wrap) wrap.onclick = null;
+  });
+
+  on('w_clearToken','click', ()=> {
+    if($('w_tokenid')) $('w_tokenid').value = "";
+    const wrap = $('w_preview'); if(wrap) wrap.classList.add('hidden');
+    const imgEl = $('w_preview_img'); if(imgEl){ imgEl.src = ""; imgEl.classList.add('hidden'); }
+    if($('w_preview_fallback')) $('w_preview_fallback').classList.remove('hidden');
+    if($('w_preview_title')) $('w_preview_title').textContent = "";
+    if($('w_preview_meta')) $('w_preview_meta').textContent = "";
+    if($('w_preview_pills')) $('w_preview_pills').innerHTML = "";
+    if($('w_preview_os')) $('w_preview_os').classList.add('hidden');
+    const badge = $('w_chosenBadge'); if (badge) badge.textContent = "";
+    if(wrap) wrap.onclick = null;
+  });
+
+  const exportCanonBtn = $('exportCanonBtn');
+  if (exportCanonBtn){
+    exportCanonBtn.addEventListener("click", ()=>{
+      const header = ["tokenId","canonRank","faction","role","nftScore","rarityScore","rarityRank"];
+      const rows = TOKENS.map(t => [ t.tokenId, getRankText(t), String(t.traits?.[factionKey] ?? ""), String(t.traits?.[roleKey] ?? ""), fmt2(t.nftScore), fmt2(t.rarityScore), t.rarityRank ?? "" ]);
+      const csv = [header, ...rows].map(r => r.map(csvEscape).join(",")).join("\n");
+      downloadText("dikpik_canon_ranks.csv", csv);
+    });
+  }
+
+  // Seller Terms modal wiring
+  on('stm_close','click', ()=>{ const m=$('sellerTermsModal'); if(m) m.classList.add('hidden'); });
+  on('stm_connect','click', async()=>{ await connectWallet(); });
+  const allCks = ['stm_ck1','stm_ck2','stm_ck3','stm_ck4','stm_ck5'];
+  allCks.forEach(id=>{ on(id,'change', ()=>{ const ok = allCks.every(x=> $(x)?.checked); const b=$('stm_agree'); if(b){ b.disabled = !ok; } }); });
+  on('stm_agree','click', ()=>{
+    if (!CURRENT_WALLET) { showNotice('Connect your wallet first.', { title:'Wallet required', variant:'error', autoCloseMs:2000 }); return; }
+    recordSellerTerms(CURRENT_WALLET);
+    const m=$('sellerTermsModal'); if(m) m.classList.add('hidden');
+    showNotice('Seller terms accepted.', { title:'Agreement saved', variant:'success', autoCloseMs:1500 });
+    // If a token is selected, mark escrowed (stub) to allow listing while we wire on-chain next

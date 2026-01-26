@@ -1,0 +1,80 @@
+  node.removeAttribute('data-prev-focus');
+}
+function bindModalDismiss(modalId){
+  const modal = $(modalId);
+  if(!modal) return;
+  modal.addEventListener('click', (e) => {
+    if(e.target.id === modalId){
+      closeModalEl(modalId);
+    }
+  });
+}
+
+/* Global error surface to neon when in dev */
+window.addEventListener('error', (e) => {
+  if (IS_DEV) {
+    showNotice(e?.message || 'Script error', { title: 'Script error', variant: 'error', autoCloseMs: 3500 });
+  } else {
+    console.error('Script error:', e?.message || e);
+  }
+});
+window.addEventListener('unhandledrejection', (e) => {
+  const msg = (e?.reason && (e.reason.message || e.reason)) || 'Request failed';
+  if (IS_DEV) {
+    showNotice(String(msg), { title: 'Request failed', variant: 'error', autoCloseMs: 3500 });
+  } else {
+    console.error('Unhandled rejection:', msg);
+  }
+});
+
+/* Escape helper */
+const h = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+
+/* Minimal utilities */
+const uid = () => Math.random().toString(36).slice(2);
+const safeNum = (n)=>{ const v = typeof n === "string" ? parseFloat(n) : typeof n === "number" ? n : NaN; return Number.isFinite(v) ? v : undefined; };
+function parseLenientJSON(text){ return JSON.parse(text.trim().replace(/\bNaN\b/gi,"null").replace(/\b-?Infinity\b/gi,"null").replace(/,\s*(?=[}\]])/g,"")); }
+function csvEscape(v){ const s = String(v ?? ""); return (s.includes(",")||s.includes("\n")||s.includes('"')) ? '"' + s.replaceAll('"','""') + '"' : s; }
+function downloadText(filename,text){ const blob=new Blob([text],{type:"text/csv;charset=utf-8;"}); const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download=filename; a.click(); URL.revokeObjectURL(url); }
+
+const sanitizePlain = (value) => String(value ?? '').replace(/\u0000/g, '').replace(/[<>]/g, '').trim();
+const sanitizeRich = (value) => String(value ?? '').replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '').trim();
+const sanitizeEmail = (value) => sanitizePlain(value).toLowerCase();
+const sanitizePhone = (value) => sanitizePlain(value).replace(/[^0-9+()\-\s]/g, '');
+
+async function fetchTextWithTimeout(url, ms=12000){
+  const controller = new AbortController();
+  const t = setTimeout(()=>controller.abort(), ms);
+  try{
+    const res = await fetch(url, { mode:"cors", cache:"no-store", signal: controller.signal });
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    return await res.text();
+  } finally { clearTimeout(t); }
+}
+
+/* ================== Robust Proxy Builders ================== */
+function jinaProxy(u){
+  if(/^https:\/\//i.test(u)) return "https://r.jina.ai/https://"+u.replace(/^https?:\/\//i,"");
+  if(/^http:\/\//i.test(u))  return "https://r.jina.ai/http://"+u.replace(/^https?:\/\//i,"");
+  return "https://r.jina.ai/https://"+u;
+}
+const PROXY_BUILDERS = [
+  (u)=>u,
+  (u)=>/r\.jina\.ai\/https?:\/\//i.test(u) ? u : jinaProxy(u),
+  (u)=>/cors\.isomorphic-git\.org\//i.test(u) ? u : ("https://cors.isomorphic-git.org/" + u),
+  (u)=>/api\.allorigins\.win\/raw\?url=/i.test(u) ? u : ("https://api.allorigins.win/raw?url=" + encodeURIComponent(u)),
+];
+async function fetchWithFallback(url){
+  const attempts = [];
+  for (const build of PROXY_BUILDERS){
+    const full = build(url);
+    try{
+      const text = await fetchTextWithTimeout(full, 18000);
+      if (/^\s*</.test(text) && !/^\s*[\[{]/.test(text)) { attempts.push(`HTML from ${full.slice(0,120)}`); continue; }
+      return text;
+    } catch (e) {
+      attempts.push(`${full} â†’ ${e?.message || e}`);
+    }
+  }
+  const msg = "All fetch attempts failed. Tried:\n" + attempts.join("\n");
+  console.error(msg);

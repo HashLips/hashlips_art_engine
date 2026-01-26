@@ -1,0 +1,80 @@
+}
+
+function renderMafiaTree(tokens, grid, factionName){
+  grid.innerHTML = "";
+  const ORDER = ["Boss (Don)", "Underboss", "Consigliere", "Caporegime", "Soldier", "Associate"];
+  const groups = new Map(ORDER.map(l => [l, []]));
+  tokens.forEach(t => { const l = getRankText(t); if (!groups.has(l)) groups.set(l, []); groups.get(l).push(t); });
+  if (factionName){
+    const head = document.createElement("div");
+    head.className = "mb-3 text-base sm:text-lg text-white/80 font-semibold text-center";
+    head.textContent = `Pyramid for "${factionName}" â€” Canon Roles`;
+    grid.appendChild(head);
+  }
+  const MAX_PER_ROW = 6; const COL_W = 200; const GAP_PX = 12; const MAX_WIDTH = (MAX_PER_ROW * COL_W) + (MAX_PER_ROW - 1) * GAP_PX;
+  ORDER.forEach(label => {
+    const list = groups.get(label) || [];
+    if (!list.length) return;
+    const title = document.createElement("div"); title.className = "tree-tier-title text-center mt-2"; title.textContent = label; grid.appendChild(title);
+    const row = document.createElement("div");
+    row.style.display = "flex"; row.style.flexWrap = "wrap"; row.style.justifyContent = "center"; row.style.gap = ".75rem"; row.style.maxWidth = MAX_WIDTH + "px"; row.style.margin = "0 auto";
+    list.forEach(t => { const slot = document.createElement("div"); slot.style.width = COL_W + "px"; slot.appendChild(buildTokenTile(t)); row.appendChild(slot); });
+    grid.appendChild(row);
+  });
+}
+
+function renderFactions(){
+  const grid = $('factionGrid'); if(!grid) return;
+  grid.innerHTML = ""; const names = Array.from(FACTIONS.keys()).sort();
+  for(const name of names){
+    const tokens = FACTIONS.get(name) || []; const target = TARGETS[name] ?? tokens.length; const have = tokens.length;
+    const pct = Math.max(0, Math.min(100, Math.round((have/Math.max(1,target))*100)));
+    const counts = {Boss:0,Underboss:0,Consigliere:0,Caporegime:0,Soldier:0,Associate:0};
+    for(const t of tokens){ const label = getRankText(t); const key = label==="Boss (Don)"?"Boss":label; if(counts[key]!==undefined) counts[key]+=1; }
+    const card = document.createElement("div"); card.className="bg-black/50 border border-white/10 rounded-xl p-4";
+    card.innerHTML = `<div class="flex items-center justify-between"><div class="font-semibold">${h(name)}</div><div class="text-cyan-300 text-xs border border-cyan-400/40 rounded px-2 py-0.5">${have} / ${target}</div></div><div class="mt-3 h-2 bg-white/10 rounded"><div class="h-2 bg-cyan-400 rounded" style="width:${pct}%"></div></div><div class="flex items-center gap-2 text-xs text-white/70 mt-2"><span>Target:</span><input type="number" min="0" value="${target}" class="h-7 w-20 bg-black/60 border-white/10 border rounded px-2"/></div><div class="space-y-1 mt-3 text-sm text-white/80"><div class="flex justify-between"><span>Boss / Underboss / Consigliere</span><span>${counts.Boss||0} / ${counts.Underboss||0} / ${counts.Consigliere||0}</span></div><div class="flex justify-between"><span>Caporegime</span><span>${counts.Caporegime||0}</span></div><div class="flex justify-between"><span>Soldiers</span><span>${counts.Soldier||0}</span></div><div class="flex justify-between"><span>Associates</span><span>${counts.Associate||0}</span></div></div>`;
+    const inp = card.querySelector("input");
+    if (inp) inp.addEventListener("input", (e)=>{ const v = parseInt(e.target.value||"0",10); TARGETS[name]=Math.max(0,v); saveTargets(); renderFactions(); });
+    grid.appendChild(card);
+  }
+}
+
+/* ================== Trait Filters + paging ================== */
+let TRAIT_FILTERS = [];
+function renderTraitFiltersUI(){
+  const host = $('traitFilters'); if(!host) return;
+  host.innerHTML = "";
+  const keys = Object.keys(TRAIT_STATS || {}).filter(k=>k!=="__total").sort();
+  TRAIT_FILTERS.forEach((f, idx) => {
+    const row = document.createElement("div"); row.className = "flex items-center gap-2";
+    const keySel = document.createElement("select"); keySel.className = "bg-black/60 border border-white/10 rounded h-9 px-2 flex-1";
+    keySel.innerHTML = `<option value="">Choose traitâ€¦</option>` + keys.map(k=>`<option ${f.key===k?'selected':''}>${h(k)}</option>`).join("");
+    const valSel = document.createElement("select"); valSel.className = "bg-black/60 border border-white/10 rounded h-9 px-2 flex-1";
+    const vals = f.key && TRAIT_STATS[f.key] ? Object.keys(TRAIT_STATS[f.key].values).sort() : [];
+    valSel.innerHTML = `<option value="">Valueâ€¦</option>` + vals.map(v=>`<option ${String(f.value)===String(v)?'selected':''}>${h(v)}</option>`).join("");
+    const rm = document.createElement("button"); rm.className = "border border-white/10 rounded px-2 h-9 text-xs hover:bg-white/10"; rm.textContent = "Remove";
+    keySel.addEventListener("change", ()=>{ f.key = keySel.value || ""; f.value = ""; renderTraitFiltersUI(); PAGING.page = 1; renderTokens(); });
+    valSel.addEventListener("change", ()=>{ f.value = valSel.value || ""; PAGING.page = 1; renderTokens(); });
+    rm.addEventListener("click", ()=>{ TRAIT_FILTERS.splice(idx,1); renderTraitFiltersUI(); PAGING.page=1; renderTokens(); });
+    row.appendChild(keySel); row.appendChild(valSel); row.appendChild(rm); host.appendChild(row);
+  });
+}
+
+function applyFilters(){
+  const q = ( $('searchInput')?.value || "" ).trim().toLowerCase();
+  const faction = ($('factionSelect')?.value || "");
+  const rankSel = ($('rankSelect')?.value || "");
+  const minSel = safeNum($('minScoreSel')?.value);
+  const maxSel = safeNum($('maxScoreSel')?.value);
+  const sortKey = ($('sortSelect')?.value || "tokenId");
+
+  let out = TOKENS.slice();
+  if (q){
+    out = out.filter(t => String(t.tokenId).includes(q) ||
+      String(t.tokenIdStr || "").toLowerCase().includes(q) ||
+      String(getRankText(t)).toLowerCase().includes(q) ||
+      Object.entries(t.traits||{}).some(([k,v]) => (`${k}:${v}`).toLowerCase().includes(q)));
+  }
+  if (faction) out = out.filter(t => String(t.traits?.[factionKey||"Faction"]) === faction);
+  if (rankSel) out = out.filter(t => getRankText(t) === rankSel);
+  if (minSel !== undefined) out = out.filter(t => (scoreOf(t) ?? -Infinity) >= minSel);

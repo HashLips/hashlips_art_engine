@@ -1,0 +1,58 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "siteready-website",
+  "main": "custom-worker.ts",
+  "compatibility_date": "2025-12-19",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  "account_id": "e78998f06cca1c169ce8aa6975355767",
+  "routes": [
+    { "pattern": "sitereadyworkforce.com", "custom_domain": true },
+    { "pattern": "www.sitereadyworkforce.com", "custom_domain": true }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "siteready-db",
+      "database_id": "be30f09b-8d51-45c5-b750-56a40e03fdd2"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "TICKETS_BUCKET",
+      "bucket_name": "siteready-tickets"
+    }
+  ],
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "invocation_logs": true,
+      "persist": true
+    }
+  },
+  "triggers": {
+    "crons": ["0 2 * * *"]
+  },
+  "vars": {
+    "BASIC_AUTH_ENABLED": "true",
+    "SMTP_HOST": "smtp.gmail.com",
+    "SMTP_PORT": "587",
+    "SMTP_USER": "info@sitereadyworkforce.com",
+    "SMTP_FROM": "SiteReady Workforce <info@sitereadyworkforce.com>",
+    "NOTIFY_TO": "info@sitereadyworkforce.com"
+  },
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "siteready-website"
+    }
+  ],
+  "rules": []
+}

@@ -1,0 +1,16 @@
+name = "dikpik-backend"
+main = "worker/src/index.js"
+compatibility_date = "2025-05-01"
+
+[vars]
+ETH_DEPOSIT_WALLET = "0xc641e5626f9974c1a53b49ab85db718fa5c04393"
+ETH_ESCROW_WALLET = "0x5bc39f724cdd1bd861a0425fcd9919ba1298cf2e"
+ETH_FEE_WALLET = "0x03d49719fa607edab2218e8f6604b13e0cbd855f"
+TRON_USDT_WALLET = "TAGVESQt1ArtWeoETk8QnbacUmnm3A2MNE"
+USD_DEPOSIT_AMOUNT = "100"
+COINGECKO_BASE_URL = "https://api.coingecko.com/api/v3/simple/price"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "dikpik-bazaar"
+database_id = "31272406-76a2-4e3f-8015-4b50f9ea25fa"

@@ -1,0 +1,20 @@
+{
+  "Corebreakers": {
+    "color": "#00ffff",
+    "accent": "#7af5ff",
+    "badge": "CB",
+    "lore": "Mesh hijackers with reactor-grade rigs."
+  },
+  "Scrapshamans": {
+    "color": "#ff00ff",
+    "accent": "#ff9cff",
+    "badge": "SS",
+    "lore": "Salvage mages who bend junk into signal totems."
+  },
+  "Gutterborn": {
+    "color": "#ff5500",
+    "accent": "#ffb380",
+    "badge": "GB",
+    "lore": "Rooftop runners and neon taggers."
+  }
+}

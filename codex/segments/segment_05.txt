@@ -1,0 +1,80 @@
+                    <div id="a_preview_fallback" class="text-[10px] text-white/40">No Image</div>
+                  </div>
+                  <div class="text-xs flex-1 min-w-0">
+                    <div id="a_preview_title" class="text-white/80"></div>
+                    <div id="a_preview_meta" class="text-white/60"></div>
+                    <div id="a_preview_pills" class="mini-badges mt-1"></div>
+                    <a id="a_preview_os" target="_blank" rel="noreferrer" class="text-cyan-300 underline hidden">Open on OpenSea</a>
+                  </div>
+                  <div class="ml-auto flex items-center gap-2">
+                    <span id="a_escrowBadge" class="hidden text-[11px] text-emerald-300 border border-emerald-400/50 rounded px-2 py-0.5">Escrow Ready</span>
+                    <button id="a_clearToken" class="text-rose-300 hover:text-rose-200 text-xs">Clear</button>
+                  </div>
+                </div>
+
+                <!-- Seller wallet + escrow actions -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
+                  <button id="walletConnect" class="h-9 px-3 rounded bg-white/10 hover:bg-white/15">Connect Wallet</button>
+                  <div class="h-9 px-3 rounded border border-white/10 flex items-center text-xs text-white/70">
+                    <span class="mr-1">Wallet:</span>
+                    <span id="walletAddr" class="truncate">Not connected</span>
+                  </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <button id="a_moveEscrow" class="h-9 px-3 rounded bg-emerald-600/80 hover:bg-emerald-600">Move to Escrow</button>
+                  <button id="a_viewTerms" class="h-9 px-3 rounded bg-white/10 hover:bg-white/15">View Terms</button>
+                  <span id="a_escrowStatus" class="text-[12px] text-white/70">Not escrowed</span>
+                </div>
+                <p class="text-[11px] text-white/60 -mb-1">Settlement is handled by the DIKPIK Escrow. <strong>DIKPIK auction fees (7%)</strong> are enforced on-chain at settlement.</p>
+
+                <input id="a_title" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Title"/>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div class="flex gap-2">
+                    <input id="a_min" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Minimum acceptable price"/>
+                    <select id="a_min_ccy" class="bg-black/60 border border-white/10 rounded h-9 px-2"><option>ETH</option><option>SOL</option><option>USDC</option></select>
+                  </div>
+                  <div class="flex gap-2">
+                    <input id="a_price" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Buy-it-now (optional)"/>
+                    <select id="a_ccy" class="bg-black/60 border border-white/10 rounded h-9 px-2"><option>ETH</option><option>SOL</option><option>USDC</option></select>
+                  </div>
+                </div>
+                <label class="block text-xs text-white/70 mt-1">Auction end (required):</label>
+                <input id="a_expires" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" type="datetime-local" required/>
+                <div class="text-[11px] text-white/60 mt-2">Bidders deposit <span id="depositInfo"></span> (masked bids; verified by tx hash).</div>
+                <button id="a_submit" type="button" class="w-full mt-1 bg-fuchsia-600/80 hover:bg-fuchsia-600 rounded h-9">List Auction</button>
+
+              </div>
+            </div>
+
+            <!-- Wanted post -->
+            <div class="bg-black/40 border border-cyan-500/40 rounded-xl p-4" id="postWantedBox">
+              <div class="font-semibold text-cyan-300 mb-2">New Wanted Post</div>
+              <div class="space-y-2 text-sm">
+                <input id="w_title" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Title (e.g., 'Looking for Caporegime in Hydrohackers')"/>
+                <div class="flex items-center gap-2">
+                  <button id="w_chooseToken" class="h-9 px-3 rounded bg-cyan-600/80 hover:bg-cyan-600">Choose Token</button>
+                  <div id="w_chosenBadge" class="text-xs text-white/70"></div>
+                </div>
+                <div id="w_preview" class="hidden mt-1 flex items-center gap-3 rounded-lg border border-white/10 bg-black/40 p-2 cursor-zoom-in" title="Click to view details">
+                  <div class="h-16 w-16 rounded bg-black/60 overflow-hidden flex items-center justify-center">
+                    <img id="w_preview_img" class="h-full w-full object-contain hidden" alt="Selected token"/>
+                    <div id="w_preview_fallback" class="text-[10px] text-white/40">No Image</div>
+                  </div>
+                  <div class="text-xs">
+                    <div id="w_preview_title" class="text-white/80"></div>
+                    <div id="w_preview_meta" class="text-white/60"></div>
+                    <div id="w_preview_pills" class="mini-badges mt-1"></div>
+                    <a id="w_preview_os" target="_blank" rel="noreferrer" class="text-cyan-300 underline hidden">Open on OpenSea</a>
+                  </div>
+                  <button id="w_clearToken" class="ml-auto text-rose-300 hover:text-rose-200 text-xs">Clear</button>
+                </div>
+
+                <input id="w_postId" type="hidden"/>
+                <input id="w_tokenid" class="hidden"/>
+                <input id="w_query" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Trait query (optional, e.g., Faction=Hydrohackers)"/>
+                <div class="flex gap-2">
+                  <input id="w_offer" class="w-full bg-black/60 border border-white/10 rounded px-2 h-9" placeholder="Offer"/>
+                  <select id="w_ccy" class="bg-black/60 border border-white/10 rounded h-9 px-2"><option>ETH</option><option>SOL</option><option>USDC</option></select>
+                </div>
+                <textarea id="w_description" class="w-full bg-black/60 border border-white/10 rounded px-2 py-2 h-24" placeholder="Describe what you are looking for (supports plain text / markdown-lite)"></textarea>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">

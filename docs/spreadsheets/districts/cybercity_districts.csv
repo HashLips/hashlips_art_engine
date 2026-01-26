@@ -1,0 +1,52 @@
+City,ID,Name,AreaSqKm,Faction,Control,Tier,ComingSoon,Sponsor,Lore,SubdistrictOf
+Neo Goblintown,corebreakers-root-spire,Corebreakers Root Spire,2,Corebreakers,Corebreakers,Boss,false,Cloudflare,"Root clearance command spire for Corebreakers, where high-tier clearances govern the grid.",
+Neo Goblintown,root-clearance,Root Clearance Deck,0.45,Corebreakers,Corebreakers,Boss,false,Cloudflare,"Grid Clearance: Root. Boss-level overrides and uplinks.",corebreakers-root-spire
+Neo Goblintown,admin-node,Admin Node,0.35,Corebreakers,Corebreakers,Underboss,false,Cloudflare,"Grid Clearance: Admin. Underboss crews manage control planes.",corebreakers-root-spire
+Neo Goblintown,core-consig-relay,Consigliere Relay,0.3,Corebreakers,Corebreakers,Consigliere,false,Cloudflare,"Consiglieres broker clearances across the spire.",corebreakers-root-spire
+Neo Goblintown,poweruser-tier,Power-User Tier,0.3,Corebreakers,Corebreakers,Caporegime,false,Cloudflare,"Grid Clearance: Power-User. Capos keep the edge nodes alive.",corebreakers-root-spire
+Neo Goblintown,core-soldier-outpost,Soldier Outposts,0.3,Corebreakers,Corebreakers,Soldier,false,Cloudflare,"Soldiers guard node rooms and cabling.",corebreakers-root-spire
+Neo Goblintown,user-commons,User Commons,0.3,Corebreakers,Corebreakers,Associate,false,Cloudflare,"Grid Clearance: User. Associates handle front-line support and routing.",corebreakers-root-spire
+Neo Goblintown,scrapshamans-burn-yards,Scrapshamans Burn Yards,2,Scrapshamans,Scrapshamans,Boss,false,Red Bull,"Burn yards fueled by Trash-Burner and Battery-Siphon rigs, run by Scrapshaman bosses.",
+Neo Goblintown,trash-burner-yard,Trash-Burner Yard,0.45,Scrapshamans,Scrapshamans,Boss,false,Red Bull,"Power Source: Trash-Burner. Bosses command the burn pits.",scrapshamans-burn-yards
+Neo Goblintown,battery-siphon-row,Battery-Siphon Row,0.35,Scrapshamans,Scrapshamans,Underboss,false,Red Bull,"Power Source: Battery-Siphon. Underboss siphon crews.",scrapshamans-burn-yards
+Neo Goblintown,scrap-consig-runes,Consigliere Runes,0.3,Scrapshamans,Scrapshamans,Consigliere,false,Red Bull,"Consiglieres adjudicate trade and rune disputes.",scrapshamans-burn-yards
+Neo Goblintown,kinetic-looms,Kinetic Looms,0.3,Scrapshamans,Scrapshamans,Caporegime,false,Red Bull,"Power Source: Kinetic. Capos harvest kinetic lines.",scrapshamans-burn-yards
+Neo Goblintown,scrap-soldier-lines,Soldier Lines,0.3,Scrapshamans,Scrapshamans,Soldier,false,Red Bull,"Soldiers haul scrap and defend stalls.",scrapshamans-burn-yards
+Neo Goblintown,upcycle-commons,Upcycle Commons,0.3,Scrapshamans,Scrapshamans,Associate,false,Red Bull,"Associates sort scrap and keep the markets humming.",scrapshamans-burn-yards
+Neo Goblintown,gutterborns-alignment-lanes,Gutterborns Alignment Lanes,2,Gutterborns,Gutterborns,Underboss,false,Pepsi,"Alignment-tagged lanes where Gutterborn crews flex Horny, Chaotic, and Greedy codes.",
+Neo Goblintown,gutter-boss-tagspire,Boss Tagspire,0.45,Gutterborns,Gutterborns,Boss,false,Pepsi,"Boss perch above the tagged skyline.",gutterborns-alignment-lanes
+Neo Goblintown,horny-lanes,Horny Lanes,0.35,Gutterborns,Gutterborns,Underboss,false,Pepsi,"Alignment: Horny. Underboss turf for hungry crews.",gutterborns-alignment-lanes
+Neo Goblintown,gutter-consig-council,Consigliere Council,0.3,Gutterborns,Gutterborns,Consigliere,false,Pepsi,"Consiglieres settle turf disputes.",gutterborns-alignment-lanes
+Neo Goblintown,gutter-capo-junction,Caporegime Junction,0.3,Gutterborns,Gutterborns,Caporegime,false,Pepsi,"Capos route runners through junctions.",gutterborns-alignment-lanes
+Neo Goblintown,chaotic-runs,Chaotic Runs,0.3,Gutterborns,Gutterborns,Soldier,false,Pepsi,"Alignment: Chaotic. Soldiers sprint these backroads.",gutterborns-alignment-lanes
+Neo Goblintown,greedy-corners,Greedy Corners,0.3,Gutterborns,Gutterborns,Associate,false,Pepsi,"Alignment: Greedy. Associates hustle the corners.",gutterborns-alignment-lanes
+Neo Goblintown,hydrohackers-power-docks,Hydrohackers Power Docks,2,Hydrohackers,Hydrohackers,Boss,false,Monster,"Dockside rigs powered by battery-siphons, kinetic pumps, and solar arrays.",
+Neo Goblintown,battery-docks,Battery-Siphon Docks,0.45,Hydrohackers,Hydrohackers,Boss,false,Monster,"Power Source: Battery-Siphon. Boss rigs dominate the docks.",hydrohackers-power-docks
+Neo Goblintown,kinetic-pumps,Kinetic Pumps,0.35,Hydrohackers,Hydrohackers,Underboss,false,Monster,"Power Source: Kinetic. Underboss lines on pump control.",hydrohackers-power-docks
+Neo Goblintown,hydro-consig-piers,Consigliere Piers,0.3,Hydrohackers,Hydrohackers,Consigliere,false,Monster,"Consiglieres arbitrate dock flows.",hydrohackers-power-docks
+Neo Goblintown,solar-arrays,Solar Arrays,0.3,Hydrohackers,Hydrohackers,Caporegime,false,Monster,"Power Source: Solar. Capos keep arrays humming.",hydrohackers-power-docks
+Neo Goblintown,hydro-soldier-bays,Soldier Bays,0.3,Hydrohackers,Hydrohackers,Soldier,false,Monster,"Soldiers secure pump bays.",hydrohackers-power-docks
+Neo Goblintown,guest-jetties,Guest Jetties,0.3,Hydrohackers,Hydrohackers,Associate,false,Monster,"Grid Clearance: Guest. Associates handle day-pass traffic at the docks.",hydrohackers-power-docks
+Neo Goblintown,cloudjackers-clearance-row,Cloudjackers Clearance Row,2,Cloudjackers,Cloudjackers,Boss,false,Coinbase,"Clearance-tier corridors where Cloudjackers staff Guest, User, and Power-User gates.",
+Neo Goblintown,guest-gate,Guest Gate,0.45,Cloudjackers,Cloudjackers,Boss,false,Coinbase,"Grid Clearance: Guest. Bosses watch the entry gate.",cloudjackers-clearance-row
+Neo Goblintown,user-hub,User Hub,0.35,Cloudjackers,Cloudjackers,Underboss,false,Coinbase,"Grid Clearance: User. Underboss crews manage user flow.",cloudjackers-clearance-row
+Neo Goblintown,cloud-consig-bridge,Consigliere Bridge,0.3,Cloudjackers,Cloudjackers,Consigliere,false,Coinbase,"Consiglieres monitor clearance policies.",cloudjackers-clearance-row
+Neo Goblintown,poweruser-bridge,Power-User Bridge,0.3,Cloudjackers,Cloudjackers,Caporegime,false,Coinbase,"Grid Clearance: Power-User. Capos keep the bridge stable.",cloudjackers-clearance-row
+Neo Goblintown,cloud-soldier-gates,Soldier Gates,0.3,Cloudjackers,Cloudjackers,Soldier,false,Coinbase,"Soldiers man the access gates.",cloudjackers-clearance-row
+Neo Goblintown,guest-commons,Guest Commons,0.3,Cloudjackers,Cloudjackers,Associate,false,Coinbase,"Grid Clearance: Guest/User. Associates onboard newcomers.",cloudjackers-clearance-row
+Neo Goblintown,bassfiends-subsonic-depths,Bassfiends Subsonic Depths,2,Bassfiends,Bassfiends,Underboss,false,Adidas,"Deep channels where Bassfiends ride Subsonic and Infrared currents, pulling lightning when storms hit.",
+Neo Goblintown,bass-boss-vault,Boss Vault,0.45,Bassfiends,Bassfiends,Boss,false,Adidas,"Bassfiend bosses rumble in the vault.",bassfiends-subsonic-depths
+Neo Goblintown,subsonic-trenches,Subsonic Trenches,0.35,Bassfiends,Bassfiends,Underboss,false,Adidas,"Signal Affinity: Subsonic. Underboss trenches rumble.",bassfiends-subsonic-depths
+Neo Goblintown,bass-consig-cavern,Consigliere Cavern,0.3,Bassfiends,Bassfiends,Consigliere,false,Adidas,"Consiglieres manage subsonic treaties.",bassfiends-subsonic-depths
+Neo Goblintown,bass-capo-steps,Caporegime Steps,0.3,Bassfiends,Bassfiends,Caporegime,false,Adidas,"Capos control ascent to the depths.",bassfiends-subsonic-depths
+Neo Goblintown,infrared-coves,Infrared Coves,0.3,Bassfiends,Bassfiends,Soldier,false,Adidas,"Signal Affinity: Infrared. Soldiers guard hot caches.",bassfiends-subsonic-depths
+Neo Goblintown,lightning-rod-vault,Lightning-Rod Vault,0.3,Bassfiends,Bassfiends,Associate,false,Adidas,"Power Source: Lightning-Rod. Associates harness storms.",bassfiends-subsonic-depths
+City 02,expansion-02,Coming Soon Zone 02,3,,,,true,Coming Soon,"Reserved for future Goblin Verse city drop.",
+City 03,expansion-03,Coming Soon Zone 03,3,,,,true,Coming Soon,"Reserved for future Goblin Verse city drop.",
+City 04,expansion-04,Coming Soon Zone 04,3,,,,true,Coming Soon,"Reserved for future Goblin Verse city drop.",
+City 05,expansion-05,Coming Soon Zone 05,3,,,,true,Coming Soon,"Reserved for future Goblin Verse city drop.",
+City 06,expansion-06,Coming Soon Zone 06,3,,,,true,Coming Soon,"Reserved for future Goblin Verse city drop.",
+City 07,expansion-07,Coming Soon Zone 07,3,,,,true,Coming Soon,"Reserved for future Goblin Verse city drop.",
+City 08,expansion-08,Coming Soon Zone 08,3,,,,true,Coming Soon,"Reserved for future Goblin Verse city drop.",
+City 09,expansion-09,Coming Soon Zone 09,3,,,,true,Coming Soon,"Reserved for future Goblin Verse city drop.",
+City 10,expansion-10,Coming Soon Zone 10,3,,,,true,Coming Soon,"Reserved for future Goblin Verse city drop.",

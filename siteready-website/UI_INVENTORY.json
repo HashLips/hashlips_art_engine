@@ -1,0 +1,232 @@
+{
+  "navigation": {
+    "header": [
+      "Hire",
+      "For Workers",
+      "Compliance",
+      "Contact",
+      "Login",
+      "Book labour"
+    ],
+    "footer": [
+      "Home",
+      "Labour Hire",
+      "For Workers",
+      "Technology",
+      "Safety & Compliance",
+      "Privacy",
+      "Terms",
+      "Admin login"
+    ]
+  },
+  "uiInventory": [
+    {
+      "filePath": "src/components/PrimaryButton.tsx",
+      "colorsUsed": [
+        "bg-orange-400",
+        "text-slate-900"
+      ],
+      "tokenized": false,
+      "component": "PrimaryButton"
+    },
+    {
+      "filePath": "src/components/SecondaryButton.tsx",
+      "colorsUsed": [
+        "border-srBorder",
+        "text-srPrimary"
+      ],
+      "tokenized": true,
+      "component": "SecondaryButton"
+    },
+    {
+      "filePath": "src/components/SiteHeader.tsx",
+      "colorsUsed": [
+        "srPrimary",
+        "srAccent",
+        "srBorder"
+      ],
+      "tokenized": true,
+      "component": "SiteHeader"
+    },
+    {
+      "filePath": "src/components/SiteFooter.tsx",
+      "colorsUsed": [
+        "bg-srPrimary",
+        "text-white"
+      ],
+      "tokenized": true,
+      "component": "SiteFooter"
+    },
+    {
+      "filePath": "src/components/booking/BookLabourNowForm.module.css",
+      "colorsUsed": [
+        "#0b1f3b",
+        "#ff7a1a",
+        "#fef3c7"
+      ],
+      "tokenized": false,
+      "component": "BookLabourNowForm"
+    },
+    {
+      "filePath": "src/app/(dashboard)/dashboard/**",
+      "colorsUsed": [
+        "#e2e8f0",
+        "#f8fafc",
+        "#0f172a",
+        "#f87171"
+      ],
+      "tokenized": false,
+      "component": "Dashboard inline styles"
+    }
+  ],
+  "journeys": [
+    {
+      "name": "Employer / Hire",
+      "steps": [
+        "/",
+        "/labour-hire",
+        "/register",
+        "/dashboard/requests"
+      ]
+    },
+    {
+      "name": "Worker / Apply",
+      "steps": [
+        "/for-workers",
+        "/register",
+        "/dashboard/worker"
+      ]
+    },
+    {
+      "name": "Contact / Booking",
+      "steps": [
+        "/contact"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "secondaryCTAs": [
+        "Find site work"
+      ],
+      "primaryCTA": "Book labour",
+      "templates": [
+        "SectionWrapper",
+        "SectionHeading"
+      ],
+      "components": [
+        "PrimaryButton",
+        "SecondaryButton",
+        "FeatureCard",
+        "StepCard"
+      ],
+      "route": "/",
+      "title": "Construction labour & cleaning, without the chaos"
+    },
+    {
+      "secondaryCTAs": [
+        "Log in",
+        "Create an account"
+      ],
+      "primaryCTA": "Submit request",
+      "templates": [
+        "SectionWrapper",
+        "SectionHeading"
+      ],
+      "components": [
+        "BookLabourNowForm",
+        "FeatureCard",
+        "RoleCard",
+        "StepCard"
+      ],
+      "route": "/labour-hire",
+      "title": "Construction labour hire – Sydney / NSW"
+    },
+    {
+      "secondaryCTAs": [],
+      "primaryCTA": "Apply now",
+      "templates": [
+        "SectionWrapper",
+        "SectionHeading"
+      ],
+      "components": [
+        "PrimaryButton",
+        "FeatureCard",
+        "RoleCard",
+        "StepCard"
+      ],
+      "route": "/for-workers",
+      "title": "Find steady construction work in Sydney / NSW"
+    },
+    {
+      "secondaryCTAs": [
+        "For workers"
+      ],
+      "primaryCTA": "Book labour",
+      "templates": [
+        "SectionWrapper",
+        "SectionHeading"
+      ],
+      "components": [
+        "PrimaryButton",
+        "SecondaryButton",
+        "FeatureCard"
+      ],
+      "route": "/safety-compliance",
+      "title": "Safety & Compliance"
+    },
+    {
+      "secondaryCTAs": [],
+      "primaryCTA": "Submit",
+      "templates": [
+        "SectionWrapper"
+      ],
+      "components": [
+        "Contact form"
+      ],
+      "route": "/contact",
+      "title": "Contact"
+    },
+    {
+      "secondaryCTAs": [],
+      "primaryCTA": "View requests",
+      "templates": [
+        "DashboardLayout"
+      ],
+      "components": [
+        "SecondaryButton"
+      ],
+      "route": "/dashboard",
+      "title": "Client dashboard"
+    },
+    {
+      "secondaryCTAs": [
+        "Save profile"
+      ],
+      "primaryCTA": "Submit profile",
+      "templates": [
+        "DashboardLayout"
+      ],
+      "components": [
+        "SecondaryButton"
+      ],
+      "route": "/dashboard/worker",
+      "title": "Worker portal"
+    },
+    {
+      "secondaryCTAs": [
+        "Manage clients",
+        "View requests"
+      ],
+      "primaryCTA": "Manage workers",
+      "templates": [
+        "DashboardLayout"
+      ],
+      "components": [
+        "SecondaryButton"
+      ],
+      "route": "/dashboard/admin",
+      "title": "Admin dashboard"
+    }
+  ]
+}

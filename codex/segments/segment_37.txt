@@ -1,0 +1,80 @@
+      ["a_token","a_title","a_min","a_price","a_expires"].forEach(id=>{ const el = $(id); if(el) el.value = ""; });
+      if($('a_preview')) $('a_preview').classList.add("hidden");
+      if($('a_escrowBadge')) $('a_escrowBadge').classList.add('hidden');
+      if($('a_escrowStatus')) $('a_escrowStatus').textContent = 'Not escrowed';
+      showNotice("You have successfully published an auction NFT", { title: "Auction listed", variant: "success", autoCloseMs: 2400 });
+    } catch (e) {
+      console.error(e);
+      showNotice("Failed to list auction. See console.", { title: "Post failed", variant: "error", autoCloseMs: 2400 });
+    }
+  });
+
+   // Wanted submission (title optional)
+  on('w_submit','click', async ()=> {
+    await submitWantedForm();
+  });
+  on('w_cancelEdit','click', ()=> resetWantedForm());
+  document.addEventListener('click', (event)=>{
+    const editBtn = event.target.closest('[data-edit-wanted]');
+    if (!editBtn) return;
+    const postId = editBtn.getAttribute('data-edit-wanted');
+    const post = wantedState.index.get(postId);
+    if (!post){
+      showNotice('Unable to locate that post. Please refresh.', { title:'Not found', variant:'error', autoCloseMs:2200 });
+      return;
+    }
+    if (!post.isOwner){
+      showNotice('You can only edit your own wanted posts.', { title:'Not allowed', variant:'error', autoCloseMs:2200 });
+      return;
+    }
+    populateWantedForm(post);
+  });
+
+
+  // Bids wiring
+  (function wireBids(){
+    const bmRoot = $('bidModal'); const bmMeta = $('bm_meta'); const bmWallet = $('bm_wallet'); const bmAmt = $('bm_amount'); const bmTx = $('bm_txhash'); const bmSubmit = $('bm_submit');
+    document.addEventListener("click", (e)=>{
+      const btn = e.target.closest("[data-open-bid]");
+      if (!btn) return;
+      CURRENT_BID_CTX = {
+        listingId: btn.getAttribute("data-lid") || "",
+        tokenId: parseInt(btn.getAttribute("data-tokenid") || "", 10),
+        title: btn.getAttribute("data-title") || "Auction",
+        min:  parseFloat(btn.getAttribute("data-min") || "0"),
+        ccy:  btn.getAttribute("data-ccy") || "ETH"
+      };
+      const tok = Number.isFinite(CURRENT_BID_CTX.tokenId) ? `Token #${CURRENT_BID_CTX.tokenId}` : "Token â€”";
+      const minTxt = (Number.isFinite(CURRENT_BID_CTX.min) ? CURRENT_BID_CTX.min : "â€”") + " " + CURRENT_BID_CTX.ccy;
+      if (bmMeta) bmMeta.textContent = `Bidding on ${CURRENT_BID_CTX.title} â€¢ ${tok} â€¢ Minimum: ${minTxt}`;
+      if (bmWallet) bmWallet.value = ""; if (bmAmt) bmAmt.value = ""; if (bmTx) bmTx.value = "";
+      if (bmRoot) bmRoot.classList.remove("hidden");
+    });
+
+    if (bmSubmit){
+      bmSubmit.addEventListener("click", async ()=>{
+        const wallet = (bmWallet?.value || "").trim();
+        const amount = parseFloat(bmAmt?.value || "");
+        const txhash = (bmTx?.value || "").trim();
+        if (!/^0x[a-fA-F0-9]{40}$/.test(wallet)){ showNotice("Enter a valid EVM wallet (0xâ€¦40 hex chars).", { title:"Invalid wallet", variant:"error", autoCloseMs:2200 }); return; }
+        if (!Number.isFinite(amount) || amount <= 0){ showNotice("Enter your bid amount (a positive number).", { title:"Invalid amount", variant:"error", autoCloseMs:2200 }); return; }
+        if (!/^0x([A-Fa-f0-9]{64})$/.test(txhash)){ showNotice("Paste a valid deposit tx hash (0xâ€¦64 hex).", { title:"Invalid tx hash", variant:"error", autoCloseMs:2200 }); return; }
+        if (!CURRENT_BID_CTX?.listingId){ showNotice("Missing listing ID; reload and try again.", { title:"Cannot submit", variant:"error", autoCloseMs:2200 }); return; }
+        try{
+          const payload = { listingId: CURRENT_BID_CTX.listingId, tokenId: Number.isFinite(CURRENT_BID_CTX.tokenId) ? CURRENT_BID_CTX.tokenId : undefined, wallet, amount, currency: CURRENT_BID_CTX.ccy || "ETH", depositTx: txhash, createdAt: new Date().toISOString() };
+          const res  = await fetch(API_BIDS, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+          const text = await res.text();
+          if (!res.ok) throw new Error(text || `HTTP ${res.status}`);
+          showNotice("Your bid has been submitted!", { title:"Bid submitted", variant:"success", autoCloseMs:2400 });
+          if (bmRoot) bmRoot.classList.add("hidden"); if(bmWallet) bmWallet.value = ""; if(bmAmt) bmAmt.value = ""; if(bmTx) bmTx.value = "";
+        } catch (err){
+          showNotice(err?.message || "Failed to submit bid.", { title:"Request failed", variant:"error", autoCloseMs:3000 });
+        }
+      });
+    }
+
+    on('bm_close','click', ()=>{ const bm = $('bidModal'); if(bm) bm.classList.add('hidden'); });
+    on('bidModal','click', (e)=>{ if(e.target.id === 'bidModal'){ const bm = $('bidModal'); if(bm) bm.classList.add('hidden'); }});
+  })();
+}
+
