@@ -1,8 +1,17 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { parseSessionFromRequest } from "./src/lib/auth/session";
+import { hasAcceptedLatestPolicies } from "./src/lib/policies/acceptance";
+import { hasD1Binding } from "./src/lib/db/config";
+import { getDb } from "./src/lib/db/client";
 
 const PROTECTED_PREFIXES = ["/dashboard", "/client", "/worker", "/staff"];
+const BASIC_AUTH_BYPASS_PREFIXES = ["/api/future-service-interest/reply-open"];
+const WEBSITE_TERMS_PATH = "/dashboard/policies/website-terms";
+const WEBSITE_TERMS_BYPASS = [
+  WEBSITE_TERMS_PATH,
+  "/logout",
+];
 
 export async function middleware(req: NextRequest) {
   try {
@@ -34,6 +43,12 @@ export async function middleware(req: NextRequest) {
     const basicAuthEnabled = basicAuthEnabledExplicit || (user && pass);
 
     if (basicAuthEnabled) {
+      const bypassBasicAuth = BASIC_AUTH_BYPASS_PREFIXES.some(
+        (p) => url.pathname === p || url.pathname.startsWith(`${p}/`),
+      );
+      if (bypassBasicAuth) {
+        return NextResponse.next();
+      }
       if (!user || !pass) {
         return new NextResponse("Unauthorized", {
           status: 401,
@@ -87,6 +102,23 @@ export async function middleware(req: NextRequest) {
       const loginUrl = new URL("/login", url.origin);
       loginUrl.searchParams.set("next", returnTo);
       return NextResponse.redirect(loginUrl);
+    }
+
+    const skipWebsiteTerms =
+      WEBSITE_TERMS_BYPASS.some((p) => url.pathname === p || url.pathname.startsWith(`${p}/`)) ||
+      url.pathname.startsWith("/dashboard/policies/website-terms");
+    if (!skipWebsiteTerms && hasD1Binding()) {
+      const db = getDb();
+      const userId = session.userId || session.email || "";
+      if (db && userId) {
+        const websiteTermsAccepted = await hasAcceptedLatestPolicies(db, userId, ["frontend_terms"]);
+        if (!websiteTermsAccepted.ok) {
+          const returnTo = `${url.pathname}${url.search}`;
+          const termsUrl = new URL(WEBSITE_TERMS_PATH, url.origin);
+          termsUrl.searchParams.set("next", returnTo);
+          return NextResponse.redirect(termsUrl);
+        }
+      }
     }
 
     return NextResponse.next();
