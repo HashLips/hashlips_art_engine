@@ -1,0 +1,184 @@
+{
+  "name": "otb_talking_bear_runtime",
+  "size": {
+    "width": 2000,
+    "height": 2000
+  },
+  "layers": {
+    "base": "base/otb_hybrid_base.png",
+    "mouth": [
+      "M0_closed.png",
+      "M1_tight.png",
+      "M2_halfOpen.png",
+      "M3_open.png",
+      "M4_wide.png",
+      "M5_roundO.png"
+    ],
+    "eyes": [
+      "E0_neutral.png",
+      "E1_blink.png",
+      "E2_squint.png",
+      "E3_wide.png",
+      "E4_lookLeft.png",
+      "E5_lookRight.png"
+    ],
+    "brows": [
+      "B0_neutral.png",
+      "B1_up.png",
+      "B2_down.png",
+      "B3_angry.png"
+    ],
+    "nose": [
+      "N0_neutral.png",
+      "N1_flare.png",
+      "N2_wrinkle.png"
+    ],
+    "hair_fx": [
+      "H00.png",
+      "H01.png",
+      "H02.png",
+      "H03.png",
+      "H04.png",
+      "H05.png",
+      "H06.png",
+      "H07.png"
+    ]
+  },
+  "visemeMap": {
+    "silence": "M0_closed",
+    "low": "M1_tight",
+    "mid": "M2_halfOpen",
+    "open": "M3_open",
+    "loud": "M4_wide",
+    "round": "M5_roundO"
+  },
+  "states": {
+    "talkCycle": {
+      "fps": 24,
+      "frameCount": 6,
+      "frames": [
+        {
+          "index": 0,
+          "viseme": "M0_closed",
+          "hair": "H00",
+          "file": "runtime/frames/talk_00.png"
+        },
+        {
+          "index": 1,
+          "viseme": "M1_tight",
+          "hair": "H01",
+          "file": "runtime/frames/talk_01.png"
+        },
+        {
+          "index": 2,
+          "viseme": "M2_halfOpen",
+          "hair": "H02",
+          "file": "runtime/frames/talk_02.png"
+        },
+        {
+          "index": 3,
+          "viseme": "M3_open",
+          "hair": "H03",
+          "file": "runtime/frames/talk_03.png"
+        },
+        {
+          "index": 4,
+          "viseme": "M4_wide",
+          "hair": "H04",
+          "file": "runtime/frames/talk_04.png"
+        },
+        {
+          "index": 5,
+          "viseme": "M5_roundO",
+          "hair": "H05",
+          "file": "runtime/frames/talk_05.png"
+        }
+      ],
+      "spritesheet": "runtime/talk_spritesheet.png"
+    },
+    "idleLoop": {
+      "fps": 12,
+      "frameCount": 8,
+      "frames": [
+        {
+          "index": 0,
+          "eye": "E0_neutral",
+          "brow": "B0_neutral",
+          "nose": "N0_neutral",
+          "mouth": "M0_closed",
+          "hair": "H00",
+          "file": "runtime/frames/idle_00.png"
+        },
+        {
+          "index": 1,
+          "eye": "E0_neutral",
+          "brow": "B0_neutral",
+          "nose": "N0_neutral",
+          "mouth": "M0_closed",
+          "hair": "H01",
+          "file": "runtime/frames/idle_01.png"
+        },
+        {
+          "index": 2,
+          "eye": "E0_neutral",
+          "brow": "B0_neutral",
+          "nose": "N0_neutral",
+          "mouth": "M0_closed",
+          "hair": "H02",
+          "file": "runtime/frames/idle_02.png"
+        },
+        {
+          "index": 3,
+          "eye": "E1_blink",
+          "brow": "B1_up",
+          "nose": "N0_neutral",
+          "mouth": "M0_closed",
+          "hair": "H03",
+          "file": "runtime/frames/idle_03.png"
+        },
+        {
+          "index": 4,
+          "eye": "E2_squint",
+          "brow": "B0_neutral",
+          "nose": "N2_wrinkle",
+          "mouth": "M1_tight",
+          "hair": "H04",
+          "file": "runtime/frames/idle_04.png"
+        },
+        {
+          "index": 5,
+          "eye": "E0_neutral",
+          "brow": "B0_neutral",
+          "nose": "N0_neutral",
+          "mouth": "M0_closed",
+          "hair": "H05",
+          "file": "runtime/frames/idle_05.png"
+        },
+        {
+          "index": 6,
+          "eye": "E0_neutral",
+          "brow": "B0_neutral",
+          "nose": "N0_neutral",
+          "mouth": "M0_closed",
+          "hair": "H06",
+          "file": "runtime/frames/idle_06.png"
+        },
+        {
+          "index": 7,
+          "eye": "E0_neutral",
+          "brow": "B0_neutral",
+          "nose": "N0_neutral",
+          "mouth": "M0_closed",
+          "hair": "H07",
+          "file": "runtime/frames/idle_07.png"
+        }
+      ],
+      "spritesheet": "runtime/idle_spritesheet.png"
+    }
+  },
+  "runtimeHints": {
+    "faceSolveFps": 60,
+    "visemeUpdateHz": 24,
+    "audioSmoothingMs": 80
+  }
+}

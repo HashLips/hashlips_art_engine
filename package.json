@@ -19,7 +19,8 @@
     "pixelate": "node utils/pixelate.js",
     "update_info": "node utils/update_info.js",
     "preview_gif": "node utils/preview_gif.js",
-    "generate_metadata": "node utils/generate_metadata.js"
+    "generate_metadata": "node utils/generate_metadata.js",
+    "otb_sprite_runtime": "python utils/build_otb_sprite_runtime.py"
   },
   "author": "Daniel Eugene Botha (HashLips)",
   "license": "MIT",
