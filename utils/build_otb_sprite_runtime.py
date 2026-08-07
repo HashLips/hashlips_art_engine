@@ -2,7 +2,7 @@ from pathlib import Path
 import json
 from PIL import Image
 
-BASE_PATH = Path.cwd()
+BASE_PATH = Path(__file__).resolve().parents[1]
 SPRITE_ROOT = BASE_PATH / "sprites" / "otb_talking_bear"
 RUNTIME_DIR = SPRITE_ROOT / "runtime"
 FRAME_DIR = RUNTIME_DIR / "frames"
@@ -24,7 +24,8 @@ def composite_frame(output_path: Path, layers: list[Path]) -> None:
     base = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
     for layer_path in layers:
         require_file(layer_path)
-        with Image.open(layer_path).convert("RGBA") as layer:
+        with Image.open(layer_path) as opened_layer:
+            layer = opened_layer.convert("RGBA")
             if layer.size != (SIZE, SIZE):
                 raise ValueError(f"Layer size mismatch for {layer_path}: got {layer.size}, expected {(SIZE, SIZE)}")
             base.alpha_composite(layer)
@@ -37,7 +38,8 @@ def build_spritesheet(frame_paths: list[Path], output_path: Path, columns: int) 
     for i, frame_path in enumerate(frame_paths):
         col = i % columns
         row = i // columns
-        with Image.open(frame_path).convert("RGBA") as frame:
+        with Image.open(frame_path) as opened_frame:
+            frame = opened_frame.convert("RGBA")
             sheet.alpha_composite(frame, (col * SIZE, row * SIZE))
     sheet.save(output_path, "PNG")
 
@@ -65,6 +67,8 @@ def main() -> None:
         raise ValueError(f"Expected at least 6 mouth frames, found {len(mouths)}")
     if not eyes or not brows or not noses or not hairs:
         raise ValueError("Missing one or more facial overlay sets (eyes, brows, nose, hair_fx)")
+    if len(hairs) < 8:
+        raise ValueError(f"Expected at least 8 hair_fx frames for idle/talk cycles, found {len(hairs)}")
 
     RUNTIME_DIR.mkdir(parents=True, exist_ok=True)
     FRAME_DIR.mkdir(parents=True, exist_ok=True)
