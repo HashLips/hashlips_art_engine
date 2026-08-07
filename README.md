@@ -281,6 +281,20 @@ const gif = {
 };
 ```
 
+### Build OTB talking-bear runtime assets
+
+Install Python dependencies:
+
+```sh
+pip install -r requirements.txt
+```
+
+Then generate runtime frames, spritesheets, and manifest:
+
+```sh
+npm run otb_sprite_runtime
+```
+
 ### Printing rarity data (Experimental feature)
 
 To see the percentages of each attribute across your collection, run:
